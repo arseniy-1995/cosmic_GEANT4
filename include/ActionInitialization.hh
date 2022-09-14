@@ -25,14 +25,17 @@
 //
 //
 /// \file ActionInitialization.hh
-/// \brief Definition of the Cosmic_sim::ActionInitialization class
+/// \brief Definition of the Cosmic::ActionInitialization class
 
-#ifndef Cosmic_simActionInitialization_h
-#define Cosmic_simActionInitialization_h 1
+#ifndef CosmicActionInitialization_h
+#define CosmicActionInitialization_h 1
 
 #include "G4VUserActionInitialization.hh"
+#include "RunAction.hh"
 
-namespace Cosmic_sim
+
+
+namespace Cosmic
 {
 
 /// Action initialization class.

@@ -2,7 +2,7 @@
 # GNUmakefile for examples module.  Gabriele Cosmo, 06/04/98.
 # --------------------------------------------------------------
 
-name := exampleCosmic_sim
+name := exampleCosmic
 G4TARGET := $(name)
 G4EXLIB := true
 

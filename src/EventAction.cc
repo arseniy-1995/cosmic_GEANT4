@@ -25,7 +25,7 @@
 //
 //
 /// \file EventAction.cc
-/// \brief Implementation of the Cosmic_sim::EventAction class
+/// \brief Implementation of the Cosmic::EventAction class
 
 #include "EventAction.hh"
 #include "PlasticSD.hh"
@@ -41,168 +41,308 @@
 #include "Randomize.hh"
 #include <iomanip>
 
-namespace Cosmic_sim
-{
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//using std::array;
+//using std::vector;
 
-EventAction::EventAction()
-{}
+namespace {
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+// Utility function which finds a hit collection with the given Id
+// and print warnings if not found
+    G4VHitsCollection *GetHC(const G4Event *event, G4int collId) {
+        auto hce = event->GetHCofThisEvent();
+        if (!hce) {
+            G4ExceptionDescription msg;
+            msg << "No hits collection of this event found." << G4endl;
+            G4Exception("EventAction::EndOfEventAction()",
+                        "Code001", JustWarning, msg);
+            return nullptr;
+        }
 
-EventAction::~EventAction()
-{}
+        auto hc = hce->GetHC(collId);
+        if (!hc) {
+            G4ExceptionDescription msg;
+            msg << "Hits collection " << collId << " of this event not found." << G4endl;
+            G4Exception("EventAction::EndOfEventAction()",
+                        "Code001", JustWarning, msg);
+        }
+        return hc;
+    }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-    PlasticHitsCollection*
-EventAction::GetHitsCollection(G4int hcID,
-                                  const G4Event* event) const
-{
-  auto hitsCollection
-    = static_cast<PlasticHitsCollection*>(
-        event->GetHCofThisEvent()->GetHC(hcID));
-
-  if ( ! hitsCollection ) {
-    G4ExceptionDescription msg;
-    msg << "Cannot access hitsCollection ID " << hcID;
-    G4Exception("EventAction::GetHitsCollection()",
-      "MyCode0003", FatalException, msg);
-  }
-
-  return hitsCollection;
 }
+
+
+namespace Cosmic {
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    EventAction::EventAction() {
+
+
+        G4RunManager::GetRunManager()->SetPrintProgress(1);
+    }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    EventAction::~EventAction() {}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    PlasticHitsCollection *
+    EventAction::GetHitsCollection(G4int hcID, const G4Event *event) const {
+        auto hitsCollection
+                = static_cast<PlasticHitsCollection *>(
+                        event->GetHCofThisEvent()->GetHC(hcID));
+
+        if (!hitsCollection) {
+            G4ExceptionDescription msg;
+            msg << "Cannot access hitsCollection ID " << hcID;
+            G4Exception("EventAction::GetHitsCollection()",
+                        "MyCode0003", FatalException, msg);
+        }
+
+        return hitsCollection;
+    }
+
+
+
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 //void EventAction::PrintEventStatistics(G4double absoEdep, G4double absoTrackLength, G4double gapEdep, G4double gapTrackLength) const
 
-    void EventAction::PrintEventStatistics( G4double plastic_fat_nsys1Edep, G4double plastic_fat_nsys1TrackLength) const
-    {
-    /*
-  // print event statistics
-  G4cout
-     << "   Absorber: total energy: "
-     << std::setw(7) << G4BestUnit(absoEdep, "Energy")
-     << "       total track length: "
-     << std::setw(7) << G4BestUnit(absoTrackLength, "Length")
-     << G4endl
-     << "        Gap: total energy: "
-     << std::setw(7) << G4BestUnit(gapEdep, "Energy")
-     << "       total track length: "
-     << std::setw(7) << G4BestUnit(gapTrackLength, "Length")
-     << G4endl;
-
-     */
-
-    // print event statistics
-    G4cout
-            << "   plastic_fat_nsys1: total energy: "
-            << std::setw(7) << G4BestUnit(plastic_fat_nsys1Edep, "Energy")
-            << "       total track length: "
-            << std::setw(7) << G4BestUnit(plastic_fat_nsys1TrackLength, "Length")
-            << G4endl;
 
 
+    void EventAction::PrintEventStatistics(G4double plasticEdep, G4double plasticTrackLength) const {
 
-}
+        // print event statistics
+        G4cout
+                << "   plastic_fat_nsys1: total energy: "
+                << std::setw(7) << G4BestUnit(plasticEdep, "Energy")
+                << "       total track length: "
+                << std::setw(7) << G4BestUnit(plasticTrackLength, "Length")
+                << G4endl;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void EventAction::BeginOfEventAction(const G4Event* /*event*/)
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void EventAction::EndOfEventAction(const G4Event* event)
-{
-    /*
-  // Get hits collections IDs (only once)
-  if ( fAbsHCID == -1 ) {
-    fAbsHCID
-      = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
-    fGapHCID
-      = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
-  }
-*/
-
-    // Get hits collections IDs (only once)
-    if ( fplastic_fat_nsys1HCID == -1 ) {
-        fplastic_fat_nsys1HCID
-                = G4SDManager::GetSDMpointer()->GetCollectionID("plastic_fat_nsys1HitsCollection");
 
     }
 
 
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void EventAction::BeginOfEventAction(const G4Event * /*event*/) {
+
+        // Find hit collections and histogram Ids by names (just once)
+        // and save them in the data members of this class
+
+        /*
+        if (fHodHCID[0] == -1) {
+            auto sdManager = G4SDManager::GetSDMpointer();
+            auto analysisManager = G4AnalysisManager::Instance();
+
+            // hits collections names
+            array<G4String, kDim> hHCName
+                    = {{ "hodoscope1/hodoscopeColl", "hodoscope2/hodoscopeColl" }};
+            array<G4String, kDim> dHCName
+                    = {{ "chamber1/driftChamberColl", "chamber2/driftChamberColl" }};
+            array<G4String, kDim> cHCName
+                    = {{ "EMcalorimeter/EMcalorimeterColl", "HadCalorimeter/HadCalorimeterColl" }};
+
+            // histograms names
+            array<array<G4String, kDim>, kDim> histoName
+                    = {{ {{ "Chamber1", "Chamber2" }}, {{ "Chamber1 XY", "Chamber2 XY" }} }};
+
+            for (G4int iDet = 0; iDet < kDim; ++iDet) {
+                // hit collections IDs
+                fHodHCID[iDet]   = sdManager->GetCollectionID(hHCName[iDet]);
+                fDriftHCID[iDet] = sdManager->GetCollectionID(dHCName[iDet]);
+                fCalHCID[iDet]   = sdManager->GetCollectionID(cHCName[iDet]);
+                // histograms IDs
+                fDriftHistoID[kH1][iDet] = analysisManager->GetH1Id(histoName[kH1][iDet]);
+                fDriftHistoID[kH2][iDet] = analysisManager->GetH2Id(histoName[kH2][iDet]);
+            }
+        }
+        */
+
+        // Get hits collections IDs (only once)
+        //   if (fplasticHCID == -1) {
+        //      auto SDmanp = G4SDManager::GetSDMpointer();
+        //      auto analysisManager = G4AnalysisManager::Instance();
+        //      fplasticHCID = SDmanp->GetCollectionID("plasticHitsCollection");
+
+        //  }
+
+
+    }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void EventAction::EndOfEventAction(const G4Event *event) {
+
+        //G4cerr << "........" << G4endl;
+
+
+        // Get hits collections IDs (only once)
+        if (fplasticHCID == -1) {
+            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
+            fplasticHCID = SDmanp->GetCollectionID("plasticHitsCollection");
+
+        }
+
+        //
+        // Fill histograms & ntuple
+        //
+
+        // Get analysis manager
+        auto analysisManager = G4AnalysisManager::Instance();
+
+        // Get hits collections
+       // auto plasticHC = GetHitsCollection(fplasticHCID, event);
+
+
+
+
+
+      // vector<G4double> totalPlasticEdep[10];
+     //   vector<G4double> totalPlasticTrackLength[10];
+
+        // Get hits collections
+     //   auto plasticHC = GetHC(event, fplasticHCID);
+        auto plasticHC = GetHitsCollection(fplasticHCID, event);
+        if ( ! plasticHC ) return;
+
+        // Get hit with total values
+        auto plasticHit = (*plasticHC)[plasticHC->entries() - 1];
+
+
+
+   //     totalPlasticEdep = 0.;
+     //   totalPlasticTrackLength =0.0;
+      //  for (unsigned long i = 0; i < plasticHC->GetSize(); ++i) {
+      //      G4double edep = 0.;
+            // The EM and Had calorimeter hits are of different types
+
+        //        auto plasticHit = static_cast<PlasticHit*>(plasticHC->GetHit(i));
+        //        edep = plasticHit->GetEdep();
+
+         //   if ( edep > 0. ) {
+
+        //        totalPlasticEdep[i] += edep;
+        //    }
+          //  fPlasticEdep[i] = edep;
+
+           // fPlasticEdep[]
+     //   }
+
+
+
+
+
+
+
+       // auto plasticHit = static_cast<PlasticHit*>(plasticHC - 1);
+
+
+        // Print per event (modulo n)
+        //
+
+
+        auto eventID = event->GetEventID();
+        auto printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
+
+
+        if ((printModulo > 0) && (eventID % printModulo == 0)) {
+            G4cout << "---> End of event: " << eventID << G4endl;
+
+           PrintEventStatistics(
+                   plasticHit->GetEdep(), plasticHit->GetTrackLength()
+                   );
+
+
+        }
+
+
+
+
+
+// РАЧЕК
+
 /*
-  // Get hits collections
-  auto absoHC = GetHitsCollection(fAbsHCID, event);
-  auto gapHC = GetHitsCollection(fGapHCID, event);
 
-  // Get hit with total values
-  auto absoHit = (*absoHC)[absoHC->entries()-1];
-  auto gapHit = (*gapHC)[gapHC->entries()-1];
+        G4bool verb=false;//FALSE;
 
-  */
+        G4int nvx = event->GetNumberOfPrimaryVertex();
+        if(nvx<2) return;
 
+        G4HCofThisEvent* HCE = event->GetHCofThisEvent();
+        PlasticHitsCollection* DHC = 0;
+        G4int n_hit = 0;
+//  G4double blkE,blkT,blkL,totE=0;
+        G4int i,k,n,nch,ip;
 
-    // Get hits collections
-    auto plastic_fat_nsys1HC = GetHitsCollection(fplastic_fat_nsys1HCID, event);
+        DHC = 0;
+        if(HCE) DHC = (PlasticHitsCollection*)(HCE->GetHC(fplasticHCID));
+        else {
+            if(verb)	G4cout << " HCE!" << G4endl;
+            else	return;
+        }	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    // Get hit with total values
-    auto plastic_fat_nsys1Hit = (*plastic_fat_nsys1HC)[plastic_fat_nsys1HC->entries()-1];
-
-
-  // Print per event (modulo n)
-  //
-  auto eventID = event->GetEventID();
-  auto printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
-  if ( ( printModulo > 0 ) && ( eventID % printModulo == 0 ) ) {
-    G4cout << "---> End of event: " << eventID << G4endl;
-
-    PrintEventStatistics(
-    //  absoHit->GetEdep(), absoHit->GetTrackLength(),
-    //  gapHit->GetEdep(), gapHit->GetTrackLength());
-
-            plastic_fat_nsys1Hit->GetEdep(), plastic_fat_nsys1Hit->GetTrackLength());
-  }
-
-  // Fill histograms, ntuple
-  //
-
-  // get analysis manager
-  auto analysisManager = G4AnalysisManager::Instance();
-
-  /*
-  // fill histograms
-  analysisManager->FillH1(0, absoHit->GetEdep());
-  analysisManager->FillH1(1, gapHit->GetEdep());
-  analysisManager->FillH1(2, absoHit->GetTrackLength());
-  analysisManager->FillH1(3, gapHit->GetTrackLength());
-
-  // fill ntuple
-  analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
-  analysisManager->FillNtupleDColumn(1, gapHit->GetEdep());
-  analysisManager->FillNtupleDColumn(2, absoHit->GetTrackLength());
-  analysisManager->FillNtupleDColumn(3, gapHit->GetTrackLength());
-  analysisManager->AddNtupleRow();
-
-   */
+        if (DHC==NULL)return;
+        n_hit = DHC->entries();
+        if(verb) G4cout << "n_hit=" << n_hit << G4endl;
 
 
-    // fill histograms
-    analysisManager->FillH1(0, plastic_fat_nsys1Hit->GetEdep());
-    analysisManager->FillH1(1, plastic_fat_nsys1Hit->GetTrackLength());
 
 
-    // fill ntuple
-    analysisManager->FillNtupleDColumn(0, plastic_fat_nsys1Hit->GetEdep());
-    analysisManager->FillNtupleDColumn(1, plastic_fat_nsys1Hit->GetTrackLength());
-    analysisManager->AddNtupleRow();
+        PlasticHit *hit;
 
 
-}
+
+        for(i=0;i<10;i++) {
+            hit=(*DHC)[i];
+            G4cerr<<hit->GetEdep()<<G4endl;
+
+        }
+
+*/
+
+        // Fill histograms, ntuple
+        //
+
+        // get analysis manager
+       //auto analysisManager = G4AnalysisManager::Instance();
+
+
+        // fill histograms
+
+        if(plasticHit->GetEdep()/MeV>1.) {
+
+
+            analysisManager->FillH1(0, plasticHit->GetEdep() / MeV);
+            analysisManager->FillH1(1, plasticHit->GetTrackLength() / cm);
+
+        }
+
+        // fill ntuple
+
+
+       // for (unsigned int i = 0; i<plasticHC->GetSize(); ++i) {
+       //     auto hit = static_cast<PlasticHit*>(plasticHC->GetHit(i));
+            // columns 0, 1
+        //    analysisManager->FillNtupleDColumn(0, hit->GetEdep());
+       //     analysisManager->FillNtupleDColumn(1, hit->GetTrackLength());
+     //   }
+        if(plasticHit->GetEdep()/MeV>1.) {
+            analysisManager->FillNtupleDColumn(0, plasticHit->GetEdep() / MeV);
+            analysisManager->FillNtupleDColumn(1, plasticHit->GetTrackLength() / cm);
+
+            analysisManager->AddNtupleRow(0);
+
+        }
+
+
+    }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -25,21 +25,28 @@
 //
 //
 /// \file CalorimeterSD.hh
-/// \brief Definition of the Cosmic_sim::CalorimeterSD class
+/// \brief Definition of the Cosmic::CalorimeterSD class
 
-#ifndef Cosmic_simPlasticSD_h
-#define Cosmic_simPlasticSD_h 1
+#ifndef CosmicPlasticSD_h
+#define CosmicPlasticSD_h 1
 
 #include "G4VSensitiveDetector.hh"
 
-#include "PlasticHit.hh"
+
+#include "G4RunManager.hh"
+#include "DetectorConstruction.hh"
 
 #include <vector>
 
+class DetectorConstruction;
 class G4Step;
 class G4HCofThisEvent;
+class G4TouchableHistory;
 
-namespace Cosmic_sim
+#include "PlasticHit.hh"
+
+
+namespace Cosmic
 {
 
 /// Calorimeter sensitive detector class
@@ -53,19 +60,24 @@ namespace Cosmic_sim
 class PlasticSD : public G4VSensitiveDetector
 {
   public:
-    PlasticSD(const G4String& name,
-                  const G4String& hitsCollectionName,
-                  G4int nofCells);
+  //  PlasticSD(const G4String& name, const G4String& hitsCollectionName, G4int nofCells);
+ // PlasticSD(const G4String& name, const G4String &hitsCollectionName, DetectorConstruction*);
+
+    PlasticSD(const G4String& name, const G4String &hitsCollectionName);
     ~PlasticSD() override;
 
     // methods from base class
     void   Initialize(G4HCofThisEvent* hitCollection) override;
-    G4bool ProcessHits(G4Step* step, G4TouchableHistory* history) override;
+    G4bool ProcessHits(G4Step* step, G4TouchableHistory* ROhist) override;
+
     void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
 
   private:
     PlasticHitsCollection* fHitsCollection = nullptr;
-    G4int fNofCells = 0;
+    G4int fHCID = -1;
+
+   // DetectorConstruction* Detector;
+   // G4int*                   HitID;
 };
 
 }

@@ -38,6 +38,8 @@ class G4Run;
 namespace Cosmic
 {
 
+    class EventAction;
+
 /// Run action class
 ///
 /// It accumulates statistic and computes dispersion of the energy deposit
@@ -59,11 +61,15 @@ namespace Cosmic
 class RunAction : public G4UserRunAction
 {
   public:
-    RunAction();
+    RunAction(EventAction* eventAction);
     ~RunAction() override;
 
     void BeginOfRunAction(const G4Run*) override;
     void   EndOfRunAction(const G4Run*) override;
+
+private:
+    EventAction* fEventAction = nullptr;
+
 };
 
 }

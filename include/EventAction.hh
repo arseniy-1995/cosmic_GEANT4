@@ -25,18 +25,32 @@
 //
 //
 /// \file EventAction.hh
-/// \brief Definition of the Cosmic_sim::EventAction class
+/// \brief Definition of the Cosmic::EventAction class
 
-#ifndef Cosmic_simEventAction_h
-#define Cosmic_simEventAction_h 1
+#ifndef CosmicEventAction_h
+#define CosmicEventAction_h 1
 
+//#include "Constants.hh"
 #include "G4UserEventAction.hh"
 
 #include "PlasticHit.hh"
 
 #include "globals.hh"
 
-namespace Cosmic_sim
+#include <vector>
+#include <array>
+
+// named constants
+const G4int kEm = 0;
+const G4int kHad = 1;
+const G4int kH1 = 0;
+const G4int kH2 = 1;
+const G4int kDim = 2;
+
+const G4int kNofEmCells = 10, kNofHadCells=10;
+
+
+namespace Cosmic
 {
 
 /// Event action class
@@ -54,20 +68,44 @@ public:
   void  BeginOfEventAction(const G4Event* event) override;
   void    EndOfEventAction(const G4Event* event) override;
 
-private:
-  // methods
-  PlasticHitsCollection* GetHitsCollection(G4int hcID,
-                                            const G4Event* event) const;
-//  void PrintEventStatistics(G4double absoEdep, G4double absoTrackLength, G4double gapEdep, G4double gapTrackLength) const;
+   // std::vector<G4double>& GetPlasticEdep() { return fPlasticEdep[kEm]; }
+   // std::vector<G4double>& GetPlasticTrackLength() { return fPlasticTrackLengt[kEm]; }
 
-    void PrintEventStatistics(G4double aplastic_fat_nsys1Edep, G4double plastic_fat_nsys1TrackLength) const;
+
+
+private:
+    // methods
+    PlasticHitsCollection *GetHitsCollection(G4int hcID,const G4Event *event) const;
+
+        void PrintEventStatistics(G4double aplasticEdep, G4double plasticTrackLength) const;
+
+
+    // hit collections Ids
+    std::array<G4int, kDim> fHodHCID = { -1, -1 };
+    std::array<G4int, kDim> fDriftHCID = { -1, -1 };
+    std::array<G4int, kDim> fCalHCID = { -1, -1 };
+    // histograms Ids
+    std::array<std::array<G4int, kDim>, kDim> fDriftHistoID
+            {{ {{ -1, -1 }}, {{ -1, -1 }} }};
+    // std::array<T, N> is an aggregate that contains a C array.
+    // To initialize it, we need outer braces for the class itself
+    // and inner braces for the C array
+    // energy deposit in calorimeters cells
+   // std::array<std::vector<G4double>, kDim> fPlasticEdep
+//            {{ std::vector<G4double>(kNofEmCells, 0.), std::vector<G4double>(kNofHadCells, 0.) }};
+
+   // std::array<std::vector<G4double>, kDim> fPlasticTrackLengt
+    //        {{ std::vector<G4double>(kNofEmCells, 0.), std::vector<G4double>(kNofHadCells, 0.) }};
+
+  //  std::vector<G4double> fPlasticEdep(10);
+  //  std::vector<G4double> fPlasticTrackLengt(10);
+
 
 
 
   // data members
- // G4int fAbsHCID = -1;
- // G4int fGapHCID = -1;
-  G4int fplastic_fat_nsys1HCID = -1;
+
+  G4int fplasticHCID = -1;
 
 
 };

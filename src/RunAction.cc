@@ -34,21 +34,28 @@
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "EventAction.hh"
+
 
 namespace Cosmic
 {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::RunAction()
+RunAction::RunAction(EventAction* eventAction)
+: fEventAction(eventAction)
 {
   // set printing event number per each event
-  G4RunManager::GetRunManager()->SetPrintProgress(1);
+ // G4RunManager::GetRunManager()->SetPrintProgress(1);
 
   // Create analysis manager
   // The choice of the output format is done via the specified
   // file extension.
-  auto analysisManager = G4AnalysisManager::Instance();
+ auto analysisManager = G4AnalysisManager::Instance();
+    analysisManager->SetDefaultFileType("root");
+    // If the filename extension is not provided, the default file type (root)
+    // will be used for all files specified without extension.
+
 
   // Create directories
   //analysisManager->SetHistoDirectoryName("histograms");
@@ -57,32 +64,34 @@ RunAction::RunAction()
   analysisManager->SetNtupleMerging(true);
     // Note: merging ntuples is available only with Root output
 
+    analysisManager->SetFileName("Cosmic");
+
   // Book histograms, ntuple
   //
 
   // Creating histograms
-//  analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
- // analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 100*MeV);
- // analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
- // analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 50*cm);
-
-    analysisManager->CreateH1("EplasticFatNsys1", "Edep in PlasticFatNsys1", 100, 0., 800 * MeV);
-    analysisManager->CreateH1("LplasticFatNsys1", "trackL in PlasticFatNsys1", 100, 0., 1 * m);
 
 
-  // Creating ntuple
-  //
-  analysisManager->CreateNtuple("Cosmic", "Edep and TrackL");
- // analysisManager->CreateNtupleDColumn("Eabs");
- // analysisManager->CreateNtupleDColumn("Egap");
- // analysisManager->CreateNtupleDColumn("Labs");
- // analysisManager->CreateNtupleDColumn("Lgap");
-
-    analysisManager->CreateNtupleDColumn("EplasticFatNsys1");
-    analysisManager->CreateNtupleDColumn("LplasticFatNsys1");
+    analysisManager->CreateH1("Eplastic", "Edep in Plastic", 100, 0., 800 * MeV);
+   analysisManager->CreateH1("Lplastic", "trackL in Plastic", 100, 0., 1 * m);
 
 
-  analysisManager->FinishNtuple();
+
+    // Creating ntuple
+    //
+    if ( fEventAction ) {
+        analysisManager->CreateNtuple("Cosmic", "Edep and TrackL");
+
+        analysisManager->CreateNtupleDColumn("Eplastic"); // column Id = 0
+        analysisManager->CreateNtupleDColumn("Lplastic"); // column Id = 1
+     //  analysisManager->CreateNtupleDColumn("EplasticVector", fEventAction->GetPlasticEdep()); // column Id = 2
+      // analysisManager->CreateNtupleDColumn("LplasticVector", fEventAction->GetPlasticEdep()); // column Id = 3
+        analysisManager->FinishNtuple(0);
+    }
+
+// Set ntuple output file
+    analysisManager->SetNtupleFileName(0, "Cosmicntuple");
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -101,14 +110,21 @@ void RunAction::BeginOfRunAction(const G4Run* /*run*/)
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
 
+    // Reset histograms from previous run
+   analysisManager->Reset();
+
   // Open an output file
   //
-  G4String fileName = "Cosmic.root";
+ // G4String fileName = "Cosmic.root";
   // Other supported output types:
   // G4String fileName = "Cosmic.csv";
   // G4String fileName = "Cosmic.hdf5";
   // G4String fileName = "Cosmic.xml";
-  analysisManager->OpenFile(fileName);
+ // analysisManager->OpenFile(fileName);
+
+    // The default file name is set in RunAction::RunAction(),
+    // it can be overwritten in a macro
+    analysisManager->OpenFile();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
 }
 
@@ -119,7 +135,10 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/)
   // print histogram statistics
   //
   auto analysisManager = G4AnalysisManager::Instance();
-  if ( analysisManager->GetH1(1) ) {
+
+
+
+  if ( analysisManager->GetH1(0) ) {
     G4cout << G4endl << " ----> print histograms statistic ";
     if(isMaster) {
       G4cout << "for the entire run " << G4endl << G4endl;
@@ -128,46 +147,31 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/)
       G4cout << "for the local thread " << G4endl << G4endl;
     }
 
-    /*
-    G4cout << " EAbs : mean = "
-       << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy")
-       << " rms = "
-       << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;
 
-    G4cout << " EGap : mean = "
-       << G4BestUnit(analysisManager->GetH1(1)->mean(), "Energy")
-       << " rms = "
-       << G4BestUnit(analysisManager->GetH1(1)->rms(),  "Energy") << G4endl;
-
-    G4cout << " LAbs : mean = "
-      << G4BestUnit(analysisManager->GetH1(2)->mean(), "Length")
-      << " rms = "
-      << G4BestUnit(analysisManager->GetH1(2)->rms(),  "Length") << G4endl;
-
-    G4cout << " LGap : mean = "
-      << G4BestUnit(analysisManager->GetH1(3)->mean(), "Length")
-      << " rms = "
-      << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
-
-
-*/
-      G4cout << " EAbs : mean = "
+      G4cout << " E : mean = "
              << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy")
              << " rms = "
              << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;
 
 
-      G4cout << " LAbs : mean = "
+      G4cout << " L : mean = "
              << G4BestUnit(analysisManager->GetH1(1)->mean(), "Length")
              << " rms = "
              << G4BestUnit(analysisManager->GetH1(1)->rms(),  "Length") << G4endl;
 
+
+
   }
+
+
 
   // save histograms & ntuple
   //
   analysisManager->Write();
-  analysisManager->CloseFile();
+ analysisManager->CloseFile(false);
+
+    // Keep content of histos so that they are plotted.
+    // The content will be reset at start of the next run.
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

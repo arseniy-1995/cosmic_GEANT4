@@ -26,7 +26,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 # Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
-include_directories(${PROJECT_SOURCE_DIR}/include)
+#include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# Locate sources and headers for this project
+# NB: headers are included so they will show up in IDEs
+#
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${Geant4_INCLUDE_DIR})
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -40,10 +46,10 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #
 add_executable(cosmic cosmic.cc ${sources} ${headers})
 target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
-
+#target_link_libraries(cosmic ${Geant4_LIBRARIES})
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
-# build Cosmic_sim. This is so that we can run the executable directly because it
+# build Cosmic. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
 set(COSMIC_SCRIPTS
@@ -66,6 +72,11 @@ foreach(_script ${COSMIC_SCRIPTS})
     )
 endforeach()
 
+
+# Add program to the project targets
+# (this avoids the need of typing the program name after make)
+#
+add_custom_target(cosmic_ DEPENDS cosmic)
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #

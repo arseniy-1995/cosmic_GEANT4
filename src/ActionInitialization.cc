@@ -25,16 +25,16 @@
 //
 //
 /// \file ActionInitialization.cc
-/// \brief Implementation of the Cosmic_sim::ActionInitialization class
+/// \brief Implementation of the Cosmic::ActionInitialization class
 
 #include "ActionInitialization.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
 
-using namespace Cosmic;
+//using namespace Cosmic;
 
-namespace Cosmic_sim
+namespace Cosmic
 {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -51,16 +51,22 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new RunAction);
+    EventAction* eventAction = new EventAction;
+    SetUserAction(new RunAction(eventAction));
+
 }
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ActionInitialization::Build() const
 {
-  SetUserAction(new PrimaryGeneratorAction);
-  SetUserAction(new RunAction);
-  SetUserAction(new EventAction);
+    SetUserAction(new PrimaryGeneratorAction);
+
+    auto eventAction = new EventAction;
+    SetUserAction(eventAction);
+
+    SetUserAction(new RunAction(eventAction));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

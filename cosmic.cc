@@ -24,8 +24,8 @@
 // ********************************************************************
 //
 //
-/// \file exampleCosmic_sim.cc
-/// \brief Main program of the Cosmic_sim example
+/// \file exampleCosmic.cc
+/// \brief Main program of the Cosmic example
 
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
@@ -39,13 +39,15 @@
 #include "FTFP_BERT.hh"
 #include "Randomize.hh"
 
-#include <TString.h>
+#include <G4PhysListFactory.hh>
+
+//#include <TString.h>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 namespace {
   void PrintUsage() {
     G4cerr << " Usage: " << G4endl;
-    G4cerr << " exampleCosmic_sim [-m macro ] [-u UIsession] [-t nThreads] [-vDefault]"
+    G4cerr << " exampleCosmic [-m macro ] [-u UIsession] [-t nThreads] [-vDefault]"
            << G4endl;
     G4cerr << "   note: -t option is available only for multi-threaded mode."
            << G4endl;
@@ -53,6 +55,8 @@ namespace {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+
 
 int main(int argc,char** argv)
 {
@@ -115,13 +119,23 @@ int main(int argc,char** argv)
 
   // Set mandatory initialization classes
   //
-  auto detConstruction = new Cosmic_sim::DetectorConstruction();
+  auto detConstruction = new Cosmic::DetectorConstruction();
   runManager->SetUserInitialization(detConstruction);
 
-  auto physicsList = new FTFP_BERT;
-  runManager->SetUserInitialization(physicsList);
+ // auto physicsList = new FTFP_BERT;
+ // runManager->SetUserInitialization(physicsList);
 
-  auto actionInitialization = new Cosmic_sim::ActionInitialization();
+
+    // Physics list
+    G4PhysListFactory phyListFactory;
+    const G4String plName = "FTFP_BERT";
+    //  const G4String plName = "QBBC";
+    // G4VModularPhysicsList *physicsList = new FTFP_BERT;
+    G4VModularPhysicsList *physicsList = phyListFactory.GetReferencePhysList(plName);
+//   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
+    runManager->SetUserInitialization(physicsList);
+
+  auto actionInitialization = new Cosmic::ActionInitialization();
   runManager->SetUserInitialization(actionInitialization);
 
   // Initialize visualization
@@ -159,4 +173,8 @@ int main(int argc,char** argv)
   delete runManager;
 }
 
+
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
+
+
