@@ -72,9 +72,15 @@ RunAction::RunAction(EventAction* eventAction)
   // Creating histograms
 
 
-    analysisManager->CreateH1("Eplastic", "Edep in Plastic", 100, 0., 800 * MeV);
-   analysisManager->CreateH1("Lplastic", "trackL in Plastic", 100, 0., 1 * m);
+    analysisManager->CreateH1("Eplastic_fat_nsys1", "Edep in Plastic_fat_nsys1", 100, 0., 800 * MeV);
+    analysisManager->CreateH1("Lplastic_fat_nsys1", "trackL in Plastic_fat_nsys1", 100, 0., 1 * m);
+    analysisManager->CreateH1("Eplastic_fat_nsys2", "Edep in Plastic_fat_nsys2", 100, 0., 800 * MeV);
+    analysisManager->CreateH1("Lplastic_fat_nsys2", "trackL in Plastic_fat_nsys2", 100, 0., 1 * m);
 
+    analysisManager->CreateH1("Eplastic_thin_nsys1", "Edep in Plastic_thin_nsys1", 100, 0., 800 * MeV);
+    analysisManager->CreateH1("Lplastic_thin_nsys1", "trackL in Plastic_thin_nsys1", 100, 0., 1 * m);
+    analysisManager->CreateH1("Eplastic_thin_nsys2", "Edep in Plastic_thin_nsys2", 100, 0., 800 * MeV);
+    analysisManager->CreateH1("Lplastic_thin_nsys2", "trackL in Plastic_thin_nsys2", 100, 0., 1 * m);
 
 
     // Creating ntuple
@@ -82,10 +88,24 @@ RunAction::RunAction(EventAction* eventAction)
     if ( fEventAction ) {
         analysisManager->CreateNtuple("Cosmic", "Edep and TrackL");
 
-        analysisManager->CreateNtupleDColumn("Eplastic"); // column Id = 0
-        analysisManager->CreateNtupleDColumn("Lplastic"); // column Id = 1
-     //  analysisManager->CreateNtupleDColumn("EplasticVector", fEventAction->GetPlasticEdep()); // column Id = 2
-      // analysisManager->CreateNtupleDColumn("LplasticVector", fEventAction->GetPlasticEdep()); // column Id = 3
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1"); // column Id = 0
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1"); // column Id = 1
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2"); // column Id = 2
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2"); // column Id = 3
+
+      //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1_vector", fEventAction->GetPlasticEdep()); // column Id = 4
+      //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2_vector"); // column Id = 5
+
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1Vector", fEventAction->GetPlasticFatEdep(1)); // column Id = 4
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2Vector", fEventAction->GetPlasticFatEdep(2)); // column Id = 5
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1Vector", fEventAction->GetPlasticFatTrackLength(1)); // column Id = 6
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2Vector", fEventAction->GetPlasticFatTrackLength(2)); // column Id = 7
+
+        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys1Vector", fEventAction->GetPlasticThinEdep(1)); // column Id = 8
+        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys2Vector", fEventAction->GetPlasticThinEdep(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys1Vector", fEventAction->GetPlasticThinTrackLength(1)); // column Id = 10
+        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys2Vector", fEventAction->GetPlasticThinTrackLength(2)); // column Id = 11
+
         analysisManager->FinishNtuple(0);
     }
 

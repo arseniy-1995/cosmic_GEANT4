@@ -30,7 +30,7 @@
 #ifndef CosmicEventAction_h
 #define CosmicEventAction_h 1
 
-//#include "Constants.hh"
+#include "Constants.hh"
 #include "G4UserEventAction.hh"
 
 #include "PlasticHit.hh"
@@ -40,14 +40,10 @@
 #include <vector>
 #include <array>
 
-// named constants
-const G4int kEm = 0;
-const G4int kHad = 1;
-const G4int kH1 = 0;
-const G4int kH2 = 1;
-const G4int kDim = 2;
-
-const G4int kNofEmCells = 10, kNofHadCells=10;
+const G4int NofLayers_plastic_fat_nsys1 = 6;
+const G4int NofLayers_plastic_fat_nsys2 = 8;
+const G4int NofLayers_plastic_thin_nsys1 = 2;
+const G4int NofLayers_plastic_thin_nsys2 = 2;
 
 
 namespace Cosmic
@@ -68,8 +64,25 @@ public:
   void  BeginOfEventAction(const G4Event* event) override;
   void    EndOfEventAction(const G4Event* event) override;
 
-   // std::vector<G4double>& GetPlasticEdep() { return fPlasticEdep[kEm]; }
-   // std::vector<G4double>& GetPlasticTrackLength() { return fPlasticTrackLengt[kEm]; }
+    std::vector<G4double> &GetPlasticFatEdep(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2Edep;
+        return fPlastic_fat_nsys1Edep;
+    }
+
+    std::vector<G4double> &GetPlasticFatTrackLength(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2TrackLength;
+        return fPlastic_fat_nsys1TrackLength;
+    }
+
+    std::vector<G4double> &GetPlasticThinEdep(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_thin_nsys2Edep;
+        return fPlastic_thin_nsys1Edep;
+    }
+
+    std::vector<G4double> &GetPlasticThinTrackLength(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_thin_nsys2TrackLength;
+        return fPlastic_thin_nsys1TrackLength;
+    }
 
 
 
@@ -80,33 +93,23 @@ private:
         void PrintEventStatistics(G4double aplasticEdep, G4double plasticTrackLength) const;
 
 
-    // hit collections Ids
-    std::array<G4int, kDim> fHodHCID = { -1, -1 };
-    std::array<G4int, kDim> fDriftHCID = { -1, -1 };
-    std::array<G4int, kDim> fCalHCID = { -1, -1 };
-    // histograms Ids
-    std::array<std::array<G4int, kDim>, kDim> fDriftHistoID
-            {{ {{ -1, -1 }}, {{ -1, -1 }} }};
-    // std::array<T, N> is an aggregate that contains a C array.
-    // To initialize it, we need outer braces for the class itself
-    // and inner braces for the C array
-    // energy deposit in calorimeters cells
-   // std::array<std::vector<G4double>, kDim> fPlasticEdep
-//            {{ std::vector<G4double>(kNofEmCells, 0.), std::vector<G4double>(kNofHadCells, 0.) }};
 
-   // std::array<std::vector<G4double>, kDim> fPlasticTrackLengt
-    //        {{ std::vector<G4double>(kNofEmCells, 0.), std::vector<G4double>(kNofHadCells, 0.) }};
+    std::vector<G4double> fPlastic_fat_nsys1Edep {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2Edep {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys1TrackLength {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2TrackLength {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
 
-  //  std::vector<G4double> fPlasticEdep(10);
-  //  std::vector<G4double> fPlasticTrackLengt(10);
-
-
-
+    std::vector<G4double> fPlastic_thin_nsys1Edep {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2Edep {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys1TrackLength {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2TrackLength {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
 
   // data members
 
-  G4int fplasticHCID = -1;
-
+  G4int fplastic_fat_nsys1HCID = -1;
+  G4int fplastic_fat_nsys2HCID = -1;
+  G4int fplastic_thin_nsys1HCID = -1;
+  G4int fplastic_thin_nsys2HCID = -1;
 
 };
 

@@ -27,6 +27,7 @@
 /// \file EventAction.cc
 /// \brief Implementation of the Cosmic::EventAction class
 
+#include "Constants.hh"
 #include "EventAction.hh"
 #include "PlasticSD.hh"
 #include "PlasticHit.hh"
@@ -182,12 +183,22 @@ namespace Cosmic {
 
         //G4cerr << "........" << G4endl;
 
-
         // Get hits collections IDs (only once)
-        if (fplasticHCID == -1) {
+        if (fplastic_fat_nsys1HCID == -1) {
             G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fplasticHCID = SDmanp->GetCollectionID("plasticHitsCollection");
-
+            fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
+        }
+        if (fplastic_fat_nsys2HCID == -1) {
+            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
+            fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
+        }
+        if (fplastic_thin_nsys1HCID == -1) {
+            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
+            fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
+        }
+        if (fplastic_thin_nsys2HCID == -1) {
+            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
+            fplastic_thin_nsys2HCID = SDmanp->GetCollectionID("plastic_thin_nsys2HitsCollection");
         }
 
         //
@@ -201,20 +212,74 @@ namespace Cosmic {
        // auto plasticHC = GetHitsCollection(fplasticHCID, event);
 
 
-
-
-
       // vector<G4double> totalPlasticEdep[10];
      //   vector<G4double> totalPlasticTrackLength[10];
 
         // Get hits collections
      //   auto plasticHC = GetHC(event, fplasticHCID);
-        auto plasticHC = GetHitsCollection(fplasticHCID, event);
-        if ( ! plasticHC ) return;
-
+        auto plastic_fat_nsys1HC = GetHitsCollection(fplastic_fat_nsys1HCID, event);
+        auto plastic_fat_nsys2HC = GetHitsCollection(fplastic_fat_nsys2HCID, event);
+        auto plastic_thin_nsys1HC = GetHitsCollection(fplastic_thin_nsys1HCID, event);
+        auto plastic_thin_nsys2HC = GetHitsCollection(fplastic_thin_nsys2HCID, event);
+        if ( ! plastic_fat_nsys1HC ) return;
+        if ( ! plastic_fat_nsys2HC ) return;
+        if ( ! plastic_thin_nsys1HC ) return;
+        if ( ! plastic_thin_nsys2HC ) return;
         // Get hit with total values
-        auto plasticHit = (*plasticHC)[plasticHC->entries() - 1];
 
+        // нулевой индекс массива это полный Хит, далее это конкретные пластики
+        PlasticHit *plastic_fat_nsys1Hit[fNofLayers_plastic_fat_nsys1 + 1];
+        PlasticHit *plastic_fat_nsys2Hit[fNofLayers_plastic_fat_nsys2 + 1];
+        PlasticHit *plastic_thin_nsys1Hit[fNofLayers_plastic_thin_nsys1 + 1];
+        PlasticHit *plastic_thin_nsys2Hit[fNofLayers_plastic_thin_nsys2 + 1];
+
+        plastic_fat_nsys1Hit[0] = (*plastic_fat_nsys1HC)[plastic_fat_nsys1HC->entries() - 1];
+        plastic_fat_nsys2Hit[0] = (*plastic_fat_nsys2HC)[plastic_fat_nsys2HC->entries() - 1];
+        plastic_thin_nsys1Hit[0] = (*plastic_thin_nsys1HC)[plastic_thin_nsys1HC->entries() - 1];
+        plastic_thin_nsys2Hit[0] = (*plastic_thin_nsys2HC)[plastic_thin_nsys2HC->entries() - 1];
+
+        if (plastic_fat_nsys1Hit[0]->GetEdep() > 0)
+            fPlastic_fat_nsys1Edep[0] = plastic_fat_nsys1Hit[0]->GetEdep() / MeV;
+        if (plastic_fat_nsys2Hit[0]->GetEdep() > 0)
+            fPlastic_fat_nsys2Edep[0] = plastic_fat_nsys2Hit[0]->GetEdep() / MeV;
+        if (plastic_thin_nsys1Hit[0]->GetEdep() > 0)
+            fPlastic_thin_nsys1Edep[0] = plastic_thin_nsys1Hit[0]->GetEdep() / MeV;
+        if (plastic_thin_nsys2Hit[0]->GetEdep() > 0)
+            fPlastic_thin_nsys2Edep[0] = plastic_thin_nsys2Hit[0]->GetEdep() / MeV;
+
+        G4double plastic_fat_threshold = 1.0*MeV; // порог записи в файл
+        G4double plastic_thin_threshold = 0.1 * MeV;
+
+        for (G4int i = 1; i <= fNofLayers_plastic_fat_nsys1; i++) {
+            plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
+            if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold) {
+                fPlastic_fat_nsys1Edep[i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
+                fPlastic_fat_nsys1TrackLength[i] = plastic_fat_nsys1Hit[i]->GetTrackLength() / cm;
+            }
+        }
+
+        for (G4int i = 1; i <= fNofLayers_plastic_fat_nsys2; i++) {
+            plastic_fat_nsys2Hit[i] = (*plastic_fat_nsys2HC)[i - 1];
+            if (plastic_fat_nsys2Hit[i]->GetEdep() > plastic_fat_threshold) {
+                fPlastic_fat_nsys2Edep[i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
+                fPlastic_fat_nsys2TrackLength[i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
+            }
+        }
+
+        for(G4int i=1;i<=fNofLayers_plastic_thin_nsys1;i++) {
+            plastic_thin_nsys1Hit[i] = (*plastic_thin_nsys1HC)[i-1];
+            if (plastic_thin_nsys1Hit[i]->GetEdep()>plastic_thin_threshold){
+                fPlastic_thin_nsys1Edep[i]= plastic_thin_nsys1Hit[i]->GetEdep() / MeV;
+                fPlastic_thin_nsys1TrackLength[i]= plastic_thin_nsys1Hit[i]->GetTrackLength() / cm;
+            }
+        }
+        for(G4int i=1;i<=fNofLayers_plastic_thin_nsys2;i++) {
+            plastic_thin_nsys2Hit[i] = (*plastic_thin_nsys2HC)[i-1];
+            if (plastic_thin_nsys2Hit[i]->GetEdep()>plastic_thin_threshold) {
+                fPlastic_thin_nsys2Edep[i]= plastic_thin_nsys2Hit[i]->GetEdep() / MeV;
+                fPlastic_thin_nsys2TrackLength[i]= plastic_thin_nsys2Hit[i]->GetTrackLength() / cm;
+            }
+        }
 
 
    //     totalPlasticEdep = 0.;
@@ -236,17 +301,16 @@ namespace Cosmic {
      //   }
 
 
-
-
-
-
+      //  for(G4int i=1;i<=fNofLayers_plastic_fat_nsys1;i++) {
+       //     G4cerr <<"!!!"  <<G4endl;
+       //     G4cerr <<Edepplastic_fat_nsys1[i]  <<G4endl;
+      //  }
 
        // auto plasticHit = static_cast<PlasticHit*>(plasticHC - 1);
 
 
         // Print per event (modulo n)
         //
-
 
         auto eventID = event->GetEventID();
         auto printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
@@ -256,13 +320,11 @@ namespace Cosmic {
             G4cout << "---> End of event: " << eventID << G4endl;
 
            PrintEventStatistics(
-                   plasticHit->GetEdep(), plasticHit->GetTrackLength()
+                   plastic_fat_nsys1Hit[0]->GetEdep(), plastic_fat_nsys1Hit[0]->GetTrackLength()
                    );
 
 
         }
-
-
 
 
 
@@ -316,12 +378,14 @@ namespace Cosmic {
 
         // fill histograms
 
-        if(plasticHit->GetEdep()/MeV>1.) {
+        if(plastic_fat_nsys1Hit[0]->GetEdep()>plastic_fat_threshold) {
+            analysisManager->FillH1(0, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
+            analysisManager->FillH1(1, plastic_fat_nsys1Hit[0]->GetTrackLength() / cm);
+        }
 
-
-            analysisManager->FillH1(0, plasticHit->GetEdep() / MeV);
-            analysisManager->FillH1(1, plasticHit->GetTrackLength() / cm);
-
+        if(plastic_fat_nsys2Hit[0]->GetEdep()>plastic_fat_threshold) {
+            analysisManager->FillH1(2, plastic_fat_nsys2Hit[0]->GetEdep() / MeV);
+            analysisManager->FillH1(3, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
         }
 
         // fill ntuple
@@ -333,13 +397,17 @@ namespace Cosmic {
         //    analysisManager->FillNtupleDColumn(0, hit->GetEdep());
        //     analysisManager->FillNtupleDColumn(1, hit->GetTrackLength());
      //   }
-        if(plasticHit->GetEdep()/MeV>1.) {
-            analysisManager->FillNtupleDColumn(0, plasticHit->GetEdep() / MeV);
-            analysisManager->FillNtupleDColumn(1, plasticHit->GetTrackLength() / cm);
+     //   if(plastic_fat_nsys1Hit[0]->GetEdep()/MeV>1. && plastic_fat_nsys2Hit[0]->GetEdep()/MeV>1.) {
+            analysisManager->FillNtupleDColumn(0, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
+            analysisManager->FillNtupleDColumn(1, plastic_fat_nsys1Hit[0]->GetTrackLength() / cm);
+            analysisManager->FillNtupleDColumn(2, plastic_fat_nsys2Hit[0]->GetEdep() / MeV);
+            analysisManager->FillNtupleDColumn(3, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
+
+           // analysisManager->FillNtupleDColumn(4, *Edepplastic_fat_nsys1);
+           // analysisManager->FillNtupleDColumn(5, *Edepplastic_fat_nsys2);
 
             analysisManager->AddNtupleRow(0);
-
-        }
+      //  }
 
 
     }

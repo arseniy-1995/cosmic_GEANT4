@@ -109,11 +109,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4ThreeVector initial_pos(0.0,0.0,0.0);
     G4ThreeVector initial_momentum_direction(0.0,0.0,0.0);
 
- // fRandomDirection=false;
+  //fRandomDirection=false;
 
     if(fRandomDirection) {
 
         G4double x_initial_pos, y_initial_pos = 4.5*m, z_initial_pos;
+        G4double x_initial = -0.5*m, y_initial = 4.5*m, z_initial =0.5*m;
+        G4double x_final = 0.5*m, y_final = 4.5*m, z_final = 1.0*m;
         G4double vx, vy, vz;
         G4double theta, psi;
         G4double initial_theta = 0.0, final_theta = 30.*M_PI/180. ;
@@ -130,8 +132,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
         vz = sin(theta) * sin(psi);
         vy = -cos(theta);
 
-        x_initial_pos=3.0*m*G4UniformRand() - 1.5*m;
-        z_initial_pos=3.0*m*G4UniformRand() - 1.5*m;
+        x_initial_pos=x_initial+(x_final-x_initial)*G4UniformRand();
+        z_initial_pos=z_initial+(z_final-z_initial)*G4UniformRand();
 
 
 
@@ -139,10 +141,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
       //  G4cerr<<"momentum = "<< momentum<< "kinetic_energy ="<< kinetic_energy << " theta = "<< theta* 180./M_PI << G4endl;
 
-        //fParticleGun->SetParticleEnergy(kinetic_energy*MeV);
-        fParticleGun->SetParticleMomentum(momentum*MeV);
-     //  initial_pos = G4ThreeVector(x_initial_pos, y_initial_pos, z_initial_pos);
-        initial_pos = G4ThreeVector(0., 4.5 * m, 1.0 * m - 200 * mm);
+        fParticleGun->SetParticleEnergy(kinetic_energy*MeV);
+      //  fParticleGun->SetParticleMomentum(momentum*MeV);
+       initial_pos = G4ThreeVector(x_initial_pos, y_initial_pos, z_initial_pos);
+     //   initial_pos = G4ThreeVector(0., 4.5 * m, 1.0 * m - 200 * mm);
 
     } else {
 
@@ -154,6 +156,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     fParticleGun->SetParticleMomentumDirection(initial_momentum_direction);
     fParticleGun->SetParticlePosition(initial_pos);
     fParticleGun->GeneratePrimaryVertex(anEvent);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

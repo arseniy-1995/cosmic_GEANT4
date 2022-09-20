@@ -33,6 +33,7 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
 #include <Randomize.hh>
+#include "G4ThreeVector.hh"
 
 class G4ParticleGun;
 class G4Event;
@@ -60,6 +61,8 @@ public:
 
 private:
   G4ParticleGun* fParticleGun = nullptr; // G4 particle gun
+
+
 
     G4bool fRandomDirection;
 

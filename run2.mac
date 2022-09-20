@@ -12,6 +12,14 @@
 # electron 50 MeV in direction (0.,0.,1.)
 # 1000 events
 #
-/run/printProgress 100
-/run/beamOn 1000
+
+/run/verbose 0
+/particle/verbose 0
+/particle/property/verbose 0
+/event/verbose 0
+/run/particle/verbose 0
+
+
+/run/printProgress 10000
+/run/beamOn 200000
 

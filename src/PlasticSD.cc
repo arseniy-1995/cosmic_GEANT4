@@ -42,7 +42,7 @@
 #include "G4Box.hh"
 
 
-#define NHITS 20
+//#define NHITS 20
 
 namespace Cosmic
 {
@@ -51,12 +51,8 @@ namespace Cosmic
 
   //  PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
     //PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName)
-
-        //    : G4VSensitiveDetector(name), fNofCells(nofCells), Detector(det) {
-        //: G4VSensitiveDetector(name), fNofCells(nofCells) {
-           // :G4VSensitiveDetector(name),Detector(det)
-    :G4VSensitiveDetector(name)
+    PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers )
+    :G4VSensitiveDetector(name), fNofLayers(nofLayers)
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
@@ -96,7 +92,7 @@ void PlasticSD::Initialize(G4HCofThisEvent* hce)
 
   // Create hits
   // fNofCells for cells + one more for total sums
-  for (G4int i=0; i<NHITS+1; i++ ) {
+  for (G4int i=0; i<fNofLayers+1; i++ ) {
     fHitsCollection->insert(new PlasticHit(i));
   }
 }
@@ -147,15 +143,17 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     // Get calorimeter cell id
     auto layerNumber = touchable->GetReplicaNumber(1);
-    auto hitID = layerNumber;
+    auto hitID = layerNumber; // начинается с нуля
     auto hitTime = preStepPoint->GetGlobalTime();
 
     auto evt=G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
-   // G4cout <<"event_number= "<< evt <<" hitID= " << hitID << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
+   // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
+
+  //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
 
 
-  hit = (*fHitsCollection)[hitID];
+    hit = (*fHitsCollection)[hitID];
 
 
     if ( ! hit ) {

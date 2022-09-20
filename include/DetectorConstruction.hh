@@ -30,6 +30,8 @@
 #ifndef CosmicDetectorConstruction_h
 #define CosmicDetectorConstruction_h 1
 
+
+#include "Constants.hh"
 #include "PlasticSD.hh"
 
 #include "G4VUserDetectorConstruction.hh"
@@ -41,16 +43,23 @@
 #define PF2_FAT
 #define PF1_FAT
 
-//#define PF1_THIN
-//#define PF2_THIN
+#define PF1_THIN
+#define PF2_THIN
 
-//#define HADCAL1 // Адронный калориметр
-//#define HADCAL2
+#define HADCAL1 // Адронный калориметр
+#define HADCAL2
 
-//#define DCARM1 // Дрейфовая камера
-//#define DCARM2
-//#define VCARM1 // Вершинная камера
-//#define VCARM2
+#define DCARM1 // Дрейфовая камера
+#define DCARM2
+#define VCARM1 // Вершинная камера
+#define VCARM2
+
+#define TARGET
+#define MAGNET
+
+#define LOWQ1 // электронные плечи ЛО-КУ поляриметра
+#define LOWQ2
+
 
 #define NX_BARS 22
 #define NZ_BARS 22
@@ -125,6 +134,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
 
   private:
+
+   G4LogicalVolume *worldLV;
+   G4VPhysicalVolume *worldPV;
+
+
     // methods
     //
     void DefineMaterials();
@@ -137,6 +151,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume *ConstructVC();
     G4LogicalVolume *ConstructWC(G4double Lwin, G4double Wwin, G4int ind, G4LogicalVolume*& forSD);
 
+    void ConstructTarget();
+    void ConstructMagnet();
+    G4LogicalVolume *ConstructLOWQ1();
+    G4LogicalVolume *ConstructLOWQ2();
 
     //      G4RotationMatrix Rotate30X;
     G4RotationMatrix Rotate180X;
@@ -164,6 +182,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 // VIS Atribyte
 
         G4VisAttributes *Steel_VisAtt;
+        G4VisAttributes *Mag_VisAtt;
         G4VisAttributes *Iron_VisAtt;
         G4VisAttributes *Alum_VisAtt;
         G4VisAttributes *Gas_VisAtt;
@@ -174,6 +193,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4VisAttributes *Convertor_VisAtt;
         G4VisAttributes *CONCRETE_VisAtt;
         G4VisAttributes *ProCover_VisAtt;
+        G4VisAttributes *TitanFoil_VisAtt;
 
        // PlasticSD* aplasticSD;
 
@@ -187,8 +207,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4bool fCheckOverlaps = true; // option to activate checking of volumes overlaps
    // G4int  fNofLayers = -1;     // number of layers
 
-    G4int  fNofLayers_plastic_fat_nsys1 = -1; // число толстых пластиков
-    G4int  fNofLayers_plastic_fat_nsys2 = -1;
+  //  G4int  fNofLayers_plastic_fat_nsys1 = -1; // число толстых пластиков
+  //  G4int  fNofLayers_plastic_fat_nsys2 = -1;
 
 
         // for SD
@@ -196,6 +216,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
         G4LogicalVolume* plastic_fat_nsys1LV = nullptr;
         G4LogicalVolume* plastic_fat_nsys2LV = nullptr;
+        G4LogicalVolume* plastic_thin_nsys1LV = nullptr;
+        G4LogicalVolume* plastic_thin_nsys2LV = nullptr;
+
 
         G4LogicalVolume *WCTheta1_gas;
         G4LogicalVolume *WCPhi1_gas;
