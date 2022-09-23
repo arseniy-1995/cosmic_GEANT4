@@ -24,11 +24,11 @@
 // ********************************************************************
 //
 //
-/// \file PlasticHit.hh
-/// \brief Definition of the Cosmic::PlasticHit class
+/// \file HadronCalorimeterHit.hh
+/// \brief Definition of the Cosmic::HadronCalorimeterHit class
 
-#ifndef CosmicPlasticHit_h
-#define CosmicPlasticHit_h 1
+#ifndef CosmicHadronCalorimeterHit_h
+#define CosmicHadronCalorimeterHit_h 1
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -55,20 +55,20 @@ namespace Cosmic
 /// of charged particles in a selected volume:
 /// - fEdep, fTrackLength
 
-class PlasticHit : public G4VHit
+class HadronCalorimeterHit : public G4VHit
 {
   public:
-    PlasticHit();
-    PlasticHit(G4int layerID);
-    //PlasticHit(G4double, G4double, G4double, G4ThreeVector, const G4RotationMatrix*);
-    //PlasticHit(G4ThreeVector, const G4RotationMatrix*);
-    PlasticHit(const PlasticHit& right) = default;
-    ~PlasticHit() override;
+    HadronCalorimeterHit();
+    HadronCalorimeterHit(G4int layerID);
+    //HadronCalorimeterHit(G4double, G4double, G4double, G4ThreeVector, const G4RotationMatrix*);
+    //HadronCalorimeterHit(G4ThreeVector, const G4RotationMatrix*);
+    HadronCalorimeterHit(const HadronCalorimeterHit& right) = default;
+    ~HadronCalorimeterHit() override;
 
     // operators
-   // const PlasticHit& operator=(const PlasticHit& right);
-    PlasticHit& operator=(const PlasticHit &right) = default;
-    G4bool operator==(const PlasticHit& right) const;
+   // const HadronCalorimeterHit& operator=(const HadronCalorimeterHit& right);
+    HadronCalorimeterHit& operator=(const HadronCalorimeterHit &right) = default;
+    G4bool operator==(const HadronCalorimeterHit& right) const;
 
     inline void* operator new(size_t);
     inline void  operator delete(void *aHit);
@@ -174,60 +174,60 @@ class PlasticHit : public G4VHit
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-using PlasticHitsCollection = G4THitsCollection<PlasticHit>;
+using HadronCalorimeterHitsCollection = G4THitsCollection<HadronCalorimeterHit>;
 
-extern G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator;
+extern G4ThreadLocal G4Allocator<HadronCalorimeterHit>* HadronCalorimeterHitAllocator;
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    inline void *PlasticHit::operator new(size_t) {
-        if (!PlasticHitAllocator) {
-            PlasticHitAllocator = new G4Allocator<PlasticHit>;
+    inline void *HadronCalorimeterHit::operator new(size_t) {
+        if (!HadronCalorimeterHitAllocator) {
+            HadronCalorimeterHitAllocator = new G4Allocator<HadronCalorimeterHit>;
         }
         void *hit;
-        hit = (void *) PlasticHitAllocator->MallocSingle();
+        hit = (void *) HadronCalorimeterHitAllocator->MallocSingle();
         return hit;
     }
 
-    inline void PlasticHit::operator delete(void *hit) {
-        if (!PlasticHitAllocator) {
-            PlasticHitAllocator = new G4Allocator<PlasticHit>;
+    inline void HadronCalorimeterHit::operator delete(void *hit) {
+        if (!HadronCalorimeterHitAllocator) {
+            HadronCalorimeterHitAllocator = new G4Allocator<HadronCalorimeterHit>;
         }
-        PlasticHitAllocator->FreeSingle((PlasticHit *) hit);
+        HadronCalorimeterHitAllocator->FreeSingle((HadronCalorimeterHit *) hit);
     }
 
-   // inline void PlasticHit::AddEdep(G4double de) {
+   // inline void HadronCalorimeterHit::AddEdep(G4double de) {
    //     fEdep += de;
 
   //  }
-  //  inline void PlasticHit::AddTrackLength(G4double dl) {
+  //  inline void HadronCalorimeterHit::AddTrackLength(G4double dl) {
   //      fTrackLength += dl;
   //  }
 
-   // inline G4double PlasticHit::GetEdep() const { return fEdep; }
+   // inline G4double HadronCalorimeterHit::GetEdep() const { return fEdep; }
 
-  //  inline G4double PlasticHit::GetTrackLength() const { return fTrackLength; }
+  //  inline G4double HadronCalorimeterHit::GetTrackLength() const { return fTrackLength; }
 
-    inline G4double PlasticHit::GetLO() const { return LO; }
+    inline G4double HadronCalorimeterHit::GetLO() const { return LO; }
 
-    inline G4double PlasticHit::GetA1() const { return A1; }
+    inline G4double HadronCalorimeterHit::GetA1() const { return A1; }
 
-    inline G4double PlasticHit::GetA2() const { return A2; }
+    inline G4double HadronCalorimeterHit::GetA2() const { return A2; }
 
-    //inline G4ThreeVector PlasticHit::GetPos() const { return fLocalPos; }
+    //inline G4ThreeVector HadronCalorimeterHit::GetPos() const { return fLocalPos; }
 
-    inline G4ThreeVector PlasticHit::GetVPos() const { return Vpos; }
+    inline G4ThreeVector HadronCalorimeterHit::GetVPos() const { return Vpos; }
 
-    inline G4RotationMatrix PlasticHit::GetVRot() const { return Vrot; }
+    inline G4RotationMatrix HadronCalorimeterHit::GetVRot() const { return Vrot; }
 
-    inline G4int PlasticHit::GetBlkN() const { return blkN; }
+    inline G4int HadronCalorimeterHit::GetBlkN() const { return blkN; }
 
-  //  inline G4double PlasticHit::GetToF() const { return ToF; }
+  //  inline G4double HadronCalorimeterHit::GetToF() const { return ToF; }
 
-    inline G4bool PlasticHit::GetTrig() const { return Trig; };
+    inline G4bool HadronCalorimeterHit::GetTrig() const { return Trig; };
 
-    inline G4int PlasticHit::GetNprim() const { return Nprim; };
+    inline G4int HadronCalorimeterHit::GetNprim() const { return Nprim; };
 
 }
 

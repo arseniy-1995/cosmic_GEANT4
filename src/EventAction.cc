@@ -29,8 +29,12 @@
 
 #include "Constants.hh"
 #include "EventAction.hh"
+
 #include "PlasticSD.hh"
+#include "HadronCalorimeterSD.hh"
+
 #include "PlasticHit.hh"
+#include "HadronCalorimeterHit.hh"
 
 #include "G4AnalysisManager.hh"
 #include "G4RunManager.hh"
@@ -239,13 +243,29 @@ namespace Cosmic {
         plastic_thin_nsys2Hit[0] = (*plastic_thin_nsys2HC)[plastic_thin_nsys2HC->entries() - 1];
 
         if (plastic_fat_nsys1Hit[0]->GetEdep() > 0)
+        {
             fPlastic_fat_nsys1Edep[0] = plastic_fat_nsys1Hit[0]->GetEdep() / MeV;
+            fPlastic_fat_nsys1TrackLength[0] = plastic_fat_nsys1Hit[0]->GetTrackLength() / cm;
+            fPlastic_fat_nsys1ToF[0] = plastic_fat_nsys1Hit[0]->GetToF() / ns;
+        }
         if (plastic_fat_nsys2Hit[0]->GetEdep() > 0)
+        {
             fPlastic_fat_nsys2Edep[0] = plastic_fat_nsys2Hit[0]->GetEdep() / MeV;
+            fPlastic_fat_nsys2TrackLength[0] = plastic_fat_nsys2Hit[0]->GetTrackLength() / cm;
+            fPlastic_fat_nsys2ToF[0] = plastic_fat_nsys2Hit[0]->GetToF() / ns;
+        }
         if (plastic_thin_nsys1Hit[0]->GetEdep() > 0)
+        {
             fPlastic_thin_nsys1Edep[0] = plastic_thin_nsys1Hit[0]->GetEdep() / MeV;
+            fPlastic_thin_nsys1TrackLength[0] = plastic_thin_nsys1Hit[0]->GetTrackLength() / cm;
+            fPlastic_thin_nsys1ToF[0] = plastic_thin_nsys1Hit[0]->GetToF() / ns;
+        }
         if (plastic_thin_nsys2Hit[0]->GetEdep() > 0)
+        {
             fPlastic_thin_nsys2Edep[0] = plastic_thin_nsys2Hit[0]->GetEdep() / MeV;
+            fPlastic_thin_nsys2TrackLength[0] = plastic_thin_nsys2Hit[0]->GetTrackLength() / cm;
+            fPlastic_thin_nsys2ToF[0] = plastic_thin_nsys2Hit[0]->GetToF() / ns;
+        }
 
         G4double plastic_fat_threshold = 1.0*MeV; // порог записи в файл
         G4double plastic_thin_threshold = 0.1 * MeV;
@@ -255,6 +275,7 @@ namespace Cosmic {
             if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold) {
                 fPlastic_fat_nsys1Edep[i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
                 fPlastic_fat_nsys1TrackLength[i] = plastic_fat_nsys1Hit[i]->GetTrackLength() / cm;
+                fPlastic_fat_nsys1ToF[i] = plastic_fat_nsys1Hit[i]->GetToF() / ns;
             }
         }
 
@@ -263,6 +284,7 @@ namespace Cosmic {
             if (plastic_fat_nsys2Hit[i]->GetEdep() > plastic_fat_threshold) {
                 fPlastic_fat_nsys2Edep[i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
                 fPlastic_fat_nsys2TrackLength[i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
+                fPlastic_fat_nsys2ToF[i] = plastic_fat_nsys2Hit[i]->GetToF() / ns;
             }
         }
 
@@ -271,6 +293,7 @@ namespace Cosmic {
             if (plastic_thin_nsys1Hit[i]->GetEdep()>plastic_thin_threshold){
                 fPlastic_thin_nsys1Edep[i]= plastic_thin_nsys1Hit[i]->GetEdep() / MeV;
                 fPlastic_thin_nsys1TrackLength[i]= plastic_thin_nsys1Hit[i]->GetTrackLength() / cm;
+                fPlastic_thin_nsys1ToF[i] = plastic_thin_nsys1Hit[i]->GetToF() / ns;
             }
         }
         for(G4int i=1;i<=fNofLayers_plastic_thin_nsys2;i++) {
@@ -278,6 +301,7 @@ namespace Cosmic {
             if (plastic_thin_nsys2Hit[i]->GetEdep()>plastic_thin_threshold) {
                 fPlastic_thin_nsys2Edep[i]= plastic_thin_nsys2Hit[i]->GetEdep() / MeV;
                 fPlastic_thin_nsys2TrackLength[i]= plastic_thin_nsys2Hit[i]->GetTrackLength() / cm;
+                fPlastic_thin_nsys2ToF[i] = plastic_thin_nsys2Hit[i]->GetToF() / ns;
             }
         }
 

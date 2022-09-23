@@ -29,6 +29,7 @@
 
 #include "DetectorConstruction.hh"
 #include "PlasticSD.hh"
+#include "HadronCalorimeterSD.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 

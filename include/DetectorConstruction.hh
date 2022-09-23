@@ -33,6 +33,7 @@
 
 #include "Constants.hh"
 #include "PlasticSD.hh"
+#include "HadronCalorimeterSD.hh"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"

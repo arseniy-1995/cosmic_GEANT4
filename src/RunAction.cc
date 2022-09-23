@@ -100,11 +100,15 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2Vector", fEventAction->GetPlasticFatEdep(2)); // column Id = 5
         analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1Vector", fEventAction->GetPlasticFatTrackLength(1)); // column Id = 6
         analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2Vector", fEventAction->GetPlasticFatTrackLength(2)); // column Id = 7
+        analysisManager->CreateNtupleDColumn("ToFplastic_fat_nsys1Vector", fEventAction->GetPlasticFatToF(1)); // column Id = 8
+        analysisManager->CreateNtupleDColumn("ToFplastic_fat_nsys2Vector", fEventAction->GetPlasticFatToF(2)); // column Id = 9
 
-        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys1Vector", fEventAction->GetPlasticThinEdep(1)); // column Id = 8
-        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys2Vector", fEventAction->GetPlasticThinEdep(2)); // column Id = 9
-        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys1Vector", fEventAction->GetPlasticThinTrackLength(1)); // column Id = 10
-        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys2Vector", fEventAction->GetPlasticThinTrackLength(2)); // column Id = 11
+        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys1Vector", fEventAction->GetPlasticThinEdep(1)); // column Id = 10
+        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys2Vector", fEventAction->GetPlasticThinEdep(2)); // column Id = 11
+        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys1Vector", fEventAction->GetPlasticThinTrackLength(1)); // column Id = 12
+        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys2Vector", fEventAction->GetPlasticThinTrackLength(2)); // column Id = 13
+        analysisManager->CreateNtupleDColumn("ToFplastic_thin_nsys1Vector", fEventAction->GetPlasticThinToF(1)); // column Id = 14
+        analysisManager->CreateNtupleDColumn("ToFplastic_thin_nsys2Vector", fEventAction->GetPlasticThinToF(2)); // column Id = 15
 
         analysisManager->FinishNtuple(0);
     }

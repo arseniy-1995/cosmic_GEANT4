@@ -24,12 +24,12 @@
 // ********************************************************************
 //
 //
-/// \file PlasticSD.cc
-/// \brief Implementation of the Cosmic::PlasticSD class
+/// \file HadronCalorimeterSD.cc
+/// \brief Implementation of the Cosmic::HadronCalorimeterSD class
 
-#include "PlasticSD.hh"
+#include "HadronCalorimeterSD.hh"
 #include "DetectorConstruction.hh"
-#include "PlasticHit.hh"
+#include "HadronCalorimeterHit.hh"
 
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
@@ -49,9 +49,9 @@ namespace Cosmic
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  //  PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
-    //PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers )
+  //  HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
+    //HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
+    HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers )
     :G4VSensitiveDetector(name), fNofLayers(nofLayers)
   {
         collectionName.insert(hitsCollectionName);
@@ -61,18 +61,18 @@ namespace Cosmic
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PlasticSD::~PlasticSD()
+HadronCalorimeterSD::~HadronCalorimeterSD()
 {
    // delete [] HitID;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PlasticSD::Initialize(G4HCofThisEvent* hce)
+void HadronCalorimeterSD::Initialize(G4HCofThisEvent* hce)
 {
   // Create hits collection
   fHitsCollection
-    = new PlasticHitsCollection(SensitiveDetectorName, collectionName[0]);
+    = new HadronCalorimeterHitsCollection(SensitiveDetectorName, collectionName[0]);
 
     // Add this collection in hce
     auto hcID
@@ -93,16 +93,16 @@ void PlasticSD::Initialize(G4HCofThisEvent* hce)
   // Create hits
   // fNofCells for cells + one more for total sums
   for (G4int i=0; i<fNofLayers+1; i++ ) {
-    fHitsCollection->insert(new PlasticHit(i));
+    fHitsCollection->insert(new HadronCalorimeterHit(i));
   }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
+G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 {
 
-   PlasticHit* hit;
+   HadronCalorimeterHit* hit;
   // energy deposit
   auto edep = aStep->GetTotalEnergyDeposit();
   if (edep == 0.) return true;
@@ -161,7 +161,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     if ( ! hit ) {
         G4ExceptionDescription msg;
         msg << "Cannot access hit " << layerNumber;
-        G4Exception("PlasticSD::ProcessHits()",
+        G4Exception("HadronCalorimeterSD::ProcessHits()",
                     "MyCode0004", FatalException, msg);
     }
 
@@ -232,7 +232,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
         //G4double discr_threshold = Detector->GetDiscrThr(CB);
         G4ThreeVector tv = touchable->GetTranslation();
         const G4RotationMatrix *rr = touchable->GetRotation();
-        hit= new PlasticHit(halflength,attenuation_length,discr_threshold,tv,rr);
+        hit= new HadronCalorimeterHit(halflength,attenuation_length,discr_threshold,tv,rr);
         hit->SetBlkN(CB);
         hcHit->Add(edep, stepLength);
       //  hit->AddLO(edep, posit, dx);
@@ -260,7 +260,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PlasticSD::EndOfEvent(G4HCofThisEvent*)
+void HadronCalorimeterSD::EndOfEvent(G4HCofThisEvent*)
 {
   if ( verboseLevel>1 ) {
      auto nofHits = fHitsCollection->entries();

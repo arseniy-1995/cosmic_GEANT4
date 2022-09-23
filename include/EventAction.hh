@@ -34,6 +34,7 @@
 #include "G4UserEventAction.hh"
 
 #include "PlasticHit.hh"
+#include "HadronCalorimeterHit.hh"
 
 #include "globals.hh"
 
@@ -74,6 +75,11 @@ public:
         return fPlastic_fat_nsys1TrackLength;
     }
 
+    std::vector<G4double> &GetPlasticFatToF(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2ToF;
+        return fPlastic_fat_nsys1ToF;
+    }
+
     std::vector<G4double> &GetPlasticThinEdep(G4double nsys = 1) {
         if (nsys == 2) return fPlastic_thin_nsys2Edep;
         return fPlastic_thin_nsys1Edep;
@@ -84,6 +90,10 @@ public:
         return fPlastic_thin_nsys1TrackLength;
     }
 
+    std::vector<G4double> &GetPlasticThinToF(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_thin_nsys2ToF;
+        return fPlastic_thin_nsys1ToF;
+    }
 
 
 private:
@@ -93,16 +103,19 @@ private:
         void PrintEventStatistics(G4double aplasticEdep, G4double plasticTrackLength) const;
 
 
-
     std::vector<G4double> fPlastic_fat_nsys1Edep {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_fat_nsys2Edep {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
     std::vector<G4double> fPlastic_fat_nsys1TrackLength {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_fat_nsys2TrackLength {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys1ToF {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2ToF {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
 
     std::vector<G4double> fPlastic_thin_nsys1Edep {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_thin_nsys2Edep {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
     std::vector<G4double> fPlastic_thin_nsys1TrackLength {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_thin_nsys2TrackLength {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys1ToF {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2ToF {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
 
   // data members
 
