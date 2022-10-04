@@ -337,408 +337,35 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 
     // Neutron/Proton E/dE counters #2   (above the beam)
 #ifdef PF2_FAT
-
-   // fNofLayers_plastic_fat_nsys2 = 8;
-
-    G4double plasticFatNsys2SizeX = 1000. *mm, plasticFatNsys2SizeY = 120.* mm, plasticFatNsys2SizeZ = 120.* mm;
-
-    G4double plasticFatNsys2PositionX = 0.;
-    G4double plasticFatNsys2PositionY = +92. * cm;
-    G4double plasticFatNsys2dz = plasticFatNsys2SizeZ + 1.0 * cm;
-  //  G4double plasticFatNsys2PositionZ_initial = 36.3 * cm - 3.5 * plasticFatNsys2dz; // RIA
-    G4double plasticFatNsys2PositionZ_initial =6.2*cm; //Gauzshtein
-    G4double plasticFatNsys2PositionZ_final = plasticFatNsys2PositionZ_initial + fNofLayers_plastic_fat_nsys2*plasticFatNsys2dz;
-    G4double plasticFatNsys2PositionZ = plasticFatNsys2PositionZ_initial + (plasticFatNsys2PositionZ_final- plasticFatNsys2PositionZ_initial)/ 2.;
-
-    // Это объем всех восьми счетчиков с пленкой
-    auto plastic_fat_nsys2_boxallS = new G4Box("plastic_fat_nsys2_boxallS", 1.0*(plasticFatNsys2SizeX + 1.0 * cm) / 2., 1.0*(plasticFatNsys2SizeY + 1.0 * cm) / 2., fNofLayers_plastic_fat_nsys2*(plasticFatNsys2SizeZ + 1.0 * cm) / 2.);
-    auto plastic_fat_nsys2_boxallLV = new G4LogicalVolume(plastic_fat_nsys2_boxallS, AirMaterial, "plastic_fat_nsys2_boxallLV");
-    plastic_fat_nsys2_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-    auto plastic_fat_nsys2_boxallPV
-            = new G4PVPlacement(
-                    0,                // no rotation
-                    G4ThreeVector(plasticFatNsys2PositionX,plasticFatNsys2PositionY, plasticFatNsys2PositionZ),  // at (0,0,0)
-                    plastic_fat_nsys2_boxallLV,          // its logical volume
-                    "plastic_fat_nsys2_boxallPV",    // its name
-                    worldLV,          // its mother  volume
-                    false,            // no boolean operation
-                    0,                // copy number
-                    fCheckOverlaps);  // checking overlaps
+    ConstructPlasticFat2();
+#endif //PF2_FAT
 
 
-
-    // Это объем счетчик + пленка
-    auto plastic_fat_nsys2_boxS = new G4Box("plastic_fat_nsys2_boxS", (plasticFatNsys2SizeX + 1.0 * cm) / 2., (plasticFatNsys2SizeY + 1.0 * cm) / 2., (plasticFatNsys2SizeZ + 1.0 * cm) / 2.);
-    auto plastic_fat_nsys2_boxLV = new G4LogicalVolume(plastic_fat_nsys2_boxS, AirMaterial, "plastic_fat_nsys2_boxLV");
-    plastic_fat_nsys2_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-
-    auto plastic_fat_nsys2_boxPV = new G4PVReplica(
-            "plastic_fat_nsys2_boxPV",          // its name
-            plastic_fat_nsys2_boxLV,          // its logical volume
-            plastic_fat_nsys2_boxallLV,          // its mother
-            kZAxis,           // axis of replication
-            fNofLayers_plastic_fat_nsys2,        // number of replica
-            plasticFatNsys2dz);  // witdth of replica
-
-
-    // Это объем с самим пластиком
-    auto plastic_fat_nsys2S
-            = new G4Box("plastic_fat_nsys2S",     // its name
-                        plasticFatNsys2SizeX/2., plasticFatNsys2SizeY/2., plasticFatNsys2SizeZ/2.); // its size
-
-    plastic_fat_nsys2LV
-            = new G4LogicalVolume(
-                    plastic_fat_nsys2S,     // its solid
-                    plasticMaterial,  // its material
-                    "plastic_fat_nsys2LV");   // its name
-
-    auto plastic_fat_nsys2PV
-            = new G4PVPlacement(
-            0,                // no rotation
-            G4ThreeVector(0.0,0.0, 0.0),  // at (0,0,0)
-            plastic_fat_nsys2LV,          // its logical volume
-            "plastic_fat_nsys2PV",    // its name
-            plastic_fat_nsys2_boxLV,          // its mother  volume
-            false,            // no boolean operation
-            0,                // copy number
-            fCheckOverlaps);  // checking overlaps
-
-
-
-// пленка
-
-    //  G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
-    auto plastic_fat_nsys2_coverS = new G4Box("plastic_fat_nsys2_coverS", plasticFatNsys2SizeX / 2., 0.15 / 2. * mm, plasticFatNsys2SizeZ / 2.);
-    auto plastic_fat_nsys2_coverLV = new G4LogicalVolume(plastic_fat_nsys2_coverS, MylarMaterial, "plastic_fat_nsys2_coverLV");
-    plastic_fat_nsys2_coverLV->SetVisAttributes(ProCover_VisAtt);
-   // plastic_fat_nsys2_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
-
-    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0, fCheckOverlaps);
-    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys2SizeY / 2. - 0.1 * mm, 0.0),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0,fCheckOverlaps);
-
-    auto rmx2 = new G4RotationMatrix();
-    rmx2->rotateX(90. * deg);
-    new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ / 2. + 0.1 * mm),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0, fCheckOverlaps);
-    new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ / 2. - 0.1 * mm),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0,fCheckOverlaps);
-
-
-/*
-    for (int i = 1; i <= 8; i++) {
-
-        G4String Phname;
-       // Phname = Form("plastic_fat_nsys2_%i_PV", i);
-        Phname = "plastic_fat_nsys2PV";
-        plastic_fat_nsys2PV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys2PositionX,  plasticFatNsys2PositionY,  plasticFatNsys2PositionZ),plastic_fat_nsys2_boxLV, Phname, worldLV, false, ARM2_IND + DE_IND + i -1, fCheckOverlaps);
-        plasticFatNsys2PositionZ +=   plasticFatNsys2dz;
-
-    }
-
-*/
-
-#endif // #ifdef PF2
-
-           ///////////////////////////////////
+    ///////////////////////////////////
 // Neutron/Proton E/dE counters #1 (below the beam)
 
 #ifdef PF1_FAT
-
-  //  fNofLayers_plastic_fat_nsys1 = 6;
-
-    G4double plasticFatNsys1SizeX = 1060. *mm, plasticFatNsys1SizeY = 200.* mm, plasticFatNsys1SizeZ = 200.* mm;
+    ConstructPlasticFat1();
+#endif //PF1_FAT
 
 
-    G4double plasticFatNsys1PositionX = 0.;
-    G4double plasticFatNsys1PositionY = -102.4 * cm;
-    G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 2.0 * cm;
-   // G4double plasticFatNsys1PositionZ_initial = 43.8 * cm - 3.5 * plasticFatNsys1dz; // RIA
-    G4double plasticFatNsys1PositionZ_initial =6.6*cm; //Gauzshtein
-    G4double plasticFatNsys1PositionZ_final = plasticFatNsys1PositionZ_initial + fNofLayers_plastic_fat_nsys1*plasticFatNsys1dz;
-    G4double plasticFatNsys1PositionZ = plasticFatNsys1PositionZ_initial + (plasticFatNsys1PositionZ_final- plasticFatNsys1PositionZ_initial)/ 2.;
-
-    // Это объем всех шести счетчиков с пленкой
-    auto plastic_fat_nsys1_boxallS = new G4Box("plastic_fat_nsys1_boxS", 1.0*(plasticFatNsys1SizeX + 2.0 * cm) / 2., 1.0*(plasticFatNsys1SizeY + 2.0 * cm) / 2., fNofLayers_plastic_fat_nsys1*(plasticFatNsys1SizeZ + 2.0 * cm) / 2.);
-    auto plastic_fat_nsys1_boxallLV = new G4LogicalVolume(plastic_fat_nsys1_boxallS, AirMaterial, "plastic_fat_nsys1_boxallLV");
-    plastic_fat_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-    auto plastic_fat_nsys1_boxallPV
-            = new G4PVPlacement(
-                    0,                // no rotation
-                    G4ThreeVector(plasticFatNsys1PositionX,plasticFatNsys1PositionY, plasticFatNsys1PositionZ),  // at (0,0,0)
-                    plastic_fat_nsys1_boxallLV,          // its logical volume
-                    "plastic_fat_nsys1_boxallPV",    // its name
-                    worldLV,          // its mother  volume
-                    false,            // no boolean operation
-                    0,                // copy number
-                    fCheckOverlaps);  // checking overlaps
-
-    // Это объем счетчик + пленка
-    auto plastic_fat_nsys1_boxS = new G4Box("plastic_fat_nsys1_boxS", (plasticFatNsys1SizeX + 2.0 * cm) / 2., (plasticFatNsys1SizeY + 2.0 * cm) / 2., (plasticFatNsys1SizeZ + 2.0 * cm) / 2.);
-    auto plastic_fat_nsys1_boxLV = new G4LogicalVolume(plastic_fat_nsys1_boxS, AirMaterial, "plastic_fat_nsys1_boxLV");
-    plastic_fat_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-
-    //  Placement РАЗМЕЩЕНИЕ
-
-    auto plastic_fat_nsys1_boxPV =
-            new G4PVReplica(
-            "plastic_fat_nsys1_boxPV",          // its name
-            plastic_fat_nsys1_boxLV,          // its logical volume
-            plastic_fat_nsys1_boxallLV,          // its mother
-            kZAxis,           // axis of replication
-            fNofLayers_plastic_fat_nsys1,        // number of replica
-            plasticFatNsys1dz);  // witdth of replic
-
-    // Это объем самого счетчика
-    auto plastic_fat_nsys1S
-            = new G4Box("plastic_fat_nsys1S",     // its name
-                        plasticFatNsys1SizeX/2., plasticFatNsys1SizeY/2., plasticFatNsys1SizeZ/2.); // its size
-
-   plastic_fat_nsys1LV
-            = new G4LogicalVolume(
-                    plastic_fat_nsys1S,     // its solid
-                    plasticMaterial,  // its material
-                    "plastic_fat_nsys1LV");   // its name
-
-    auto plastic_fat_nsys1PV
-            = new G4PVPlacement(
-                    0,                // no rotation
-                    G4ThreeVector(0.0,0.0, 0.0),  // at (0,0,0)
-                    plastic_fat_nsys1LV,          // its logical volume
-                    "plastic_fat_nsys1PV",    // its name
-                    plastic_fat_nsys1_boxLV,          // its mother  volume
-                    false,            // no boolean operation
-                    0,                // copy number
-                    fCheckOverlaps);  // checking overlaps
-
-
-    // Это объем пленки
-
-    //  G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
-    auto plastic_fat_nsys1_coverS = new G4Box("plastic_fat_nsys1_coverS", plasticFatNsys1SizeX / 2., 0.15 / 2. * mm, plasticFatNsys1SizeZ / 2.);
-    auto plastic_fat_nsys1_coverLV = new G4LogicalVolume(plastic_fat_nsys1_coverS, MylarMaterial, "plastic_fat_nsys1_coverLV");
-    plastic_fat_nsys1_coverLV->SetVisAttributes(ProCover_VisAtt);
-   // plastic_fat_nsys1_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
-
-    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
-    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys1SizeY / 2. - 0.1 * mm, 0.0),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
-
-    auto rmx1 = new G4RotationMatrix();
-    rmx1->rotateX(90. * deg);
-    new G4PVPlacement(rmx1, G4ThreeVector(0.0,0.0, +plasticFatNsys1SizeZ / 2. + 0.1 * mm),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
-    new G4PVPlacement(rmx1, G4ThreeVector(0.0, 0.0, -plasticFatNsys1SizeZ / 2. - 0.1 * mm),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
-
-
-
-    /*
-    for (int i = 1; i <= 6; i++) {
-        G4String Phname;
-       // Phname = Form("plastic_fat_nsys1_%i_PV", i);
-        Phname = "plastic_fat_nsys1PV";
-        plastic_fat_nsys1PV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys1PositionX,  plasticFatNsys1PositionY,  plasticFatNsys1PositionZ),plastic_fat_nsys1_boxLV, Phname, worldLV, false, ARM1_IND + DE_IND + i -1);
-        plasticFatNsys1PositionZ +=   plasticFatNsys1dz;
-    }
-
-*/
-
-#endif // #ifdef PF1
-
-
-// ТОНКИЕ ПЛАСТИКИ
- // ВЕРХНИЕ ПЛЕЧО
+    // ТОНКИЕ ПЛАСТИКИ
+    // ВЕРХНИЕ ПЛЕЧО
 #ifdef PF2_THIN
+    ConstructPlasticThin2();
+#endif //PF2_THIN
 
-    G4double plasticThinNsys2SizeX = 56.* cm, plasticThinNsys2SizeY = 1.* cm, plasticThinNsys2SizeZ = 82.* cm;
-    G4double plasticThinNsys2PositionX= 0, plasticThinNsys2PositionY = 49.8 * cm, plasticThinNsys2PositionZ =29.5 * cm;
-    G4double plasticThinNsys2dy = plasticThinNsys2SizeY + 1.0 * cm;
-
-// Это объем 2 счетчиков с пленокй
-    auto plastic_thin_nsys2_boxallS = new G4Box("plastic_thin_nsys2_boxallS", (plasticThinNsys2SizeX + 5.0 * cm) / 2., fNofLayers_plastic_thin_nsys2*(plasticThinNsys2SizeY + 5.0 * cm) / 2., (plasticThinNsys2SizeZ + 5.0 * cm) / 2.);
-    auto plastic_thin_nsys2_boxallLV = new G4LogicalVolume(plastic_thin_nsys2_boxallS, AirMaterial, "plastic_thin_nsys2_boxallLV");
-    plastic_thin_nsys2_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
- //   plastic_thin_nsys2_boxallLV->SetVisAttributes(ProCover_VisAtt);
-    // PLACE AC
-  //  auto plastic_thin_nsys2_boxallPV =
-  //          new G4PVPlacement(0, G4ThreeVector(plasticThinNsys2PositionX, plasticThinNsys2PositionY, plasticThinNsys2PositionZ),
-  //                            plastic_thin_nsys2_boxallLV, "plastic_thin_nsys2_boxPV", worldLV, false, ARM2_IND);
-
-    auto plastic_thin_nsys2_boxallPV
-            = new G4PVPlacement(
-                    0,                // no rotation
-                    G4ThreeVector(plasticThinNsys2PositionX,plasticThinNsys2PositionY, plasticThinNsys2PositionZ),  // at (0,0,0)
-                    plastic_thin_nsys2_boxallLV,          // its logical volume
-                    "plastic_thin_nsys2_boxallPV",    // its name
-                    worldLV,          // its mother  volume
-                    false,            // no boolean operation
-                    0,                // copy number
-                    fCheckOverlaps);  // checking overlaps
-
-
-
-    //  new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV[0], "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, AC_IND);
-    // new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV[1], "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, AC_IND + 1);
-
-// Это объем счетчик + пленка
-    auto plastic_thin_nsys2_boxS = new G4Box("plastic_thin_nsys2_boxS", (plasticThinNsys2SizeX + 0.2 * cm) / 2., (plasticThinNsys2SizeY + 0.2 * cm) / 2., (plasticThinNsys2SizeZ + 0.2 * cm) / 2.);
-    auto plastic_thin_nsys2_boxLV = new G4LogicalVolume(plastic_thin_nsys2_boxS, AirMaterial, "plastic_thin_nsys2_boxLV");
-    plastic_thin_nsys2_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-    plastic_thin_nsys2_boxLV->SetVisAttributes(ProCover_VisAtt);
-
-
-    //  Placement РАЗМЕЩЕНИЕ
-
-    auto Yvector = G4ThreeVector (0.0,-1.0,0.0);
-    auto plastic_thin_nsys2_boxPV =
-         //   new G4PVReplica(
-         //           "plastic_thin_nsys2_boxPV",          // its name
-         //          plastic_thin_nsys2_boxLV,          // its logical volume
-         //           plastic_thin_nsys2_boxallLV,          // its mother
-         //           kYAxis,           // axis of replication
-         //           fNofLayers_plastic_thin_nsys2,        // number of replica
-         //           plasticThinNsys2dy);  // witdth of replic
-
-      new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2_boxLV, "plastic_thin_nsys2_boxPV", plastic_thin_nsys2_boxallLV, false, 0, fCheckOverlaps);
-      new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY /2 + 0.1* cm, 0.0),plastic_thin_nsys2_boxLV, "plastic_thin_nsys2_boxPV", plastic_thin_nsys2_boxallLV, false, 1, fCheckOverlaps);
-
-
-    //  new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, 1);
- //   new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, 2);
-
-    // Это объем самого счетчика
-    auto plastic_thin_nsys2S = new G4Box("plastic_thin_nsys2S", plasticThinNsys2SizeX / 2., plasticThinNsys2SizeY / 2., plasticThinNsys2SizeZ / 2.);
-    plastic_thin_nsys2LV = new G4LogicalVolume(plastic_thin_nsys2S, plasticMaterial, "plastic_thin_nsys2LV");
-    plastic_thin_nsys2LV->SetVisAttributes(Plastic_VisAtt);
-    new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), plastic_thin_nsys2LV, "plastic_thin_nsys2PV", plastic_thin_nsys2_boxLV, false, 0, fCheckOverlaps);
-
-
-    //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
-
-    // это объем пленки
-    auto plastic_thin_nsys2_coverS = new G4Box("plastic_thin_nsys2_coverS", plasticThinNsys2SizeX / 2., 0.15 / 2. * mm, plasticThinNsys2SizeZ / 2.);
-    auto plastic_thin_nsys2_coverLV = new G4LogicalVolume(plastic_thin_nsys2_coverS, MylarMaterial, "plastic_thin_nsys2_coverLV");
-    plastic_thin_nsys2_coverLV->SetVisAttributes(ProCover_VisAtt);
-
-    // plastic_thin_nsys2_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
-  //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_1", plastic_thin_nsys2LV[0], false, -1, fCheckOverlaps);
-  //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_1", plastic_thin_nsys2LV[0], false, -1, fCheckOverlaps);
-
-  //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_2", plastic_thin_nsys2LV[1], false, -1, fCheckOverlaps);
-  //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_2", plastic_thin_nsys2LV[1], false, -1, fCheckOverlaps);
-
-    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
-    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY / 2. - 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
-
-    auto rmx3 = new G4RotationMatrix();
-    rmx3->rotateX(90. * deg);
-  //  new G4PVPlacement(rmx3, G4ThreeVector(0.0, 0.0,+plasticThinNsys2SizeZ / 2. + 0.1 * mm),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
-  //  new G4PVPlacement(rmx3, G4ThreeVector(0.0, 0.0, -plasticThinNsys2SizeY / 2. - 0.1 * mm),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
-
-
-   // new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, 1);
-  //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, 2);
-
-
-    // G4PVPlacement *plastic_thin_nsys2PV[2];
-   // plastic_thin_nsys2PV[0] = new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, AC_IND);
-   // plastic_thin_nsys2PV[1] = new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, AC_IND + 1);
-
-
-#endif //ifdef PF_THIN
-
-// нижнее ПЛЕЧО
+    // нижнее ПЛЕЧО
 #ifdef PF1_THIN
-
-
-    G4double plasticThinNsys1SizeX = 30.* cm, plasticThinNsys1SizeY = 1.* cm, plasticThinNsys1SizeZ = 50.* cm;
-    G4double plasticThinNsys1PositionX = 0, plasticThinNsys1PositionY = -45.4 * cm, plasticThinNsys1PositionZ = 27.0 * cm;
-
-
-
-    auto plastic_thin_nsys1_boxallS = new G4Box("plastic_thin_nsys1_boxallS", fNofLayers_plastic_thin_nsys1*(plasticThinNsys1SizeX + 5.0 * cm) / 2., (plasticThinNsys1SizeY + 5.0 * cm) / 2., (plasticThinNsys1SizeZ + 5.0 * cm) / 2.);
-    auto plastic_thin_nsys1_boxallLV = new G4LogicalVolume(plastic_thin_nsys1_boxallS, AirMaterial, "plastic_thin_nsys1_boxallLV");
-    plastic_thin_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-    //   plastic_thin_nsys1_boxallLV->SetVisAttributes(ProCover_VisAtt);
-    // PLACE AC
-
- //   auto plastic_thin_nsys1_boxallPV =
- //           new G4PVPlacement(0, G4ThreeVector(plasticThinNsys1PositionX, plasticThinNsys1PositionY, plasticThinNsys1PositionZ),
-  //                            plastic_thin_nsys1_boxallLV, "plastic_thin_nsys1_boxPV", worldLV, false, ARM1_IND);
-
-
-    auto plastic_thin_nsys1_boxallPV
-            = new G4PVPlacement(
-                    0,                // no rotation
-                    G4ThreeVector(plasticThinNsys1PositionX,plasticThinNsys1PositionY, plasticThinNsys1PositionZ),  // at (0,0,0)
-                    plastic_thin_nsys1_boxallLV,          // its logical volume
-                    "plastic_thin_nsys1_boxallPV",    // its name
-                    worldLV,          // its mother  volume
-                    false,            // no boolean operation
-                    0,                // copy number
-                    fCheckOverlaps);  // checking overlaps
-
-    auto plastic_thin_nsys1_boxS = new G4Box("plastic_thin_nsys1_boxS", (plasticThinNsys1SizeX + 0.2 * cm) / 2., (plasticThinNsys1SizeY + 0.2 * cm) / 2., (plasticThinNsys1SizeZ + 0.2 * cm) / 2.);
-    auto plastic_thin_nsys1_boxLV = new G4LogicalVolume(plastic_thin_nsys1_boxS, AirMaterial, "plastic_thin_nsys1_boxLV");
-    plastic_thin_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
-    plastic_thin_nsys1_boxLV->SetVisAttributes(ProCover_VisAtt);
-
-    auto rmx_thin1 = new G4RotationMatrix();
-    rmx_thin1->rotateZ(180. * deg);
-    rmx_thin1->rotateX(3. * deg);
-    new G4PVPlacement(rmx_thin1, G4ThreeVector(plasticThinNsys1SizeX / 2. + 0.1 * cm, 0.0, 0.0),
-                      plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 0,
-                      fCheckOverlaps);
-    new G4PVPlacement(rmx_thin1, G4ThreeVector(-plasticThinNsys1SizeX / 2. - 0.1 * cm, 0.0, 0.0),
-                      plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 1,
-                      fCheckOverlaps);
-
-
-    //  G4Box *plastic_thin_nsys1S[2];
-
-    auto plastic_thin_nsys1S = new G4Box("plastic_thin_nsys1S", plasticThinNsys1SizeX / 2., plasticThinNsys1SizeY / 2., plasticThinNsys1SizeZ / 2.);
-    //  plastic_thin_nsys1S[1] = new G4Box("plastic_thin_nsys1S_2", plasticThinNsys1SizeX / 2., plasticThinNsys1SizeY / 2., plasticThinNsys1SizeZ / 2.);
-    plastic_thin_nsys1LV = new G4LogicalVolume(plastic_thin_nsys1S, plasticMaterial, "plastic_thin_nsys1LV");
-    plastic_thin_nsys1LV->SetVisAttributes(Plastic_VisAtt);
-
-    new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), plastic_thin_nsys1LV, "plastic_thin_nsys1PV", plastic_thin_nsys1_boxLV, false, -1, fCheckOverlaps);
-
-
-
-    //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
-
-    auto plastic_thin_nsys1_coverS = new G4Box("plastic_thin_nsys1_coverS", plasticThinNsys1SizeX / 2., 0.15 / 2. * mm, plasticThinNsys1SizeZ / 2.);
-    auto plastic_thin_nsys1_coverLV = new G4LogicalVolume(plastic_thin_nsys1_coverS, MylarMaterial, "plastic_thin_nsys1_coverLV");
-    plastic_thin_nsys1_coverLV->SetVisAttributes(ProCover_VisAtt);
-
-    // plastic_thin_nsys1_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
-    //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_1", plastic_thin_nsys1LV[0], false, -1, fCheckOverlaps);
-    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys1SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_1", plastic_thin_nsys1LV[0], false, -1, fCheckOverlaps);
-
-    //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_2", plastic_thin_nsys1LV[1], false, -1, fCheckOverlaps);
-    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys1SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_2", plastic_thin_nsys1LV[1], false, -1, fCheckOverlaps);
-
-    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV", plastic_thin_nsys1_boxLV, false, -1, fCheckOverlaps);
-    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys1SizeY / 2. - 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV", plastic_thin_nsys1_boxLV, false, -1, fCheckOverlaps);
-
-
-
-
-  //  auto rmx_thin1 = new G4RotationMatrix();
- //   rmx_thin1->rotateZ(180. * deg);
-  //  rmx_thin1->rotateX(3. * deg);
-
-  //  new G4PVPlacement(rmx_thin1, G4ThreeVector(plasticThinNsys1SizeX /2. + 0.1* cm, 0.0, 0.0),plastic_thin_nsys1LV, "plastic_thin_nsys1PV_all1", plastic_thin_nsys1_boxallLV, false, AC_IND);
-   // new G4PVPlacement(rmx_thin1, G4ThreeVector(-plasticThinNsys1SizeX /2. - 0.1* cm, 0.0, 0.0),plastic_thin_nsys1LV, "plastic_thin_nsys1PV_all2", plastic_thin_nsys1_boxallLV, false, AC_IND + 1);
-
-
-
-#endif //ifdef PF_THIN
-
+    ConstructPlasticThin1();
+#endif //PF1_THIN
 
     /// КОЛОРИМЕТР ВЫНЕСЕН В ОТДЕЛЬНУЮ ФУНКЦИЮ
 
 #if defined(HADCAL1)||defined(HADCAL1)
     G4LogicalVolume *HadronCalorimeterLV = ConstructHadronCalorimeter();
 #endif
-
     // HadronCalorimeter DATA
-
 
     // in this version sandwich is square with all strips (X and Z) are the same
     // and number of X bars equals to number of Z bars
@@ -747,7 +374,6 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
     G4int NbOfZBars;    // number of bars for theta
     G4double ScintSizeX;// 10.*cm;
     G4double ScintSizeZ;// 10.*cm;
-
 
     G4double GapX = 0.5 * mm;
     G4double GapY = 0.25 * mm;
@@ -789,7 +415,6 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 #ifdef HADCAL1
     new G4PVPlacement(G4Transform3D(Rotate180Z, G4ThreeVector(0.0*cm,-171.*cm, 84.*cm)), // y-position and z-position modyfied by Gauzshtein
                       HadronCalorimeterLV, "Sand_phys", worldLV, false, ARM1_IND);
-
 #endif
 #ifdef HADCAL2
     new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0.0*cm, 171.*cm, 78.*cm)),
@@ -859,6 +484,12 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 #endif
 
 
+   // Электронные счетчики LO-поляриметра
+#ifdef LOWQ
+
+   ConstructLOWQ();
+#endif // LOWQ
+
 #ifdef TARGET
    ConstructTarget();
 #endif // TARGET
@@ -900,8 +531,6 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
             0,                // copy number
             fCheckOverlaps);  // checking overlaps
 
-
-
 /*
   // print parameters
   //
@@ -927,7 +556,6 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 
 #ifdef PF1_FAT
     plastic_fat_nsys1LV->SetVisAttributes(Plastic_VisAtt);
-
 #endif
 #ifdef PF2_FAT
     plastic_fat_nsys2LV->SetVisAttributes(Plastic_VisAtt);
@@ -937,7 +565,6 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 
     //plastic_thin_nsys1LV[0]->SetVisAttributes(simpleBoxVisAtt);
    // plastic_thin_nsys2LV[1]->SetVisAttributes(simpleBoxVisAtt);
-
     betonLV->SetVisAttributes(simpleBoxVisAtt);
 
   //
@@ -945,6 +572,452 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
   //
   return worldPV;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::ConstructPlasticFat1() {
+
+    ///////////////////////////////////
+// Neutron/Proton E/dE counters #1 (below the beam)
+
+#ifdef PF1_FAT
+
+
+    auto plasticMaterial = G4Material::GetMaterial("Scintillator");
+    auto betonMaterial = G4Material::GetMaterial("G4_CONCRETE");
+    auto AirMaterial = G4Material::GetMaterial("Air");
+    auto MylarMaterial = G4Material::GetMaterial("Mylar");
+
+    //  fNofLayers_plastic_fat_nsys1 = 6;
+
+    G4double plasticFatNsys1SizeX = 1060. *mm, plasticFatNsys1SizeY = 200.* mm, plasticFatNsys1SizeZ = 200.* mm;
+
+
+    G4double plasticFatNsys1PositionX = 0.;
+    G4double plasticFatNsys1PositionY = -102.4 * cm;
+    G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 2.0 * cm;
+    // G4double plasticFatNsys1PositionZ_initial = 43.8 * cm - 3.5 * plasticFatNsys1dz; // RIA
+    G4double plasticFatNsys1PositionZ_initial =6.6*cm; //Gauzshtein
+    G4double plasticFatNsys1PositionZ_final = plasticFatNsys1PositionZ_initial + fNofLayers_plastic_fat_nsys1*plasticFatNsys1dz;
+    G4double plasticFatNsys1PositionZ = plasticFatNsys1PositionZ_initial + (plasticFatNsys1PositionZ_final- plasticFatNsys1PositionZ_initial)/ 2.;
+
+    // Это объем всех шести счетчиков с пленкой
+    auto plastic_fat_nsys1_boxallS = new G4Box("plastic_fat_nsys1_boxS", 1.0*(plasticFatNsys1SizeX + 2.0 * cm) / 2., 1.0*(plasticFatNsys1SizeY + 2.0 * cm) / 2., fNofLayers_plastic_fat_nsys1*(plasticFatNsys1SizeZ + 2.0 * cm) / 2.);
+    auto plastic_fat_nsys1_boxallLV = new G4LogicalVolume(plastic_fat_nsys1_boxallS, AirMaterial, "plastic_fat_nsys1_boxallLV");
+    plastic_fat_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+    auto plastic_fat_nsys1_boxallPV
+            = new G4PVPlacement(
+                    0,                // no rotation
+                    G4ThreeVector(plasticFatNsys1PositionX,plasticFatNsys1PositionY, plasticFatNsys1PositionZ),  // at (0,0,0)
+                    plastic_fat_nsys1_boxallLV,          // its logical volume
+                    "plastic_fat_nsys1_boxallPV",    // its name
+                    worldLV,          // its mother  volume
+                    false,            // no boolean operation
+                    0,                // copy number
+                    fCheckOverlaps);  // checking overlaps
+
+    // Это объем счетчик + пленка
+    auto plastic_fat_nsys1_boxS = new G4Box("plastic_fat_nsys1_boxS", (plasticFatNsys1SizeX + 2.0 * cm) / 2., (plasticFatNsys1SizeY + 2.0 * cm) / 2., (plasticFatNsys1SizeZ + 2.0 * cm) / 2.);
+    auto plastic_fat_nsys1_boxLV = new G4LogicalVolume(plastic_fat_nsys1_boxS, AirMaterial, "plastic_fat_nsys1_boxLV");
+    plastic_fat_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+    //  Placement РАЗМЕЩЕНИЕ
+
+    auto plastic_fat_nsys1_boxPV =
+            new G4PVReplica(
+                    "plastic_fat_nsys1_boxPV",          // its name
+                    plastic_fat_nsys1_boxLV,          // its logical volume
+                    plastic_fat_nsys1_boxallLV,          // its mother
+                    kZAxis,           // axis of replication
+                    fNofLayers_plastic_fat_nsys1,        // number of replica
+                    plasticFatNsys1dz);  // witdth of replic
+
+    // Это объем самого счетчика
+    auto plastic_fat_nsys1S
+            = new G4Box("plastic_fat_nsys1S",     // its name
+                        plasticFatNsys1SizeX/2., plasticFatNsys1SizeY/2., plasticFatNsys1SizeZ/2.); // its size
+
+    plastic_fat_nsys1LV
+            = new G4LogicalVolume(
+            plastic_fat_nsys1S,     // its solid
+            plasticMaterial,  // its material
+            "plastic_fat_nsys1LV");   // its name
+
+    auto plastic_fat_nsys1PV
+            = new G4PVPlacement(
+                    0,                // no rotation
+                    G4ThreeVector(0.0,0.0, 0.0),  // at (0,0,0)
+                    plastic_fat_nsys1LV,          // its logical volume
+                    "plastic_fat_nsys1PV",    // its name
+                    plastic_fat_nsys1_boxLV,          // its mother  volume
+                    false,            // no boolean operation
+                    0,                // copy number
+                    fCheckOverlaps);  // checking overlaps
+
+
+    // Это объем пленки
+
+    //  G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+    auto plastic_fat_nsys1_coverS = new G4Box("plastic_fat_nsys1_coverS", plasticFatNsys1SizeX / 2., 0.15 / 2. * mm, plasticFatNsys1SizeZ / 2.);
+    auto plastic_fat_nsys1_coverLV = new G4LogicalVolume(plastic_fat_nsys1_coverS, MylarMaterial, "plastic_fat_nsys1_coverLV");
+    plastic_fat_nsys1_coverLV->SetVisAttributes(ProCover_VisAtt);
+    // plastic_fat_nsys1_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+
+    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
+    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys1SizeY / 2. - 0.1 * mm, 0.0),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
+
+    auto rmx1 = new G4RotationMatrix();
+    rmx1->rotateX(90. * deg);
+    new G4PVPlacement(rmx1, G4ThreeVector(0.0,0.0, +plasticFatNsys1SizeZ / 2. + 0.1 * mm),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
+    new G4PVPlacement(rmx1, G4ThreeVector(0.0, 0.0, -plasticFatNsys1SizeZ / 2. - 0.1 * mm),plastic_fat_nsys1_coverLV, "plastic_fat_nsys1_coverPV", plastic_fat_nsys1_boxLV, false, 0, fCheckOverlaps);
+
+
+
+    /*
+    for (int i = 1; i <= 6; i++) {
+        G4String Phname;
+       // Phname = Form("plastic_fat_nsys1_%i_PV", i);
+        Phname = "plastic_fat_nsys1PV";
+        plastic_fat_nsys1PV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys1PositionX,  plasticFatNsys1PositionY,  plasticFatNsys1PositionZ),plastic_fat_nsys1_boxLV, Phname, worldLV, false, ARM1_IND + DE_IND + i -1);
+        plasticFatNsys1PositionZ +=   plasticFatNsys1dz;
+    }
+
+*/
+
+#endif // #ifdef PF1
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::ConstructPlasticFat2() {
+
+    // ТОЛСТЫЕ ПЛАСТИКИ
+
+    // Neutron/Proton E/dE counters #2   (above the beam)
+#ifdef PF2_FAT
+
+
+    auto plasticMaterial = G4Material::GetMaterial("Scintillator");
+    auto betonMaterial = G4Material::GetMaterial("G4_CONCRETE");
+    auto AirMaterial = G4Material::GetMaterial("Air");
+    auto MylarMaterial = G4Material::GetMaterial("Mylar");
+
+    // fNofLayers_plastic_fat_nsys2 = 8;
+
+    G4double plasticFatNsys2SizeX = 1000. *mm, plasticFatNsys2SizeY = 120.* mm, plasticFatNsys2SizeZ = 120.* mm;
+
+    G4double plasticFatNsys2PositionX = 0.;
+    G4double plasticFatNsys2PositionY = +92. * cm;
+    G4double plasticFatNsys2dz = plasticFatNsys2SizeZ + 1.0 * cm;
+    //  G4double plasticFatNsys2PositionZ_initial = 36.3 * cm - 3.5 * plasticFatNsys2dz; // RIA
+    G4double plasticFatNsys2PositionZ_initial =6.2*cm; //Gauzshtein
+    G4double plasticFatNsys2PositionZ_final = plasticFatNsys2PositionZ_initial + fNofLayers_plastic_fat_nsys2*plasticFatNsys2dz;
+    G4double plasticFatNsys2PositionZ = plasticFatNsys2PositionZ_initial + (plasticFatNsys2PositionZ_final- plasticFatNsys2PositionZ_initial)/ 2.;
+
+    // Это объем всех восьми счетчиков с пленкой
+    auto plastic_fat_nsys2_boxallS = new G4Box("plastic_fat_nsys2_boxallS", 1.0*(plasticFatNsys2SizeX + 1.0 * cm) / 2., 1.0*(plasticFatNsys2SizeY + 1.0 * cm) / 2., fNofLayers_plastic_fat_nsys2*(plasticFatNsys2SizeZ + 1.0 * cm) / 2.);
+    auto plastic_fat_nsys2_boxallLV = new G4LogicalVolume(plastic_fat_nsys2_boxallS, AirMaterial, "plastic_fat_nsys2_boxallLV");
+    plastic_fat_nsys2_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+    auto plastic_fat_nsys2_boxallPV
+            = new G4PVPlacement(
+                    0,                // no rotation
+                    G4ThreeVector(plasticFatNsys2PositionX,plasticFatNsys2PositionY, plasticFatNsys2PositionZ),  // at (0,0,0)
+                    plastic_fat_nsys2_boxallLV,          // its logical volume
+                    "plastic_fat_nsys2_boxallPV",    // its name
+                    worldLV,          // its mother  volume
+                    false,            // no boolean operation
+                    0,                // copy number
+                    fCheckOverlaps);  // checking overlaps
+
+
+
+    // Это объем счетчик + пленка
+    auto plastic_fat_nsys2_boxS = new G4Box("plastic_fat_nsys2_boxS", (plasticFatNsys2SizeX + 1.0 * cm) / 2., (plasticFatNsys2SizeY + 1.0 * cm) / 2., (plasticFatNsys2SizeZ + 1.0 * cm) / 2.);
+    auto plastic_fat_nsys2_boxLV = new G4LogicalVolume(plastic_fat_nsys2_boxS, AirMaterial, "plastic_fat_nsys2_boxLV");
+    plastic_fat_nsys2_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+    auto plastic_fat_nsys2_boxPV = new G4PVReplica(
+            "plastic_fat_nsys2_boxPV",          // its name
+            plastic_fat_nsys2_boxLV,          // its logical volume
+            plastic_fat_nsys2_boxallLV,          // its mother
+            kZAxis,           // axis of replication
+            fNofLayers_plastic_fat_nsys2,        // number of replica
+            plasticFatNsys2dz);  // witdth of replica
+
+
+    // Это объем с самим пластиком
+    auto plastic_fat_nsys2S
+            = new G4Box("plastic_fat_nsys2S",     // its name
+                        plasticFatNsys2SizeX/2., plasticFatNsys2SizeY/2., plasticFatNsys2SizeZ/2.); // its size
+
+    plastic_fat_nsys2LV
+            = new G4LogicalVolume(
+            plastic_fat_nsys2S,     // its solid
+            plasticMaterial,  // its material
+            "plastic_fat_nsys2LV");   // its name
+
+    auto plastic_fat_nsys2PV
+            = new G4PVPlacement(
+                    0,                // no rotation
+                    G4ThreeVector(0.0,0.0, 0.0),  // at (0,0,0)
+                    plastic_fat_nsys2LV,          // its logical volume
+                    "plastic_fat_nsys2PV",    // its name
+                    plastic_fat_nsys2_boxLV,          // its mother  volume
+                    false,            // no boolean operation
+                    0,                // copy number
+                    fCheckOverlaps);  // checking overlaps
+
+
+
+// пленка
+
+    //  G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+    auto plastic_fat_nsys2_coverS = new G4Box("plastic_fat_nsys2_coverS", plasticFatNsys2SizeX / 2., 0.15 / 2. * mm, plasticFatNsys2SizeZ / 2.);
+    auto plastic_fat_nsys2_coverLV = new G4LogicalVolume(plastic_fat_nsys2_coverS, MylarMaterial, "plastic_fat_nsys2_coverLV");
+    plastic_fat_nsys2_coverLV->SetVisAttributes(ProCover_VisAtt);
+    // plastic_fat_nsys2_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+
+    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0, fCheckOverlaps);
+    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys2SizeY / 2. - 0.1 * mm, 0.0),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0,fCheckOverlaps);
+
+    auto rmx2 = new G4RotationMatrix();
+    rmx2->rotateX(90. * deg);
+    new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ / 2. + 0.1 * mm),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0, fCheckOverlaps);
+    new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ / 2. - 0.1 * mm),plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0,fCheckOverlaps);
+
+
+/*
+    for (int i = 1; i <= 8; i++) {
+
+        G4String Phname;
+       // Phname = Form("plastic_fat_nsys2_%i_PV", i);
+        Phname = "plastic_fat_nsys2PV";
+        plastic_fat_nsys2PV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys2PositionX,  plasticFatNsys2PositionY,  plasticFatNsys2PositionZ),plastic_fat_nsys2_boxLV, Phname, worldLV, false, ARM2_IND + DE_IND + i -1, fCheckOverlaps);
+        plasticFatNsys2PositionZ +=   plasticFatNsys2dz;
+
+    }
+
+*/
+
+#endif // #ifdef PF2
+
+
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void Cosmic::DetectorConstruction::ConstructPlasticThin1() {
+
+    // нижнее ПЛЕЧО
+#ifdef PF1_THIN
+
+
+    auto plasticMaterial = G4Material::GetMaterial("Scintillator");
+    auto betonMaterial = G4Material::GetMaterial("G4_CONCRETE");
+    auto AirMaterial = G4Material::GetMaterial("Air");
+    auto MylarMaterial = G4Material::GetMaterial("Mylar");
+
+
+    G4double plasticThinNsys1SizeX = 30.* cm, plasticThinNsys1SizeY = 1.* cm, plasticThinNsys1SizeZ = 50.* cm;
+    G4double plasticThinNsys1PositionX = 0, plasticThinNsys1PositionY = -45.4 * cm, plasticThinNsys1PositionZ = 27.0 * cm;
+
+
+
+    auto plastic_thin_nsys1_boxallS = new G4Box("plastic_thin_nsys1_boxallS", fNofLayers_plastic_thin_nsys1*(plasticThinNsys1SizeX + 5.0 * cm) / 2., (plasticThinNsys1SizeY + 5.0 * cm) / 2., (plasticThinNsys1SizeZ + 5.0 * cm) / 2.);
+    auto plastic_thin_nsys1_boxallLV = new G4LogicalVolume(plastic_thin_nsys1_boxallS, AirMaterial, "plastic_thin_nsys1_boxallLV");
+    plastic_thin_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+    //   plastic_thin_nsys1_boxallLV->SetVisAttributes(ProCover_VisAtt);
+    // PLACE AC
+
+    //   auto plastic_thin_nsys1_boxallPV =
+    //           new G4PVPlacement(0, G4ThreeVector(plasticThinNsys1PositionX, plasticThinNsys1PositionY, plasticThinNsys1PositionZ),
+    //                            plastic_thin_nsys1_boxallLV, "plastic_thin_nsys1_boxPV", worldLV, false, ARM1_IND);
+
+
+    auto plastic_thin_nsys1_boxallPV
+            = new G4PVPlacement(
+                    0,                // no rotation
+                    G4ThreeVector(plasticThinNsys1PositionX,plasticThinNsys1PositionY, plasticThinNsys1PositionZ),  // at (0,0,0)
+                    plastic_thin_nsys1_boxallLV,          // its logical volume
+                    "plastic_thin_nsys1_boxallPV",    // its name
+                    worldLV,          // its mother  volume
+                    false,            // no boolean operation
+                    0,                // copy number
+                    fCheckOverlaps);  // checking overlaps
+
+    auto plastic_thin_nsys1_boxS = new G4Box("plastic_thin_nsys1_boxS", (plasticThinNsys1SizeX + 0.2 * cm) / 2., (plasticThinNsys1SizeY + 0.2 * cm) / 2., (plasticThinNsys1SizeZ + 0.2 * cm) / 2.);
+    auto plastic_thin_nsys1_boxLV = new G4LogicalVolume(plastic_thin_nsys1_boxS, AirMaterial, "plastic_thin_nsys1_boxLV");
+    plastic_thin_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+    plastic_thin_nsys1_boxLV->SetVisAttributes(ProCover_VisAtt);
+
+    auto rmx_thin1 = new G4RotationMatrix();
+    rmx_thin1->rotateZ(180. * deg);
+    rmx_thin1->rotateX(3. * deg);
+    new G4PVPlacement(rmx_thin1, G4ThreeVector(plasticThinNsys1SizeX / 2. + 0.1 * cm, 0.0, 0.0),
+                      plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 0,
+                      fCheckOverlaps);
+    new G4PVPlacement(rmx_thin1, G4ThreeVector(-plasticThinNsys1SizeX / 2. - 0.1 * cm, 0.0, 0.0),
+                      plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 1,
+                      fCheckOverlaps);
+
+
+    //  G4Box *plastic_thin_nsys1S[2];
+
+    auto plastic_thin_nsys1S = new G4Box("plastic_thin_nsys1S", plasticThinNsys1SizeX / 2., plasticThinNsys1SizeY / 2., plasticThinNsys1SizeZ / 2.);
+    //  plastic_thin_nsys1S[1] = new G4Box("plastic_thin_nsys1S_2", plasticThinNsys1SizeX / 2., plasticThinNsys1SizeY / 2., plasticThinNsys1SizeZ / 2.);
+    plastic_thin_nsys1LV = new G4LogicalVolume(plastic_thin_nsys1S, plasticMaterial, "plastic_thin_nsys1LV");
+    plastic_thin_nsys1LV->SetVisAttributes(Plastic_VisAtt);
+
+    new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), plastic_thin_nsys1LV, "plastic_thin_nsys1PV", plastic_thin_nsys1_boxLV, false, -1, fCheckOverlaps);
+
+
+
+    //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+
+    auto plastic_thin_nsys1_coverS = new G4Box("plastic_thin_nsys1_coverS", plasticThinNsys1SizeX / 2., 0.15 / 2. * mm, plasticThinNsys1SizeZ / 2.);
+    auto plastic_thin_nsys1_coverLV = new G4LogicalVolume(plastic_thin_nsys1_coverS, MylarMaterial, "plastic_thin_nsys1_coverLV");
+    plastic_thin_nsys1_coverLV->SetVisAttributes(ProCover_VisAtt);
+
+    // plastic_thin_nsys1_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_1", plastic_thin_nsys1LV[0], false, -1, fCheckOverlaps);
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys1SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_1", plastic_thin_nsys1LV[0], false, -1, fCheckOverlaps);
+
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_2", plastic_thin_nsys1LV[1], false, -1, fCheckOverlaps);
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys1SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV_2", plastic_thin_nsys1LV[1], false, -1, fCheckOverlaps);
+
+    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV", plastic_thin_nsys1_boxLV, false, -1, fCheckOverlaps);
+    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys1SizeY / 2. - 0.1 * mm, 0.0),plastic_thin_nsys1_coverLV, "plastic_thin_nsys1_coverPV", plastic_thin_nsys1_boxLV, false, -1, fCheckOverlaps);
+
+
+
+
+    //  auto rmx_thin1 = new G4RotationMatrix();
+    //   rmx_thin1->rotateZ(180. * deg);
+    //  rmx_thin1->rotateX(3. * deg);
+
+    //  new G4PVPlacement(rmx_thin1, G4ThreeVector(plasticThinNsys1SizeX /2. + 0.1* cm, 0.0, 0.0),plastic_thin_nsys1LV, "plastic_thin_nsys1PV_all1", plastic_thin_nsys1_boxallLV, false, AC_IND);
+    // new G4PVPlacement(rmx_thin1, G4ThreeVector(-plasticThinNsys1SizeX /2. - 0.1* cm, 0.0, 0.0),plastic_thin_nsys1LV, "plastic_thin_nsys1PV_all2", plastic_thin_nsys1_boxallLV, false, AC_IND + 1);
+
+
+
+#endif //ifdef PF_THIN
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::ConstructPlasticThin2() {
+
+    // ТОНКИЕ ПЛАСТИКИ
+    // ВЕРХНИЕ ПЛЕЧО
+#ifdef PF2_THIN
+
+
+    auto plasticMaterial = G4Material::GetMaterial("Scintillator");
+    auto betonMaterial = G4Material::GetMaterial("G4_CONCRETE");
+    auto AirMaterial = G4Material::GetMaterial("Air");
+    auto MylarMaterial = G4Material::GetMaterial("Mylar");
+
+    G4double plasticThinNsys2SizeX = 56.* cm, plasticThinNsys2SizeY = 1.* cm, plasticThinNsys2SizeZ = 82.* cm;
+    G4double plasticThinNsys2PositionX= 0, plasticThinNsys2PositionY = 49.8 * cm, plasticThinNsys2PositionZ =29.5 * cm;
+    G4double plasticThinNsys2dy = plasticThinNsys2SizeY + 1.0 * cm;
+
+// Это объем 2 счетчиков с пленокй
+    auto plastic_thin_nsys2_boxallS = new G4Box("plastic_thin_nsys2_boxallS", (plasticThinNsys2SizeX + 5.0 * cm) / 2., fNofLayers_plastic_thin_nsys2*(plasticThinNsys2SizeY + 5.0 * cm) / 2., (plasticThinNsys2SizeZ + 5.0 * cm) / 2.);
+    auto plastic_thin_nsys2_boxallLV = new G4LogicalVolume(plastic_thin_nsys2_boxallS, AirMaterial, "plastic_thin_nsys2_boxallLV");
+    plastic_thin_nsys2_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+    //   plastic_thin_nsys2_boxallLV->SetVisAttributes(ProCover_VisAtt);
+    // PLACE AC
+    //  auto plastic_thin_nsys2_boxallPV =
+    //          new G4PVPlacement(0, G4ThreeVector(plasticThinNsys2PositionX, plasticThinNsys2PositionY, plasticThinNsys2PositionZ),
+    //                            plastic_thin_nsys2_boxallLV, "plastic_thin_nsys2_boxPV", worldLV, false, ARM2_IND);
+
+    auto plastic_thin_nsys2_boxallPV
+            = new G4PVPlacement(
+                    0,                // no rotation
+                    G4ThreeVector(plasticThinNsys2PositionX,plasticThinNsys2PositionY, plasticThinNsys2PositionZ),  // at (0,0,0)
+                    plastic_thin_nsys2_boxallLV,          // its logical volume
+                    "plastic_thin_nsys2_boxallPV",    // its name
+                    worldLV,          // its mother  volume
+                    false,            // no boolean operation
+                    0,                // copy number
+                    fCheckOverlaps);  // checking overlaps
+
+
+
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV[0], "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, AC_IND);
+    // new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV[1], "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, AC_IND + 1);
+
+// Это объем счетчик + пленка
+    auto plastic_thin_nsys2_boxS = new G4Box("plastic_thin_nsys2_boxS", (plasticThinNsys2SizeX + 0.2 * cm) / 2., (plasticThinNsys2SizeY + 0.2 * cm) / 2., (plasticThinNsys2SizeZ + 0.2 * cm) / 2.);
+    auto plastic_thin_nsys2_boxLV = new G4LogicalVolume(plastic_thin_nsys2_boxS, AirMaterial, "plastic_thin_nsys2_boxLV");
+    plastic_thin_nsys2_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+    plastic_thin_nsys2_boxLV->SetVisAttributes(ProCover_VisAtt);
+
+
+    //  Placement РАЗМЕЩЕНИЕ
+
+    auto Yvector = G4ThreeVector (0.0,-1.0,0.0);
+    auto plastic_thin_nsys2_boxPV =
+            //   new G4PVReplica(
+            //           "plastic_thin_nsys2_boxPV",          // its name
+            //          plastic_thin_nsys2_boxLV,          // its logical volume
+            //           plastic_thin_nsys2_boxallLV,          // its mother
+            //           kYAxis,           // axis of replication
+            //           fNofLayers_plastic_thin_nsys2,        // number of replica
+            //           plasticThinNsys2dy);  // witdth of replic
+
+            new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2_boxLV, "plastic_thin_nsys2_boxPV", plastic_thin_nsys2_boxallLV, false, 0, fCheckOverlaps);
+    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY /2 + 0.1* cm, 0.0),plastic_thin_nsys2_boxLV, "plastic_thin_nsys2_boxPV", plastic_thin_nsys2_boxallLV, false, 1, fCheckOverlaps);
+
+
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, 1);
+    //   new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, 2);
+
+    // Это объем самого счетчика
+    auto plastic_thin_nsys2S = new G4Box("plastic_thin_nsys2S", plasticThinNsys2SizeX / 2., plasticThinNsys2SizeY / 2., plasticThinNsys2SizeZ / 2.);
+    plastic_thin_nsys2LV = new G4LogicalVolume(plastic_thin_nsys2S, plasticMaterial, "plastic_thin_nsys2LV");
+    plastic_thin_nsys2LV->SetVisAttributes(Plastic_VisAtt);
+    new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), plastic_thin_nsys2LV, "plastic_thin_nsys2PV", plastic_thin_nsys2_boxLV, false, 0, fCheckOverlaps);
+
+
+    //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+
+    // это объем пленки
+    auto plastic_thin_nsys2_coverS = new G4Box("plastic_thin_nsys2_coverS", plasticThinNsys2SizeX / 2., 0.15 / 2. * mm, plasticThinNsys2SizeZ / 2.);
+    auto plastic_thin_nsys2_coverLV = new G4LogicalVolume(plastic_thin_nsys2_coverS, MylarMaterial, "plastic_thin_nsys2_coverLV");
+    plastic_thin_nsys2_coverLV->SetVisAttributes(ProCover_VisAtt);
+
+    // plastic_thin_nsys2_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_1", plastic_thin_nsys2LV[0], false, -1, fCheckOverlaps);
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_1", plastic_thin_nsys2LV[0], false, -1, fCheckOverlaps);
+
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_2", plastic_thin_nsys2LV[1], false, -1, fCheckOverlaps);
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeZ / 2. - 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV_2", plastic_thin_nsys2LV[1], false, -1, fCheckOverlaps);
+
+    new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2. + 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
+    new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY / 2. - 0.1 * mm, 0.0),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
+
+    auto rmx3 = new G4RotationMatrix();
+    rmx3->rotateX(90. * deg);
+    //  new G4PVPlacement(rmx3, G4ThreeVector(0.0, 0.0,+plasticThinNsys2SizeZ / 2. + 0.1 * mm),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
+    //  new G4PVPlacement(rmx3, G4ThreeVector(0.0, 0.0, -plasticThinNsys2SizeY / 2. - 0.1 * mm),plastic_thin_nsys2_coverLV, "plastic_thin_nsys2_coverPV", plastic_thin_nsys2_boxLV, false, -1, fCheckOverlaps);
+
+
+    // new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, 1);
+    //  new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, 2);
+
+
+    // G4PVPlacement *plastic_thin_nsys2PV[2];
+    // plastic_thin_nsys2PV[0] = new G4PVPlacement(0, G4ThreeVector(0.0, plasticThinNsys2SizeY /2. + 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all1", plastic_thin_nsys2_boxallLV, false, AC_IND);
+    // plastic_thin_nsys2PV[1] = new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY /2 - 0.1* cm, 0.0),plastic_thin_nsys2LV, "plastic_thin_nsys2PV_all2", plastic_thin_nsys2_boxallLV, false, AC_IND + 1);
+
+
+#endif //ifdef PF_THIN
+
+
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 // Адронный калориметр
 G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(){
@@ -957,7 +1030,7 @@ G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(){
 
     G4LogicalVolume *Volume_log;
     G4VPhysicalVolume *vol_phys;
-    G4LogicalVolume *scint_log;
+
 
     G4double x_pos, y_pos, z_pos;
     G4double dx, dy, dz;
@@ -1062,8 +1135,8 @@ G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(){
     absor_vol->SetVisAttributes(Convertor_VisAtt);
 
     ubox = new G4Box("Scint", ScintSizeX / 2., ScintThickness / 2., ScintSizeZ / 2.);
-    scint_log = new G4LogicalVolume(ubox, ScintilMaterial, "Scint", 0, 0, 0);
-    scint_log->SetVisAttributes(Plastic_VisAtt);
+    scint_HadCalLV = new G4LogicalVolume(ubox, ScintilMaterial, "Scint", 0, 0, 0);
+    scint_HadCalLV->SetVisAttributes(Plastic_VisAtt);
 
     ubox = new G4Box("Strip", StripSizeX / 2., StripSizeY / 2., StripSizeZ / 2.);
     G4LogicalVolume *strip_log = new G4LogicalVolume(ubox, AirMaterial, "Strip", 0, 0, 0);
@@ -1075,11 +1148,11 @@ G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(){
     y_pos = (IronThickness + ScintThickness) / 2. + GapY;
     x_pos = (ScintSizeX + GapX) / 2.;
     // 2 scint strips on bottom of  iron bar
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, -y_pos, 0.),scint_log, "BarS", strip_log, false, 0,fCheckOverlaps);
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, -y_pos, 0.),scint_log, "BarS", strip_log, false, N_UNITS,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, -y_pos, 0.),scint_HadCalLV, "BarS", strip_log, false, 0,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, -y_pos, 0.),scint_HadCalLV, "BarS", strip_log, false, N_UNITS,fCheckOverlaps);
     // 2 scint strips on top of  iron bar
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.),scint_log, "BarS", strip_log, false, 2 * N_UNITS,fCheckOverlaps);
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.),scint_log, "BarS", strip_log, false, 3 * N_UNITS, fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.),scint_HadCalLV, "BarS", strip_log, false, 2 * N_UNITS,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.),scint_HadCalLV, "BarS", strip_log, false, 3 * N_UNITS, fCheckOverlaps);
 
     ubox = new G4Box("Layer", LayerSizeX / 2., LayerSizeY / 2., LayerSizeZ / 2.);
     G4LogicalVolume *layer_log = new G4LogicalVolume(ubox, AirMaterial, "Layer", 0, 0, 0);
@@ -1100,8 +1173,8 @@ G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(){
     y_pos -= GapY;
     y_pos -= ScintThickness / 2.;
     x_pos = (ScintSizeX + GapX) / 2.;
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.),scint_log, "BarS", stripH_log, false, 0,fCheckOverlaps);
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.),scint_log, "BarS", stripH_log, false, N_UNITS,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.),scint_HadCalLV, "BarS", stripH_log, false, 0,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.),scint_HadCalLV, "BarS", stripH_log, false, N_UNITS,fCheckOverlaps);
 
     ubox = new G4Box("LayerH", LayerSizeX / 2., LayerSizeY / 2., LayerSizeZ / 2.);
     G4LogicalVolume *layerH_log = new G4LogicalVolume(ubox, AirMaterial, "LayerH", 0, 0, 0);
@@ -1117,8 +1190,8 @@ G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(){
     y_pos = -StripSizeY / 2.;
     y_pos += ScintThickness / 2.;
     x_pos = (ScintSizeX + GapX) / 2.;
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.),scint_log, "BarS", stripO_log, false, 0,fCheckOverlaps);
-    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.),scint_log, "BarS", stripO_log, false, N_UNITS,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.),scint_HadCalLV, "BarS", stripO_log, false, 0,fCheckOverlaps);
+    vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.),scint_HadCalLV, "BarS", stripO_log, false, N_UNITS,fCheckOverlaps);
     y_pos += ScintThickness / 2.;
     y_pos += IronThickness / 2.;
     // NO IRON HERE !!
@@ -1570,6 +1643,8 @@ void DetectorConstruction::ConstructTarget() {
 
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void DetectorConstruction::ConstructMagnet() {
 
     //МАГНИТЫ
@@ -1632,92 +1707,190 @@ void DetectorConstruction::ConstructMagnet() {
 
 }
 
-void DetectorConstruction::ConstructSDandField()
-{
-    auto sdManager = G4SDManager::GetSDMpointer();
-    G4String SDname;
-    sdManager ->SetVerboseLevel(1);
-  //
-  // Sensitive detectors
-  //
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    //BEGIN sensitive detector for proton plastic
+    void DetectorConstruction::ConstructLOWQ() {
+
+#ifdef LOWQ
+        ////////////////////////////////////////////////////////////////////////////////
+
+        auto ScintilMaterial = G4Material::GetMaterial("Scintillator");
+        auto AirMaterial = G4Material::GetMaterial("Air");
+        auto MylarMaterial = G4Material::GetMaterial("Mylar");
+
+        G4double pl_thick = 1.0 * cm;//2.0*cm;	// y-axis
+        G4double pl_width = 50.0 * cm;    // x-axis
+        G4double pl_length = 20.0 * cm;    // z-axis
+
+        G4Box *ubox;
+        G4VPhysicalVolume *vol_phys;
+
+        // Это объем двух сцинтилляторов с пленокой
+        ubox = new G4Box("LQ_box", (pl_width + 1.2 * cm) / 2., 2 * (pl_thick + 1.2 * cm) / 2.,
+                         (pl_length + 1.2 * cm) / 2.);
+        auto LQBox_log = new G4LogicalVolume(ubox, AirMaterial, "LQBox_log", 0, 0, 0);
+        LQBox_log->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+        // Это объем одного сцинтияллтора + пленка
+        ubox = new G4Box("LQ_box_cover", pl_width / 2. + 0.5 * mm, pl_thick / 2. + 0.5 * mm, pl_length / 2. + 0.5 * mm);
+        auto LQBoxCover_log = new G4LogicalVolume(ubox, AirMaterial, "LQBoxCover_log", 0, 0, 0);
+        // LQBoxCover_log->SetVisAttributes(Plastic_VisAtt);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, -0.6 * cm, 0.0),
+                                     LQBoxCover_log, "LQ1", LQBox_log, false, LQ_IND, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.6 * cm, 0.0),
+                                     LQBoxCover_log, "LQ2", LQBox_log, false, LQ_IND + 1, fCheckOverlaps);
+
+        // Это объем одного сцинтияллтора
+        ubox = new G4Box("LQ", pl_width / 2., pl_thick / 2., pl_length / 2.);
+        LQ_log = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
+        LQ_log->SetVisAttributes(Plastic_VisAtt);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
+                                     LQ_log, "LQ1", LQBoxCover_log, false, -1, fCheckOverlaps);
 
 
-   // if(!aplasticSD)
-   // {
-    //   auto aplasticSD = new PlasticSD("plasticSD", "plasticHitsCollection", fNofLayers_plastic_fat_nsys1);
- //   auto aplasticSD = new PlasticSD("plasticSD", "plasticHitsCollection", this);
+        // Это объем пленки
+//   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+        ubox = new G4Box("LQCover", pl_width / 2., 0.15 / 2. * mm, pl_length / 2.);
+        G4LogicalVolume *LQCover_log = new G4LogicalVolume(ubox, MylarMaterial, "LQCover_log", 0, 0, 0);
+//   LQCover_log->SetVisAttributes(ProCover_VisAtt);
+        LQCover_log->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+        new G4PVPlacement(0, G4ThreeVector(0.0, +pl_thick / 2. + 0.1 * mm, 0.0),
+                          LQCover_log, "LQCover_phys", LQBoxCover_log, false, -1, fCheckOverlaps);
+        new G4PVPlacement(0, G4ThreeVector(0.0, -pl_thick / 2. - 0.1 * mm, 0.0),
+                          LQCover_log, "LQCover_phys", LQBoxCover_log, false, -1, fCheckOverlaps);
 
 
-  //  }
+// PLACE LQ
+
+        G4double x_pos = 0.0;
+        G4double y_pos = 32.2 * cm;
+        G4double z_pos = 63.6 * cm;
+
+        auto rmx = new G4RotationMatrix();
+        rmx->rotateZ(180. * deg);
+        rmx->rotateX(-70. * deg);
+        vol_phys = new G4PVPlacement(rmx,
+                                     G4ThreeVector(x_pos, -y_pos, z_pos),
+                                     LQBox_log, "LQ_phys", worldLV, false, ARM1_IND, fCheckOverlaps);
+
+        rmx = new G4RotationMatrix();
+        rmx->rotateX(-70. * deg);
+        vol_phys = new G4PVPlacement(rmx,
+                                     G4ThreeVector(x_pos, y_pos, z_pos),
+                                     LQBox_log, "LQ_phys", worldLV, false, ARM2_IND, fCheckOverlaps);
+
+
+#endif // LOWQ
+
+
+    }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void DetectorConstruction::ConstructSDandField() {
+        auto sdManager = G4SDManager::GetSDMpointer();
+        G4String SDname;
+        sdManager->SetVerboseLevel(1);
+        //
+        // Sensitive detectors
+        //
+
+        //BEGIN sensitive detector for proton plastic
+
+
+        // if(!aplasticSD)
+        // {
+        //   auto aplasticSD = new PlasticSD("plasticSD", "plasticHitsCollection", fNofLayers_plastic_fat_nsys1);
+        //   auto aplasticSD = new PlasticSD("plasticSD", "plasticHitsCollection", this);
+
+
+        //  }
 
 #ifdef PF1_FAT
-  //  SetSensitiveDetector("plastic_fat_nsys1LV", aplasticSD);
-    auto aplastic_fat_nsys1SD = new PlasticSD(SDname="/plastic_fat_nsys1SD", "plastic_fat_nsys1HitsCollection", fNofLayers_plastic_fat_nsys1);
-    sdManager->AddNewDetector(aplastic_fat_nsys1SD);
-  plastic_fat_nsys1LV->SetSensitiveDetector(aplastic_fat_nsys1SD);
+        //  SetSensitiveDetector("plastic_fat_nsys1LV", aplasticSD);
+        auto aplastic_fat_nsys1SD = new PlasticSD(SDname = "/plastic_fat_nsys1SD", "plastic_fat_nsys1HitsCollection",
+                                                  fNofLayers_plastic_fat_nsys1);
+        sdManager->AddNewDetector(aplastic_fat_nsys1SD);
+        plastic_fat_nsys1LV->SetSensitiveDetector(aplastic_fat_nsys1SD);
 #endif
 
 #ifdef PF2_FAT
-   // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
-    auto aplastic_fat_nsys2SD = new PlasticSD(SDname="/plastic_fat_nsys2SD", "plastic_fat_nsys2HitsCollection", fNofLayers_plastic_fat_nsys2);
-    sdManager->AddNewDetector(aplastic_fat_nsys2SD);
-    plastic_fat_nsys2LV->SetSensitiveDetector(aplastic_fat_nsys2SD);
+        // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
+        auto aplastic_fat_nsys2SD = new PlasticSD(SDname = "/plastic_fat_nsys2SD", "plastic_fat_nsys2HitsCollection",
+                                                  fNofLayers_plastic_fat_nsys2);
+        sdManager->AddNewDetector(aplastic_fat_nsys2SD);
+        plastic_fat_nsys2LV->SetSensitiveDetector(aplastic_fat_nsys2SD);
 #endif
 
 #ifdef PF1_THIN
-    // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
-    auto aplastic_thin_nsys1SD = new PlasticSD(SDname="/plastic_thin_nsys1SD", "plastic_thin_nsys1HitsCollection", fNofLayers_plastic_thin_nsys1);
-    sdManager->AddNewDetector(aplastic_thin_nsys1SD);
-    plastic_thin_nsys1LV->SetSensitiveDetector(aplastic_thin_nsys1SD);
+        // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
+        auto aplastic_thin_nsys1SD = new PlasticSD(SDname = "/plastic_thin_nsys1SD", "plastic_thin_nsys1HitsCollection",
+                                                   fNofLayers_plastic_thin_nsys1);
+        sdManager->AddNewDetector(aplastic_thin_nsys1SD);
+        plastic_thin_nsys1LV->SetSensitiveDetector(aplastic_thin_nsys1SD);
 #endif
 
 #ifdef PF2_THIN
-    // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
-    auto aplastic_thin_nsys2SD = new PlasticSD(SDname="/plastic_thin_nsys2SD", "plastic_thin_nsys2HitsCollection", fNofLayers_plastic_thin_nsys2);
-    sdManager->AddNewDetector(aplastic_thin_nsys2SD);
-    plastic_thin_nsys2LV->SetSensitiveDetector(aplastic_thin_nsys2SD);
+        // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
+        auto aplastic_thin_nsys2SD = new PlasticSD(SDname = "/plastic_thin_nsys2SD", "plastic_thin_nsys2HitsCollection",
+                                                   fNofLayers_plastic_thin_nsys2);
+        sdManager->AddNewDetector(aplastic_thin_nsys2SD);
+        plastic_thin_nsys2LV->SetSensitiveDetector(aplastic_thin_nsys2SD);
 #endif
 
-    //END sensitive detector for proton plastic
+#ifdef HADCAL1
+        //  auto ahadron_calorimeter_nsys1SD = new PlasticSD(SDname="/hadron_calorimeter_nsys1SD", "hadron_calorimeter_nsys1SD", fNofLayers_plastic_thin_nsys1);
+        //  sdManager->AddNewDetector(ahadron_calorimeter_nsys1SD);
+        //  scint_HadCalLV->SetSensitiveDetector(ahadron_calorimeter_nsys1SD);
+#endif
+
+
+#ifdef HADCAL2
+        // auto ahadron_calorimeter_nsys2SD = new PlasticSD(SDname="/hadron_calorimeter_nsys2SD", "hadron_calorimeter_nsys2SD", fNofLayers_plastic_thin_nsys2);
+        //sdManager->AddNewDetector(ahadron_calorimeter_nsys2SD);
+        // scint_HadCalLV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
+#endif
 
 
 
-  //
-  // Magnetic field
-  //
-  // Create global magnetic field messenger.
-  // Uniform magnetic field is then created automatically if
-  // the field value is not zero.
-  G4ThreeVector fieldValue;
-  fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
-  fMagFieldMessenger->SetVerboseLevel(1);
+        //END sensitive detector for proton plastic
 
-  // Register the field messenger for deleting
-  G4AutoDelete::Register(fMagFieldMessenger);
-}
+
+
+        //
+        // Magnetic field
+        //
+        // Create global magnetic field messenger.
+        // Uniform magnetic field is then created automatically if
+        // the field value is not zero.
+        G4ThreeVector fieldValue;
+        fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
+        fMagFieldMessenger->SetVerboseLevel(1);
+
+        // Register the field messenger for deleting
+        G4AutoDelete::Register(fMagFieldMessenger);
+    }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
-    G4int GetType(G4int n){
-        n=n%ARM2_IND;
-        if(n<VC_IND) return DT_SCINT;
-        if(n<LQ_IND) return DT_WIRE;
+    G4int GetType(G4int n) {
+        n = n % ARM2_IND;
+        if (n < VC_IND) return DT_SCINT;
+        if (n < LQ_IND) return DT_WIRE;
         return DT_EMCAL;
     }
 
-    G4double GetAttenuL(G4int n){
-        double r=1000.*mm;
-        if(GetType(n)==DT_SCINT) r=2000.*mm;
+    G4double GetAttenuL(G4int n) {
+        double r = 1000. * mm;
+        if (GetType(n) == DT_SCINT) r = 2000. * mm;
 
         return r;
     }
 
-    G4double GetDiscrThr(G4int n){
-        double r=0.25*MeV;
-        if(GetType(n)==DT_WIRE) r=0.1*keV;
+    G4double GetDiscrThr(G4int n) {
+        double r = 0.25 * MeV;
+        if (GetType(n) == DT_WIRE) r = 0.1 * keV;
         return r;
     }
 

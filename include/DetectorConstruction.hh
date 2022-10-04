@@ -58,8 +58,8 @@
 #define TARGET
 #define MAGNET
 
-#define LOWQ1 // электронные плечи ЛО-КУ поляриметра
-#define LOWQ2
+#define LOWQ // электронные плечи ЛО-КУ поляриметра
+//#define LOWQ2
 
 
 #define NX_BARS 22
@@ -152,10 +152,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume *ConstructVC();
     G4LogicalVolume *ConstructWC(G4double Lwin, G4double Wwin, G4int ind, G4LogicalVolume*& forSD);
 
+    void ConstructPlasticFat1();
+    void ConstructPlasticFat2();
+    void ConstructPlasticThin1();
+    void ConstructPlasticThin2();
+
     void ConstructTarget();
     void ConstructMagnet();
-    G4LogicalVolume *ConstructLOWQ1();
-    G4LogicalVolume *ConstructLOWQ2();
+    void ConstructLOWQ();
 
     //      G4RotationMatrix Rotate30X;
     G4RotationMatrix Rotate180X;
@@ -220,11 +224,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume* plastic_thin_nsys1LV = nullptr;
         G4LogicalVolume* plastic_thin_nsys2LV = nullptr;
 
+        G4LogicalVolume* scint_HadCalLV = nullptr;
 
-        G4LogicalVolume *WCTheta1_gas;
-        G4LogicalVolume *WCPhi1_gas;
-        G4LogicalVolume *WCTheta2_gas;
-        G4LogicalVolume *VCGas_log;
+        G4LogicalVolume* LQ_log = nullptr;
+
+        G4LogicalVolume *WCTheta1_gas = nullptr ;
+        G4LogicalVolume *WCPhi1_gas = nullptr;
+        G4LogicalVolume *WCTheta2_gas = nullptr;
+        G4LogicalVolume *VCGas_log = nullptr;
 
 
 

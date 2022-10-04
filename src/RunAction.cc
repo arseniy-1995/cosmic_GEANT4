@@ -88,27 +88,71 @@ RunAction::RunAction(EventAction* eventAction)
     if ( fEventAction ) {
         analysisManager->CreateNtuple("Cosmic", "Edep and TrackL");
 
-        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1"); // column Id = 0
-        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1"); // column Id = 1
-        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2"); // column Id = 2
-        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2"); // column Id = 3
+        analysisManager->CreateNtupleIColumn("EventNumber"); // column Id = 0
+
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1_sum"); // column Id = 1
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1_sum"); // column Id = 2
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2_sum"); // column Id = 3
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2_sum"); // column Id = 4
+
+        analysisManager->CreateNtupleDColumn("XVertex"); // column Id = 5  // Позиция вершины (точка генерации)
+        analysisManager->CreateNtupleDColumn("YVertex"); // column Id = 6
+        analysisManager->CreateNtupleDColumn("ZVertex"); // column Id = 7
+
+        analysisManager->CreateNtupleIColumn("IndexVertex"); // column Id = 8 // Индекс частицы по PDG
+        analysisManager->CreateNtupleIColumn("MassVertex"); // column Id = 9 // Индекс частицы по PDG
+        analysisManager->CreateNtupleDColumn("EnergyVertex"); // column Id = 10 // Кинетическая энергия
+        analysisManager->CreateNtupleDColumn("MomentumVertex"); // column Id = 11 // Импульс
+        analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
+        analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
+
 
       //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1_vector", fEventAction->GetPlasticEdep()); // column Id = 4
       //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2_vector"); // column Id = 5
 
-        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1Vector", fEventAction->GetPlasticFatEdep(1)); // column Id = 4
-        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2Vector", fEventAction->GetPlasticFatEdep(2)); // column Id = 5
-        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1Vector", fEventAction->GetPlasticFatTrackLength(1)); // column Id = 6
-        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2Vector", fEventAction->GetPlasticFatTrackLength(2)); // column Id = 7
-        analysisManager->CreateNtupleDColumn("ToFplastic_fat_nsys1Vector", fEventAction->GetPlasticFatToF(1)); // column Id = 8
-        analysisManager->CreateNtupleDColumn("ToFplastic_fat_nsys2Vector", fEventAction->GetPlasticFatToF(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1", fEventAction->GetPlasticFatEdep(1)); // column Id = 4 // Энерговыделение
+        analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2", fEventAction->GetPlasticFatEdep(2)); // column Id = 5
+        analysisManager->CreateNtupleDColumn("LOplastic_fat_nsys1", fEventAction->GetPlasticFatLO(1)); // column Id = 6 // Световыход
+        analysisManager->CreateNtupleDColumn("LOplastic_fat_nsys2", fEventAction->GetPlasticFatLO(2)); // column Id = 7
+        analysisManager->CreateNtupleDColumn("A1plastic_fat_nsys1", fEventAction->GetPlasticFatA1(1)); // column Id = 8 // Амплутуды с противоположных торцов
+        analysisManager->CreateNtupleDColumn("A1plastic_fat_nsys2", fEventAction->GetPlasticFatA1(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("A2plastic_fat_nsys1", fEventAction->GetPlasticFatA2(1)); // column Id = 10 //
+        analysisManager->CreateNtupleDColumn("A2plastic_fat_nsys2", fEventAction->GetPlasticFatA2(2)); // column Id = 11
+        analysisManager->CreateNtupleDColumn("T1plastic_fat_nsys1", fEventAction->GetPlasticFatT1(1)); // column Id = 8 // Времена с противоположных торцов
+        analysisManager->CreateNtupleDColumn("T1plastic_fat_nsys2", fEventAction->GetPlasticFatT1(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("T2plastic_fat_nsys1", fEventAction->GetPlasticFatT2(1)); // column Id = 10 //
+        analysisManager->CreateNtupleDColumn("T2plastic_fat_nsys2", fEventAction->GetPlasticFatT2(2)); // column Id = 11
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys1", fEventAction->GetPlasticFatTrackLength(1)); // column Id = 8 // Длина пробега
+        analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2", fEventAction->GetPlasticFatTrackLength(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("ToFplastic_fat_nsys1", fEventAction->GetPlasticFatToF(1)); // column Id = 10 // Световыход
+        analysisManager->CreateNtupleDColumn("ToFplastic_fat_nsys2", fEventAction->GetPlasticFatToF(2)); // column Id = 11
+        analysisManager->CreateNtupleDColumn("Xplastic_fat_nsys1", fEventAction->GetPlasticFatPos(1, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Yplastic_fat_nsys1", fEventAction->GetPlasticFatPos(1, 2)); // column Id = 4 //
+        analysisManager->CreateNtupleDColumn("Zplastic_fat_nsys1", fEventAction->GetPlasticFatPos(1, 3)); // column Id = 4 //
+        analysisManager->CreateNtupleDColumn("Xplastic_fat_nsys2", fEventAction->GetPlasticFatPos(2, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Yplastic_fat_nsys2", fEventAction->GetPlasticFatPos(2, 2)); // column Id = 4 //
+        analysisManager->CreateNtupleDColumn("Zplastic_fat_nsys2", fEventAction->GetPlasticFatPos(2, 3)); // column Id = 4 //
 
-        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys1Vector", fEventAction->GetPlasticThinEdep(1)); // column Id = 10
-        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys2Vector", fEventAction->GetPlasticThinEdep(2)); // column Id = 11
-        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys1Vector", fEventAction->GetPlasticThinTrackLength(1)); // column Id = 12
-        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys2Vector", fEventAction->GetPlasticThinTrackLength(2)); // column Id = 13
-        analysisManager->CreateNtupleDColumn("ToFplastic_thin_nsys1Vector", fEventAction->GetPlasticThinToF(1)); // column Id = 14
-        analysisManager->CreateNtupleDColumn("ToFplastic_thin_nsys2Vector", fEventAction->GetPlasticThinToF(2)); // column Id = 15
+/////////////////////////////
+
+        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys1", fEventAction->GetPlasticThinEdep(1)); // column Id = 12
+        analysisManager->CreateNtupleDColumn("Eplastic_thin_nsys2", fEventAction->GetPlasticThinEdep(2)); // column Id = 13
+        analysisManager->CreateNtupleDColumn("LOplastic_thin_nsys1", fEventAction->GetPlasticThinLO(1)); // column Id = 14
+        analysisManager->CreateNtupleDColumn("LOplastic_thin_nsys2", fEventAction->GetPlasticThinLO(2)); // column Id = 15
+        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys1", fEventAction->GetPlasticThinTrackLength(1)); // column Id = 16
+        analysisManager->CreateNtupleDColumn("Lplastic_thin_nsys2", fEventAction->GetPlasticThinTrackLength(2)); // column Id = 17
+        analysisManager->CreateNtupleDColumn("A1plastic_thin_nsys1", fEventAction->GetPlasticThinA1(1)); // column Id = 8 // Амплутуды с противоположных торцов
+        analysisManager->CreateNtupleDColumn("A1plastic_thin_nsys2", fEventAction->GetPlasticThinA1(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("T1plastic_thin_nsys1", fEventAction->GetPlasticThinT1(1)); // column Id = 8 // Времена с противоположных торцов
+        analysisManager->CreateNtupleDColumn("T1plastic_thin_nsys2", fEventAction->GetPlasticThinT1(2)); // column Id = 9
+        analysisManager->CreateNtupleDColumn("ToFplastic_thin_nsys1", fEventAction->GetPlasticThinToF(1)); // column Id = 18
+        analysisManager->CreateNtupleDColumn("ToFplastic_thin_nsys2", fEventAction->GetPlasticThinToF(2)); // column Id = 19
+        analysisManager->CreateNtupleDColumn("Xplastic_thin_nsys1", fEventAction->GetPlasticThinPos(1, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Yplastic_thin_nsys1", fEventAction->GetPlasticThinPos(1, 2)); // column Id = 4 //
+        analysisManager->CreateNtupleDColumn("Zplastic_thin_nsys1", fEventAction->GetPlasticThinPos(1, 3)); // column Id = 4 //
+        analysisManager->CreateNtupleDColumn("Xplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Yplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 2)); // column Id = 4 //
+        analysisManager->CreateNtupleDColumn("Zplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 3)); // column Id = 4 //
 
         analysisManager->FinishNtuple(0);
     }

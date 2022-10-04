@@ -52,11 +52,10 @@ namespace Cosmic
   //  PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
     //PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
     PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers )
-    :G4VSensitiveDetector(name), fNofLayers(nofLayers)
+    :G4VSensitiveDetector(name), fNofLayers(nofLayers) // Это список инициализации
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
-
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -103,6 +102,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 {
 
    PlasticHit* hit;
+   PlasticHit* hitTotal;
+
   // energy deposit
   auto edep = aStep->GetTotalEnergyDeposit();
   if (edep == 0.) return true;
@@ -115,8 +116,10 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 //  aTrack->SetTrackStatus(fStopAndKill);
 
   auto tof = aTrack->GetGlobalTime(); // время
-  auto posit=aTrack->GetPosition(); // позиция
-  auto dx = aStep->GetDeltaPosition();
+  auto posit=aTrack->GetPosition(); // позиция (вектор)
+  G4ThreeVector posit_local(0,0,0);
+  auto dx = aStep->GetDeltaPosition(); // смещение (вектор)
+  auto velosity = preStepPoint->GetVelocity(); // скорость
 
 
   // step length
@@ -126,8 +129,6 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
   }
 
     // if ( edep==0. && stepLength == 0. ) return false;
-
-
 
 
     auto touchable = preStepPoint->GetTouchable();
@@ -140,8 +141,18 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
     auto copyNo_phys = physicalVol->GetCopyNo();
     auto positionDetector = physicalVol->GetTranslation();
+    auto rotation = touchable->GetRotation();
 
-   // G4cout<<"Detector position= "<< positionDetector<<G4endl;
+
+    auto box = (G4Box*) touchable->GetSolid();
+    auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
+
+
+
+    auto Vpos = touchable->GetTranslation();
+    posit_local =posit-Vpos;
+    posit_local.transform(*rotation);
+    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
 
     // Get calorimeter cell id
     auto layerNumber = touchable->GetReplicaNumber(1);
@@ -157,6 +168,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     hit = (*fHitsCollection)[hitID];
 
+    // Get hit for total accounting
+    hitTotal = (*fHitsCollection)[fHitsCollection->entries()-1];
 
     if ( ! hit ) {
         G4ExceptionDescription msg;
@@ -171,7 +184,9 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
         G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
         transform.Invert();
         hit->SetRot(transform.NetRotation());
-        hit->SetPos(transform.NetTranslation());
+        //hit->SetWorldPos(transform.NetTranslation());
+      //  hitTotal->SetRot(transform.NetRotation());
+       // hitTotal->SetWorldPos(transform.NetTranslation());
     }
     // check if it is first touch
     //if (hit->GetColumnID()<0) {
@@ -184,21 +199,25 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
       //  hit->SetPos(transform.NetTranslation());
  //   }
 
-    // Get hit for total accounting
-    auto hitTotal
-            = (*fHitsCollection)[fHitsCollection->entries()-1];
 
 
     // add energy deposition
     // Add values
     hit->AddEdep(edep);
+    hit->AddLO(edep, posit, dx, velosity, tof);
     hit->AddTrackLength(stepLength);
     hit->AddToF(tof);
+    hit->AddWorldPos(posit);
+    hit->AddLocalPos(posit_local);
+    hit->SetHalfLength(halflength);
 
     hitTotal->AddEdep(edep);
+    hitTotal->AddLO(edep, posit, dx, velosity, tof);
     hitTotal->AddTrackLength(stepLength);
     hitTotal->AddToF(tof);
-
+    hitTotal->AddWorldPos(posit);
+    hitTotal->AddLocalPos(posit_local);
+    hitTotal->SetHalfLength(halflength);
 /*
     G4int CB=0;
     G4int ni = touchable->GetHistoryDepth();

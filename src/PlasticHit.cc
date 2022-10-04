@@ -40,13 +40,14 @@
 #include "G4SystemOfUnits.hh"
 #include "G4ios.hh"
 
+#include "Constants.hh"
+
 #include <iomanip>
 
-namespace Cosmic
-{
+namespace Cosmic {
 
-G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator = nullptr;
- //   G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator;
+    G4ThreadLocal G4Allocator<PlasticHit> *PlasticHitAllocator = nullptr;
+    //   G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator;
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -112,7 +113,7 @@ G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator = nullptr;
 
 */
 
-PlasticHit::~PlasticHit() {}
+    PlasticHit::~PlasticHit() {}
 
 // //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -131,122 +132,155 @@ PlasticHit::~PlasticHit() {}
 //        fTrackLength = right.fTrackLength;
 
 
- //       halflength = right.halflength;
- //       absorbtion = right.absorbtion;
- //       threshold = right.threshold;
-  //      fLocalPos = right.fLocalPos;
-  //      pde = right.pde;
-  //      Vpos = right.Vpos;
-  //      Vrot = right.Vrot;
-  //      LO = right.LO;
-  //      blkN = right.blkN;
-  //      Nprim = right.Nprim;
- //       A1 = right.A1;
- //       A2 = right.A2;
- //       ToF = right.ToF;
-  //      Trig = right.Trig;
+    //       halflength = right.halflength;
+    //       absorbtion = right.absorbtion;
+    //       threshold = right.threshold;
+    //      fLocalPos = right.fLocalPos;
+    //      pde = right.pde;
+    //      Vpos = right.Vpos;
+    //      Vrot = right.Vrot;
+    //      LO = right.LO;
+    //      blkN = right.blkN;
+    //      Nprim = right.Nprim;
+    //       A1 = right.A1;
+    //       A2 = right.A2;
+    //       ToF = right.ToF;
+    //      Trig = right.Trig;
 
- //       return *this;
-   // }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-
-
-G4bool PlasticHit::operator==(const PlasticHit& right) const
-{
-
-  return ( this == &right ) ? true : false;
-
-}
-
-
+    //       return *this;
+    // }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    const std::map<G4String,G4AttDef>* PlasticHit::GetAttDefs() const
-    {
+
+
+    G4bool PlasticHit::operator==(const PlasticHit &right) const {
+
+        return (this == &right) ? true : false;
+
+    }
+
+
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    const std::map<G4String, G4AttDef> *PlasticHit::GetAttDefs() const {
         G4bool isNew;
-        auto store = G4AttDefStore::GetInstance("EmCalorimeterHit",isNew);
+        auto store = G4AttDefStore::GetInstance("EmCalorimeterHit", isNew);
 
         if (isNew) {
             (*store)["HitType"]
-                    = G4AttDef("HitType","Hit Type","Physics","","G4String");
+                    = G4AttDef("HitType", "Hit Type", "Physics", "", "G4String");
 
             (*store)["ID"]
-                    = G4AttDef("ID","ID","Physics","","G4int");
+                    = G4AttDef("ID", "ID", "Physics", "", "G4int");
 
             (*store)["Energy"]
                     = G4AttDef("Energy", "Energy Deposited", "Physics", "G4BestUnit",
                                "G4double");
 
             (*store)["Pos"]
-                    = G4AttDef("Pos", "Position", "Physics","G4BestUnit",
+                    = G4AttDef("Pos", "Position", "Physics", "G4BestUnit",
                                "G4ThreeVector");
 
             (*store)["LVol"]
-                    = G4AttDef("LVol","Logical Volume","Physics","","G4String");
+                    = G4AttDef("LVol", "Logical Volume", "Physics", "", "G4String");
         }
         return store;
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    std::vector<G4AttValue>* PlasticHit::CreateAttValues() const
-    {
+    std::vector<G4AttValue> *PlasticHit::CreateAttValues() const {
         auto values = new std::vector<G4AttValue>;
 
         values
-                ->push_back(G4AttValue("HitType","EmCalorimeterHit",""));
+                ->push_back(G4AttValue("HitType", "EmCalorimeterHit", ""));
         values
-                ->push_back(G4AttValue("ID",G4UIcommand::ConvertToString(fLayerID),""));
+                ->push_back(G4AttValue("ID", G4UIcommand::ConvertToString(fLayerID), ""));
         values
-                ->push_back(G4AttValue("Energy",G4BestUnit(fEdep,"Energy"),""));
+                ->push_back(G4AttValue("Energy", G4BestUnit(fEdep, "Energy"), ""));
         values
-                ->push_back(G4AttValue("Pos",G4BestUnit(fLocalPos,"Length"),""));
+                ->push_back(G4AttValue("Pos", G4BestUnit(fLocalPos, "Length"), ""));
 
         if (fPLogV)
-            values->push_back(G4AttValue("LVol",fPLogV->GetName(),""));
+            values->push_back(G4AttValue("LVol", fPLogV->GetName(), ""));
         else
-            values->push_back(G4AttValue("LVol"," ",""));
+            values->push_back(G4AttValue("LVol", " ", ""));
 
         return values;
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PlasticHit::Print()
-{
-  G4cout
-     << "Edep: "
-     << std::setw(7) << G4BestUnit(fEdep,"Energy")
-     << " track length: "
-     << std::setw(7) << G4BestUnit( fTrackLength,"Length")
-     << G4endl;
-}
+    void PlasticHit::Print() {
+        G4cout
+                << "Edep: "
+                << std::setw(7) << G4BestUnit(fEdep, "Energy")
+                << " track length: "
+                << std::setw(7) << G4BestUnit(fTrackLength, "Length")
+                << G4endl;
+    }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/*
-inline void PlasticHit::AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta){
-        G4double lo;
-        G4double dx=delta.mag();
-        G4ThreeVector posit =pos-Vpos; posit.transform(Vrot);
-        G4double xpos=posit.getX();
+    void PlasticHit::CalcRho(G4ThreeVector pos) {
+        G4ThreeVector r = pos - fVPos;
+        G4double rx = sqrt(r.x() * r.x() + r.y() * r.y());
+        G4double rz = sqrt(r.z() * r.z() + r.y() * r.y());
+        G4double ry = sqrt(r.x() * r.x() + r.z() * r.z());
+
+        if (rx < fRhoX)fRhoX = rx;
+        if (rz < fRhoZ)fRhoZ = rz;
+        if (ry < fRhoY)fRhoY = ry;
+
+    }
+
+    void PlasticHit::AddWorldPos(G4ThreeVector pos) {
+        fWorldPos = pos;
+        CalcRho(pos);
+    }
+
+    void PlasticHit::AddLocalPos(G4ThreeVector pos) {
+        fLocalPos = pos;
+        CalcRho(pos);
+    }
+
+    void PlasticHit::AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF) {
+        G4double dlo = 0.;
+        G4double dA1 = 0., dA2 = 0.;
+        G4double dT1 = 0., dT2 = 0.;
+        G4double dx = delta.mag(); // модуль вектора
+      //  G4ThreeVector posit = pos - fVPos;
+       // posit.transform(fRot);
+       // G4double xpos = posit.getX();
+        G4double xpos = fLocalPos.getX();
+
 //  G4cout << "  => " << posit << " xx = " << xx << G4endl;
 
-        if(dx>0.0){
-            G4double a = (de/MeV)/(dx/cm * DENSITY);
-            G4double f = 1.0 + 0.011*a + 0.000009*a*a;
-            lo = de/f;
+        if (dx > 0.0) {
+            G4double a = (de / MeV) / (dx / cm * DENSITY_LO);
+            G4double k1 = 0.001, k2 = 0.000009;
+            G4double f = 1.0 + k1 * a + k2 * pow(a, 2.);
+            dlo = de / f;
 //G4cout << " ___ a="<<a<<" f="<<f<<" lo="<<lo<<G4endl;
-            LO += lo;
-            A1+=lo*exp(-(halflength-xpos)/absorbtion);
-            A2+=lo*exp(-(halflength+xpos)/absorbtion);
+            fLO += dlo;
+
+            G4double halflength = fHalfLength.x();
+            G4double absorbtion = 100 * cm;
+
+            dA1 = dlo * exp(-(halflength - xpos) / absorbtion);
+            dA2 = dlo * exp(-(halflength + xpos) / absorbtion);
+            dT1 = (halflength - xpos) / velocity + ToF;
+            dT2 = (halflength + xpos) / velocity + ToF;
+            fA1 += dA1;
+            fA2 += dA2;
+            fT1 += dT1;
+            fT2 += dT2;
+
         }
 
     }
 
-    */
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 }

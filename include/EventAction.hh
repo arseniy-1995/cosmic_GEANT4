@@ -70,6 +70,31 @@ public:
         return fPlastic_fat_nsys1Edep;
     }
 
+    std::vector<G4double> &GetPlasticFatLO(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2LO;
+        return fPlastic_fat_nsys1LO;
+    }
+
+    std::vector<G4double> &GetPlasticFatA1(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2A1;
+        return fPlastic_fat_nsys1A1;
+    }
+
+    std::vector<G4double> &GetPlasticFatA2(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2A2;
+        return fPlastic_fat_nsys1A2;
+    }
+
+    std::vector<G4double> &GetPlasticFatT1(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2T1;
+        return fPlastic_fat_nsys1T1;
+    }
+
+    std::vector<G4double> &GetPlasticFatT2(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_fat_nsys2T2;
+        return fPlastic_fat_nsys1T2;
+    }
+
     std::vector<G4double> &GetPlasticFatTrackLength(G4double nsys = 1) {
         if (nsys == 2) return fPlastic_fat_nsys2TrackLength;
         return fPlastic_fat_nsys1TrackLength;
@@ -80,10 +105,46 @@ public:
         return fPlastic_fat_nsys1ToF;
     }
 
+    std::vector<G4double> &GetPlasticFatPos(G4double nsys = 1, G4int index = 1) {
+
+        if (nsys == 1) {
+            if (index==1) return fPlastic_fat_nsys1XPos;
+            if (index==2) return fPlastic_fat_nsys1YPos;
+            if (index==3) return fPlastic_fat_nsys1ZPos;
+        }
+        if (nsys == 2){
+            if (index==1) return fPlastic_fat_nsys2XPos;
+            if (index==2) return fPlastic_fat_nsys2YPos;
+            if (index==3) return fPlastic_fat_nsys2ZPos;
+        }
+        return fPlastic_fat_nsys1XPos;
+
+    }
+
+    ///////////////
+
     std::vector<G4double> &GetPlasticThinEdep(G4double nsys = 1) {
         if (nsys == 2) return fPlastic_thin_nsys2Edep;
         return fPlastic_thin_nsys1Edep;
     }
+
+    std::vector<G4double> &GetPlasticThinLO(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_thin_nsys2LO;
+        return fPlastic_thin_nsys1LO;
+    }
+
+
+    std::vector<G4double> &GetPlasticThinA1(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_thin_nsys2A1;
+        return fPlastic_thin_nsys1A1;
+    }
+
+
+    std::vector<G4double> &GetPlasticThinT1(G4double nsys = 1) {
+        if (nsys == 2) return fPlastic_thin_nsys2T1;
+        return fPlastic_thin_nsys1T1;
+    }
+
 
     std::vector<G4double> &GetPlasticThinTrackLength(G4double nsys = 1) {
         if (nsys == 2) return fPlastic_thin_nsys2TrackLength;
@@ -95,8 +156,31 @@ public:
         return fPlastic_thin_nsys1ToF;
     }
 
+    std::vector<G4double> &GetPlasticThinPos(G4double nsys = 1, G4int index = 1) {
+        if (nsys == 1) {
+            if (index==1) return fPlastic_thin_nsys1XPos;
+            if (index==2) return fPlastic_thin_nsys1YPos;
+            if (index==3) return fPlastic_thin_nsys1ZPos;
+        }
+        if (nsys == 2){
+            if (index==1) return fPlastic_thin_nsys2XPos;
+            if (index==2) return fPlastic_thin_nsys2YPos;
+            if (index==3) return fPlastic_thin_nsys2ZPos;
+        }
+
+        return fPlastic_thin_nsys2XPos;
+    }
+
 
 private:
+
+    G4double vertex_x,vertex_y,vertex_z;	// vertex position
+    G4int number_vertex;
+    G4int vertex_index;// number of vertexes (particles)
+    G4double vertex_energy, vertex_momentum, vertex_mass;
+    G4double vertex_theta, vertex_phi;
+
+
     // methods
     PlasticHitsCollection *GetHitsCollection(G4int hcID,const G4Event *event) const;
 
@@ -105,17 +189,62 @@ private:
 
     std::vector<G4double> fPlastic_fat_nsys1Edep {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_fat_nsys2Edep {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+
+    std::vector<G4double> fPlastic_fat_nsys1LO {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2LO {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+
+    std::vector<G4double> fPlastic_fat_nsys1A1 {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2A1 {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys1A2 {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2A2 {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+
+    std::vector<G4double> fPlastic_fat_nsys1T1 {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2T1 {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys1T2 {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2T2 {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+
     std::vector<G4double> fPlastic_fat_nsys1TrackLength {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_fat_nsys2TrackLength {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+
     std::vector<G4double> fPlastic_fat_nsys1ToF {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_fat_nsys2ToF {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
 
+    std::vector<G4double> fPlastic_fat_nsys1XPos {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys1YPos {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys1ZPos {std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2XPos {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2YPos {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_fat_nsys2ZPos {std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1,0.0)};
+
+//////////////
+
     std::vector<G4double> fPlastic_thin_nsys1Edep {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_thin_nsys2Edep {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
+    std::vector<G4double> fPlastic_thin_nsys1LO {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2LO {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
+    std::vector<G4double> fPlastic_thin_nsys1A1 {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2A1 {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
+
+    std::vector<G4double> fPlastic_thin_nsys1T1 {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2T1 {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
+
     std::vector<G4double> fPlastic_thin_nsys1TrackLength {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_thin_nsys2TrackLength {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
     std::vector<G4double> fPlastic_thin_nsys1ToF {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
     std::vector<G4double> fPlastic_thin_nsys2ToF {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
+    std::vector<G4double> fPlastic_thin_nsys1XPos {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys1YPos {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys1ZPos {std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2XPos {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2YPos {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+    std::vector<G4double> fPlastic_thin_nsys2ZPos {std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1,0.0)};
+
 
   // data members
 

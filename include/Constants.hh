@@ -31,6 +31,7 @@
 #define CosmicConstants_h 1
 
 #include "globals.hh"
+#include "G4SystemOfUnits.hh"
 
 namespace Cosmic {
 
@@ -41,6 +42,10 @@ namespace Cosmic {
     constexpr G4int fNofLayers_plastic_thin_nsys1 = 2; // число тонких пластиков
     constexpr G4int fNofLayers_plastic_thin_nsys2 = 2;
 
+    constexpr G4double plastic_fat_threshold = 1.0 * MeV; // порог записи в файл
+    constexpr G4double plastic_thin_threshold = 0.1 * MeV;
+
+    constexpr G4double DENSITY_LO = 1.032;	// scintill. density - for light output calculation
 
 
 }
