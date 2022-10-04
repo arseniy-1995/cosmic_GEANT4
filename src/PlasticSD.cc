@@ -218,14 +218,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);
     hitTotal->SetHalfLength(halflength);
-/*
-    G4int CB=0;
-    G4int ni = touchable->GetHistoryDepth();
-    for(G4int i=0;i<ni;i++){		// determines element label
-        G4int k=touchable->GetReplicaNumber(i);
-        if(k>0) CB += k;
-    }
-*/
+
 /*
 
   G4cout<<"!!!!!"<<layerNumber<<G4endl;

@@ -63,7 +63,7 @@ class HadronCalorimeterSD : public G4VSensitiveDetector
   //  HadronCalorimeterSD(const G4String& name, const G4String& hitsCollectionName, G4int nofCells);
  // HadronCalorimeterSD(const G4String& name, const G4String &hitsCollectionName, DetectorConstruction*);
 
-    HadronCalorimeterSD(const G4String& name, const G4String &hitsCollectionName, G4int nofLayers);
+    HadronCalorimeterSD(const G4String& name, const G4String &hitsCollectionName, G4int nsystem);
     ~HadronCalorimeterSD() override;
 
     // methods from base class
@@ -76,7 +76,7 @@ class HadronCalorimeterSD : public G4VSensitiveDetector
     HadronCalorimeterHitsCollection* fHitsCollection = nullptr;
     G4int fHCID = -1;
 
-    G4int fNofLayers = 0;
+    G4int fNSystem = 1;
 
    // DetectorConstruction* Detector;
    // G4int*                   HitID;

@@ -42,6 +42,8 @@
 #include "G4SDManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4UnitsTable.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4ios.hh"
 
 #include "Randomize.hh"
 #include <iomanip>
@@ -112,9 +114,6 @@ namespace Cosmic {
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-//void EventAction::PrintEventStatistics(G4double absoEdep, G4double absoTrackLength, G4double gapEdep, G4double gapTrackLength) const
-
 
 
     void EventAction::PrintEventStatistics(G4double plasticEdep, G4double plasticTrackLength) const {
@@ -203,10 +202,20 @@ namespace Cosmic {
             fplastic_thin_nsys2HCID = SDmanp->GetCollectionID("plastic_thin_nsys2HitsCollection");
         }
 
+        if (fHadronCalorimeter_nsys1HCID == -1) {
+            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
+            fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
+        }
+
+        if (fHadronCalorimeter_nsys2HCID == -1) {
+            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
+            fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
+        }
+
 
         auto event_info = event->GetUserInformation();
 
-       // if (event_info == NULL) return;
+        // if (event_info == NULL) return;
         //  Eg=info->GetEgamma();
         //  nr=info->GetNreac();
         // nev=info->GetEntry();
@@ -244,11 +253,20 @@ namespace Cosmic {
         auto plastic_fat_nsys2HC = GetHitsCollection(fplastic_fat_nsys2HCID, event);
         auto plastic_thin_nsys1HC = GetHitsCollection(fplastic_thin_nsys1HCID, event);
         auto plastic_thin_nsys2HC = GetHitsCollection(fplastic_thin_nsys2HCID, event);
+        auto HadronCalorimeter_nsys1HC = GetHC(event, fHadronCalorimeter_nsys1HCID);
+        auto HadronCalorimeter_nsys2HC = GetHC(event, fHadronCalorimeter_nsys2HCID);
+
         if (!plastic_fat_nsys1HC) return;
         if (!plastic_fat_nsys2HC) return;
         if (!plastic_thin_nsys1HC) return;
         if (!plastic_thin_nsys2HC) return;
+
+        if (!HadronCalorimeter_nsys1HC) return;
+        if (!HadronCalorimeter_nsys2HC) return;
+
         // Get hit with total values
+
+
 
         // нулевой индекс массива это полный Хит, далее это конкретные пластики
         PlasticHit *plastic_fat_nsys1Hit[fNofLayers_plastic_fat_nsys1 + 1];
@@ -256,11 +274,26 @@ namespace Cosmic {
         PlasticHit *plastic_thin_nsys1Hit[fNofLayers_plastic_thin_nsys1 + 1];
         PlasticHit *plastic_thin_nsys2Hit[fNofLayers_plastic_thin_nsys2 + 1];
 
+
+        HadronCalorimeterHit *HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1];
+        HadronCalorimeterHit *HadronCalorimeter_nsys2Hit[fNofLayers_HadrtonCalorimeter_nsys2 + 1];
+
         plastic_fat_nsys1Hit[0] = (*plastic_fat_nsys1HC)[plastic_fat_nsys1HC->entries() - 1];
         plastic_fat_nsys2Hit[0] = (*plastic_fat_nsys2HC)[plastic_fat_nsys2HC->entries() - 1];
         plastic_thin_nsys1Hit[0] = (*plastic_thin_nsys1HC)[plastic_thin_nsys1HC->entries() - 1];
         plastic_thin_nsys2Hit[0] = (*plastic_thin_nsys2HC)[plastic_thin_nsys2HC->entries() - 1];
 
+        //  HadronCalorimeter_nsys1HC->GetHit(0)->
+
+        //   HadronCalorimeter_nsys1Hit[0] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC->GetHit(0));
+        //   HadronCalorimeter_nsys2Hit[0] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys2HC->GetHit(0));
+
+
+        //    G4cerr <<"!!!!" << HadronCalorimeter_nsys1HC->GetSize()<<G4endl;
+        //    G4cerr <<"!!!!" << HadronCalorimeter_nsys2HC->GetSize()<<G4endl;
+
+
+        //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
 
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
@@ -328,6 +361,119 @@ namespace Cosmic {
                 fPlastic_thin_nsys2ZPos[i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
             }
         }
+
+
+        G4int index = 0;
+        G4int k = 0;
+
+        for (G4int i = 0; i < (G4int) HadronCalorimeter_nsys1HC->GetSize(); i++) {
+            auto HadronCalorimeter_nsys1Hit_ = static_cast<HadronCalorimeterHit *>(HadronCalorimeter_nsys1HC->GetHit(
+                    i));
+            if (HadronCalorimeter_nsys1Hit_->GetEdep() > HadronCalorimeter_threshold) {
+
+                // index = i -  AC_IND - DE_IND - HCX_IND;
+                index = i;
+
+                if (index >= 0 && index < N_HCX) {
+                    k = index % NX_BARS;
+                    k = (k % N_UNITS) * 2 + (k / N_UNITS);    // re-numbering bars in a layer
+
+                    fHCX_nsys1AL[index] = k;
+                    fHCX_nsys1N[index]++;
+                    fHCX_nsys1Edep[index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
+                    fHCX_nsys1LO[index] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                    fHCX_nsys1A1[index] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
+                    fHCX_nsys1T1[index] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
+                    fHCX_nsys1TrackLength[index] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
+                    fHCX_nsys1ToF[index] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
+
+                    fHCX_nsys1XPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
+                    fHCX_nsys1YPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
+                    fHCX_nsys1ZPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
+
+                    continue;
+                }
+
+                index = index - HCZ_IND;
+                if (index >= 0 && index < N_HCZ) {
+                    k = index % NZ_BARS;
+                    k = (k % N_UNITS) * 2 + (k / N_UNITS);    // re-numbering bars in a layer
+
+                    fHCZ_nsys1AL[index] = k;
+                    fHCZ_nsys1N[index]++;
+                    fHCZ_nsys1Edep[index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
+                    fHCZ_nsys1LO[index] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                    fHCZ_nsys1A1[index] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
+                    fHCZ_nsys1T1[index] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
+                    fHCZ_nsys1TrackLength[index] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
+                    fHCZ_nsys1ToF[index] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
+
+                    fHCZ_nsys1XPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
+                    fHCZ_nsys1YPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
+                    fHCZ_nsys1ZPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
+
+                    continue;
+
+                }
+            }
+        }
+
+
+        index = 0;
+        k = 0;
+
+        for (G4int i = 0; i < (G4int) HadronCalorimeter_nsys2HC->GetSize(); i++) {
+            auto HadronCalorimeter_nsys2Hit_ = static_cast<HadronCalorimeterHit *>(HadronCalorimeter_nsys2HC->GetHit(
+                    i));
+            if (HadronCalorimeter_nsys2Hit_->GetEdep() > HadronCalorimeter_threshold) {
+
+                //  index = i -  AC_IND - DE_IND - HCX_IND;
+                index = i;
+
+                if (index >= 0 && index < N_HCX) {
+                    k = index % NX_BARS;
+                    k = (k % N_UNITS) * 2 + (k / N_UNITS);    // re-numbering bars in a layer
+
+                    fHCX_nsys2AL[index] = k;
+                    fHCX_nsys2N[index]++;
+                    fHCX_nsys2Edep[index] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
+                    fHCX_nsys2LO[index] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                    fHCX_nsys2A1[index] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
+                    fHCX_nsys2T1[index] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
+                    fHCX_nsys2TrackLength[index] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
+                    fHCX_nsys2ToF[index] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
+
+                    fHCX_nsys2XPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
+                    fHCX_nsys2YPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
+                    fHCX_nsys2ZPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+
+                    continue;
+                }
+
+                index = index - HCZ_IND;
+                if (index >= 0 && index < N_HCZ) {
+                    k = index % NZ_BARS;
+                    k = (k % N_UNITS) * 2 + (k / N_UNITS);    // re-numbering bars in a layer
+
+                    fHCZ_nsys2AL[index] = k;
+                    fHCZ_nsys2N[index]++;
+                    fHCZ_nsys2Edep[i] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
+                    fHCZ_nsys2LO[index] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                    fHCZ_nsys2A1[index] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
+                    fHCZ_nsys2T1[index] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
+                    fHCZ_nsys2TrackLength[index] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
+                    fHCZ_nsys2ToF[index] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
+
+                    fHCZ_nsys2XPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
+                    fHCZ_nsys2YPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
+                    fHCZ_nsys2ZPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+
+                    continue;
+
+                }
+            }
+        }
+
 
 
         //     totalPlasticEdep = 0.;
@@ -412,17 +558,15 @@ namespace Cosmic {
         analysisManager->FillNtupleDColumn(4, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
 
 
-
         analysisManager->FillNtupleDColumn(5, vertex_x / cm);
         analysisManager->FillNtupleDColumn(6, vertex_y / cm);
         analysisManager->FillNtupleDColumn(7, vertex_z / cm);
         analysisManager->FillNtupleIColumn(8, vertex_index);
-        analysisManager->FillNtupleIColumn(9, vertex_mass/ MeV);
-        analysisManager->FillNtupleDColumn(10, vertex_energy  / MeV);
+        analysisManager->FillNtupleIColumn(9, vertex_mass / MeV);
+        analysisManager->FillNtupleDColumn(10, vertex_energy / MeV);
         analysisManager->FillNtupleDColumn(11, vertex_momentum / MeV);
         analysisManager->FillNtupleDColumn(12, vertex_theta / degree);
-        analysisManager->FillNtupleDColumn(13, vertex_phi  / degree);
-
+        analysisManager->FillNtupleDColumn(13, vertex_phi / degree);
 
 
         analysisManager->AddNtupleRow(0);

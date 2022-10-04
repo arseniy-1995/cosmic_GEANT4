@@ -42,7 +42,6 @@
 #include "G4Box.hh"
 
 
-//#define NHITS 20
 
 namespace Cosmic
 {
@@ -51,8 +50,8 @@ namespace Cosmic
 
   //  HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
     //HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers )
-    :G4VSensitiveDetector(name), fNofLayers(nofLayers)
+    HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, G4int nsystem )
+    :G4VSensitiveDetector(name), fNSystem(nsystem)
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
@@ -92,9 +91,28 @@ void HadronCalorimeterSD::Initialize(G4HCofThisEvent* hce)
 
   // Create hits
   // fNofCells for cells + one more for total sums
-  for (G4int i=0; i<fNofLayers+1; i++ ) {
-    fHitsCollection->insert(new HadronCalorimeterHit(i));
+
+  G4int fNofCells = (N_HCX+N_HCZ) + 100;
+
+  for (G4int i=0; i<fNofCells+1; i++ ) {
+    fHitsCollection->insert(new HadronCalorimeterHit(0,0,0));
   }
+
+
+ /*
+    // fill calorimeter hits with zero energy deposition
+    for (auto yID = 0; yID < N_LAYERS + 1; yID++) {
+        for (auto xID = 0; xID < NX_BARS + 1; xID++) {
+            fHitsCollection->insert(new HadronCalorimeterHit(xID, yID, 0));
+        }
+        for (auto zID = 0; zID < NZ_BARS + 1; zID++) {
+            fHitsCollection->insert(new HadronCalorimeterHit(0, yID, zID));
+        }
+
+    }
+
+  */
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -114,10 +132,11 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
 //  aTrack->SetTrackStatus(fStopAndKill);
 
-  auto tof = aTrack->GetGlobalTime(); // время
-  auto posit=aTrack->GetPosition(); // позиция
-  auto dx = aStep->GetDeltaPosition();
-
+    auto tof = aTrack->GetGlobalTime(); // время
+    auto posit = aTrack->GetPosition(); // позиция
+    G4ThreeVector posit_local(0, 0, 0);
+    auto dx = aStep->GetDeltaPosition();
+    auto velosity = preStepPoint->GetVelocity(); // скорость
 
   // step length
   G4double stepLength = 0.;
@@ -140,7 +159,18 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
     auto copyNo_phys = physicalVol->GetCopyNo();
     auto positionDetector = physicalVol->GetTranslation();
+    auto rotation = touchable->GetRotation();
 
+
+    auto box = (G4Box*) touchable->GetSolid();
+    auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
+
+
+
+    auto Vpos = touchable->GetTranslation();
+    posit_local =posit-Vpos;
+    posit_local.transform(*rotation);
+    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
 
     // Get calorimeter cell id
@@ -152,8 +182,27 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
    // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 
-  //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
 
+    G4int CB=0;
+    G4int ni = touchable->GetHistoryDepth();
+    for(G4int i=0;i<ni;i++){		// determines element label
+        G4int k=touchable->GetReplicaNumber(i);
+        if(k>0) CB += k;
+    }
+
+
+   // auto rowNo = touchable->GetCopyNumber(2);
+  //  auto columnNo = touchable->GetCopyNumber(3);
+  //  auto hitID = kNofHadRows*columnNo+rowNo;
+
+  //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
+    //G4cerr << " CB= " << CB<<G4endl;
+
+    //G4cerr  <<" layerNumber0= " << touchable->GetReplicaNumber(0) <<" layerNumber1= " << touchable->GetReplicaNumber(1)<<" layerNumber2= " << touchable->GetReplicaNumber(2)<<" layerNumber3= " << touchable->GetReplicaNumber(3)<<" layerNumber4= " << touchable->GetReplicaNumber(4)<<G4endl;
+   // G4cerr << " CB= " << CB - ARM2_IND<<G4endl;
+
+
+    hitID = CB;
 
     hit = (*fHitsCollection)[hitID];
 
@@ -171,8 +220,9 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
         G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
         transform.Invert();
         hit->SetRot(transform.NetRotation());
-        hit->SetPos(transform.NetTranslation());
+        hit->SetLocalPos(transform.NetTranslation());
     }
+
     // check if it is first touch
     //if (hit->GetColumnID()<0) {
      //   hit->SetColumnID(columnNo);
@@ -185,75 +235,32 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
  //   }
 
     // Get hit for total accounting
+
     auto hitTotal
             = (*fHitsCollection)[fHitsCollection->entries()-1];
 
 
     // add energy deposition
     // Add values
+
+
     hit->AddEdep(edep);
+    hit->AddLO(edep, posit, dx, velosity, tof);
     hit->AddTrackLength(stepLength);
     hit->AddToF(tof);
+    hit->AddWorldPos(posit);
+    hit->AddLocalPos(posit_local);
+    hit->SetHalfLength(halflength);
 
     hitTotal->AddEdep(edep);
+    hitTotal->AddLO(edep, posit, dx, velosity, tof);
     hitTotal->AddTrackLength(stepLength);
     hitTotal->AddToF(tof);
-
-/*
-    G4int CB=0;
-    G4int ni = touchable->GetHistoryDepth();
-    for(G4int i=0;i<ni;i++){		// determines element label
-        G4int k=touchable->GetReplicaNumber(i);
-        if(k>0) CB += k;
-    }
-*/
-/*
-
-  G4cout<<"!!!!!"<<layerNumber<<G4endl;
- //   G4cout<<"eeee"<<layerNumber<<G4endl;
-   // touchable->GetCopyNumber()
-  // Get hit accounting data for this cell
-  auto hit = (*fHitsCollection)[layerNumber];
+    hitTotal->AddWorldPos(posit);
+    hitTotal->AddLocalPos(posit_local);
+    hitTotal->SetHalfLength(halflength);
 
 
-  // Get hit for total accounting
-
-
-
- */
-
-/*
-
-    if (HitID[CB]==-1){
-        G4Box *box = (G4Box*) touchable->GetSolid();
-        G4double halflength = box->GetXHalfLength();
-        G4double attenuation_length = 0.0, discr_threshold =0.0;
-        //G4double attenuation_length = Detector->GetAttenuL(CB);
-        //G4double discr_threshold = Detector->GetDiscrThr(CB);
-        G4ThreeVector tv = touchable->GetTranslation();
-        const G4RotationMatrix *rr = touchable->GetRotation();
-        hit= new HadronCalorimeterHit(halflength,attenuation_length,discr_threshold,tv,rr);
-        hit->SetBlkN(CB);
-        hcHit->Add(edep, stepLength);
-      //  hit->AddLO(edep, posit, dx);
-      // hit->AddPos(edep,posit,prtn,tof);
-        HitID[CB] = fHitsCollection->insert(hit) - 1;
-
-//if((CB%ARM2_IND)== (HCZ_IND+5)) G4cout<<"=== CB="<<CB<<"  "<<CB/ARM2_IND<<"  edep="<<edep/keV<<G4endl;
-
-    }else{
-        hcHit = (*fHitsCollection)[HitID[CB]];
-        G4ThreeVector tv = touchable->GetTranslation();
-//	if(tv.y()==hcHit->GetVPos().y()){	// exclude similar cells in different layers of superlayer
-        hcHit->Add(edep,stepLength);
-      //  hcHit->AddLO(edep, posit, dx);
-       // hcHit->AddPos(edep,posit,prtn,tof);
-//	}
-    }
-
-    */
-
-  //  fHitsCollection->insert(hit);
     ROhist=NULL;
     return true;
 }

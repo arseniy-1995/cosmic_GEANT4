@@ -236,17 +236,23 @@ namespace Cosmic {
 
     }
 
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
     void PlasticHit::AddWorldPos(G4ThreeVector pos) {
         fWorldPos = pos;
         CalcRho(pos);
     }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void PlasticHit::AddLocalPos(G4ThreeVector pos) {
         fLocalPos = pos;
         CalcRho(pos);
     }
 
-    void PlasticHit::AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF) {
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void PlasticHit::AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF) {
         G4double dlo = 0.;
         G4double dA1 = 0., dA2 = 0.;
         G4double dT1 = 0., dT2 = 0.;
@@ -267,7 +273,7 @@ namespace Cosmic {
             fLO += dlo;
 
             G4double halflength = fHalfLength.x();
-            G4double absorbtion = 100 * cm;
+            G4double absorbtion = 150 * cm;
 
             dA1 = dlo * exp(-(halflength - xpos) / absorbtion);
             dA2 = dlo * exp(-(halflength + xpos) / absorbtion);
