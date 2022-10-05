@@ -105,7 +105,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     void ConstructTarget();
     void ConstructMagnet();
-    void ConstructLOWQ();
+    G4LogicalVolume * ConstructLOWQ(G4int nsys);
 
     //      G4RotationMatrix Rotate30X;
     G4RotationMatrix Rotate180X;
@@ -143,6 +143,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4VisAttributes *Plastic_VisAtt;
         G4VisAttributes *Convertor_VisAtt;
         G4VisAttributes *CONCRETE_VisAtt;
+        G4VisAttributes *WOOD_VisAtt;
         G4VisAttributes *ProCover_VisAtt;
         G4VisAttributes *TitanFoil_VisAtt;
 
@@ -156,7 +157,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4bool fCheckOverlaps = true; // option to activate checking of volumes overlaps
 
-        // for SD
+        // Логические Объемы for SD
 
         G4LogicalVolume* plastic_fat_nsys1LV = nullptr;
         G4LogicalVolume* plastic_fat_nsys2LV = nullptr;
@@ -167,13 +168,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume* scint_HadCal_nsys1LV = nullptr;
         G4LogicalVolume* scint_HadCal_nsys2LV = nullptr;
 
-        G4LogicalVolume* LQ_log = nullptr;
+        G4LogicalVolume* scint_LQ_nsys1LV = nullptr;
+        G4LogicalVolume* scint_LQ_nsys2LV = nullptr;
 
         G4LogicalVolume *WCTheta1_gas = nullptr ;
         G4LogicalVolume *WCPhi1_gas = nullptr;
         G4LogicalVolume *WCTheta2_gas = nullptr;
         G4LogicalVolume *VCGas_log = nullptr;
-
 
 
 

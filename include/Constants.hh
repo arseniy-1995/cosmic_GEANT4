@@ -53,8 +53,8 @@ namespace Cosmic {
 #define TARGET
 #define MAGNET
 
-#define LOWQ // электронные плечи ЛО-КУ поляриметра
-//#define LOWQ2
+#define LOWQ1 // электронные плечи ЛО-КУ поляриметра
+#define LOWQ2
 
 
 #define NX_BARS 22
@@ -99,11 +99,15 @@ namespace Cosmic {
     constexpr G4int fNofLayers_plastic_thin_nsys1 = 2; // число тонких пластиков
     constexpr G4int fNofLayers_plastic_thin_nsys2 = 2;
 
+    constexpr G4int fNofLayers_plastic_LQ_nsys1 = 2; // число пластиков LQ электронного плеча
+    constexpr G4int fNofLayers_plastic_LQ_nsys2 = 2;
+
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 = N_HCX + N_HCZ +100; // число чувствительных элементов в калориметре
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys2 = N_HCX + N_HCZ + 100;
 
     constexpr G4double plastic_fat_threshold = 1.0 * MeV; // порог записи в файл
     constexpr G4double plastic_thin_threshold = 0.1 * MeV;
+    constexpr G4double plastic_LQ_threshold = 0.1 * MeV;
     constexpr G4double HadronCalorimeter_threshold = 0.5 * MeV;
 
     constexpr G4double DENSITY_LO = 1.032;	// scintill. density - for light output calculation

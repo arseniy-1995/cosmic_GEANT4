@@ -157,6 +157,9 @@ namespace Cosmic {
 
         G4Material *CONCRETE = nistManager->FindOrBuildMaterial("G4_CONCRETE"); //бетон, поиск в стандартной таблице
 
+
+        G4Material *Wood = nistManager->FindOrBuildMaterial("G4_CELLULOSE_CELLOPHANE");
+
         G4Material *Alumin = new G4Material("Aluminum", 13, 26.98 * g / mole, 2.7 * g / cm3);
         G4Material *Titan = new G4Material("Titanium", 22, 47.87 * g / mole, 4.54 * g / cm3);
 
@@ -247,6 +250,7 @@ namespace Cosmic {
         G4Colour alfoil_col(0.9, 0.9, 0.9);
         G4Colour blackpaper_col(0.2, 0.2, 0.2);
         G4Colour CONCRETE_col(0., 0.1, 0.8);
+        G4Colour WOOD_col(0., 0.9, 0.1);
 
         Gas_VisAtt = new G4VisAttributes(gas_col);
         Foil_VisAtt = new G4VisAttributes(alfoil_col);
@@ -259,6 +263,7 @@ namespace Cosmic {
         Plastic_VisAtt = new G4VisAttributes(plastic_col);
         Convertor_VisAtt = new G4VisAttributes(convertor_col);
         CONCRETE_VisAtt = new G4VisAttributes(CONCRETE_col);
+        WOOD_VisAtt = new G4VisAttributes(WOOD_col);
         ProCover_VisAtt = new G4VisAttributes(blackpaper_col); // обертка майлар
         TitanFoil_VisAtt = new G4VisAttributes(titanfoil_col);
 
@@ -489,10 +494,36 @@ namespace Cosmic {
 
 
         // Электронные счетчики LO-поляриметра
-#ifdef LOWQ
+#ifdef LOWQ1 || LOWQ2
 
-        ConstructLOWQ();
-#endif // LOWQ
+        auto LQBox_log_nsys1 = ConstructLOWQ(1);
+        auto LQBox_log_nsys2 = ConstructLOWQ(2);
+
+        // PLACE LQ
+
+        G4double x_pos_LQ = 0.0;
+        G4double y_pos_LQ = 32.2 * cm;
+        G4double z_pos_LQ = 63.6 * cm;
+
+        auto rmx = new G4RotationMatrix();
+        rmx->rotateZ(180. * deg);
+        rmx->rotateX(-70. * deg);
+
+#ifdef LOWQ1
+        auto vol_phys_LQnsys1 = new G4PVPlacement(rmx,
+                                     G4ThreeVector(x_pos_LQ, -y_pos_LQ, z_pos_LQ),
+                                     LQBox_log_nsys1, "LQ_phys", worldLV, false, 0, fCheckOverlaps);
+#endif
+#ifdef LOWQ2
+        rmx = new G4RotationMatrix();
+        rmx->rotateX(-70. * deg);
+        auto vol_phys_LQnsys2 = new G4PVPlacement(rmx,
+                                     G4ThreeVector(x_pos_LQ, y_pos_LQ, z_pos_LQ),
+                                     LQBox_log_nsys2, "LQ_phys", worldLV, false, 0, fCheckOverlaps);
+#endif
+
+#endif // LOWQ1
+
 
 #ifdef TARGET
         ConstructTarget();
@@ -1814,25 +1845,43 @@ namespace Cosmic {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    void DetectorConstruction::ConstructLOWQ() {
+    G4LogicalVolume * DetectorConstruction::ConstructLOWQ(G4int nsys =1) {
 
-#ifdef LOWQ
+#ifdef LOWQ1 || LOWQ2
         ////////////////////////////////////////////////////////////////////////////////
 
         auto ScintilMaterial = G4Material::GetMaterial("Scintillator");
         auto AirMaterial = G4Material::GetMaterial("Air");
         auto MylarMaterial = G4Material::GetMaterial("Mylar");
+        auto WoodMaterial = G4Material::GetMaterial("G4_CELLULOSE_CELLOPHANE");
 
+// Размер Пластика
         G4double pl_thick = 1.0 * cm;//2.0*cm;	// y-axis
         G4double pl_width = 50.0 * cm;    // x-axis
         G4double pl_length = 20.0 * cm;    // z-axis
+
+        G4double LQ_box_thick = 2 * (pl_thick + 1.2 * cm) / 2.;	// y-axis
+        G4double LQ_box_width = (pl_width + 1.2 * cm) / 2.;    // x-axis
+        G4double LQ_box_length = (pl_length + 1.2 * cm) / 2.;    // z-axis
+
+        // Размер Дерева
+        G4double wood_thick = 4.5 * cm;	// y-axis
+        G4double wood_width = 50.0 * cm;    // x-axis
+        G4double wood_length = 20.0 * cm;    // z-axis
+
+
+        if (nsys==2){
+            LQ_box_thick = 2 * (pl_thick + 1.2 * cm) / 2. + wood_thick;	// y-axis
+            LQ_box_width = (pl_width + 1.2 * cm) / 2.;    // x-axis
+            LQ_box_length = (pl_length + 1.2 * cm) / 2.;    // z-axis
+        }
+
 
         G4Box *ubox;
         G4VPhysicalVolume *vol_phys;
 
         // Это объем двух сцинтилляторов с пленокой
-        ubox = new G4Box("LQ_box", (pl_width + 1.2 * cm) / 2., 2 * (pl_thick + 1.2 * cm) / 2.,
-                         (pl_length + 1.2 * cm) / 2.);
+        ubox = new G4Box("LQ_box", LQ_box_width, LQ_box_thick,(pl_length + 1.2 * cm) / 2.);
         auto LQBox_log = new G4LogicalVolume(ubox, AirMaterial, "LQBox_log", 0, 0, 0);
         LQBox_log->SetVisAttributes(G4VisAttributes::GetInvisible());
 
@@ -1840,18 +1889,40 @@ namespace Cosmic {
         ubox = new G4Box("LQ_box_cover", pl_width / 2. + 0.5 * mm, pl_thick / 2. + 0.5 * mm, pl_length / 2. + 0.5 * mm);
         auto LQBoxCover_log = new G4LogicalVolume(ubox, AirMaterial, "LQBoxCover_log", 0, 0, 0);
         // LQBoxCover_log->SetVisAttributes(Plastic_VisAtt);
-        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, -0.6 * cm, 0.0),
-                                     LQBoxCover_log, "LQ1", LQBox_log, false, LQ_IND, fCheckOverlaps);
-        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.6 * cm, 0.0),
-                                     LQBoxCover_log, "LQ2", LQBox_log, false, LQ_IND + 1, fCheckOverlaps);
+
+        auto placement1 = G4ThreeVector(0.0, -0.6 * cm, 0.0);
+        auto placement2 = G4ThreeVector(0.0, 0.6 * cm, 0.0);
+
+        if (nsys==2){
+
+            placement1 = G4ThreeVector(0.0, -0.6 * cm, 0.0);
+            placement2 = G4ThreeVector(0.0, 0.6 * cm + wood_thick + 1.0*cm, 0.0);
+        }
+
+        vol_phys = new G4PVPlacement(0, placement1,
+                                     LQBoxCover_log, "LQ1", LQBox_log, false, 0, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, placement2,
+                                     LQBoxCover_log, "LQ2", LQBox_log, false, 1, fCheckOverlaps);
 
         // Это объем одного сцинтияллтора
         ubox = new G4Box("LQ", pl_width / 2., pl_thick / 2., pl_length / 2.);
-        LQ_log = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
+        auto LQ_log = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
         LQ_log->SetVisAttributes(Plastic_VisAtt);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                     LQ_log, "LQ1", LQBoxCover_log, false, -1, fCheckOverlaps);
+                                     LQ_log, "LQ1", LQBoxCover_log, false, 0, fCheckOverlaps);
 
+
+        // Это объем дерева между сцинтилляторами
+        auto wood_box = new G4Box("WOOD_LQ", wood_width / 2., wood_thick / 2., wood_length / 2.);
+        auto woodLV = new G4LogicalVolume(wood_box, ScintilMaterial, "WOOD_LQ_log", 0, 0, 0);
+        woodLV->SetVisAttributes(WOOD_VisAtt);
+
+        // дерево только для верхней системы
+        if (nsys == 2) {
+            auto woodPV = new G4PVPlacement(0,
+                                            G4ThreeVector(0.0, placement1.y() + pl_thick / 2. + wood_thick / 2. + 0.5 * cm, 0.0),
+                                            woodLV, "WOOD_LQ_phys", LQBox_log, false, 0, fCheckOverlaps);
+        }
 
         // Это объем пленки
 //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
@@ -1865,28 +1936,14 @@ namespace Cosmic {
                           LQCover_log, "LQCover_phys", LQBoxCover_log, false, -1, fCheckOverlaps);
 
 
-// PLACE LQ
+        if (nsys ==1) scint_LQ_nsys1LV = LQ_log;
+        if (nsys ==2) scint_LQ_nsys2LV = LQ_log;
 
-        G4double x_pos = 0.0;
-        G4double y_pos = 32.2 * cm;
-        G4double z_pos = 63.6 * cm;
 
-        auto rmx = new G4RotationMatrix();
-        rmx->rotateZ(180. * deg);
-        rmx->rotateX(-70. * deg);
-        vol_phys = new G4PVPlacement(rmx,
-                                     G4ThreeVector(x_pos, -y_pos, z_pos),
-                                     LQBox_log, "LQ_phys", worldLV, false, ARM1_IND, fCheckOverlaps);
-
-        rmx = new G4RotationMatrix();
-        rmx->rotateX(-70. * deg);
-        vol_phys = new G4PVPlacement(rmx,
-                                     G4ThreeVector(x_pos, y_pos, z_pos),
-                                     LQBox_log, "LQ_phys", worldLV, false, ARM2_IND, fCheckOverlaps);
+       return LQBox_log;
 
 
 #endif // LOWQ
-
 
     }
 
@@ -1944,6 +2001,24 @@ namespace Cosmic {
 #endif
 
 
+#ifdef LOWQ1
+
+        auto aplastic_LQ_nsys1SD = new PlasticSD(SDname = "/plastic_LQ_nsys1SD", "plastic_LQ_nsys1HitsCollection",
+                                                   fNofLayers_plastic_LQ_nsys1);
+        sdManager->AddNewDetector(aplastic_LQ_nsys1SD);
+       scint_LQ_nsys1LV->SetSensitiveDetector(aplastic_LQ_nsys1SD);
+
+#endif // LOWQ1
+
+
+#ifdef LOWQ2
+
+        auto aplastic_LQ_nsys2SD = new PlasticSD(SDname = "/plastic_LQ_nsys2SD", "plastic_LQ_nsys2HitsCollection",
+                                                 fNofLayers_plastic_LQ_nsys2);
+        sdManager->AddNewDetector(aplastic_LQ_nsys2SD);
+        scint_LQ_nsys2LV->SetSensitiveDetector(aplastic_LQ_nsys2SD);
+
+#endif // LOWQ1
 
 
 #ifdef HADCAL1
@@ -1959,18 +2034,6 @@ namespace Cosmic {
          scint_HadCal_nsys2LV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
 #endif
 
-
-
-/*
-#ifdef HADCAL1 || HADCAL2
-
-        auto ahadron_calorimeter_SD = new HadronCalorimeterSD(SDname="/hadron_calorimeterSD", "hadron_calorimeter_SD", 1);
-        sdManager->AddNewDetector(ahadron_calorimeter_SD);
-        scint_HadCalLV->SetSensitiveDetector(ahadron_calorimeter_SD);
-
-#endif
-
-*/
 
         //END sensitive detector for proton plastic
 

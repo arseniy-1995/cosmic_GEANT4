@@ -185,32 +185,17 @@ namespace Cosmic {
         //G4cerr << "........" << G4endl;
 
         // Get hits collections IDs (only once)
-        if (fplastic_fat_nsys1HCID == -1) {
-            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
-        }
-        if (fplastic_fat_nsys2HCID == -1) {
-            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
-        }
-        if (fplastic_thin_nsys1HCID == -1) {
-            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
-        }
-        if (fplastic_thin_nsys2HCID == -1) {
-            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fplastic_thin_nsys2HCID = SDmanp->GetCollectionID("plastic_thin_nsys2HitsCollection");
-        }
+        G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
 
-        if (fHadronCalorimeter_nsys1HCID == -1) {
-            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
-        }
+        if (fplastic_fat_nsys1HCID == -1) fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
+        if (fplastic_fat_nsys2HCID == -1) fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
+        if (fplastic_thin_nsys1HCID == -1) fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
+        if (fplastic_thin_nsys2HCID == -1) fplastic_thin_nsys2HCID = SDmanp->GetCollectionID("plastic_thin_nsys2HitsCollection");
+        if (fplastic_LQ_nsys1HCID == -1) fplastic_LQ_nsys1HCID = SDmanp->GetCollectionID("plastic_LQ_nsys1HitsCollection");
+        if (fplastic_LQ_nsys2HCID == -1) fplastic_LQ_nsys2HCID = SDmanp->GetCollectionID("plastic_LQ_nsys2HitsCollection");
 
-        if (fHadronCalorimeter_nsys2HCID == -1) {
-            G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
-            fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
-        }
+        if (fHadronCalorimeter_nsys1HCID == -1) fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
+        if (fHadronCalorimeter_nsys2HCID == -1) fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
 
 
         auto event_info = event->GetUserInformation();
@@ -253,6 +238,9 @@ namespace Cosmic {
         auto plastic_fat_nsys2HC = GetHitsCollection(fplastic_fat_nsys2HCID, event);
         auto plastic_thin_nsys1HC = GetHitsCollection(fplastic_thin_nsys1HCID, event);
         auto plastic_thin_nsys2HC = GetHitsCollection(fplastic_thin_nsys2HCID, event);
+        auto plastic_LQ_nsys1HC = GetHitsCollection(fplastic_LQ_nsys1HCID, event);
+        auto plastic_LQ_nsys2HC = GetHitsCollection(fplastic_LQ_nsys2HCID, event);
+
         auto HadronCalorimeter_nsys1HC = GetHC(event, fHadronCalorimeter_nsys1HCID);
         auto HadronCalorimeter_nsys2HC = GetHC(event, fHadronCalorimeter_nsys2HCID);
 
@@ -260,6 +248,8 @@ namespace Cosmic {
         if (!plastic_fat_nsys2HC) return;
         if (!plastic_thin_nsys1HC) return;
         if (!plastic_thin_nsys2HC) return;
+        if (!plastic_LQ_nsys1HC) return;
+        if (!plastic_LQ_nsys2HC) return;
 
         if (!HadronCalorimeter_nsys1HC) return;
         if (!HadronCalorimeter_nsys2HC) return;
@@ -273,6 +263,8 @@ namespace Cosmic {
         PlasticHit *plastic_fat_nsys2Hit[fNofLayers_plastic_fat_nsys2 + 1];
         PlasticHit *plastic_thin_nsys1Hit[fNofLayers_plastic_thin_nsys1 + 1];
         PlasticHit *plastic_thin_nsys2Hit[fNofLayers_plastic_thin_nsys2 + 1];
+        PlasticHit *plastic_LQ_nsys1Hit[fNofLayers_plastic_LQ_nsys1 + 1];
+        PlasticHit *plastic_LQ_nsys2Hit[fNofLayers_plastic_LQ_nsys2 + 1];
 
 
         HadronCalorimeterHit *HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1];
@@ -282,6 +274,8 @@ namespace Cosmic {
         plastic_fat_nsys2Hit[0] = (*plastic_fat_nsys2HC)[plastic_fat_nsys2HC->entries() - 1];
         plastic_thin_nsys1Hit[0] = (*plastic_thin_nsys1HC)[plastic_thin_nsys1HC->entries() - 1];
         plastic_thin_nsys2Hit[0] = (*plastic_thin_nsys2HC)[plastic_thin_nsys2HC->entries() - 1];
+        plastic_LQ_nsys1Hit[0] = (*plastic_LQ_nsys1HC)[plastic_LQ_nsys1HC->entries() - 1];
+        plastic_LQ_nsys2Hit[0] = (*plastic_LQ_nsys2HC)[plastic_LQ_nsys2HC->entries() - 1];
 
         //  HadronCalorimeter_nsys1HC->GetHit(0)->
 
@@ -330,6 +324,7 @@ namespace Cosmic {
                 fPlastic_fat_nsys2ZPos[i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
             }
         }
+/////////////////////
 
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys1; i++) {
             if (i >= 1) plastic_thin_nsys1Hit[i] = (*plastic_thin_nsys1HC)[i - 1];
@@ -362,7 +357,40 @@ namespace Cosmic {
             }
         }
 
+//////////////////
 
+        for (G4int i = 0; i <= fNofLayers_plastic_LQ_nsys1; i++) {
+            if (i >= 1) plastic_LQ_nsys1Hit[i] = (*plastic_LQ_nsys1HC)[i - 1];
+            if (plastic_LQ_nsys1Hit[i]->GetEdep() > plastic_LQ_threshold) {
+                fPlastic_LQ_nsys1Edep[i] = plastic_LQ_nsys1Hit[i]->GetEdep() / MeV;
+                fPlastic_LQ_nsys1LO[i] = plastic_LQ_nsys1Hit[i]->GetLO() / MeV;
+                fPlastic_LQ_nsys1A1[i] = plastic_LQ_nsys1Hit[i]->GetA1() / MeV;
+                fPlastic_LQ_nsys1T1[i] = plastic_LQ_nsys1Hit[i]->GetT1() / ns;
+                fPlastic_LQ_nsys1TrackLength[i] = plastic_LQ_nsys1Hit[i]->GetTrackLength() / cm;
+                fPlastic_LQ_nsys1ToF[i] = plastic_LQ_nsys1Hit[i]->GetToF() / ns;
+
+                fPlastic_LQ_nsys1XPos[i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_LQ_nsys1YPos[i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().y() / cm;
+                fPlastic_LQ_nsys1ZPos[i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().z() / cm;
+            }
+        }
+        for (G4int i = 0; i <= fNofLayers_plastic_LQ_nsys2; i++) {
+            if (i >= 1) plastic_LQ_nsys2Hit[i] = (*plastic_LQ_nsys2HC)[i - 1];
+            if (plastic_LQ_nsys2Hit[i]->GetEdep() > plastic_LQ_threshold) {
+                fPlastic_LQ_nsys2Edep[i] = plastic_LQ_nsys2Hit[i]->GetEdep() / MeV;
+                fPlastic_LQ_nsys2LO[i] = plastic_LQ_nsys2Hit[i]->GetLO() / MeV;
+                fPlastic_LQ_nsys2A1[i] = plastic_LQ_nsys2Hit[i]->GetA1() / MeV;
+                fPlastic_LQ_nsys2T1[i] = plastic_LQ_nsys2Hit[i]->GetT1() / ns;
+                fPlastic_LQ_nsys2TrackLength[i] = plastic_LQ_nsys2Hit[i]->GetTrackLength() / cm;
+                fPlastic_LQ_nsys2ToF[i] = plastic_LQ_nsys2Hit[i]->GetToF() / ns;
+
+                fPlastic_LQ_nsys2XPos[i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_LQ_nsys2YPos[i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().y() / cm;
+                fPlastic_LQ_nsys2ZPos[i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().z() / cm;
+            }
+        }
+        
+///////////////////////
         G4int index = 0;
         G4int k = 0;
 
