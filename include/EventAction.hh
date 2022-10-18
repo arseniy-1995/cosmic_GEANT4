@@ -67,111 +67,101 @@ namespace Cosmic {
 
         void EndOfEventAction(const G4Event *event) override;
 
+        ///////// ТОЛСТЫЕ ПЛАСТИКИ
         std::vector<G4double> &GetPlasticFatEdep(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2Edep;
-            return fPlastic_fat_nsys1Edep;
+            if (nsys == 2) return fPlastic_fatEdep[1];
+            return fPlastic_fatEdep[0];
         }
-
         std::vector<G4double> &GetPlasticFatLO(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2LO;
-            return fPlastic_fat_nsys1LO;
+            if (nsys == 2) return fPlastic_fatLO[1];
+            return fPlastic_fatLO[0];
         }
-
         std::vector<G4double> &GetPlasticFatA1(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2A1;
-            return fPlastic_fat_nsys1A1;
+            if (nsys == 2) return fPlastic_fatA1[1];
+            return fPlastic_fatA1[0];
         }
-
         std::vector<G4double> &GetPlasticFatA2(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2A2;
-            return fPlastic_fat_nsys1A2;
+            if (nsys == 2) return fPlastic_fatA2[1];
+            return fPlastic_fatA2[0];
         }
-
         std::vector<G4double> &GetPlasticFatT1(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2T1;
-            return fPlastic_fat_nsys1T1;
+            if (nsys == 2) return fPlastic_fatT1[1];
+            return fPlastic_fatT1[0];
         }
-
         std::vector<G4double> &GetPlasticFatT2(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2T2;
-            return fPlastic_fat_nsys1T2;
+            if (nsys == 2) return fPlastic_fatT2[1];
+            return fPlastic_fatT2[0];
         }
-
         std::vector<G4double> &GetPlasticFatTrackLength(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2TrackLength;
-            return fPlastic_fat_nsys1TrackLength;
+            if (nsys == 2) return fPlastic_fatTrackLength[1];
+            return fPlastic_fatTrackLength[1];
         }
-
         std::vector<G4double> &GetPlasticFatToF(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_fat_nsys2ToF;
-            return fPlastic_fat_nsys1ToF;
+            if (nsys == 2) return fPlastic_fatToF[1];
+            return fPlastic_fatToF[0];
         }
-
         std::vector<G4double> &GetPlasticFatPos(G4int nsys = 1, G4int index = 1) {
-
             if (nsys == 1) {
-                if (index == 1) return fPlastic_fat_nsys1XPos;
-                if (index == 2) return fPlastic_fat_nsys1YPos;
-                if (index == 3) return fPlastic_fat_nsys1ZPos;
+                if (index == 1) return fPlastic_fatXPos[0];
+                if (index == 2) return fPlastic_fatYPos[0];
+                if (index == 3) return fPlastic_fatZPos[0];
             }
             if (nsys == 2) {
-                if (index == 1) return fPlastic_fat_nsys2XPos;
-                if (index == 2) return fPlastic_fat_nsys2YPos;
-                if (index == 3) return fPlastic_fat_nsys2ZPos;
+                if (index == 1) return fPlastic_fatXPos[1];
+                if (index == 2) return fPlastic_fatYPos[1];
+                if (index == 3) return fPlastic_fatZPos[1];
             }
-            return fPlastic_fat_nsys1XPos;
-
+            return fPlastic_fatXPos[0];
         }
 
-        ///////////////
+        /////////////// ТОНКИЕ ПЛАСТИКИ
 
         std::vector<G4double> &GetPlasticThinEdep(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_thin_nsys2Edep;
-            return fPlastic_thin_nsys1Edep;
+            if (nsys == 2) return fPlastic_thinEdep[1];
+            return fPlastic_thinEdep[0];
         }
-
         std::vector<G4double> &GetPlasticThinLO(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_thin_nsys2LO;
-            return fPlastic_thin_nsys1LO;
+            if (nsys == 2) return fPlastic_thinLO[1];
+            return fPlastic_thinLO[0];
         }
-
-
         std::vector<G4double> &GetPlasticThinA1(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_thin_nsys2A1;
-            return fPlastic_thin_nsys1A1;
+            if (nsys == 2) return fPlastic_thinA1[1];
+            return fPlastic_thinA1[0];
         }
-
-
+        std::vector<G4double> &GetPlasticThinA2(G4int nsys = 1) {
+            if (nsys == 2) return fPlastic_thinA2[1];
+            return fPlastic_thinA2[0];
+        }
         std::vector<G4double> &GetPlasticThinT1(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_thin_nsys2T1;
-            return fPlastic_thin_nsys1T1;
+            if (nsys == 2) return fPlastic_thinT1[1];
+            return fPlastic_thinT1[0];
         }
-
-
+        std::vector<G4double> &GetPlasticThinT2(G4int nsys = 1) {
+            if (nsys == 2) return fPlastic_thinT2[1];
+            return fPlastic_thinT2[0];
+        }
         std::vector<G4double> &GetPlasticThinTrackLength(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_thin_nsys2TrackLength;
-            return fPlastic_thin_nsys1TrackLength;
+            if (nsys == 2) return fPlastic_thinTrackLength[1];
+            return fPlastic_thinTrackLength[1];
         }
-
         std::vector<G4double> &GetPlasticThinToF(G4int nsys = 1) {
-            if (nsys == 2) return fPlastic_thin_nsys2ToF;
-            return fPlastic_thin_nsys1ToF;
+            if (nsys == 2) return fPlastic_thinToF[1];
+            return fPlastic_thinToF[0];
         }
-
         std::vector<G4double> &GetPlasticThinPos(G4int nsys = 1, G4int index = 1) {
             if (nsys == 1) {
-                if (index == 1) return fPlastic_thin_nsys1XPos;
-                if (index == 2) return fPlastic_thin_nsys1YPos;
-                if (index == 3) return fPlastic_thin_nsys1ZPos;
+                if (index == 1) return fPlastic_thinXPos[0];
+                if (index == 2) return fPlastic_thinYPos[0];
+                if (index == 3) return fPlastic_thinZPos[0];
             }
             if (nsys == 2) {
-                if (index == 1) return fPlastic_thin_nsys2XPos;
-                if (index == 2) return fPlastic_thin_nsys2YPos;
-                if (index == 3) return fPlastic_thin_nsys2ZPos;
+                if (index == 1) return fPlastic_thinXPos[1];
+                if (index == 2) return fPlastic_thinYPos[1];
+                if (index == 3) return fPlastic_thinZPos[1];
             }
-
-            return fPlastic_thin_nsys2XPos;
+            return fPlastic_thinXPos[0];
         }
+   
 
         ///////////////
 
@@ -471,68 +461,41 @@ namespace Cosmic {
 
         void PrintEventStatistics(G4double aplasticEdep, G4double plasticTrackLength) const;
 
+        // energy deposit in calorimeters cells
 
-        std::vector<G4double> fPlastic_fat_nsys1Edep{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2Edep{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
+        // здесь нулевой инедекс [0]  - первая система, первый индекс [1] - вторая система
 
-        std::vector<G4double> fPlastic_fat_nsys1LO{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2LO{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
+        // Раньше было так
+        //     std::vector<G4double> fPlastic_fat_nsys1Edep{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
+        //        std::vector<G4double> fPlastic_fat_nsys2Edep{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
 
-        std::vector<G4double> fPlastic_fat_nsys1A1{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2A1{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys1A2{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2A2{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
+        std::array<std::vector<G4double>, 2> fPlastic_fatEdep{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatLO{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatA1{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatA2{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatT1{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatT2{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatTrackLength{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatToF{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatXPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatYPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatZPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
 
-        std::vector<G4double> fPlastic_fat_nsys1T1{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2T1{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys1T2{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2T2{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-
-        std::vector<G4double> fPlastic_fat_nsys1TrackLength{
-                std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2TrackLength{
-                std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-
-        std::vector<G4double> fPlastic_fat_nsys1ToF{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2ToF{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-
-        std::vector<G4double> fPlastic_fat_nsys1XPos{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys1YPos{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys1ZPos{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2XPos{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2YPos{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
-        std::vector<G4double> fPlastic_fat_nsys2ZPos{std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0)};
 
 //////////////
 
-        std::vector<G4double> fPlastic_thin_nsys1Edep{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2Edep{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
+        std::array<std::vector<G4double>, 2> fPlastic_thinEdep{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinLO{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinA1{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinA2{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinT1{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinT2{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinTrackLength{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinToF{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinXPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinYPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinZPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
 
-        std::vector<G4double> fPlastic_thin_nsys1LO{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2LO{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-
-        std::vector<G4double> fPlastic_thin_nsys1A1{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2A1{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-
-
-        std::vector<G4double> fPlastic_thin_nsys1T1{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2T1{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-
-
-        std::vector<G4double> fPlastic_thin_nsys1TrackLength{
-                std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2TrackLength{
-                std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-
-        std::vector<G4double> fPlastic_thin_nsys1ToF{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2ToF{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-
-        std::vector<G4double> fPlastic_thin_nsys1XPos{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys1YPos{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys1ZPos{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2XPos{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2YPos{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
-        std::vector<G4double> fPlastic_thin_nsys2ZPos{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
 
         //////////////
 

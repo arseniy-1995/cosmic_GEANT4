@@ -157,6 +157,15 @@ class PlasticHit : public G4VHit
     //void AddAbsorbtion(G4ThreeVector absorb) { fAbsorbtion = absorb}
     inline G4double GetAbsorbtion() const { return fAbsorbtion; }
 
+    inline G4double GetRhoX() const	{ return fRhoX; };
+    inline G4double GetRhoY() const	{ return fRhoY; };
+    inline G4double GetRhoZ() const	{ return fRhoZ; };
+    inline void SetRho(G4ThreeVector rho)	{
+        fRhoX = rho.x();
+        fRhoY = rho.y();
+        fRhoZ = rho.z();
+    }
+
     void SetLayerID(G4int z) { fLayerID = z; }
     G4int GetLayerID() const { return fLayerID; }
 

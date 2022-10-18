@@ -164,6 +164,14 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
         //void AddAbsorbtion(G4ThreeVector absorb) { fAbsorbtion = absorb}
         inline G4double GetAbsorbtion() const { return fAbsorbtion; }
 
+        inline G4double GetRhoX() const	{ return fRhoX; };
+        inline G4double GetRhoY() const	{ return fRhoY; };
+        inline G4double GetRhoZ() const	{ return fRhoZ; };
+        inline void SetRho(G4ThreeVector rho)	{
+            fRhoX = rho.x();
+            fRhoY = rho.y();
+            fRhoZ = rho.z();
+        }
 
     void SetLayerID(G4int x, G4int y, G4int z) { fLayerxID = x;fLayeryID = y;fLayerzID = z; }
     G4int GetLayerxID() const { return fLayerxID; }

@@ -2139,7 +2139,7 @@ namespace Cosmic {
 
         // wire chambers
 #ifdef DCARM1
-        auto aW_chamber_nsys1SD = new ChamberSD(SDname = "/W_chamber_nsys1SD", "W_chamber_nsys1HitsCollection", 1);
+        auto aW_chamber_nsys1SD = new ChamberSD(SDname = "/W_chamber_nsys1SD", "W_Chamber_nsys1HitsCollection", 1);
         sdManager->AddNewDetector(aW_chamber_nsys1SD);
 
         WCTheta1_gas_nsys1LV->SetSensitiveDetector(aW_chamber_nsys1SD);
@@ -2148,7 +2148,7 @@ namespace Cosmic {
 #endif
 
 #ifdef DCARM2
-        auto aW_chamber_nsys2SD = new ChamberSD(SDname = "/W_chamber_nsys2SD", "W_chamber_nsys2HitsCollection", 2);
+        auto aW_chamber_nsys2SD = new ChamberSD(SDname = "/W_chamber_nsys2SD", "W_Chamber_nsys2HitsCollection", 2);
         sdManager->AddNewDetector(aW_chamber_nsys2SD);
 
         WCTheta1_gas_nsys2LV->SetSensitiveDetector(aW_chamber_nsys2SD);
@@ -2158,13 +2158,13 @@ namespace Cosmic {
 
 
 #ifdef VCARM1
-        auto aV_chamber_nsys1SD = new ChamberSD(SDname = "/V_chamber_nsys1SD", "V_chamber_nsys1HitsCollection", 1);
+        auto aV_chamber_nsys1SD = new ChamberSD(SDname = "/V_chamber_nsys1SD", "V_Chamber_nsys1HitsCollection", 1);
         sdManager->AddNewDetector(aV_chamber_nsys1SD);
 
         VCGas_log_nsys1LV->SetSensitiveDetector(aV_chamber_nsys1SD);
 #endif
 #ifdef VCARM2
-        auto aV_chamber_nsys2SD = new ChamberSD(SDname = "/V_chamber_nsys2SD", "V_chamber_nsys2HitsCollection", 2);
+        auto aV_chamber_nsys2SD = new ChamberSD(SDname = "/V_chamber_nsys2SD", "V_Chamber_nsys2HitsCollection", 2);
         sdManager->AddNewDetector(aV_chamber_nsys2SD);
 
         VCGas_log_nsys2LV->SetSensitiveDetector(aV_chamber_nsys2SD);

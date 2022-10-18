@@ -116,11 +116,16 @@ namespace Cosmic {
 
     constexpr G4int fNofLayers_W_Chamber_nsys1 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
     constexpr G4int fNofLayers_W_Chamber_nsys2 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
+    constexpr G4int fNofLayers_V_Chamber_nsys1 = NVC_WRS + 100;
+    constexpr G4int fNofLayers_V_Chamber_nsys2 = NVC_WRS + 100;
 
-    constexpr G4double plastic_fat_threshold = 1.0 * MeV; // порог записи в файл
+    // пороги записи в файл
+    constexpr G4double plastic_fat_threshold = 1.0 * MeV;
     constexpr G4double plastic_thin_threshold = 0.1 * MeV;
     constexpr G4double plastic_LQ_threshold = 0.1 * MeV;
     constexpr G4double HadronCalorimeter_threshold = 0.5 * MeV;
+    constexpr G4double WChamber_threshold = 0.5 * keV;
+    constexpr G4double VChamber_threshold = 0.5 * keV;
 
     constexpr G4double DENSITY_LO = 1.032;	// scintill. density - for light output calculation
 

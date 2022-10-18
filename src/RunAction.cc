@@ -296,6 +296,7 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Yplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 2)); // column Id = 4 //
         analysisManager->CreateNtupleDColumn("Zplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 3)); // column Id = 4 //
 
+
         /// Для трековых камер
 
         // Камера A
@@ -318,11 +319,14 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Zwb_nsys1", fEventAction->Get_W_Pos(1,3,2));
         analysisManager->CreateNtupleDColumn("Rwb_nsys1", fEventAction->Get_W_Pos(1,4,2));
 
+
+
         analysisManager->CreateNtupleIColumn("nwb_nsys2", fEventAction->Get_W_N(2,2)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleDColumn("Xwb_nsys2", fEventAction->Get_W_Pos(2,1,2)); // column Id = 4 // Локальная точка
         analysisManager->CreateNtupleDColumn("Ywb_nsys2", fEventAction->Get_W_Pos(2,2,2));
         analysisManager->CreateNtupleDColumn("Zwb_nsys2", fEventAction->Get_W_Pos(2,3,2));
         analysisManager->CreateNtupleDColumn("Rwb_nsys2", fEventAction->Get_W_Pos(2,4,2));
+
 
         // Камера C
         analysisManager->CreateNtupleIColumn("nwc_nsys1", fEventAction->Get_W_N(1,3)); // column Id = 4 // Число срабатываний
@@ -356,7 +360,7 @@ RunAction::RunAction(EventAction* eventAction)
     }
 
 // Set ntuple output file
-    analysisManager->SetNtupleFileName(0, "Cosmicntyple");
+    analysisManager->SetNtupleFileName(0, "Cosmicntuple");
 
 }
 
@@ -434,7 +438,7 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/)
   // save histograms & ntuple
   //
   analysisManager->Write();
- analysisManager->CloseFile(false);
+  analysisManager->CloseFile(false);
 
     // Keep content of histos so that they are plotted.
     // The content will be reset at start of the next run.

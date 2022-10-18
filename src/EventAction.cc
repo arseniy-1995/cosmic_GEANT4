@@ -198,10 +198,10 @@ namespace Cosmic {
         if (fHadronCalorimeter_nsys2HCID == -1) fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
 
 
-        if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_chamber_nsys1HitsCollection");
-        if (fW_Chamber_nsys2HCID == -1) fW_Chamber_nsys2HCID = SDmanp->GetCollectionID("W_chamber_nsys2HitsCollection");
-        if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_chamber_nsys1HitsCollection");
-        if (fV_Chamber_nsys2HCID == -1) fV_Chamber_nsys2HCID = SDmanp->GetCollectionID("V_chamber_nsys2HitsCollection");
+        if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_Chamber_nsys1HitsCollection");
+        if (fW_Chamber_nsys2HCID == -1) fW_Chamber_nsys2HCID = SDmanp->GetCollectionID("W_Chamber_nsys2HitsCollection");
+        if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_Chamber_nsys1HitsCollection");
+        if (fV_Chamber_nsys2HCID == -1) fV_Chamber_nsys2HCID = SDmanp->GetCollectionID("V_Chamber_nsys2HitsCollection");
 
         auto event_info = event->GetUserInformation();
 
@@ -285,6 +285,11 @@ namespace Cosmic {
         HadronCalorimeterHit *HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1];
         HadronCalorimeterHit *HadronCalorimeter_nsys2Hit[fNofLayers_HadrtonCalorimeter_nsys2 + 1];
 
+        ChamberHit *W_Chamber_nsys1Hit[fNofLayers_W_Chamber_nsys1 + 1];
+        ChamberHit *W_Chamber_nsys2Hit[fNofLayers_W_Chamber_nsys2 + 1];
+        ChamberHit *V_Chamber_nsys1Hit[fNofLayers_V_Chamber_nsys1 + 1];
+        ChamberHit *V_Chamber_nsys2Hit[fNofLayers_V_Chamber_nsys2 + 1];
+
         plastic_fat_nsys1Hit[0] = (*plastic_fat_nsys1HC)[plastic_fat_nsys1HC->entries() - 1];
         plastic_fat_nsys2Hit[0] = (*plastic_fat_nsys2HC)[plastic_fat_nsys2HC->entries() - 1];
         plastic_thin_nsys1Hit[0] = (*plastic_thin_nsys1HC)[plastic_thin_nsys1HC->entries() - 1];
@@ -307,36 +312,36 @@ namespace Cosmic {
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
             if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold) {
-                fPlastic_fat_nsys1Edep[i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
-                fPlastic_fat_nsys1LO[i] = plastic_fat_nsys1Hit[i]->GetLO() / MeV;
-                fPlastic_fat_nsys1A1[i] = plastic_fat_nsys1Hit[i]->GetA1() / MeV;
-                fPlastic_fat_nsys1A2[i] = plastic_fat_nsys1Hit[i]->GetA2() / MeV;
-                fPlastic_fat_nsys1T1[i] = plastic_fat_nsys1Hit[i]->GetT1() / ns;
-                fPlastic_fat_nsys1T2[i] = plastic_fat_nsys1Hit[i]->GetT2() / ns;
-                fPlastic_fat_nsys1TrackLength[i] = plastic_fat_nsys1Hit[i]->GetTrackLength() / cm;
-                fPlastic_fat_nsys1ToF[i] = plastic_fat_nsys1Hit[i]->GetToF() / ns;
+                fPlastic_fatEdep[0][i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
+                fPlastic_fatLO[0][i] = plastic_fat_nsys1Hit[i]->GetLO() / MeV;
+                fPlastic_fatA1[0][i] = plastic_fat_nsys1Hit[i]->GetA1() / MeV;
+                fPlastic_fatA2[0][i] = plastic_fat_nsys1Hit[i]->GetA2() / MeV;
+                fPlastic_fatT1[0][i] = plastic_fat_nsys1Hit[i]->GetT1() / ns;
+                fPlastic_fatT2[0][i] = plastic_fat_nsys1Hit[i]->GetT2() / ns;
+                fPlastic_fatTrackLength[0][i] = plastic_fat_nsys1Hit[i]->GetTrackLength() / cm;
+                fPlastic_fatToF[0][i] = plastic_fat_nsys1Hit[i]->GetToF() / ns;
 
-                fPlastic_fat_nsys1XPos[i] = plastic_fat_nsys1Hit[i]->GetLocalPos().x() / cm;
-                fPlastic_fat_nsys1YPos[i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
-                fPlastic_fat_nsys1ZPos[i] = plastic_fat_nsys1Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_fatXPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_fatYPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
+                fPlastic_fatZPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().z() / cm;
             }
         }
 
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys2; i++) {
             if (i >= 1) plastic_fat_nsys2Hit[i] = (*plastic_fat_nsys2HC)[i - 1];
             if (plastic_fat_nsys2Hit[i]->GetEdep() > plastic_fat_threshold) {
-                fPlastic_fat_nsys2Edep[i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
-                fPlastic_fat_nsys2LO[i] = plastic_fat_nsys2Hit[i]->GetLO() / MeV;
-                fPlastic_fat_nsys2A1[i] = plastic_fat_nsys2Hit[i]->GetA1() / MeV;
-                fPlastic_fat_nsys2A2[i] = plastic_fat_nsys2Hit[i]->GetA2() / MeV;
-                fPlastic_fat_nsys2T1[i] = plastic_fat_nsys2Hit[i]->GetT1() / ns;
-                fPlastic_fat_nsys2T2[i] = plastic_fat_nsys2Hit[i]->GetT2() / ns;
-                fPlastic_fat_nsys2TrackLength[i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
-                fPlastic_fat_nsys2ToF[i] = plastic_fat_nsys2Hit[i]->GetToF() / ns;
+                fPlastic_fatEdep[1][i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
+                fPlastic_fatLO[1][i] = plastic_fat_nsys2Hit[i]->GetLO() / MeV;
+                fPlastic_fatA1[1][i] = plastic_fat_nsys2Hit[i]->GetA1() / MeV;
+                fPlastic_fatA2[1][i] = plastic_fat_nsys2Hit[i]->GetA2() / MeV;
+                fPlastic_fatT1[1][i] = plastic_fat_nsys2Hit[i]->GetT1() / ns;
+                fPlastic_fatT2[1][i] = plastic_fat_nsys2Hit[i]->GetT2() / ns;
+                fPlastic_fatTrackLength[1][i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
+                fPlastic_fatToF[1][i] = plastic_fat_nsys2Hit[i]->GetToF() / ns;
 
-                fPlastic_fat_nsys2XPos[i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
-                fPlastic_fat_nsys2YPos[i] = plastic_fat_nsys2Hit[i]->GetLocalPos().y() / cm;
-                fPlastic_fat_nsys2ZPos[i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_fatYPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().y() / cm;
+                fPlastic_fatZPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
             }
         }
 /////////////////////
@@ -344,31 +349,31 @@ namespace Cosmic {
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys1; i++) {
             if (i >= 1) plastic_thin_nsys1Hit[i] = (*plastic_thin_nsys1HC)[i - 1];
             if (plastic_thin_nsys1Hit[i]->GetEdep() > plastic_thin_threshold) {
-                fPlastic_thin_nsys1Edep[i] = plastic_thin_nsys1Hit[i]->GetEdep() / MeV;
-                fPlastic_thin_nsys1LO[i] = plastic_thin_nsys1Hit[i]->GetLO() / MeV;
-                fPlastic_thin_nsys1A1[i] = plastic_thin_nsys1Hit[i]->GetA1() / MeV;
-                fPlastic_thin_nsys1T1[i] = plastic_thin_nsys1Hit[i]->GetT1() / ns;
-                fPlastic_thin_nsys1TrackLength[i] = plastic_thin_nsys1Hit[i]->GetTrackLength() / cm;
-                fPlastic_thin_nsys1ToF[i] = plastic_thin_nsys1Hit[i]->GetToF() / ns;
+                fPlastic_thinEdep[0][i] = plastic_thin_nsys1Hit[i]->GetEdep() / MeV;
+                fPlastic_thinLO[0][i] = plastic_thin_nsys1Hit[i]->GetLO() / MeV;
+                fPlastic_thinA1[0][i] = plastic_thin_nsys1Hit[i]->GetA1() / MeV;
+                fPlastic_thinT1[0][i] = plastic_thin_nsys1Hit[i]->GetT1() / ns;
+                fPlastic_thinTrackLength[0][i] = plastic_thin_nsys1Hit[i]->GetTrackLength() / cm;
+                fPlastic_thinToF[0][i] = plastic_thin_nsys1Hit[i]->GetToF() / ns;
 
-                fPlastic_thin_nsys1XPos[i] = plastic_thin_nsys1Hit[i]->GetLocalPos().x() / cm;
-                fPlastic_thin_nsys1YPos[i] = plastic_thin_nsys1Hit[i]->GetLocalPos().y() / cm;
-                fPlastic_thin_nsys1ZPos[i] = plastic_thin_nsys1Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_thinXPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_thinYPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().y() / cm;
+                fPlastic_thinZPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().z() / cm;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys2; i++) {
             if (i >= 1) plastic_thin_nsys2Hit[i] = (*plastic_thin_nsys2HC)[i - 1];
             if (plastic_thin_nsys2Hit[i]->GetEdep() > plastic_thin_threshold) {
-                fPlastic_thin_nsys2Edep[i] = plastic_thin_nsys2Hit[i]->GetEdep() / MeV;
-                fPlastic_thin_nsys2LO[i] = plastic_thin_nsys2Hit[i]->GetLO() / MeV;
-                fPlastic_thin_nsys2A1[i] = plastic_thin_nsys2Hit[i]->GetA1() / MeV;
-                fPlastic_thin_nsys2T1[i] = plastic_thin_nsys2Hit[i]->GetT1() / ns;
-                fPlastic_thin_nsys2TrackLength[i] = plastic_thin_nsys2Hit[i]->GetTrackLength() / cm;
-                fPlastic_thin_nsys2ToF[i] = plastic_thin_nsys2Hit[i]->GetToF() / ns;
+                fPlastic_thinEdep[1][i] = plastic_thin_nsys2Hit[i]->GetEdep() / MeV;
+                fPlastic_thinLO[1][i] = plastic_thin_nsys2Hit[i]->GetLO() / MeV;
+                fPlastic_thinA1[1][i] = plastic_thin_nsys2Hit[i]->GetA1() / MeV;
+                fPlastic_thinT1[1][i] = plastic_thin_nsys2Hit[i]->GetT1() / ns;
+                fPlastic_thinTrackLength[1][i] = plastic_thin_nsys2Hit[i]->GetTrackLength() / cm;
+                fPlastic_thinToF[1][i] = plastic_thin_nsys2Hit[i]->GetToF() / ns;
 
-                fPlastic_thin_nsys2XPos[i] = plastic_thin_nsys2Hit[i]->GetLocalPos().x() / cm;
-                fPlastic_thin_nsys2YPos[i] = plastic_thin_nsys2Hit[i]->GetLocalPos().y() / cm;
-                fPlastic_thin_nsys2ZPos[i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_thinXPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_thinYPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().y() / cm;
+                fPlastic_thinZPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
             }
         }
 
@@ -405,7 +410,7 @@ namespace Cosmic {
             }
         }
         
-///////////////////////
+/////////////////////// КАЛОРИМЕТР
         G4int index = 0;
         G4int k = 0;
 
@@ -413,14 +418,12 @@ namespace Cosmic {
             auto HadronCalorimeter_nsys1Hit_ = static_cast<HadronCalorimeterHit *>(HadronCalorimeter_nsys1HC->GetHit(
                     i));
             if (HadronCalorimeter_nsys1Hit_->GetEdep() > HadronCalorimeter_threshold) {
-
                 // index = i -  AC_IND - DE_IND - HCX_IND;
                 index = i;
 
                 if (index >= 0 && index < N_HCX) {
                     k = index % NX_BARS;
                     k = (k % N_UNITS) * 2 + (k / N_UNITS);    // re-numbering bars in a layer
-
                     fHCX_nsys1AL[index] = k;
                     fHCX_nsys1N[index]++;
                     fHCX_nsys1Edep[index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
@@ -433,7 +436,6 @@ namespace Cosmic {
                     fHCX_nsys1XPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
                     fHCX_nsys1YPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                     fHCX_nsys1ZPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
-
                     continue;
                 }
 
@@ -454,14 +456,11 @@ namespace Cosmic {
                     fHCZ_nsys1XPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
                     fHCZ_nsys1YPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                     fHCZ_nsys1ZPos[index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
-
                     continue;
-
                 }
             }
         }
-
-
+        
         index = 0;
         k = 0;
 
@@ -469,7 +468,6 @@ namespace Cosmic {
             auto HadronCalorimeter_nsys2Hit_ = static_cast<HadronCalorimeterHit *>(HadronCalorimeter_nsys2HC->GetHit(
                     i));
             if (HadronCalorimeter_nsys2Hit_->GetEdep() > HadronCalorimeter_threshold) {
-
                 //  index = i -  AC_IND - DE_IND - HCX_IND;
                 index = i;
 
@@ -489,10 +487,8 @@ namespace Cosmic {
                     fHCX_nsys2XPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
                     fHCX_nsys2YPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
                     fHCX_nsys2ZPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
-
                     continue;
                 }
-
                 index = index - HCZ_IND;
                 if (index >= 0 && index < N_HCZ) {
                     k = index % NZ_BARS;
@@ -510,14 +506,113 @@ namespace Cosmic {
                     fHCZ_nsys2XPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
                     fHCZ_nsys2YPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
                     fHCZ_nsys2ZPos[index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+                    continue;
+                }
+            }
+        }
 
+        /////////////////////// ДРЕЙФОВЫЕ КАМЕРЫ
+
+        for (G4int i = 0; i < (G4int) W_Chamber_nsys1HC->GetSize(); i++) {
+            auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys1HC->GetHit(i));
+            if (W_Chamber_nsys1Hit_->GetEdep() > WChamber_threshold) {
+                index = i;
+                if (index >= 0 && index < NW1_WRS) {
+                    fWa_nsys1N[index]++;
+                    fWa_nsys1XPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWa_nsys1YPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWa_nsys1ZPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWa_nsys1RPos[index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    continue;
+                }
+                index = index - WC2_IND;
+                if (index >= 0 && index < NW2_WRS) {
+                    fWb_nsys1N[index]++;
+                    fWb_nsys1XPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWb_nsys1YPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWb_nsys1ZPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWb_nsys1RPos[index] = W_Chamber_nsys1Hit_->GetRho().x() / cm;
+                    continue;
+                }
+                index = index - WC3_IND;
+                if (index >= 0 && index < NW3_WRS) {
+                    fWc_nsys1N[index]++;
+                    fWc_nsys1XPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWc_nsys1YPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWc_nsys1ZPos[index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWc_nsys1RPos[index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    continue;
+                }
+            }
+        }
+
+
+        for (G4int i = 0; i < (G4int) W_Chamber_nsys2HC->GetSize(); i++) {
+            auto W_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys2HC->GetHit(i));
+            if (W_Chamber_nsys2Hit_->GetEdep() > WChamber_threshold) {
+                index = i;
+                if (index >= 0 && index < NW1_WRS) {
+                    fWa_nsys2N[index]++;
+                    fWa_nsys2XPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWa_nsys2YPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWa_nsys2ZPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWa_nsys2RPos[index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    continue;
+                }
+                index = index - WC2_IND;
+                if (index >= 0 && index < NW2_WRS) {
+                    fWb_nsys2N[index]++;
+                    fWb_nsys2XPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWb_nsys2YPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWb_nsys2ZPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWb_nsys2RPos[index] = W_Chamber_nsys2Hit_->GetRho().x() / cm;
+                    continue;
+                }
+                index = index - WC3_IND;
+                if (index >= 0 && index < NW3_WRS) {
+                    fWc_nsys2N[index]++;
+                    fWc_nsys2XPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWc_nsys2YPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWc_nsys2ZPos[index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWc_nsys2RPos[index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
                     continue;
 
                 }
             }
         }
 
+        /// ВЕРШИННЫЕ КАМЕРЫ
 
+        for (G4int i = 0; i < (G4int) V_Chamber_nsys1HC->GetSize(); i++) {
+            auto V_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys1HC->GetHit(i));
+            if (V_Chamber_nsys1Hit_->GetEdep() > VChamber_threshold) {
+                index = i;
+                if (index >= 0 && index < NVC_WRS) {
+                    fVC_nsys1N[index]++;
+                    fVC_nsys1XPos[index] = V_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fVC_nsys1YPos[index] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fVC_nsys1ZPos[index] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fVC_nsys1RPos[index] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    continue;
+                }
+            }
+        }
+
+            for (G4int i = 0; i < (G4int) V_Chamber_nsys2HC->GetSize(); i++) {
+                auto V_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys2HC->GetHit(i));
+                if (V_Chamber_nsys2Hit_->GetEdep() > VChamber_threshold) {
+                    index = i;
+                    if (index >= 0 && index < NVC_WRS) {
+                        fVC_nsys2N[index]++;
+                        fVC_nsys2XPos[index] = V_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                        fVC_nsys2YPos[index] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                        fVC_nsys2ZPos[index] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                        fVC_nsys2RPos[index] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
+                        continue;
+                    }
+                }
+            }
+            
 
         //     totalPlasticEdep = 0.;
         //   totalPlasticTrackLength =0.0;
