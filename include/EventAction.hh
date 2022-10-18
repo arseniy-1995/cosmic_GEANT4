@@ -371,6 +371,92 @@ namespace Cosmic {
         }
 
 
+        ///////// Методы для камер
+        std::vector<G4int> &Get_W_N(G4int nsys = 1, G4int type_chamber = 1) {
+
+            if (type_chamber == 1) // a
+            {
+                if (nsys == 1) return fWa_nsys2N;
+                if (nsys == 2) return fWa_nsys2N;
+            }
+            if (type_chamber == 2) // b
+            {
+                if (nsys == 1) return fWb_nsys2N;
+                if (nsys == 2) return fWb_nsys2N;
+            }
+            if (type_chamber == 3) // c
+            {
+                if (nsys == 1) return fWc_nsys2N;
+                if (nsys == 2) return fWc_nsys2N;
+            }
+            return fWa_nsys1N;
+        }
+        std::vector<G4double> &Get_W_Pos(G4int nsys = 1, G4int index = 1, G4int type_chamber = 1) {
+
+            if (type_chamber == 1) // a
+            {
+                if (nsys == 1) {
+                    if (index == 1) return fWa_nsys1XPos;
+                    if (index == 2) return fWa_nsys1YPos;
+                    if (index == 3) return fWa_nsys1ZPos;
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fWa_nsys2XPos;
+                    if (index == 2) return fWa_nsys2YPos;
+                    if (index == 3) return fWa_nsys2ZPos;
+                }
+            }
+            if (type_chamber == 2) // b
+            {
+                if (nsys == 1) {
+                    if (index == 1) return fWb_nsys1XPos;
+                    if (index == 2) return fWb_nsys1YPos;
+                    if (index == 3) return fWb_nsys1ZPos;
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fWb_nsys2XPos;
+                    if (index == 2) return fWb_nsys2YPos;
+                    if (index == 3) return fWb_nsys2ZPos;
+                }
+            }
+            if (type_chamber == 3) // c
+            {
+                if (nsys == 1) {
+                    if (index == 1) return fWc_nsys1XPos;
+                    if (index == 2) return fWc_nsys1YPos;
+                    if (index == 3) return fWc_nsys1ZPos;
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fWc_nsys2XPos;
+                    if (index == 2) return fWc_nsys2YPos;
+                    if (index == 3) return fWc_nsys2ZPos;
+                }
+            }
+            return fWa_nsys1XPos;
+
+        }
+
+        std::vector<G4int> &Get_VC_N(G4int nsys = 1) {
+
+                if (nsys == 2) return fVC_nsys2N;
+            return fVC_nsys1N;
+        }
+
+        std::vector<G4double> &Get_VC_Pos(G4int nsys = 1, G4int index = 1) {
+                if (nsys == 1) {
+                    if (index == 1) return fVC_nsys1XPos;
+                    if (index == 2) return fVC_nsys1YPos;
+                    if (index == 3) return fVC_nsys1ZPos;
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fVC_nsys2XPos;
+                    if (index == 2) return fVC_nsys2YPos;
+                    if (index == 3) return fVC_nsys2ZPos;
+                }
+            return fVC_nsys1XPos;
+        }
+
+
     private:
 
         G4double vertex_x, vertex_y, vertex_z;    // vertex position
@@ -545,6 +631,63 @@ namespace Cosmic {
 
 
 
+        // Для камер
+
+        std::vector<G4int> fWa_nsys1N{std::vector<G4int>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys1XPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys1YPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys1ZPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys1RPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+
+        std::vector<G4int> fWa_nsys2N{std::vector<G4int>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys2XPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys2YPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys2ZPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+        std::vector<G4double> fWa_nsys2RPos{std::vector<G4double>(NW1_WRS + 1, 0.0)};
+
+//////
+
+        std::vector<G4int> fWb_nsys1N{std::vector<G4int>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys1XPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys1YPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys1ZPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys1RPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+
+        std::vector<G4int> fWb_nsys2N{std::vector<G4int>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys2XPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys2YPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys2ZPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+        std::vector<G4double> fWb_nsys2RPos{std::vector<G4double>(NW2_WRS + 1, 0.0)};
+//////
+
+        std::vector<G4int> fWc_nsys1N{std::vector<G4int>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys1XPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys1YPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys1ZPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys1RPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+
+        std::vector<G4int> fWc_nsys2N{std::vector<G4int>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys2XPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys2YPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys2ZPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+        std::vector<G4double> fWc_nsys2RPos{std::vector<G4double>(NW3_WRS + 1, 0.0)};
+
+
+        // Для вершинных камер
+
+        std::vector<G4int> fVC_nsys1N{std::vector<G4int>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys1XPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys1YPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys1ZPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys1RPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+
+        std::vector<G4int> fVC_nsys2N{std::vector<G4int>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys2XPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys2YPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys2ZPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+        std::vector<G4double> fVC_nsys2RPos{std::vector<G4double>(NVC_WRS + 1, 0.0)};
+
+
         // data members
 
         G4int fplastic_fat_nsys1HCID = -1;
@@ -557,6 +700,11 @@ namespace Cosmic {
 
         G4int fHadronCalorimeter_nsys1HCID = -1;
         G4int fHadronCalorimeter_nsys2HCID = -1;
+
+        G4int fW_Chamber_nsys1HCID = -1; // проволочные (трековые) камеры
+        G4int fW_Chamber_nsys2HCID = -1;
+        G4int fV_Chamber_nsys1HCID = -1; // вершинные камеры
+        G4int fV_Chamber_nsys2HCID = -1;
 
     };
 

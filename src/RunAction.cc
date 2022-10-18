@@ -264,7 +264,7 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Yplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 2)); // column Id = 4 //
         analysisManager->CreateNtupleDColumn("Zplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 3)); // column Id = 4 //
 
-
+// Для пластиков LQ-поляриметра
 /////////////////////////////
 
         analysisManager->CreateNtupleDColumn("Eplastic_LQ_nsys1", fEventAction->GetPlasticLQEdep(1)); // column Id = 12
@@ -295,13 +295,68 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Xplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 1)); // column Id = 4 // Локальная точка
         analysisManager->CreateNtupleDColumn("Yplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 2)); // column Id = 4 //
         analysisManager->CreateNtupleDColumn("Zplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 3)); // column Id = 4 //
-        
+
+        /// Для трековых камер
+
+        // Камера A
+        analysisManager->CreateNtupleIColumn("nwa_nsys1", fEventAction->Get_W_N(1,1)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xwa_nsys1", fEventAction->Get_W_Pos(1,1,1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Ywa_nsys1", fEventAction->Get_W_Pos(1,2,1));
+        analysisManager->CreateNtupleDColumn("Zwa_nsys1", fEventAction->Get_W_Pos(1,3,1));
+        analysisManager->CreateNtupleDColumn("Rwa_nsys1", fEventAction->Get_W_Pos(1,4,1));
+
+        analysisManager->CreateNtupleIColumn("nwa_nsys2", fEventAction->Get_W_N(2)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xwa_nsys2", fEventAction->Get_W_Pos(2,1,1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Ywa_nsys2", fEventAction->Get_W_Pos(2,2,1));
+        analysisManager->CreateNtupleDColumn("Zwa_nsys2", fEventAction->Get_W_Pos(2,3,1));
+        analysisManager->CreateNtupleDColumn("Rwa_nsys2", fEventAction->Get_W_Pos(2,4,1));
+
+        // Камера B
+        analysisManager->CreateNtupleIColumn("nwb_nsys1", fEventAction->Get_W_N(1,2)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xwb_nsys1", fEventAction->Get_W_Pos(1,1,2)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Ywb_nsys1", fEventAction->Get_W_Pos(1,2,2));
+        analysisManager->CreateNtupleDColumn("Zwb_nsys1", fEventAction->Get_W_Pos(1,3,2));
+        analysisManager->CreateNtupleDColumn("Rwb_nsys1", fEventAction->Get_W_Pos(1,4,2));
+
+        analysisManager->CreateNtupleIColumn("nwb_nsys2", fEventAction->Get_W_N(2,2)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xwb_nsys2", fEventAction->Get_W_Pos(2,1,2)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Ywb_nsys2", fEventAction->Get_W_Pos(2,2,2));
+        analysisManager->CreateNtupleDColumn("Zwb_nsys2", fEventAction->Get_W_Pos(2,3,2));
+        analysisManager->CreateNtupleDColumn("Rwb_nsys2", fEventAction->Get_W_Pos(2,4,2));
+
+        // Камера C
+        analysisManager->CreateNtupleIColumn("nwc_nsys1", fEventAction->Get_W_N(1,3)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xwc_nsys1", fEventAction->Get_W_Pos(1,1,3)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Ywc_nsys1", fEventAction->Get_W_Pos(1,2,3));
+        analysisManager->CreateNtupleDColumn("Zwc_nsys1", fEventAction->Get_W_Pos(1,3,3));
+        analysisManager->CreateNtupleDColumn("Rwc_nsys1", fEventAction->Get_W_Pos(1,4,3));
+
+        analysisManager->CreateNtupleIColumn("nwc_nsys2", fEventAction->Get_W_N(2,3)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xwc_nsys2", fEventAction->Get_W_Pos(2,1,3)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Ywc_nsys2", fEventAction->Get_W_Pos(2,2,3));
+        analysisManager->CreateNtupleDColumn("Zwc_nsys2", fEventAction->Get_W_Pos(2,3,3));
+        analysisManager->CreateNtupleDColumn("Rwc_nsys2", fEventAction->Get_W_Pos(2,4,3));
+
+
+        /// Для вершинных камер
+
+        analysisManager->CreateNtupleIColumn("nvc_nsys1", fEventAction->Get_VC_N(1)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xvc_nsys1", fEventAction->Get_VC_Pos(1,1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Yvc_nsys1", fEventAction->Get_VC_Pos(1,2));
+        analysisManager->CreateNtupleDColumn("Zvc_nsys1", fEventAction->Get_VC_Pos(1,3));
+
+
+        analysisManager->CreateNtupleIColumn("nvc_nsys2", fEventAction->Get_VC_N(2)); // column Id = 4 // Число срабатываний
+        analysisManager->CreateNtupleDColumn("Xvc_nsys2", fEventAction->Get_VC_Pos(2,1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Yvc_nsys2", fEventAction->Get_VC_Pos(2,2));
+        analysisManager->CreateNtupleDColumn("Zvc_nsys2", fEventAction->Get_VC_Pos(2,3));
+
 
         analysisManager->FinishNtuple(0);
     }
 
 // Set ntuple output file
-    analysisManager->SetNtupleFileName(0, "Cosmicntuple");
+    analysisManager->SetNtupleFileName(0, "Cosmicntyple");
 
 }
 

@@ -198,6 +198,11 @@ namespace Cosmic {
         if (fHadronCalorimeter_nsys2HCID == -1) fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
 
 
+        if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_chamber_nsys1HitsCollection");
+        if (fW_Chamber_nsys2HCID == -1) fW_Chamber_nsys2HCID = SDmanp->GetCollectionID("W_chamber_nsys2HitsCollection");
+        if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_chamber_nsys1HitsCollection");
+        if (fV_Chamber_nsys2HCID == -1) fV_Chamber_nsys2HCID = SDmanp->GetCollectionID("V_chamber_nsys2HitsCollection");
+
         auto event_info = event->GetUserInformation();
 
         // if (event_info == NULL) return;
@@ -244,6 +249,11 @@ namespace Cosmic {
         auto HadronCalorimeter_nsys1HC = GetHC(event, fHadronCalorimeter_nsys1HCID);
         auto HadronCalorimeter_nsys2HC = GetHC(event, fHadronCalorimeter_nsys2HCID);
 
+        auto W_Chamber_nsys1HC = GetHC(event, fW_Chamber_nsys1HCID);
+        auto W_Chamber_nsys2HC = GetHC(event, fW_Chamber_nsys2HCID);
+        auto V_Chamber_nsys1HC = GetHC(event, fV_Chamber_nsys1HCID);
+        auto V_Chamber_nsys2HC = GetHC(event, fV_Chamber_nsys2HCID);
+
         if (!plastic_fat_nsys1HC) return;
         if (!plastic_fat_nsys2HC) return;
         if (!plastic_thin_nsys1HC) return;
@@ -253,6 +263,11 @@ namespace Cosmic {
 
         if (!HadronCalorimeter_nsys1HC) return;
         if (!HadronCalorimeter_nsys2HC) return;
+
+        if (!W_Chamber_nsys1HC) return;
+        if (!W_Chamber_nsys2HC) return;
+        if (!V_Chamber_nsys1HC) return;
+        if (!V_Chamber_nsys2HC) return;
 
         // Get hit with total values
 

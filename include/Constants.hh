@@ -76,13 +76,22 @@ namespace Cosmic {
 #define N_HCX NX_BARS *N_LAYERS
 #define HCZ_IND (HCX_IND + N_HCX) /* Z bars */
 #define N_HCZ NZ_BARS *N_LAYERS
-#define VC_IND (HCZ_IND + N_HCZ)    /* Vertex Ch */
-#define WC1_IND (VC_IND + NVC_WRS)  /* Drift Chambers */
-#define WC2_IND (WC1_IND + NW1_WRS) /* Drift Chambers */
-#define WC3_IND (WC2_IND + NW2_WRS) /* Drift Chambers */
+
+//#define VC_IND (HCZ_IND + N_HCZ)    /* Vertex Ch */
+//#define WC1_IND (VC_IND + NVC_WRS)  /* Drift Chambers */
+//#define WC2_IND (WC1_IND + NW1_WRS) /* Drift Chambers */
+//#define WC3_IND (WC2_IND + NW2_WRS) /* Drift Chambers */
+
 #define LQ_IND (WC3_IND + NW3_WRS)  /* LQ layers */
 #define ARM1_IND 0
 #define ARM2_IND (LQ_IND + N_LQ)
+
+
+#define VC_IND 0    /* Vertex Ch */
+#define WC1_IND 0 /* Drift Chambers */
+#define WC2_IND (WC1_IND + NW1_WRS) /* Drift Chambers */
+#define WC3_IND (WC2_IND + NW2_WRS) /* Drift Chambers */
+
 
 #define NSENS ARM2_IND * 2
 
@@ -104,6 +113,9 @@ namespace Cosmic {
 
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 = N_HCX + N_HCZ +100; // число чувствительных элементов в калориметре
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys2 = N_HCX + N_HCZ + 100;
+
+    constexpr G4int fNofLayers_W_Chamber_nsys1 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
+    constexpr G4int fNofLayers_W_Chamber_nsys2 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
 
     constexpr G4double plastic_fat_threshold = 1.0 * MeV; // порог записи в файл
     constexpr G4double plastic_thin_threshold = 0.1 * MeV;

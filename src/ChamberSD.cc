@@ -92,11 +92,12 @@ void ChamberSD::Initialize(G4HCofThisEvent* hce)
   // Create hits
   // fNofCells for cells + one more for total sums
 
-  G4int fNofCells = (N_HCX+N_HCZ) + 100;
+    G4int fNofCells = (NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS) + 100;
+   // G4cerr << " fNofCells = " << fNofCells << G4endl;
 
-  for (G4int i=0; i<fNofCells+1; i++ ) {
-    fHitsCollection->insert(new ChamberHit(0,0,0));
-  }
+    for (G4int i = 0; i < fNofCells + 1; i++) {
+        fHitsCollection->insert(new ChamberHit(0, 0, 0));
+    }
 
 
  /*
@@ -195,8 +196,8 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
   //  auto columnNo = touchable->GetCopyNumber(3);
   //  auto hitID = kNofHadRows*columnNo+rowNo;
 
-  //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
-    //G4cerr << " CB= " << CB<<G4endl;
+   // G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
+   // G4cerr << " CB= " << CB<<G4endl;
 
     //G4cerr  <<" layerNumber0= " << touchable->GetReplicaNumber(0) <<" layerNumber1= " << touchable->GetReplicaNumber(1)<<" layerNumber2= " << touchable->GetReplicaNumber(2)<<" layerNumber3= " << touchable->GetReplicaNumber(3)<<" layerNumber4= " << touchable->GetReplicaNumber(4)<<G4endl;
    // G4cerr << " CB= " << CB - ARM2_IND<<G4endl;
@@ -214,6 +215,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
                     "MyCode0004", FatalException, msg);
     }
 
+
     if (!(hit->GetLogV())) {
         // fill volume information
         hit->SetLogV(physicalVol->GetLogicalVolume());
@@ -222,6 +224,8 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
         hit->SetRot(transform.NetRotation());
         hit->SetLocalPos(transform.NetTranslation());
     }
+
+
 
     // check if it is first touch
     //if (hit->GetColumnID()<0) {

@@ -57,7 +57,7 @@ namespace Cosmic
 /// of charged particles in a selected volume:
 /// - fEdep, fTrackLength
 
-class ChamberHit : public G4VHit /*public PlasticHit*/
+class ChamberHit : public G4VHit
 {
   public:
     ChamberHit();

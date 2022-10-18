@@ -95,7 +95,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* DefineVolumes();
 
     G4LogicalVolume *ConstructHadronCalorimeter(G4int nsys);
-    G4LogicalVolume *ConstructVC();
+    G4LogicalVolume *ConstructVC(G4LogicalVolume *&forSD);
     G4LogicalVolume *ConstructWC(G4double Lwin, G4double Wwin, G4int ind, G4LogicalVolume*& forSD);
 
     void ConstructPlasticFat1();
@@ -171,10 +171,16 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume* scint_LQ_nsys1LV = nullptr;
         G4LogicalVolume* scint_LQ_nsys2LV = nullptr;
 
-        G4LogicalVolume *WCTheta1_gas = nullptr ;
-        G4LogicalVolume *WCPhi1_gas = nullptr;
-        G4LogicalVolume *WCTheta2_gas = nullptr;
-        G4LogicalVolume *VCGas_log = nullptr;
+
+        G4LogicalVolume *WCTheta1_gas_nsys1LV = nullptr ;
+        G4LogicalVolume *WCPhi1_gas_nsys1LV = nullptr;
+        G4LogicalVolume *WCTheta2_gas_nsys1LV = nullptr;
+        G4LogicalVolume *VCGas_log_nsys1LV = nullptr;
+
+        G4LogicalVolume *WCTheta1_gas_nsys2LV = nullptr ;
+        G4LogicalVolume *WCPhi1_gas_nsys2LV = nullptr;
+        G4LogicalVolume *WCTheta2_gas_nsys2LV = nullptr;
+        G4LogicalVolume *VCGas_log_nsys2LV = nullptr;
 
 
 
