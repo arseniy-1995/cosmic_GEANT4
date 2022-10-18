@@ -348,13 +348,13 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Xvc_nsys1", fEventAction->Get_VC_Pos(1,1)); // column Id = 4 // Локальная точка
         analysisManager->CreateNtupleDColumn("Yvc_nsys1", fEventAction->Get_VC_Pos(1,2));
         analysisManager->CreateNtupleDColumn("Zvc_nsys1", fEventAction->Get_VC_Pos(1,3));
-
+        analysisManager->CreateNtupleDColumn("Rvc_nsys1", fEventAction->Get_VC_Pos(1,4));
 
         analysisManager->CreateNtupleIColumn("nvc_nsys2", fEventAction->Get_VC_N(2)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleDColumn("Xvc_nsys2", fEventAction->Get_VC_Pos(2,1)); // column Id = 4 // Локальная точка
         analysisManager->CreateNtupleDColumn("Yvc_nsys2", fEventAction->Get_VC_Pos(2,2));
         analysisManager->CreateNtupleDColumn("Zvc_nsys2", fEventAction->Get_VC_Pos(2,3));
-
+        analysisManager->CreateNtupleDColumn("Rvc_nsys2", fEventAction->Get_VC_Pos(2,4));
 
         analysisManager->FinishNtuple(0);
     }
