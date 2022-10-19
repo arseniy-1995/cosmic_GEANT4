@@ -101,7 +101,6 @@ namespace Cosmic {
 #define DT_EMCAL 2
 
 
-
     constexpr G4int fNofLayers_plastic_fat_nsys1 = 6; // число толстых пластиков
     constexpr G4int fNofLayers_plastic_fat_nsys2 = 8;
 
@@ -111,7 +110,8 @@ namespace Cosmic {
     constexpr G4int fNofLayers_plastic_LQ_nsys1 = 2; // число пластиков LQ электронного плеча
     constexpr G4int fNofLayers_plastic_LQ_nsys2 = 2;
 
-    constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 = N_HCX + N_HCZ +100; // число чувствительных элементов в калориметре
+    constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 =
+            N_HCX + N_HCZ + 100; // число чувствительных элементов в калориметре
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys2 = N_HCX + N_HCZ + 100;
 
     constexpr G4int fNofLayers_W_Chamber_nsys1 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
@@ -127,11 +127,18 @@ namespace Cosmic {
     constexpr G4double WChamber_threshold = 0.5 * keV;
     constexpr G4double VChamber_threshold = 0.5 * keV;
 
-    constexpr G4double DENSITY_LO = 1.032;	// scintill. density - for light output calculation
+    constexpr G4double DENSITY_LO = 1.032;    // scintill. density - for light output calculation
 
 
+    // FOR GENBOS
 
-
+#define GENBOS
+#define PHIC    90.*0.0174532925199
+#define DPHI    35.*0.0174532925199
+#define THDN    40.*0.0174532925199
+#define XY_RAND
+constexpr G4double cell_z_size_2 = 20.0 * cm;
+constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm;
 
 }
 

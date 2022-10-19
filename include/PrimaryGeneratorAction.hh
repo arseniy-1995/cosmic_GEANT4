@@ -34,12 +34,19 @@
 #include "globals.hh"
 #include <Randomize.hh>
 #include "G4ThreeVector.hh"
+#include "Constants.hh"
+
+#ifdef GENBOS
+
+#include "Genbos.hh"
+
+#endif
 
 class G4ParticleGun;
+
 class G4Event;
 
-namespace Cosmic
-{
+namespace Cosmic {
 
 /// The primary generator action class with particle gum.
 ///
@@ -48,83 +55,97 @@ namespace Cosmic
 /// can be changed via the G4 build-in commands of G4ParticleGun class
 /// (see the macros provided with this example).
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
-{
-public:
-  PrimaryGeneratorAction();
-  ~PrimaryGeneratorAction() override;
+    class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
+    public:
+        PrimaryGeneratorAction();
 
-  void GeneratePrimaries(G4Event* event) override;
+        ~PrimaryGeneratorAction() override;
 
-  // set methods
-  void SetRandomFlag(G4bool value);
+        void GeneratePrimaries(G4Event *event) override;
+        void GenerateCosmic(G4Event* event); // for cosmic-generator
+        void ShowParticleTable();
 
-private:
-  G4ParticleGun* fParticleGun = nullptr; // G4 particle gun
+        // set methods
+        void SetRandomFlag(G4bool value);
 
+        ///// FOR GENBOS
 
-
-    G4bool fRandomDirection;
-
-   G4double m_mu = 105.658374524; // в МэВ
-// другое распрределение по углу и энергии из работы Шебалина
-    G4double f_theta_energy_sin(G4double theta, G4double momentum) {
-
-        G4double temp = 0.0;
-        G4double k = 2.26;
-        G4double p0 = 500.0; //МэВ
-
-        G4double a = 2.86;
-        G4double b = 1.54;
-        G4double sigma = (a - cos(theta)) / b;
-
-        //  long double A = 1.0 / 0.158363; // константа интегрирования 0..pi/2
-        G4double A = 1.0;
-        // здесь без нормировки
-        temp = A * pow(cos(theta), k) * exp(-pow(log(momentum / p0), 2.0) / (2.0 * pow(sigma, 2.0))) * sin(theta);
-
-        return temp;
-
-    }
-
-    void
-    random_Neumann_theta_energy_sin(G4double initial_theta, G4double final_theta, G4double initial_momentum,
-                                    G4double final_momentum, G4double max_f, G4double &theta,
-                                    G4double &momentum, G4double &kinetic_energy) {
-
-        G4double theta_temp = 0.0;
-        G4double momentum_temp = 0.0;
-        G4double f_temp = 0.0;
-        G4double r1, r2, r3;
-
-        G4bool flaq = false;
-
-        while (flaq == false) {
-
-            r1 = G4UniformRand();
-            r2 = G4UniformRand();
-            r3 = G4UniformRand();
-
-            theta_temp = initial_theta + r1 * (final_theta - initial_theta);
-            momentum_temp = initial_momentum + r2 * (final_momentum - initial_momentum);
-            f_temp = max_f * r3;
-
-            if (f_temp <= f_theta_energy_sin(theta_temp, momentum_temp)) {
-                flaq = true;
-            } else {
-                flaq = false;
-            }
+        void GenerateGenbos(G4Event* event); // for pn-generator GENBOS
+        void SetFileNum(G4int val){FileNum=val;}
+        inline void SetEgMin(G4double val){
+            EgMin=val/GeV;G4int n=2;
+            genbos_beam_(&n,&EgMin, &EgMax);
+        }
+        inline void SetEgMax(G4double val){
+            EgMax=val/GeV;G4int n=2;
+            genbos_beam_(&n,&EgMin, &EgMax);
         }
 
-        theta = theta_temp;
+        inline void SetEgMin(G4double val_min, G4double val_max){
+            EgMin=val_min/GeV;EgMax=val_max/GeV;
+            G4int n=2;
+            genbos_beam_(&n,&EgMin, &EgMax);
+        }
+        //////
 
-        G4double gamma = sqrt(pow(momentum_temp / m_mu, 2.0) + 1.0);
-        momentum = momentum_temp;
-        kinetic_energy = m_mu * (gamma - 1.0); // возвращаем не импульс, а кинетическую энергию
 
-    }
+    private:
+        G4ParticleGun *fParticleGun = nullptr; // G4 particle gun
 
-};
+        G4bool fRandomDirection;
+
+        G4double m_mu = 105.658374524; // в МэВ
+// другое распрределение по углу и энергии из работы Шебалина
+        G4double f_theta_energy_sin(G4double theta, G4double momentum) {
+            G4double temp = 0.0;
+            G4double k = 2.26;
+            G4double p0 = 500.0; //МэВ
+
+            G4double a = 2.86;
+            G4double b = 1.54;
+            G4double sigma = (a - cos(theta)) / b;
+            //  long double A = 1.0 / 0.158363; // константа интегрирования 0..pi/2
+            G4double A = 1.0;
+            // здесь без нормировки
+            temp = A * pow(cos(theta), k) * exp(-pow(log(momentum / p0), 2.0) / (2.0 * pow(sigma, 2.0))) * sin(theta);
+            return temp;
+        }
+
+        void
+        random_Neumann_theta_energy_sin(G4double initial_theta, G4double final_theta, G4double initial_momentum,
+                                        G4double final_momentum, G4double max_f, G4double &theta,
+                                        G4double &momentum, G4double &kinetic_energy);
+
+
+        ///// FOR GENBOS
+
+    private:
+        G4ThreeVector GenVertex(G4double, G4double, G4double, G4double); //  метод генерации точки вылета из пучка по гауссу
+
+        G4int FileNum;
+        G4double Egamma;
+        G4float EgMin;
+        G4float EgMax;
+
+        G4String part_name[64];
+
+        void PrepareNames();
+
+        G4float efot; //photon energy, GeV
+        G4int nreac; // reaction index
+        G4float vx;
+        G4float vy;
+        G4float vz;
+        G4int np; // number of generated particles
+        G4int idg[11];   //[np] // list of particle's indexes
+        G4float cx[11];   //[np] // lists of momentum components
+        G4float cy[11];   //[np]
+        G4float cz[11];   //[np]
+
+        //////
+
+
+    };
 
 }
 

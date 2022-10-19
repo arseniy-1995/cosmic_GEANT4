@@ -483,9 +483,7 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fPlastic_fatYPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_fatZPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
 
-
 //////////////
-
         std::array<std::vector<G4double>, 2> fPlastic_thinEdep{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_thinLO{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_thinA1{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
@@ -498,9 +496,7 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fPlastic_thinYPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_thinZPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
 
-
         //////////////
-
         std::array<std::vector<G4double>, 2> fPlastic_LQ_Edep{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_LQ_LO{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_LQ_A1{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
@@ -513,10 +509,7 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fPlastic_LQ_YPos{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_LQ_ZPos{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
 
-
-
         ////// Для Адронного Калориметра
-        
 
         std::array<std::vector<G4int>, 2> fHCX_N{{std::vector<G4int>(N_HCX + 1, 0.0), std::vector<G4int>(N_HCX + 1, 0.0) }};
         std::array<std::vector<G4int>, 2> fHCX_AL{{std::vector<G4int>(N_HCX + 1, 0.0), std::vector<G4int>(N_HCX + 1, 0.0) }};
@@ -546,47 +539,35 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fHCZ_YPos{{std::vector<G4double>(N_HCZ + 1, 0.0), std::vector<G4double>(N_HCZ + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fHCZ_ZPos{{std::vector<G4double>(N_HCZ + 1, 0.0), std::vector<G4double>(N_HCZ + 1, 0.0) }};
 
-        
 ///////
 
-
-
         // Для камер
-
 
         std::array<std::vector<G4int>, 2> fWa_N{{std::vector<G4int>(NW1_WRS + 1, 0.0), std::vector<G4int>(NW1_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWa_XPos{{std::vector<G4double>(NW1_WRS + 1, 0.0), std::vector<G4double>(NW1_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWa_YPos{{std::vector<G4double>(NW1_WRS + 1, 0.0), std::vector<G4double>(NW1_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWa_ZPos{{std::vector<G4double>(NW1_WRS + 1, 0.0), std::vector<G4double>(NW1_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWa_RPos{{std::vector<G4double>(NW1_WRS + 1, 0.0), std::vector<G4double>(NW1_WRS + 1, 0.0) }};
-
-
 //////
-
         std::array<std::vector<G4int>, 2> fWb_N{{std::vector<G4int>(NW2_WRS + 1, 0.0), std::vector<G4int>(NW2_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWb_XPos{{std::vector<G4double>(NW2_WRS + 1, 0.0), std::vector<G4double>(NW2_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWb_YPos{{std::vector<G4double>(NW2_WRS + 1, 0.0), std::vector<G4double>(NW2_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWb_ZPos{{std::vector<G4double>(NW2_WRS + 1, 0.0), std::vector<G4double>(NW2_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWb_RPos{{std::vector<G4double>(NW2_WRS + 1, 0.0), std::vector<G4double>(NW2_WRS + 1, 0.0) }};
-
-//////
-
+/////
         std::array<std::vector<G4int>, 2> fWc_N{{std::vector<G4int>(NW3_WRS + 1, 0.0), std::vector<G4int>(NW3_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWc_XPos{{std::vector<G4double>(NW3_WRS + 1, 0.0), std::vector<G4double>(NW3_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWc_YPos{{std::vector<G4double>(NW3_WRS + 1, 0.0), std::vector<G4double>(NW3_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWc_ZPos{{std::vector<G4double>(NW3_WRS + 1, 0.0), std::vector<G4double>(NW3_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fWc_RPos{{std::vector<G4double>(NW3_WRS + 1, 0.0), std::vector<G4double>(NW3_WRS + 1, 0.0) }};
 
-
         // Для вершинных камер
-
 
         std::array<std::vector<G4int>, 2> fVC_N{{std::vector<G4int>(NVC_WRS + 1, 0.0), std::vector<G4int>(NVC_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fVC_XPos{{std::vector<G4double>(NVC_WRS + 1, 0.0), std::vector<G4double>(NVC_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fVC_YPos{{std::vector<G4double>(NVC_WRS + 1, 0.0), std::vector<G4double>(NVC_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fVC_ZPos{{std::vector<G4double>(NVC_WRS + 1, 0.0), std::vector<G4double>(NVC_WRS + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fVC_RPos{{std::vector<G4double>(NVC_WRS + 1, 0.0), std::vector<G4double>(NVC_WRS + 1, 0.0) }};
-
 
         // data members
 
