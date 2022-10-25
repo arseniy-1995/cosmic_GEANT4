@@ -248,7 +248,6 @@ namespace Cosmic {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void ChamberHit::AddLocalPos(G4ThreeVector pos) {
-        fLocalPos = pos;
         CalcRho(pos);
     }
 

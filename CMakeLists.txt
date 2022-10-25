@@ -10,11 +10,11 @@ project(cosmic)
 # to build a batch mode only executable
 #
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
-if(WITH_GEANT4_UIVIS)
-  find_package(Geant4 REQUIRED ui_all vis_all)
-else()
-  find_package(Geant4 REQUIRED)
-endif()
+if (WITH_GEANT4_UIVIS)
+    find_package(Geant4 REQUIRED ui_all vis_all)
+else ()
+    find_package(Geant4 REQUIRED)
+endif ()
 
 #ROOT
 
@@ -53,24 +53,25 @@ target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Gean
 # relies on these scripts being in the current working directory.
 #
 set(COSMIC_SCRIPTS
-  cosmic.out
-  cosmic.in
-  gui.mac
-  init_vis.mac
-  plotHisto.C
-  plotNtuple.C
-  run1.mac
-  run2.mac
-  vis.mac
-  )
+        cosmic.out
+        cosmic.in
+        gui.mac
+        init_vis.mac
+        plotHisto.C
+        plotNtuple.C
+        run1.mac
+        run2.mac
+        GENBOS.mac
+        vis.mac
+        )
 
-foreach(_script ${COSMIC_SCRIPTS})
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/${_script}
-    ${PROJECT_BINARY_DIR}/${_script}
-    COPYONLY
+foreach (_script ${COSMIC_SCRIPTS})
+    configure_file(
+            ${PROJECT_SOURCE_DIR}/${_script}
+            ${PROJECT_BINARY_DIR}/${_script}
+            COPYONLY
     )
-endforeach()
+endforeach ()
 
 
 # Add program to the project targets

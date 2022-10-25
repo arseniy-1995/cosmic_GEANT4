@@ -35,14 +35,61 @@
 #ifndef CosmicPrimaryGeneratorMessenger_h
 #define CosmicPrimaryGeneratorMessenger_h 1
 
+//#include "PrimaryGeneratorAction.hh"
 #include "G4UImessenger.hh"
 #include "globals.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4GenericMessenger.hh"
 
-class PrimaryGeneratorMessenger {
+class G4ParticleGun;
+class G4ParticleTable;
+class G4UIcommand;
+class G4UIdirectory;
+class G4UIcmdWithoutParameter;
+class G4UIcmdWithAString;
+class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithAnInteger;
+class G4UIcmdWith3Vector;
+class G4UIcmdWith3VectorAndUnit;
 
-};
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
+namespace Cosmic {
+
+    class PrimaryGeneratorAction;
+
+    class PrimaryGeneratorMessenger : public G4UImessenger {
+    public:
+       // PrimaryGeneratorMessenger(PrimaryGeneratorAction *);
+        PrimaryGeneratorMessenger(PrimaryGeneratorAction * GeneratorAction);
+
+        ~PrimaryGeneratorMessenger();
+
+        void SetNewValue(G4UIcommand * command, G4String newValues);
+
+    private:
+        G4ParticleGun * fParticleGun;
+        G4ParticleTable * particleTable;
+        PrimaryGeneratorAction *fGeneratorAction;
+
+    private: //commands
+
+        G4UIcmdWithAnInteger *GenbosBoolCmd;
+
+        G4UIcmdWithAString *RndmCmd;
+        G4UIcmdWithAString *CountCmd;
+        G4UIcmdWithAnInteger *CStepCmd;
+        G4UIcmdWithAnInteger *ModeCmd;
+        G4UIcmdWithAString *VertexCmd;
+        G4UIcmdWithAnInteger *EntryCmd;
+
+        G4UIcmdWithADoubleAndUnit *EgminCmd;
+        G4UIcmdWithADoubleAndUnit *EgmaxCmd;
+    };
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+}
 #endif //CosmicPrimaryGeneratorMessenger_h

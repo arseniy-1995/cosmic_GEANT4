@@ -20,6 +20,6 @@
 /run/particle/verbose 0
 
 
-/run/printProgress 10000
-/run/beamOn 20000
+/run/printProgress 100
+/run/beamOn 5000
 
