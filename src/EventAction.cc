@@ -48,6 +48,10 @@
 #include "G4SystemOfUnits.hh"
 #include "G4ios.hh"
 
+#include "G4TrajectoryContainer.hh"
+#include "G4Trajectory.hh"
+#include "G4VVisManager.hh"
+
 #include "Randomize.hh"
 #include <iomanip>
 
@@ -86,10 +90,17 @@ namespace Cosmic {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    EventAction::EventAction() {
-
+    EventAction::EventAction():
+    drawFlag("all")
+    //drawFlag("charged")
+    //drawFlag("neutral")
+    {
 
         G4RunManager::GetRunManager()->SetPrintProgress(1);
+
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4ParticleDefinition *particle = particleTable->FindParticle("proton");
+        base_code=particle->GetPDGEncoding();
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -212,7 +223,9 @@ namespace Cosmic {
          if (event_info == NULL) return;
 
 
-        number_vertex = event->GetNumberOfPrimaryVertex();
+        G4int number_vertex = event->GetNumberOfPrimaryVertex();
+       // if(number_vertex<2) return;
+
         auto primary_vertex = event->GetPrimaryVertex();
 
         vertex_x = primary_vertex->GetX0();
@@ -226,9 +239,61 @@ namespace Cosmic {
         vertex_phi = primary_vertex->GetPrimary()->GetMomentum().phi();
 
         vertex_Pzz = event_info->GetPzz();
-        vertex_Egamma = event_info->GetEgamma();
+        vertex_Energy_gamma = event_info->GetEgamma();
         vertex_number_reaction =event_info->GetNreac();
         vertex_number_event = event_info->GetEntry();
+
+        G4int i_vertex,k_vertex,n_vertex,nch_vertex,ip_vertex;
+        G4PrimaryVertex *primary_vertex_with_index;
+
+        for (ip_vertex = 0; ip_vertex < number_vertex; ip_vertex++) {
+            primary_vertex_with_index = event->GetPrimaryVertex(ip_vertex);
+            if (primary_vertex_with_index->GetPrimary()->GetPDGcode() == base_code) break; // proton ?
+        }
+
+        if (ip_vertex == number_vertex) primary_vertex_with_index = event->GetPrimaryVertex(0);
+
+        G4ThreeVector vertex_with_index;
+        vertex_number_vertex=0;
+        if(ip_vertex<number_vertex){
+            primary_vertex_with_index = event->GetPrimaryVertex(ip_vertex);
+            index_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetPDGcode();
+            energy_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
+            vertex_with_index=primary_vertex_with_index->GetPrimary()->GetMomentum();
+            theta_vertex[vertex_number_vertex]=vertex_with_index.theta();
+            phi_vertex[vertex_number_vertex]=vertex_with_index.phi();
+
+            vertex_index_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
+            vertex_mass_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMass() / MeV;
+            vertex_energy_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
+            vertex_momentum_vector[vertex_number_vertex] = primary_vertex->GetPrimary()->GetMomentum().mag() / MeV;
+            vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
+            vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
+
+            vertex_number_vertex++;
+
+        }
+
+        for(i_vertex=0;i_vertex<number_vertex;i_vertex++){
+            if(i_vertex==ip_vertex)continue;
+            primary_vertex_with_index = event->GetPrimaryVertex(i_vertex);
+            index_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetPDGcode();
+            energy_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
+            vertex_with_index=primary_vertex_with_index->GetPrimary()->GetMomentum();
+            theta_vertex[vertex_number_vertex]=vertex_with_index.theta();
+            phi_vertex[vertex_number_vertex]=vertex_with_index.phi();
+
+            vertex_index_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
+            vertex_mass_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMass() / MeV;
+            vertex_energy_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
+            vertex_momentum_vector[vertex_number_vertex] = primary_vertex->GetPrimary()->GetMomentum().mag() / MeV;
+            vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
+            vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
+
+
+            vertex_number_vertex++;
+        }
+
         //
         // Fill histograms & ntuple
         //
@@ -307,7 +372,9 @@ namespace Cosmic {
         // For trigger
         G4int hcdep[2]={0,0};
         G4int wcdep[2]={0,0};
-        G4int dedep[2]={0,0};
+        G4int de_fat_dep[2]={0,0};
+        G4int de_thin_dep[2]={0,0};
+        G4int de_LQ_dep[2]={0,0};
 
         //  HadronCalorimeter_nsys1HC->GetHit(0)->
 
@@ -339,7 +406,7 @@ namespace Cosmic {
                 fPlastic_fatTheta[0][i] =  plastic_fat_nsys1Hit[i]->GetPosTheta() / degree;
                 fPlastic_fatPhi[0][i] =  plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
 
-                dedep[0]=1;
+                de_fat_dep[0]=1;
             }
         }
 
@@ -361,7 +428,7 @@ namespace Cosmic {
                 fPlastic_fatTheta[1][i] =  plastic_fat_nsys2Hit[i]->GetPosTheta() / degree;
                 fPlastic_fatPhi[1][i] =  plastic_fat_nsys2Hit[i]->GetPosPhi() / degree;
 
-                dedep[1]=1;
+                de_fat_dep[1]=1;
             }
         }
 /////////////////////
@@ -381,6 +448,8 @@ namespace Cosmic {
                 fPlastic_thinZPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_thinTheta[0][i] =  plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
                 fPlastic_thinPhi[0][i] =  plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
+
+                de_thin_dep[0]=1;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys2; i++) {
@@ -398,6 +467,8 @@ namespace Cosmic {
                 fPlastic_thinZPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_thinTheta[1][i] =  plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
                 fPlastic_thinPhi[1][i] =  plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
+
+                de_thin_dep[1]=1;
             }
         }
 
@@ -418,6 +489,8 @@ namespace Cosmic {
                 fPlastic_LQ_ZPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_LQ_Theta[0][i] =  plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
                 fPlastic_LQ_Phi[0][i] =  plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
+
+                de_LQ_dep[0]=1;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_LQ_nsys2; i++) {
@@ -435,6 +508,8 @@ namespace Cosmic {
                 fPlastic_LQ_ZPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_LQ_Theta[1][i] =  plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
                 fPlastic_LQ_Phi[1][i] =  plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
+
+                de_LQ_dep[1]=1;
             }
         }
         
@@ -728,7 +803,7 @@ namespace Cosmic {
         //     analysisManager->FillNtupleDColumn(1, hit->GetTrackLength());
         //   }
         //   if(plastic_fat_nsys1Hit[0]->GetEdep()/MeV>1. && plastic_fat_nsys2Hit[0]->GetEdep()/MeV>1.) {
-        analysisManager->FillNtupleIColumn(0, 1);
+        analysisManager->FillNtupleIColumn(0, vertex_number_event);
 
         analysisManager->FillNtupleDColumn(1, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
         analysisManager->FillNtupleDColumn(2, plastic_fat_nsys1Hit[0]->GetTrackLength() / cm);
@@ -746,7 +821,7 @@ namespace Cosmic {
         analysisManager->FillNtupleDColumn(12, vertex_theta / degree);
         analysisManager->FillNtupleDColumn(13, vertex_phi / degree);
         analysisManager->FillNtupleDColumn(14, vertex_Pzz);
-        analysisManager->FillNtupleDColumn(15, vertex_Egamma);
+        analysisManager->FillNtupleDColumn(15, vertex_Energy_gamma / MeV);
         analysisManager->FillNtupleDColumn(16, vertex_number_reaction);
         analysisManager->FillNtupleDColumn(17, vertex_number_event);
 
@@ -756,10 +831,11 @@ namespace Cosmic {
         if (analysisManager) {
             if (1
                 && ((hcdep[0] == 3 && hcdep[1] == 3)    // hit in both HC arms
-                    || ((hcdep[0] == 3) && dedep[1]) || ((hcdep[1] == 3) && dedep[0]))
+                    || ((hcdep[0] == 3) && de_fat_dep[1]) || ((hcdep[1] == 3) && de_fat_dep[0]))
                 //     && ((ahx[0]>HC_THRES && ahz[0]>HC_THRES)		// HC hit in arm 1
                 //	|| (ahx[1]>HC_THRES && ahz[1]>HC_THRES))	// HC hit in arm 2
                 && (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory)
+                || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // LQ
                     ) {
 //G4cout << "Taken!"<<G4endl;
                 //  TO->Fill();
@@ -776,6 +852,26 @@ namespace Cosmic {
        // analysisManager->AddNtupleRow(0);
 
         //  }
+
+
+        // extract the trajectories and draw them
+
+        if (G4VVisManager::GetConcreteInstance())
+        {
+            G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
+            G4int n_trajectories = 0;
+            if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+
+            for (G4int i=0; i<n_trajectories; i++)
+            { G4Trajectory* trj = (G4Trajectory*)
+                        ((*(event->GetTrajectoryContainer()))[i]);
+                if (drawFlag == "all") trj->DrawTrajectory();
+                else if ((drawFlag == "charged")&&(trj->GetCharge() != 0.))
+                    trj->DrawTrajectory();
+                else if ((drawFlag == "neutral")&&(trj->GetCharge() == 0.))
+                    trj->DrawTrajectory();
+            }
+        }
 
 
     }

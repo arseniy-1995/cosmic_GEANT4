@@ -108,10 +108,28 @@ RunAction::RunAction(EventAction* eventAction)
 
         analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 14 // Pzz
         analysisManager->CreateNtupleDColumn("Egamma"); // column Id = 15 // Energy gamma
-        analysisManager->CreateNtupleDColumn("nbr"); // column Id = 16 // Number reaction
-        analysisManager->CreateNtupleDColumn("nev"); // column Id = 17 // Number event
+        analysisManager->CreateNtupleDColumn("NumReact"); // column Id = 16 // Number reaction
+        analysisManager->CreateNtupleDColumn("NumEvnt"); // column Id = 17 // Number event
 
+        analysisManager->CreateNtupleDColumn("IndexVertex_", fEventAction->GetVertexIndex());
+        analysisManager->CreateNtupleDColumn("MassVertex_", fEventAction->GetVertexMass());
+        analysisManager->CreateNtupleDColumn("EnergyVertex_", fEventAction->GetVertexEnergy());
+        analysisManager->CreateNtupleDColumn("MomentumVertex_", fEventAction->GetVertexMomentum());
+        analysisManager->CreateNtupleDColumn("ThetaVertex_", fEventAction->GetVertexTheta());
+        analysisManager->CreateNtupleDColumn("PhiVertex_", fEventAction->GetVertexPhi());
 
+     //   TO->Branch("nev",&nev,"nev/I");
+     //   TO->Branch("nr",&nr,"nr/I");
+     //   TO->Branch("eg",&Eg,"eg/F");
+     //   TO->Branch("vx",&vx,"vx/F");
+    //    TO->Branch("vy",&vy,"vy/F");
+    //    TO->Branch("vz",&vz,"vz/F");
+
+     //   TO->Branch("nv",&nv,"nv/I");
+    //    TO->Branch("iv",iv,"iv[nv]/F");
+    //    TO->Branch("ev",ev,"ev[nv]/F");
+    //    TO->Branch("tv",tv,"tv[nv]/F");
+    //    TO->Branch("fv",fv,"fv[nv]/F");
 
 
       //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1_vector", fEventAction->GetPlasticEdep()); // column Id = 4

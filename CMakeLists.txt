@@ -62,6 +62,7 @@ set(COSMIC_SCRIPTS
         run1.mac
         run2.mac
         GENBOS.mac
+        Proton.mac
         vis.mac
         )
 
