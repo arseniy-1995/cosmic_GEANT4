@@ -114,6 +114,19 @@ namespace Cosmic {
             return fPlastic_fatXPos[0];
         }
 
+        std::vector<G4double> &GetPlasticFatAngle(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_fatTheta[0];
+                if (index == 2) return fPlastic_fatPhi[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_fatTheta[1];
+                if (index == 2) return fPlastic_fatPhi[1];
+
+            }
+            return fPlastic_fatTheta[0];
+        }
+
         /////////////// ТОНКИЕ ПЛАСТИКИ
 
         std::vector<G4double> &GetPlasticThinEdep(G4int nsys = 1) {
@@ -161,7 +174,20 @@ namespace Cosmic {
             }
             return fPlastic_thinXPos[0];
         }
-   
+
+        std::vector<G4double> &GetPlasticThinAngle(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_thinTheta[0];
+                if (index == 2) return fPlastic_thinPhi[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_thinTheta[1];
+                if (index == 2) return fPlastic_thinPhi[1];
+
+            }
+            return fPlastic_thinTheta[0];
+        }
+
 
         ///////////////
 
@@ -220,7 +246,20 @@ namespace Cosmic {
 
             return fPlastic_LQ_XPos[0];
         }
-        
+
+        std::vector<G4double> &GetPlasticLQAngle(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_LQ_Theta[0];
+                if (index == 2) return fPlastic_LQ_Phi[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_LQ_Theta[1];
+                if (index == 2) return fPlastic_LQ_Phi[1];
+
+            }
+            return fPlastic_LQ_Theta[0];
+        }
+
         ////////////////////
 
         // Методы для Адронного Калориметра
@@ -453,10 +492,11 @@ namespace Cosmic {
 
         G4double vertex_x, vertex_y, vertex_z;    // vertex position
         G4int number_vertex;
-        G4int vertex_index;// number of vertexes (particles)
+        G4int vertex_index, vertex_number_reaction, vertex_number_event;// number of vertexes (particles)
         G4double vertex_energy, vertex_momentum, vertex_mass;
         G4double vertex_theta, vertex_phi;
-
+        G4double vertex_Pzz;
+        G4double vertex_Egamma;
 
         // methods
         PlasticHitsCollection *GetHitsCollection(G4int hcID, const G4Event *event) const;
@@ -482,6 +522,8 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fPlastic_fatXPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_fatYPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_fatZPos{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatTheta{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_fatPhi{{std::vector<G4double>(fNofLayers_plastic_fat_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_fat_nsys2 + 1, 0.0) }};
 
 //////////////
         std::array<std::vector<G4double>, 2> fPlastic_thinEdep{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
@@ -495,6 +537,8 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fPlastic_thinXPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_thinYPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_thinZPos{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinTheta{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_thinPhi{{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0) }};
 
         //////////////
         std::array<std::vector<G4double>, 2> fPlastic_LQ_Edep{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
@@ -508,6 +552,8 @@ namespace Cosmic {
         std::array<std::vector<G4double>, 2> fPlastic_LQ_XPos{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_LQ_YPos{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
         std::array<std::vector<G4double>, 2> fPlastic_LQ_ZPos{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_LQ_Theta{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
+        std::array<std::vector<G4double>, 2> fPlastic_LQ_Phi{{std::vector<G4double>(fNofLayers_plastic_LQ_nsys1 + 1, 0.0), std::vector<G4double>(fNofLayers_plastic_LQ_nsys2 + 1, 0.0) }};
 
         ////// Для Адронного Калориметра
 

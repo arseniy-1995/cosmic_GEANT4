@@ -106,6 +106,13 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
         analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
 
+        analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 14 // Pzz
+        analysisManager->CreateNtupleDColumn("Egamma"); // column Id = 15 // Energy gamma
+        analysisManager->CreateNtupleDColumn("nbr"); // column Id = 16 // Number reaction
+        analysisManager->CreateNtupleDColumn("nev"); // column Id = 17 // Number event
+
+
+
 
       //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1_vector", fEventAction->GetPlasticEdep()); // column Id = 4
       //  analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2_vector"); // column Id = 5
@@ -138,6 +145,13 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Xplastic_fat_nsys2", fEventAction->GetPlasticFatPos(2, 1)); // column Id = 4 // Локальная точка
         analysisManager->CreateNtupleDColumn("Yplastic_fat_nsys2", fEventAction->GetPlasticFatPos(2, 2)); // column Id = 4 //
         analysisManager->CreateNtupleDColumn("Zplastic_fat_nsys2", fEventAction->GetPlasticFatPos(2, 3)); // column Id = 4 //
+
+
+        analysisManager->CreateNtupleDColumn("Thetaplastic_fat_nsys1", fEventAction->GetPlasticFatAngle(1, 1)); // column Id = 4 // Углы
+        analysisManager->CreateNtupleDColumn("Phiplastic_fat_nsys1", fEventAction->GetPlasticFatAngle(1, 2)); // column Id = 4 //
+
+        analysisManager->CreateNtupleDColumn("Thetaplastic_fat_nsys2", fEventAction->GetPlasticFatAngle(2, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Phiplastic_fat_nsys2", fEventAction->GetPlasticFatAngle(2, 2)); // column Id = 4 //
 
 
     /////////////////////// Для Адронного Калориметра
@@ -264,6 +278,12 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Yplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 2)); // column Id = 4 //
         analysisManager->CreateNtupleDColumn("Zplastic_thin_nsys2", fEventAction->GetPlasticThinPos(2, 3)); // column Id = 4 //
 
+        analysisManager->CreateNtupleDColumn("Thetaplastic_thin_nsys1", fEventAction->GetPlasticThinAngle(1, 1)); // column Id = 4 // Углы
+        analysisManager->CreateNtupleDColumn("Phiplastic_thin_nsys1", fEventAction->GetPlasticThinAngle(1, 2)); // column Id = 4 //
+
+        analysisManager->CreateNtupleDColumn("Thetaplastic_thin_nsys2", fEventAction->GetPlasticThinAngle(2, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Phiplastic_thin_nsys2", fEventAction->GetPlasticThinAngle(2, 2)); // column Id = 4 //
+
 // Для пластиков LQ-поляриметра
 /////////////////////////////
 
@@ -295,6 +315,12 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Xplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 1)); // column Id = 4 // Локальная точка
         analysisManager->CreateNtupleDColumn("Yplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 2)); // column Id = 4 //
         analysisManager->CreateNtupleDColumn("Zplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2, 3)); // column Id = 4 //
+
+        analysisManager->CreateNtupleDColumn("Thetaplastic_LQ_nsys1", fEventAction->GetPlasticLQAngle(1, 1)); // column Id = 4 // Углы
+        analysisManager->CreateNtupleDColumn("Phiplastic_LQ_nsys1", fEventAction->GetPlasticLQAngle(1, 2)); // column Id = 4 //
+
+        analysisManager->CreateNtupleDColumn("Thetaplastic_LQ_nsys2", fEventAction->GetPlasticLQAngle(2, 1)); // column Id = 4 // Локальная точка
+        analysisManager->CreateNtupleDColumn("Phiplastic_LQ_nsys2", fEventAction->GetPlasticLQAngle(2, 2)); // column Id = 4 //
 
 
         /// Для трековых камер

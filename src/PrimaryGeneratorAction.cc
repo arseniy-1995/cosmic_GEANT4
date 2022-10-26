@@ -29,6 +29,7 @@
 
 #include "PrimaryGeneratorAction.hh"
 //#include "PrimaryGeneratorMessenger.hh"
+#include "EventInfo.hh"
 
 #include "G4RunManager.hh"
 #include "G4LogicalVolumeStore.hh"
@@ -124,7 +125,8 @@ namespace Cosmic {
         if (GenbosBool == 0) {
             //  GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
-            GenerateLowQ_method2(anEvent);
+           // GenerateLowQ_method2(anEvent);
+            GenerateProton(anEvent);
         } else if (GenbosBool == 1) {
             GenerateGenbos(anEvent);
         }
@@ -201,18 +203,17 @@ namespace Cosmic {
                                                    G4double Pzz1, G4double Pzz2, G4double max_f,
                                                    G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
                                                    G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
+                                                   G4double &Pzz,
                                                    G4double &xx_cell, G4double &yy_cell, G4double &zz_cell) {
 
         G4double theta_e_temp = 0.0;
         G4double phi_e_temp = 0.0;
-        G4double zz_cell_temp = 0.0;
+        G4double xx_cell_temp =0.0, yy_cell_temp=0.0, zz_cell_temp = 0.0;
         G4double Pzz_temp = 0.0;
         G4double f_temp = 0.0;
         G4double r1 = 0., r2 = 0., r3 = 0., r4 = 0., r5 = 0.;
 
-        G4double meanX =0., meanY =0.;
-        xx_cell = 0.1*G4RandGauss::shoot(meanX, Xsigma_beam) / mm;
-        yy_cell = 0.1*G4RandGauss::shoot(meanY, Ysigma_beam) / mm;
+
 
         G4double f_dsdo =0.0;
         G4bool flaq = false;
@@ -225,6 +226,8 @@ namespace Cosmic {
             r5 = G4UniformRand();
 
             theta_e_temp = initial_theta_e + r1 * (final_theta_e - initial_theta_e);
+            xx_cell_temp = 0.1*G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
+            yy_cell_temp = 0.1*G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r2 * (final_zz_cell - initial_zz_cell);
             Pzz_temp = (r3 > 0.5) ? Pzz1 : Pzz2;
             phi_e_temp = 2.0 * M_PI * r4;
@@ -247,6 +250,8 @@ namespace Cosmic {
         phi_electron = phi_e_temp;
         phi_deuteron = M_PI - phi_electron;
         zz_cell = zz_cell_temp;
+        xx_cell = xx_cell_temp;
+        yy_cell = yy_cell_temp;
     }
 
 
@@ -259,19 +264,16 @@ namespace Cosmic {
                                                            G4double Pzz1, G4double Pzz2, G4double max_f,
                                                            G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
                                                            G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
+                                                           G4double &Pzz,
                                                            G4double &xx_cell, G4double &yy_cell, G4double &zz_cell) {
 
         G4double theta_e_temp = 0.0, phi_e_temp = 0.0;
         G4double x_counter_e_temp = 0.0;
         G4double y_counter_e_temp = 0.0;
-        G4double zz_cell_temp = 0.0;
+        G4double xx_cell_temp = 0.0, yy_cell_temp = 0.0, zz_cell_temp = 0.0;
         G4double Pzz_temp = 0.0;
         G4double f_temp = 0.0;
         G4double r1 = 0., r2 = 0., r3 = 0., r4 = 0., r5 = 0.;
-
-        G4double meanX =0., meanY =0.;
-        xx_cell = 0.1*G4RandGauss::shoot(meanX, Xsigma_beam) / mm;
-        yy_cell = 0.1*G4RandGauss::shoot(meanY, Ysigma_beam) / mm;
 
 
         G4double f_dsdo =0.0;
@@ -287,7 +289,8 @@ namespace Cosmic {
 
             x_counter_e_temp = initial_x_counter_e + r1 * (final_x_counter_e - initial_x_counter_e);
             y_counter_e_temp = initial_x_counter_e + r2 * (final_y_counter_e - initial_y_counter_e);
-
+            xx_cell_temp = 0.1*G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
+            yy_cell_temp = 0.1*G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r3 * (final_zz_cell - initial_zz_cell);
             Pzz_temp = (r4 > 0.5) ? Pzz1 : Pzz2;
             f_temp = max_f * r5;
@@ -345,9 +348,14 @@ namespace Cosmic {
         energy_deuteron = (1. - 1. / rc) * Ebeam; // кин энергия дейтрона
         energy_electron = Ebeam / rc; // энергия электрона после рассеяния
         theta_deuteron = atan(sin(theta_electron) / (rc - cos(theta_electron)));
-        phi_electron = (G4UniformRand()>0.5) ? phi_e_temp : phi_e_temp + M_PI; // возможность, чтобы электроны летели в нижний счетчик тоже
+        phi_electron = (G4UniformRand() > 0.5) ? phi_e_temp : phi_e_temp +
+                                                              M_PI; // возможность, чтобы электроны летели в нижний счетчик тоже
         phi_deuteron = M_PI - phi_electron;
+        xx_cell = xx_cell_temp;
+        yy_cell = yy_cell_temp;
         zz_cell = zz_cell_temp;
+        Pzz = Pzz_temp;
+
     }
 
 
@@ -421,6 +429,7 @@ namespace Cosmic {
         G4double momentum, kinetic_energy;
         G4double Pzz1 = 1.0, r = -2.0;
         G4double Pzz2 = r * Pzz1;
+        G4double Pzz =0.0;
 
         G4double theta_electron = 0.0, theta_deuteron = 0.0;
         G4double phi_electron = 0.0, phi_deuteron = 0.0;
@@ -431,7 +440,7 @@ namespace Cosmic {
                           final_zz_cell, Pzz1, Pzz2, max_f,
                           theta_electron, phi_electron, energy_electron,
                           theta_deuteron, phi_deuteron, energy_deuteron,
-                          xx_cell, yy_cell, zz_cell);
+                          Pzz, xx_cell, yy_cell, zz_cell);
 
      //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
      //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
@@ -486,6 +495,15 @@ namespace Cosmic {
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
 
+        EventInfo* info = new EventInfo();
+//   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
+        //info->SetEgamma(Egamma);
+        // info->SetNreac(nreac);
+        //info->SetNp(np);
+        //info->SetEntry(FileNum);
+        info->SetPzz(Pzz);
+        event->SetUserInformation(info);
+
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -503,6 +521,7 @@ namespace Cosmic {
         G4double momentum, kinetic_energy;
         G4double Pzz1 = 1.0, r = -2.0;
         G4double Pzz2 = r * Pzz1;
+        G4double Pzz = 0.0;
 
         G4double theta_electron = 0.0, theta_deuteron = 0.0;
         G4double phi_electron = 0.0, phi_deuteron = 0.0;
@@ -514,7 +533,7 @@ namespace Cosmic {
                                   initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
                                   theta_electron, phi_electron, energy_electron,
                                   theta_deuteron, phi_deuteron, energy_deuteron,
-                                  xx_cell, yy_cell, zz_cell);
+                                  Pzz, xx_cell, yy_cell, zz_cell);
 
         //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
         //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
@@ -569,8 +588,69 @@ namespace Cosmic {
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
 
-           G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
-           G4cerr <<std::endl;
+          // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
+          // G4cerr <<std::endl;
+
+        EventInfo* info = new EventInfo();
+//   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
+        //info->SetEgamma(Egamma);
+       // info->SetNreac(nreac);
+        //info->SetNp(np);
+        //info->SetEntry(FileNum);
+        info->SetPzz(Pzz);
+        event->SetUserInformation(info);
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void PrimaryGeneratorAction::GenerateProton(G4Event *event) {
+        G4ThreeVector vertex;
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4ParticleDefinition *particle;
+        G4ParticleMomentum Momentum;
+        G4double energy1, theta1, phi1;
+        G4double energy2, theta2, phi2;
+
+        G4double Xbeam = 0., Ybeam = 0.;
+        vertex = GenVertex(Xbeam, Ybeam, 0.7*mm, 0.3*mm);
+
+        particle = particleTable->FindParticle("proton");
+
+        energy1 = (10.+450.*G4UniformRand())*MeV;
+        theta1 = M_PI*G4UniformRand();
+        phi1 = 2.0*M_PI*G4UniformRand();
+
+        // Нужно генерить две частицы для срабатывания тригера
+        energy2 = (10.+450.*G4UniformRand())*MeV;
+        theta2 = M_PI*G4UniformRand();
+        phi2 =M_PI-phi1;
+
+        auto v_direction1 = G4ThreeVector (sin(theta1) * sin(phi1), sin(theta1) * cos(phi1), cos(theta1));
+        auto v_direction2 = G4ThreeVector (sin(theta2) * sin(phi2), sin(theta2) * cos(phi2), cos(theta2));
+
+        fParticleGun->SetParticleEnergy(energy1);
+        //fParticleGun->SetParticleMomentumDirection(v_direction1);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2.*G4UniformRand()-1,1.,G4UniformRand()));
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+        fParticleGun->SetParticleEnergy(energy2);
+      //  fParticleGun->SetParticleMomentumDirection(v_direction2);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2.*G4UniformRand()-1,-1.,G4UniformRand()));
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+        EventInfo* info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(500.0);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -621,16 +701,16 @@ namespace Cosmic {
 //     delete particleGun;
         }
 
-        /*
-        pn2020EventInfo* info = new pn2020EventInfo();
-//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+
+        EventInfo* info = new EventInfo();
+//   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
         info->SetEgamma(Egamma);
         info->SetNreac(nreac);
         info->SetNp(np);
         info->SetEntry(FileNum);
+        info->SetPzz((G4UniformRand() > 0.5) ? 1.0 : -2.0);
         event->SetUserInformation(info);
 
-         */
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

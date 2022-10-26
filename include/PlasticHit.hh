@@ -127,6 +127,11 @@ class PlasticHit : public G4VHit
     void AddTrackLength(G4double dl) { fTrackLength += dl; }
     inline G4double GetTrackLength() const { return fTrackLength; }
 
+    inline void SetPosTheta(G4double theta) { fPosTheta = theta; }
+    inline G4double GetPosTheta() const { return fPosTheta; }
+
+    inline void SetPosPhi(G4double phi) { fPosPhi = phi; }
+    inline G4double GetPosPhi() const { return fPosPhi; }
 
     inline void SetToF(G4double tof) { fToF = tof; }
     void AddToF(G4double tof) { fToF = tof; }
@@ -184,6 +189,7 @@ class PlasticHit : public G4VHit
     G4double fT2 = 0.;
     G4ThreeVector fHalfLength = G4ThreeVector();
     G4double fAbsorbtion  = 0.;
+    G4double fPosTheta  = 0., fPosPhi = 0.;
     G4ThreeVector fLocalPos = G4ThreeVector(); // точка взаимодействия в координатах детектора
     G4ThreeVector fWorldPos = G4ThreeVector();
     G4ThreeVector fVPos = G4ThreeVector(); // вершина (точка генерации)

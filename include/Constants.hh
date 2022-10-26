@@ -138,6 +138,7 @@ namespace Cosmic {
 #define THDN    40.*0.0174532925199
 #define XY_RAND
     constexpr G4double cell_z_size_2 = 20.0 * cm;
+    constexpr G4double meanX_beam =0., meanY_beam =0.;
     constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm;
 
 

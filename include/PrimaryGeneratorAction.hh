@@ -68,6 +68,7 @@ namespace Cosmic {
         void GenerateCosmic(G4Event *event); // for cosmic-generator
         void GenerateLowQ_method1(G4Event *event); // for ed-generator for LQ-polarimeter
         void GenerateLowQ_method2(G4Event *event);
+        void GenerateProton(G4Event *event); // for p-generator
 
         // set methods
         void SetRandomFlag(G4bool value);
@@ -295,6 +296,7 @@ namespace Cosmic {
                                G4double Pzz1, G4double Pzz2, G4double max_f,
                                G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
                                G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
+                               G4double &Pzz,
                                G4double &xx_cell, G4double &yy_cell, G4double &zz_cell);
 
         void random_Neumann_LQ_method2(G4double initial_x_counter_e, G4double final_x_counter_e,
@@ -303,6 +305,7 @@ namespace Cosmic {
                                        G4double Pzz1, G4double Pzz2, G4double max_f,
                                        G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
                                        G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
+                                       G4double &Pzz,
                                        G4double &xx_cell, G4double &yy_cell, G4double &zz_cell);
 
 

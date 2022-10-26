@@ -29,12 +29,15 @@
 
 #include "Constants.hh"
 #include "EventAction.hh"
+#include "EventInfo.hh"
 
 #include "PlasticSD.hh"
 #include "HadronCalorimeterSD.hh"
+#include "ChamberSD.hh"
 
 #include "PlasticHit.hh"
 #include "HadronCalorimeterHit.hh"
+#include "ChamberHit.hh"
 
 #include "G4AnalysisManager.hh"
 #include "G4RunManager.hh"
@@ -203,12 +206,12 @@ namespace Cosmic {
         if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_Chamber_nsys1HitsCollection");
         if (fV_Chamber_nsys2HCID == -1) fV_Chamber_nsys2HCID = SDmanp->GetCollectionID("V_Chamber_nsys2HitsCollection");
 
-        auto event_info = event->GetUserInformation();
+        auto event_info = (EventInfo*)event->GetUserInformation();
+       // EventInfo* event_info =(EventInfo*)event->GetUserInformation();
 
-        // if (event_info == NULL) return;
-        //  Eg=info->GetEgamma();
-        //  nr=info->GetNreac();
-        // nev=info->GetEntry();
+         if (event_info == NULL) return;
+
+
         number_vertex = event->GetNumberOfPrimaryVertex();
         auto primary_vertex = event->GetPrimaryVertex();
 
@@ -222,7 +225,10 @@ namespace Cosmic {
         vertex_theta = primary_vertex->GetPrimary()->GetMomentum().theta();
         vertex_phi = primary_vertex->GetPrimary()->GetMomentum().phi();
 
-
+        vertex_Pzz = event_info->GetPzz();
+        vertex_Egamma = event_info->GetEgamma();
+        vertex_number_reaction =event_info->GetNreac();
+        vertex_number_event = event_info->GetEntry();
         //
         // Fill histograms & ntuple
         //
@@ -297,6 +303,12 @@ namespace Cosmic {
         plastic_LQ_nsys1Hit[0] = (*plastic_LQ_nsys1HC)[plastic_LQ_nsys1HC->entries() - 1];
         plastic_LQ_nsys2Hit[0] = (*plastic_LQ_nsys2HC)[plastic_LQ_nsys2HC->entries() - 1];
 
+        //
+        // For trigger
+        G4int hcdep[2]={0,0};
+        G4int wcdep[2]={0,0};
+        G4int dedep[2]={0,0};
+
         //  HadronCalorimeter_nsys1HC->GetHit(0)->
 
         //   HadronCalorimeter_nsys1Hit[0] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC->GetHit(0));
@@ -324,6 +336,10 @@ namespace Cosmic {
                 fPlastic_fatXPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_fatYPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_fatTheta[0][i] =  plastic_fat_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_fatPhi[0][i] =  plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
+
+                dedep[0]=1;
             }
         }
 
@@ -342,6 +358,10 @@ namespace Cosmic {
                 fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_fatYPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_fatTheta[1][i] =  plastic_fat_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_fatPhi[1][i] =  plastic_fat_nsys2Hit[i]->GetPosPhi() / degree;
+
+                dedep[1]=1;
             }
         }
 /////////////////////
@@ -359,6 +379,8 @@ namespace Cosmic {
                 fPlastic_thinXPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_thinYPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_thinZPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_thinTheta[0][i] =  plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_thinPhi[0][i] =  plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys2; i++) {
@@ -374,6 +396,8 @@ namespace Cosmic {
                 fPlastic_thinXPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_thinYPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_thinZPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_thinTheta[1][i] =  plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_thinPhi[1][i] =  plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
             }
         }
 
@@ -392,6 +416,8 @@ namespace Cosmic {
                 fPlastic_LQ_XPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_LQ_YPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_LQ_ZPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_LQ_Theta[0][i] =  plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_LQ_Phi[0][i] =  plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_LQ_nsys2; i++) {
@@ -407,6 +433,8 @@ namespace Cosmic {
                 fPlastic_LQ_XPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_LQ_YPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_LQ_ZPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().z() / cm;
+                fPlastic_LQ_Theta[1][i] =  plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_LQ_Phi[1][i] =  plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
             }
         }
         
@@ -436,6 +464,7 @@ namespace Cosmic {
                     fHCX_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
                     fHCX_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                     fHCX_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
+                    hcdep[0]|=1;
                     continue;
                 }
 
@@ -456,6 +485,7 @@ namespace Cosmic {
                     fHCZ_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
                     fHCZ_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                     fHCZ_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
+                    hcdep[0]|=2;
                     continue;
                 }
             }
@@ -487,6 +517,7 @@ namespace Cosmic {
                     fHCX_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
                     fHCX_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
                     fHCX_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+                    hcdep[1]|=1;
                     continue;
                 }
                 index = index - HCZ_IND;
@@ -506,6 +537,41 @@ namespace Cosmic {
                     fHCZ_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
                     fHCZ_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
                     fHCZ_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+                    hcdep[1]|=2;
+                    continue;
+                }
+            }
+        }
+
+        /// ВЕРШИННЫЕ КАМЕРЫ
+
+        for (G4int i = 0; i < (G4int) V_Chamber_nsys1HC->GetSize(); i++) {
+            auto V_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys1HC->GetHit(i));
+            if (V_Chamber_nsys1Hit_->GetEdep() > VChamber_threshold) {
+                index = i;
+                if (index >= 0 && index < NVC_WRS) {
+                    fVC_N[0][index]++;
+                    fVC_XPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fVC_YPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fVC_ZPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fVC_RPos[0][index] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    wcdep[0]|=1;
+                    continue;
+                }
+            }
+        }
+
+        for (G4int i = 0; i < (G4int) V_Chamber_nsys2HC->GetSize(); i++) {
+            auto V_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys2HC->GetHit(i));
+            if (V_Chamber_nsys2Hit_->GetEdep() > VChamber_threshold) {
+                index = i;
+                if (index >= 0 && index < NVC_WRS) {
+                    fVC_N[1][index]++;
+                    fVC_XPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fVC_YPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fVC_ZPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fVC_RPos[1][index] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    wcdep[1]|=1;
                     continue;
                 }
             }
@@ -523,6 +589,7 @@ namespace Cosmic {
                     fWa_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWa_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWa_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    wcdep[0]|=2;
                     continue;
                 }
                 index = index - WC2_IND;
@@ -532,6 +599,7 @@ namespace Cosmic {
                     fWb_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWb_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWb_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().x() / cm;
+                    wcdep[0]|=4;
                     continue;
                 }
                 index = index - WC3_IND;
@@ -541,6 +609,7 @@ namespace Cosmic {
                     fWc_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWc_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWc_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    wcdep[0]|=8;
                     continue;
                 }
             }
@@ -557,6 +626,7 @@ namespace Cosmic {
                     fWa_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fWa_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fWa_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    wcdep[1]|=2;
                     continue;
                 }
                 index = index - WC2_IND;
@@ -566,6 +636,7 @@ namespace Cosmic {
                     fWb_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fWb_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fWb_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().x() / cm;
+                    wcdep[1]|=4;
                     continue;
                 }
                 index = index - WC3_IND;
@@ -575,43 +646,12 @@ namespace Cosmic {
                     fWc_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fWc_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fWc_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    continue;
-
-                }
-            }
-        }
-
-        /// ВЕРШИННЫЕ КАМЕРЫ
-
-        for (G4int i = 0; i < (G4int) V_Chamber_nsys1HC->GetSize(); i++) {
-            auto V_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys1HC->GetHit(i));
-            if (V_Chamber_nsys1Hit_->GetEdep() > VChamber_threshold) {
-                index = i;
-                if (index >= 0 && index < NVC_WRS) {
-                    fVC_N[0][index]++;
-                    fVC_XPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
-                    fVC_YPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
-                    fVC_ZPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
-                    fVC_RPos[0][index] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    wcdep[1]|=8;
                     continue;
                 }
             }
         }
 
-            for (G4int i = 0; i < (G4int) V_Chamber_nsys2HC->GetSize(); i++) {
-                auto V_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys2HC->GetHit(i));
-                if (V_Chamber_nsys2Hit_->GetEdep() > VChamber_threshold) {
-                    index = i;
-                    if (index >= 0 && index < NVC_WRS) {
-                        fVC_N[1][index]++;
-                        fVC_XPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
-                        fVC_YPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
-                        fVC_ZPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
-                        fVC_RPos[1][index] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
-                        continue;
-                    }
-                }
-            }
             
 
         //     totalPlasticEdep = 0.;
@@ -705,9 +745,36 @@ namespace Cosmic {
         analysisManager->FillNtupleDColumn(11, vertex_momentum / MeV);
         analysisManager->FillNtupleDColumn(12, vertex_theta / degree);
         analysisManager->FillNtupleDColumn(13, vertex_phi / degree);
+        analysisManager->FillNtupleDColumn(14, vertex_Pzz);
+        analysisManager->FillNtupleDColumn(15, vertex_Egamma);
+        analysisManager->FillNtupleDColumn(16, vertex_number_reaction);
+        analysisManager->FillNtupleDColumn(17, vertex_number_event);
 
 
-        analysisManager->AddNtupleRow(0);
+
+/// Trigger записи в файл
+        if (analysisManager) {
+            if (1
+                && ((hcdep[0] == 3 && hcdep[1] == 3)    // hit in both HC arms
+                    || ((hcdep[0] == 3) && dedep[1]) || ((hcdep[1] == 3) && dedep[0]))
+                //     && ((ahx[0]>HC_THRES && ahz[0]>HC_THRES)		// HC hit in arm 1
+                //	|| (ahx[1]>HC_THRES && ahz[1]>HC_THRES))	// HC hit in arm 2
+                && (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory)
+                    ) {
+//G4cout << "Taken!"<<G4endl;
+                //  TO->Fill();
+                analysisManager->AddNtupleRow(0);
+//G4cout<<" way="<<way[0]<<G4endl;
+            } else {
+//G4cout 	<< "Rejected! : ahx="<<ahx[0]<<","<<ahx[1]<<"  ahz="<<ahz[0]<<","<<ahz[1]
+//	<< " wcdep="<<wcdep[0]<<","<<wcdep[1]<<G4endl;
+
+            }
+        }
+
+        // Это без триггера, все. Если нет тригера по энергии, то пишется нулями
+       // analysisManager->AddNtupleRow(0);
+
         //  }
 
 
