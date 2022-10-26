@@ -3,16 +3,21 @@
 # To be run preferably in batch, without graphics:
 # % run21_geant4_2 run2.mac
 #
+
 #/run/numberOfThreads 4
 #/control/cout/ignoreThreadsExcept 0
 #
+
+
 /run/initialize
+#/gun/GenbosBool 1
 /gun/random on
 /gun/count on
-/gun/CStep 1000
-/gun/mode 34
+/gun/CStep 10000
+#/gun/mode 34
 /gun/EgMin 400 MeV
 /gun/EgMax 650 MeV
-/tracking/storeTrajectory 0
-/run/printProgress 100
-/run/beamOn 10000
+#/tracking/storeTrajectory 0
+/run/printProgress 100000
+/run/beamOn 2000000
+

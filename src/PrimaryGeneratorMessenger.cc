@@ -64,7 +64,7 @@ namespace Cosmic {
         GenbosBoolCmd = new G4UIcmdWithAnInteger("/gun/GenbosBool", this);
         GenbosBoolCmd->SetGuidance("Genbos Generator on/off");
         GenbosBoolCmd->SetGuidance("  Choice : off(default), on");
-        GenbosBoolCmd->SetParameterName("GenbosBoolCmd", false);
+        GenbosBoolCmd->SetParameterName("GenbosBool", false);
         GenbosBoolCmd->SetRange("GenbosBool>=0");
         GenbosBoolCmd->SetDefaultValue(0);
 
@@ -142,7 +142,9 @@ namespace Cosmic {
 
 #ifdef GENBOS
 
-        if (command == GenbosBoolCmd) { fGeneratorAction->SetGenbosBool(GenbosBoolCmd->GetNewIntValue(newValue)); }
+        if (command == GenbosBoolCmd) {
+            fGeneratorAction->SetGenbosBool(GenbosBoolCmd->GetNewIntValue(newValue));
+        }
         if (command == RndmCmd) {
             fGeneratorAction->SetRndmFlag(newValue);
             fGeneratorAction->DoRandomize();

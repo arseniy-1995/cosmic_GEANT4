@@ -98,7 +98,10 @@ namespace Cosmic {
 
         void SetFileNum(G4int val) { FileNum = val; }
 
-        void SetGenbosBool(G4int val) { GenbosBool = val; }
+        void SetGenbosBool(G4int val) { GenbosBool = val;
+        //    genbos_start_(&FileNum);
+         //   PrepareNames();
+        }
 
         void SetEgMin(G4double val) {
             EgMin = val / GeV;

@@ -48,17 +48,26 @@
 #include "Genbos.hh"
 #include <unistd.h>
 #include <fcntl.h>
-
+#include "G4MTRunManager.hh"
+#include "G4AutoLock.hh"
 #endif
 
 namespace Cosmic {
 
+
+    namespace	{
+        G4Mutex	aMutex	=	G4MUTEX_INITIALIZER;
+    }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
-                                                       GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
-                                                       vertexFlag("off"), Mode(0), FileNum(0) {
+                                                       GenbosBool(1), cstep(100), countFlag("off"), rndmFlag("off"),
+                                                       vertexFlag("off"), Mode(0),
+                                                       FileNum(0),
+                                                    //   FileNum(G4Threading::G4GetThreadId()),
+                                                       EgMin(400*MeV), EgMax(650*MeV) {
 
+       // G4cerr<<"!!!!!!!!"<<G4Threading::G4GetThreadId()<< std::endl;
         G4int nofParticles = 1;
         fParticleGun = new G4ParticleGun(nofParticles);
 
@@ -81,15 +90,26 @@ namespace Cosmic {
         // ShowParticleTable();
 
         if (GenbosBool == 1) {
-            genbos_start_(&FileNum);
-            PrepareNames();
+            G4AutoLock lock(&aMutex);
+           	genbos_start_(&FileNum);
+           // lock.unlock();
+               PrepareNames();
         }
+      //  genbos_start_(&FileNum);
 
+
+       // PrepareNames();
+       // genbos_start_(&FileNum);
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::~PrimaryGeneratorAction() {
+        //if (GenbosBool == 1) {
+            G4AutoLock lock(&aMutex);
+      //  }
+       //genbos_stop_();
+      // lock.unlock();
         delete fParticleGun;
     }
 
@@ -123,18 +143,25 @@ namespace Cosmic {
         }
 
         if (GenbosBool == 0) {
-            //  GenerateCosmic(anEvent);
+           //   GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
            // GenerateLowQ_method2(anEvent);
             GenerateProton(anEvent);
+           // GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
+
+            G4AutoLock lock(&aMutex);
+          //  G4cout<<"!!!"<< std::endl;
+            //genbos_start_(&FileNum);
             GenerateGenbos(anEvent);
+         //   genbos_stop_();
+           // lock.unlock();
         }
 
         if (countFlag == "on") {
             G4int nev = anEvent->GetEventID() + 1;
             if (nev % cstep == 0)
-                fprintf(stderr, "\r event #%05d/%d    ", nev, FileNum);
+                fprintf(stderr, "\r event #%05d/%d \n    ", nev, FileNum);
         }
 
     }
@@ -519,8 +546,6 @@ namespace Cosmic {
         G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
         G4double max_f = 1.0;
         G4double momentum, kinetic_energy;
-        G4double Pzz1 = 1.0, r = -2.0;
-        G4double Pzz2 = r * Pzz1;
         G4double Pzz = 0.0;
 
         G4double theta_electron = 0.0, theta_deuteron = 0.0;
@@ -664,6 +689,7 @@ namespace Cosmic {
         G4int qq = 0;
 
         while (qq != 3) {
+
             genbos_event_(&efot, &nreac, &np, idg, cx, cy, cz);
             for (G4int i = 0; i < np; i++) {
                 Momentum = G4ParticleMomentum(cx[i], cy[i], cz[i]);
@@ -708,8 +734,9 @@ namespace Cosmic {
         info->SetNreac(nreac);
         info->SetNp(np);
         info->SetEntry(FileNum);
-        info->SetPzz((G4UniformRand() > 0.5) ? 1.0 : -2.0);
+        info->SetPzz((G4UniformRand() > 0.5) ? Pzz1 : Pzz2);
         event->SetUserInformation(info);
+
 
     }
 
@@ -721,6 +748,7 @@ namespace Cosmic {
 
         if (rndmFlag == "on") {
 // Randomizer ;-)
+            G4AutoLock lock(&aMutex);
             G4int i;
             long prand;
 
@@ -734,6 +762,7 @@ namespace Cosmic {
             i = (G4int) prand;
             CLHEP::HepRandom::setTheSeed(prand);
             G4cout << "\n/\\/\\/\\ Randomizied !  prand = " << prand << " /\\/\\/\\" << G4endl;;
+
             genbos_rand_(&i);
 // ---------------------
         }
@@ -798,13 +827,15 @@ namespace Cosmic {
     void PrimaryGeneratorAction::SetMode(G4int val) {
         int nreac, ireac[40];
         Mode = val;
-
+        G4AutoLock lock(&aMutex);
         if (Mode == 34) { // это p+n
             memset(ireac, 0, sizeof(ireac));
             nreac = 1;
             ireac[0] = 34;
+           // G4AutoLock lock(&aMutex);
             genbos_reactions_(&nreac, ireac);
             genbos_start_(&FileNum);
+            
         }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -14,12 +14,29 @@ if (WITH_GEANT4_UIVIS)
     find_package(Geant4 REQUIRED ui_all vis_all)
 else ()
     find_package(Geant4 REQUIRED)
+    find_package(Geant4 10.4.0  QUIET OPTIONAL_COMPONENTS gdml qt)
 endif ()
 
 #ROOT
 
 find_package(ROOT REQUIRED COMPONENTS RIO Net)
+find_package(GSL REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+
+# ROOT version 6 required
+if(ROOT_FOUND)
+    STRING(REGEX MATCH "6.*" VERSION6MATCH ${ROOT_VERSION})
+    if(NOT VERSION6MATCH)
+        message(FATAL_ERROR "P02 requires ROOT 6")
+    endif()
+endif()
+
+# P01 requires shared libraries
+#
+if(NOT Geant4_shared_FOUND)
+    message(FATAL_ERROR "P02 must use shared libraries")
+endif()
 
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
@@ -28,6 +45,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include(${Geant4_USE_FILE})
 #include_directories(${PROJECT_SOURCE_DIR}/include)
 
+include(${ROOT_USE_FILE})
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
@@ -40,12 +58,17 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 #
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+#file(GLOB lib ${PROJECT_SOURCE_DIR}/lib/*.a)
+
+set(CMAKE_CXX_STANDARD 14)
+set (GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(cosmic cosmic.cc ${sources} ${headers})
-target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
+target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 #target_link_libraries(cosmic ${Geant4_LIBRARIES})
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

@@ -98,6 +98,7 @@ int main(int argc, char **argv) {
 
     // Optionally: choose a different Random engine...
     // Привязка генератора к системному времени
+
     G4Random::setTheEngine(new CLHEP::MTwistEngine);
     long seeds[2];
     time_t systime = time(NULL);
@@ -121,6 +122,7 @@ int main(int argc, char **argv) {
 #ifdef G4MULTITHREADED
     if (nThreads > 0) {
         runManager->SetNumberOfThreads(nThreads);
+      //  runManager->SetNumberOfThreads(1);
     }
 #endif
 

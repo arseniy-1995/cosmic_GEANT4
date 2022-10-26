@@ -35,6 +35,7 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "EventAction.hh"
+#include "Genbos.hh"
 
 
 namespace Cosmic

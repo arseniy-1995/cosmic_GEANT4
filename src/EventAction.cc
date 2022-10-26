@@ -224,7 +224,7 @@ namespace Cosmic {
 
 
         G4int number_vertex = event->GetNumberOfPrimaryVertex();
-       // if(number_vertex<2) return;
+        if(number_vertex<2) return;
 
         auto primary_vertex = event->GetPrimaryVertex();
 
