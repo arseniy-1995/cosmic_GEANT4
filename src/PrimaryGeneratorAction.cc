@@ -61,7 +61,7 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
-                                                       GenbosBool(1), cstep(100), countFlag("off"), rndmFlag("off"),
+                                                       GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
                                                        vertexFlag("off"), Mode(0),
                                                        FileNum(0),
                                                     //   FileNum(G4Threading::G4GetThreadId()),
