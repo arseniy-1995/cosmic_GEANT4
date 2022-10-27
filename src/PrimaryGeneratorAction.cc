@@ -50,13 +50,14 @@
 #include <fcntl.h>
 #include "G4MTRunManager.hh"
 #include "G4AutoLock.hh"
+
 #endif
 
 namespace Cosmic {
 
 
-    namespace	{
-        G4Mutex	aMutex	=	G4MUTEX_INITIALIZER;
+    namespace {
+        G4Mutex aMutex = G4MUTEX_INITIALIZER;
     }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -64,10 +65,10 @@ namespace Cosmic {
                                                        GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
                                                        vertexFlag("off"), Mode(0),
                                                        FileNum(0),
-                                                    //   FileNum(G4Threading::G4GetThreadId()),
-                                                       EgMin(400*MeV), EgMax(650*MeV) {
+            //   FileNum(G4Threading::G4GetThreadId()),
+                                                       EgMin(400 * MeV), EgMax(650 * MeV) {
 
-       // G4cerr<<"!!!!!!!!"<<G4Threading::G4GetThreadId()<< std::endl;
+        // G4cerr<<"!!!!!!!!"<<G4Threading::G4GetThreadId()<< std::endl;
         G4int nofParticles = 1;
         fParticleGun = new G4ParticleGun(nofParticles);
 
@@ -91,25 +92,25 @@ namespace Cosmic {
 
         if (GenbosBool == 1) {
             G4AutoLock lock(&aMutex);
-           	genbos_start_(&FileNum);
-           // lock.unlock();
-               PrepareNames();
+            genbos_start_(&FileNum);
+            // lock.unlock();
+            PrepareNames();
         }
-      //  genbos_start_(&FileNum);
+        //  genbos_start_(&FileNum);
 
 
-       // PrepareNames();
-       // genbos_start_(&FileNum);
+        // PrepareNames();
+        // genbos_start_(&FileNum);
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::~PrimaryGeneratorAction() {
         //if (GenbosBool == 1) {
-            G4AutoLock lock(&aMutex);
-      //  }
-       //genbos_stop_();
-      // lock.unlock();
+        G4AutoLock lock(&aMutex);
+        //  }
+        //genbos_stop_();
+        // lock.unlock();
         delete fParticleGun;
     }
 
@@ -143,19 +144,21 @@ namespace Cosmic {
         }
 
         if (GenbosBool == 0) {
-           //   GenerateCosmic(anEvent);
+            //   GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
-           // GenerateLowQ_method2(anEvent);
-            GenerateProton(anEvent);
-           // GenerateGenbos(anEvent);
+            // GenerateLowQ_method2(anEvent);
+            // GenerateProton(anEvent);
+            //  GenerateNeutron(anEvent);
+            GenerateProtonNeutron(anEvent);
+            // GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
 
             G4AutoLock lock(&aMutex);
-          //  G4cout<<"!!!"<< std::endl;
+            //  G4cout<<"!!!"<< std::endl;
             //genbos_start_(&FileNum);
             GenerateGenbos(anEvent);
-         //   genbos_stop_();
-           // lock.unlock();
+            //   genbos_stop_();
+            // lock.unlock();
         }
 
         if (countFlag == "on") {
@@ -226,23 +229,24 @@ namespace Cosmic {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void PrimaryGeneratorAction::random_Neumann_LQ_method1(G4double initial_theta_e, G4double final_theta_e,
-                                                   G4double initial_zz_cell, G4double final_zz_cell,
-                                                   G4double Pzz1, G4double Pzz2, G4double max_f,
-                                                   G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
-                                                   G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
-                                                   G4double &Pzz,
-                                                   G4double &xx_cell, G4double &yy_cell, G4double &zz_cell) {
+                                                           G4double initial_zz_cell, G4double final_zz_cell,
+                                                           G4double Pzz1, G4double Pzz2, G4double max_f,
+                                                           G4double &theta_electron, G4double &phi_electron,
+                                                           G4double &energy_electron,
+                                                           G4double &theta_deuteron, G4double &phi_deuteron,
+                                                           G4double &energy_deuteron,
+                                                           G4double &Pzz,
+                                                           G4double &xx_cell, G4double &yy_cell, G4double &zz_cell) {
 
         G4double theta_e_temp = 0.0;
         G4double phi_e_temp = 0.0;
-        G4double xx_cell_temp =0.0, yy_cell_temp=0.0, zz_cell_temp = 0.0;
+        G4double xx_cell_temp = 0.0, yy_cell_temp = 0.0, zz_cell_temp = 0.0;
         G4double Pzz_temp = 0.0;
         G4double f_temp = 0.0;
         G4double r1 = 0., r2 = 0., r3 = 0., r4 = 0., r5 = 0.;
 
 
-
-        G4double f_dsdo =0.0;
+        G4double f_dsdo = 0.0;
         G4bool flaq = false;
 
         while (flaq == false) {
@@ -253,14 +257,14 @@ namespace Cosmic {
             r5 = G4UniformRand();
 
             theta_e_temp = initial_theta_e + r1 * (final_theta_e - initial_theta_e);
-            xx_cell_temp = 0.1*G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
-            yy_cell_temp = 0.1*G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
+            xx_cell_temp = 0.1 * G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
+            yy_cell_temp = 0.1 * G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r2 * (final_zz_cell - initial_zz_cell);
             Pzz_temp = (r3 > 0.5) ? Pzz1 : Pzz2;
             phi_e_temp = 2.0 * M_PI * r4;
             f_temp = max_f * r5;
-            f_dsdo= dsdo_LQ(theta_e_temp, Pzz_temp, zz_cell_temp);
-         //   G4cerr << "!!! dsdo= " << f_dsdo <<" rnd = " << f_temp <<std::endl;
+            f_dsdo = dsdo_LQ(theta_e_temp, Pzz_temp, zz_cell_temp);
+            //   G4cerr << "!!! dsdo= " << f_dsdo <<" rnd = " << f_temp <<std::endl;
             if (f_temp <= f_dsdo) {
                 flaq = true;
             } else {
@@ -289,8 +293,10 @@ namespace Cosmic {
                                                            G4double initial_y_counter_e, G4double final_y_counter_e,
                                                            G4double initial_zz_cell, G4double final_zz_cell,
                                                            G4double Pzz1, G4double Pzz2, G4double max_f,
-                                                           G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
-                                                           G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
+                                                           G4double &theta_electron, G4double &phi_electron,
+                                                           G4double &energy_electron,
+                                                           G4double &theta_deuteron, G4double &phi_deuteron,
+                                                           G4double &energy_deuteron,
                                                            G4double &Pzz,
                                                            G4double &xx_cell, G4double &yy_cell, G4double &zz_cell) {
 
@@ -303,7 +309,7 @@ namespace Cosmic {
         G4double r1 = 0., r2 = 0., r3 = 0., r4 = 0., r5 = 0.;
 
 
-        G4double f_dsdo =0.0;
+        G4double f_dsdo = 0.0;
         G4bool flaq = false;
 
         while (flaq == false) {
@@ -316,28 +322,35 @@ namespace Cosmic {
 
             x_counter_e_temp = initial_x_counter_e + r1 * (final_x_counter_e - initial_x_counter_e);
             y_counter_e_temp = initial_x_counter_e + r2 * (final_y_counter_e - initial_y_counter_e);
-            xx_cell_temp = 0.1*G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
-            yy_cell_temp = 0.1*G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
+            xx_cell_temp = 0.1 * G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
+            yy_cell_temp = 0.1 * G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r3 * (final_zz_cell - initial_zz_cell);
             Pzz_temp = (r4 > 0.5) ? Pzz1 : Pzz2;
             f_temp = max_f * r5;
 
-            G4double h = x_counter_e_temp * cos(theta0_counter) + R0_counter * sin(theta0_counter);// высота точки на счетчике (координата x) в лабораторной системе отсчета
+            G4double h = x_counter_e_temp * cos(theta0_counter) + R0_counter *
+                                                                  sin(theta0_counter);// высота точки на счетчике (координата x) в лабораторной системе отсчета
             //   printf ("h = %f \n", h);
 
             //   p6 = zz_cell + R0_counter / cos(theta0_counter);                       // расстояние от точки на мишени до точки пересечения счетчика с осью Z
 
-            G4double p6 = -zz_cell_temp + R0_counter / cos(theta0_counter);                       // расстояние от точки на мишени до точки пересечения счетчика с осью Z
+            G4double p6 = -zz_cell_temp + R0_counter /
+                                          cos(theta0_counter);                       // расстояние от точки на мишени до точки пересечения счетчика с осью Z
 
-            G4double p1 = sqrt(pow(p6 - h * tan(theta0_counter), 2.) + pow(h, 2.));         // расстояние от точки мишени до точки на счетчике в плоскость xz
-            G4double p2 = sqrt(pow(p1, 2.) + pow(y_counter_e_temp, 2.));                           //радиус из точки мишени на точку dxdy счетчика
+            G4double p1 = sqrt(pow(p6 - h * tan(theta0_counter), 2.) +
+                               pow(h, 2.));         // расстояние от точки мишени до точки на счетчике в плоскость xz
+            G4double p2 = sqrt(pow(p1, 2.) + pow(y_counter_e_temp,
+                                                 2.));                           //радиус из точки мишени на точку dxdy счетчика
             G4double R_ds = p2;
             G4double p3 = zz_cell_temp * cos(theta0_counter) + R0_counter;
 
-            G4double p4 = sqrt(pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp - zz_cell_temp * sin(theta0_counter), 2.));
-            G4double p5 = sqrt(pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp + R0_counter * tan(theta0_counter), 2.));
+            G4double p4 = sqrt(
+                    pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp - zz_cell_temp * sin(theta0_counter), 2.));
+            G4double p5 = sqrt(
+                    pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp + R0_counter * tan(theta0_counter), 2.));
 
-            G4double cos_theta = (pow(p2, 2.) + pow(p6, 2.) - pow(p5, 2.)) / (2. * p2 * p6);// по теореме косинусов угол между векторами
+            G4double cos_theta = (pow(p2, 2.) + pow(p6, 2.) - pow(p5, 2.)) /
+                                 (2. * p2 * p6);// по теореме косинусов угол между векторами
             G4double cos_ds = (pow(p2, 2.) + pow(p3, 2.) - pow(p4, 2.)) / (2. * p2 * p3);
 
             //    dom_method_2 = d_x_counter * d_y_counter * (1./cos_ds )/ pow(R_ds, 2.);
@@ -360,7 +373,7 @@ namespace Cosmic {
             ///// внимание, именно так
             phi_e_temp = atan(y_counter_e_temp / h);
 
-            f_dsdo= dsdo_LQ(theta_e_temp, Pzz_temp, zz_cell_temp);
+            f_dsdo = dsdo_LQ(theta_e_temp, Pzz_temp, zz_cell_temp);
             //   G4cerr << "!!! dsdo= " << f_dsdo <<" rnd = " << f_temp <<std::endl;
             if (f_temp <= f_dsdo) {
                 flaq = true;
@@ -456,7 +469,7 @@ namespace Cosmic {
         G4double momentum, kinetic_energy;
         G4double Pzz1 = 1.0, r = -2.0;
         G4double Pzz2 = r * Pzz1;
-        G4double Pzz =0.0;
+        G4double Pzz = 0.0;
 
         G4double theta_electron = 0.0, theta_deuteron = 0.0;
         G4double phi_electron = 0.0, phi_deuteron = 0.0;
@@ -464,15 +477,15 @@ namespace Cosmic {
         G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
 
         random_Neumann_LQ_method1(initial_theta_e, final_theta_e, initial_zz_cell,
-                          final_zz_cell, Pzz1, Pzz2, max_f,
-                          theta_electron, phi_electron, energy_electron,
-                          theta_deuteron, phi_deuteron, energy_deuteron,
-                          Pzz, xx_cell, yy_cell, zz_cell);
+                                  final_zz_cell, Pzz1, Pzz2, max_f,
+                                  theta_electron, phi_electron, energy_electron,
+                                  theta_deuteron, phi_deuteron, energy_deuteron,
+                                  Pzz, xx_cell, yy_cell, zz_cell);
 
-     //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
-     //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
-     //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
-     //   G4cerr <<std::endl;
+        //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
+        //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
+        //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
+        //   G4cerr <<std::endl;
 
         //  theta_electron = 50. * M_PI / 180.;
         //  theta_deuteron = 20. * M_PI / 180.;
@@ -522,7 +535,7 @@ namespace Cosmic {
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
 
-        EventInfo* info = new EventInfo();
+        EventInfo *info = new EventInfo();
 //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
         //info->SetEgamma(Egamma);
         // info->SetNreac(nreac);
@@ -613,13 +626,13 @@ namespace Cosmic {
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
 
-          // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
-          // G4cerr <<std::endl;
+        // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
+        // G4cerr <<std::endl;
 
-        EventInfo* info = new EventInfo();
+        EventInfo *info = new EventInfo();
 //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
         //info->SetEgamma(Egamma);
-       // info->SetNreac(nreac);
+        // info->SetNreac(nreac);
         //info->SetNp(np);
         //info->SetEntry(FileNum);
         info->SetPzz(Pzz);
@@ -638,37 +651,188 @@ namespace Cosmic {
         G4double energy2, theta2, phi2;
 
         G4double Xbeam = 0., Ybeam = 0.;
-        vertex = GenVertex(Xbeam, Ybeam, 0.7*mm, 0.3*mm);
+        vertex = GenVertex(Xbeam, Ybeam, 0.7 * mm, 0.3 * mm);
 
         particle = particleTable->FindParticle("proton");
 
-        energy1 = (10.+450.*G4UniformRand())*MeV;
-        theta1 = M_PI*G4UniformRand();
-        phi1 = 2.0*M_PI*G4UniformRand();
+        energy1 = (10. + 450. * G4UniformRand()) * MeV;
+        theta1 = M_PI * G4UniformRand();
+        phi1 = 2.0 * M_PI * G4UniformRand();
 
         // Нужно генерить две частицы для срабатывания тригера
-        energy2 = (10.+450.*G4UniformRand())*MeV;
-        theta2 = M_PI*G4UniformRand();
-        phi2 =M_PI-phi1;
+        energy2 = (10. + 450. * G4UniformRand()) * MeV;
+        theta2 = M_PI * G4UniformRand();
+        phi2 = M_PI - phi1;
 
-        auto v_direction1 = G4ThreeVector (sin(theta1) * sin(phi1), sin(theta1) * cos(phi1), cos(theta1));
-        auto v_direction2 = G4ThreeVector (sin(theta2) * sin(phi2), sin(theta2) * cos(phi2), cos(theta2));
+        auto v_direction1 = G4ThreeVector(sin(theta1) * sin(phi1), sin(theta1) * cos(phi1), cos(theta1));
+        auto v_direction2 = G4ThreeVector(sin(theta2) * sin(phi2), sin(theta2) * cos(phi2), cos(theta2));
 
         fParticleGun->SetParticleEnergy(energy1);
         //fParticleGun->SetParticleMomentumDirection(v_direction1);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2.*G4UniformRand()-1,1.,G4UniformRand()));
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand()));
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
         fParticleGun->SetParticleEnergy(energy2);
-      //  fParticleGun->SetParticleMomentumDirection(v_direction2);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2.*G4UniformRand()-1,-1.,G4UniformRand()));
+        //  fParticleGun->SetParticleMomentumDirection(v_direction2);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand()));
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
-        EventInfo* info = new EventInfo();
+        EventInfo *info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(500.0);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void PrimaryGeneratorAction::GenerateNeutron(G4Event *event) {
+        G4ThreeVector vertex;
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4ParticleDefinition *particle;
+        G4ParticleMomentum Momentum;
+        G4double energy1, theta1, phi1;
+        G4double energy2, theta2, phi2;
+
+        G4double Xbeam = 0., Ybeam = 0.;
+        vertex = GenVertex(Xbeam, Ybeam, 0.7 * mm, 0.3 * mm);
+
+        particle = particleTable->FindParticle("neutron");
+
+        energy1 = (10. + 450. * G4UniformRand()) * MeV;
+        theta1 = M_PI * G4UniformRand();
+        phi1 = 2.0 * M_PI * G4UniformRand();
+
+        // Нужно генерить две частицы для срабатывания тригера
+        energy2 = (10. + 450. * G4UniformRand()) * MeV;
+        theta2 = M_PI * G4UniformRand();
+        phi2 = M_PI - phi1;
+
+        auto v_direction1 = G4ThreeVector(sin(theta1) * sin(phi1), sin(theta1) * cos(phi1), cos(theta1));
+        auto v_direction2 = G4ThreeVector(sin(theta2) * sin(phi2), sin(theta2) * cos(phi2), cos(theta2));
+
+        fParticleGun->SetParticleEnergy(energy1);
+        //fParticleGun->SetParticleMomentumDirection(v_direction1);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand()));
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+        fParticleGun->SetParticleEnergy(energy2);
+        //  fParticleGun->SetParticleMomentumDirection(v_direction2);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand()));
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+        EventInfo *info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(500.0);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void PrimaryGeneratorAction::GenerateProtonNeutron(G4Event *event) {
+        G4ThreeVector vertex;
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4String particleName;
+        G4ParticleDefinition *particle1, *particle2;
+        G4ParticleMomentum Momentum;
+        G4double energy1, theta1, phi1;
+        G4double energy2, theta2, phi2;
+
+        G4double Xbeam = 0., Ybeam = 0.;
+        vertex = GenVertex(Xbeam, Ybeam, 0.7 * mm, 0.3 * mm);
+
+        particle1 = particleTable->FindParticle("proton");
+        particle2 = particleTable->FindParticle("neutron");
+
+        // Нужно генерить две частицы для срабатывания тригера
+
+
+        G4double x0 = 0.0, y0 = 0.0, z0 = 0.0;
+        const G4double ra = M_PI / 180.;
+      //  G4double costet = 0.0;
+        G4double theta = 0.0, phi = 0.0, M2 = 0.0;
+        G4int n_det = 0;
+
+        p4vector q, d, n, p, pn;
+        p4vector p_pn;
+
+        do {
+            n_det++;
+            n.mm() = Mn * Mn;
+            p_pn.mm() = p.mm() = Mp * Mp;
+            d.e() = Md;
+            d.mm() = Md * Md;
+            q.e() = dalits(); //generate energy virtual photon
+            q.z() = q.e();
+            pn = q + d;
+            M2 = sqrt(pn.mmr());
+            p_pn.e() = (M2 * M2 + Mp * Mp - Mn * Mn) / 2. / M2;
+           // costet = 2. * rand() / 2147483647. - 1.;
+            // phi=360.*ra*rand()/2147483647.;
+            theta = M_PI * G4UniformRand();
+            phi = 2.0 * M_PI * G4UniformRand();
+            p_pn.x() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp))* sin(theta) * cos(phi);
+            p_pn.y() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp)) * sin(theta) * sin(phi);
+            p_pn.z() = sqrt(p_pn.e() * p_pn.e() - Mp * Mp) * cos(theta);
+            p = prodol(pn.p(), pn.e(), M2, p_pn);
+            p.theta() = p.thetar();
+            p.phi() = p.phir();
+            n = pn - p;
+            n.theta() = n.thetar();
+            n.phi() = n.phir();
+
+        } while ((p.e() - Mp) < 20. || (p.e() - Mp) > 1000. ||
+                 (n.e() - Mn) < 5. || (n.e() - Mn) > 1000. ||
+                 p.theta() < 30. * ra || p.theta() > 110. * ra ||
+                 n.theta() < 30. * ra || n.theta() > 110. * ra);
+        //n.fi()<60.*ra||n.fi()>120.*ra );
+
+        //G4cout<<"n_det="<<n_det<<"\t"<<"Eq="<<q.e()<<G4endl;
+        // G4cout<<"Ep="<<p.e()-mp<<" tetp="<<p.tet()/ra<<" fip="<<p.fi()/ra<<G4endl;
+        // G4cout<<"En="<<n.e()-mn<<" tetn="<<n.tet()/ra<<" fin="<<n.fi()/ra<<G4endl;
+//cout<<q.e()+md<<" "<<p.e()+n.e()<<"\t\t"<<p.x()<<" "<<n.x()<<endl;
+
+
+        // default particle kinematic
+
+        particle1 = particleTable->FindParticle(particleName = "proton");
+        fParticleGun->SetParticleDefinition(particle1);
+        //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,-1.*G4UniformRand(),G4UniformRand()));
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(p.x(), p.y(), p.z()));
+        //G4double ep = (50.+200.*G4UniformRand())*MeV;
+        fParticleGun->SetParticleEnergy((p.e() - Mp) * MeV);
+        //  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        particle2 = particleTable->FindParticle(particleName = "neutron");
+        fParticleGun->SetParticleDefinition(particle2);
+        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,G4UniformRand(),G4UniformRand()));
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(n.x(), n.y(), n.z()));
+        //G4double en = (20.+200.*G4UniformRand())*MeV;
+        fParticleGun->SetParticleEnergy((n.e() - Mn) * MeV);
+        //  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        EventInfo *info = new EventInfo();
 //   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
         info->SetEgamma(500.0);
         info->SetNreac(1);
@@ -728,7 +892,7 @@ namespace Cosmic {
         }
 
 
-        EventInfo* info = new EventInfo();
+        EventInfo *info = new EventInfo();
 //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
         info->SetEgamma(Egamma);
         info->SetNreac(nreac);
@@ -832,13 +996,42 @@ namespace Cosmic {
             memset(ireac, 0, sizeof(ireac));
             nreac = 1;
             ireac[0] = 34;
-           // G4AutoLock lock(&aMutex);
+            // G4AutoLock lock(&aMutex);
             genbos_reactions_(&nreac, ireac);
             genbos_start_(&FileNum);
-            
-        }
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+        }
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    G4double PrimaryGeneratorAction::dal(G4double om) {
+        const G4double E = 2000.0;
+        G4double fl1, fl2, f1, f2, sl;
+        G4double dal_temp;
+        fl1 = 2. * E * (E - om) / Me / (2. * E - om);
+        fl2 = (2. * E - om) / om;
+        f1 = 2. * (1. - om / E + om * om / 2. / E / E);
+        f2 = om * om / 2. / E / E;
+        sl = om / E - 1.;
+        dal_temp = (alpha_em * (f1 * log10(fabs(fl1)) + f2 * log10(fabs(fl2)) + sl) / M_PI);
+        return dal_temp;
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    G4double PrimaryGeneratorAction::dalits() {
+        G4double r1, r2, om, y;
+        do {
+            // r1 = rand() / 2147483647.;
+            // r2 = rand() / 2147483647.;
+            r1 = G4UniformRand();
+            r2 = G4UniformRand();
+            om = 145. * exp(r1 * log(10.));
+            y = 0.033 * r2;
+        } while (y > dal(om));
+//cerr<<y<<"\t"<<dal(om)<<endl;
+        return om;
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

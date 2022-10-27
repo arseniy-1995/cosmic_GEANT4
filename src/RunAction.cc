@@ -96,28 +96,31 @@ RunAction::RunAction(EventAction* eventAction)
         analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys2_sum"); // column Id = 3
         analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2_sum"); // column Id = 4
 
-        analysisManager->CreateNtupleDColumn("XVertex"); // column Id = 5  // Позиция вершины (точка генерации)
-        analysisManager->CreateNtupleDColumn("YVertex"); // column Id = 6
-        analysisManager->CreateNtupleDColumn("ZVertex"); // column Id = 7
+      //  analysisManager->CreateNtupleDColumn("XVertex"); // column Id = 5  // Позиция вершины (точка генерации)
+      //  analysisManager->CreateNtupleDColumn("YVertex"); // column Id = 6
+      //  analysisManager->CreateNtupleDColumn("ZVertex"); // column Id = 7
 
-        analysisManager->CreateNtupleIColumn("IndexVertex"); // column Id = 8 // Индекс частицы по PDG
-        analysisManager->CreateNtupleIColumn("MassVertex"); // column Id = 9 // Индекс частицы по PDG
-        analysisManager->CreateNtupleDColumn("EnergyVertex"); // column Id = 10 // Кинетическая энергия
-        analysisManager->CreateNtupleDColumn("MomentumVertex"); // column Id = 11 // Импульс
-        analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
-        analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
+      //  analysisManager->CreateNtupleIColumn("IndexVertex"); // column Id = 8 // Индекс частицы по PDG
+      //  analysisManager->CreateNtupleIColumn("MassVertex"); // column Id = 9 // Индекс частицы по PDG
+     //   analysisManager->CreateNtupleDColumn("EnergyVertex"); // column Id = 10 // Кинетическая энергия
+      //  analysisManager->CreateNtupleDColumn("MomentumVertex"); // column Id = 11 // Импульс
+     //   analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
+      //  analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
 
-        analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 14 // Pzz
-        analysisManager->CreateNtupleDColumn("Egamma"); // column Id = 15 // Energy gamma
-        analysisManager->CreateNtupleDColumn("NumReact"); // column Id = 16 // Number reaction
-        analysisManager->CreateNtupleDColumn("NumEvnt"); // column Id = 17 // Number event
+        analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 5 // Pzz
+        analysisManager->CreateNtupleDColumn("Egamma"); // column Id = 6 // Energy gamma
+        analysisManager->CreateNtupleDColumn("NumReact"); // column Id = 7 // Number reaction
+        analysisManager->CreateNtupleDColumn("NumEvnt"); // column Id = 8 // Number event
 
-        analysisManager->CreateNtupleFColumn("IndexVertex_", fEventAction->GetVertexIndex());
-        analysisManager->CreateNtupleFColumn("MassVertex_", fEventAction->GetVertexMass());
-        analysisManager->CreateNtupleFColumn("EnergyVertex_", fEventAction->GetVertexEnergy());
-        analysisManager->CreateNtupleFColumn("MomentumVertex_", fEventAction->GetVertexMomentum());
-        analysisManager->CreateNtupleFColumn("ThetaVertex_", fEventAction->GetVertexTheta());
-        analysisManager->CreateNtupleFColumn("PhiVertex_", fEventAction->GetVertexPhi());
+        analysisManager->CreateNtupleFColumn("XVertex", fEventAction->GetVertexXYZ(1));
+        analysisManager->CreateNtupleFColumn("YVertex", fEventAction->GetVertexXYZ(2));
+        analysisManager->CreateNtupleFColumn("ZVertex", fEventAction->GetVertexXYZ(3));
+        analysisManager->CreateNtupleFColumn("IndexVertex", fEventAction->GetVertexIndex());
+        analysisManager->CreateNtupleFColumn("MassVertex", fEventAction->GetVertexMass());
+        analysisManager->CreateNtupleFColumn("EnergyVertex", fEventAction->GetVertexEnergy());
+        analysisManager->CreateNtupleFColumn("MomentumVertex", fEventAction->GetVertexMomentum());
+        analysisManager->CreateNtupleFColumn("ThetaVertex", fEventAction->GetVertexTheta());
+        analysisManager->CreateNtupleFColumn("PhiVertex", fEventAction->GetVertexPhi());
 
      //   TO->Branch("nev",&nev,"nev/I");
      //   TO->Branch("nr",&nr,"nr/I");

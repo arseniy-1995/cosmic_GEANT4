@@ -68,7 +68,12 @@ namespace Cosmic {
         void GenerateCosmic(G4Event *event); // for cosmic-generator
         void GenerateLowQ_method1(G4Event *event); // for ed-generator for LQ-polarimeter
         void GenerateLowQ_method2(G4Event *event);
-        void GenerateProton(G4Event *event); // for p-generator
+        void GenerateProton(G4Event *event); // for pp-generator
+        void GenerateNeutron(G4Event *event); // for nn-generator
+        void GenerateProtonNeutron(G4Event *event); // for nn-generator
+
+        G4double dalits();
+        G4double dal(G4double );
 
         // set methods
         void SetRandomFlag(G4bool value);
@@ -153,6 +158,16 @@ namespace Cosmic {
                                         G4double final_momentum, G4double max_f, G4double &theta,
                                         G4double &momentum, G4double &kinetic_energy);
 
+
+        p4vector prodol(G4double p0, G4double w0, G4double m0, p4vector p)
+        {
+            G4double pe, px, py, pz;
+            px=p.x();
+            py=p.y();
+            pz=w0*p.z()/m0+p0*p.e()/m0;
+            pe=w0*p.e()/m0+p0*p.z()/m0;
+            return p4vector(pe, px, py, pz);
+        }
 
         ///// FOR GENBOS
 

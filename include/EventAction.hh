@@ -504,6 +504,12 @@ namespace Cosmic {
             return fVC_XPos[0];
         }
 
+        std::vector<G4float> &GetVertexXYZ(G4int index = 1) {
+            if (index == 1) return vertex_x_vector;
+            if (index == 2) return vertex_y_vector;
+            if (index == 3) return vertex_z_vector;
+            return vertex_x_vector;
+        }
         std::vector<G4float> &GetVertexIndex() { return vertex_index_vector; }
         std::vector<G4float> &GetVertexEnergy() { return vertex_energy_vector; }
         std::vector<G4float> &GetVertexMomentum() { return vertex_momentum_vector; }
@@ -530,6 +536,7 @@ namespace Cosmic {
         G4double vertex_Energy_gamma;
         G4int vertex_number_reaction;	// reaction type
         G4int vertex_number_vertex;		// number of vertexes (particles)
+        G4double X_vertex[VMAX],Y_vertex[VMAX],Z_vertex[VMAX];
         G4double index_vertex[VMAX],energy_vertex[VMAX],theta_vertex[VMAX],phi_vertex[VMAX];
 
         // methods
@@ -775,6 +782,9 @@ namespace Cosmic {
 
         // Для GENBOS через индекс вершины
 
+        std::vector<G4float> vertex_x_vector{std::vector<G4float>(VMAX, NAN)};
+        std::vector<G4float> vertex_y_vector{std::vector<G4float>(VMAX, NAN)};
+        std::vector<G4float> vertex_z_vector{std::vector<G4float>(VMAX, NAN)};
         std::vector<G4float> vertex_index_vector{std::vector<G4float>(VMAX, NAN)};
         std::vector<G4float> vertex_energy_vector{std::vector<G4float>(VMAX, NAN)};
         std::vector<G4float> vertex_momentum_vector{std::vector<G4float>(VMAX, NAN)};

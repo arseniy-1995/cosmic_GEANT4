@@ -263,10 +263,13 @@ namespace Cosmic {
             theta_vertex[vertex_number_vertex]=vertex_with_index.theta();
             phi_vertex[vertex_number_vertex]=vertex_with_index.phi();
 
+            vertex_x_vector[vertex_number_vertex] = primary_vertex_with_index->GetX0() / cm;
+            vertex_y_vector[vertex_number_vertex] = primary_vertex_with_index->GetY0() / cm;
+            vertex_z_vector[vertex_number_vertex] = primary_vertex_with_index->GetZ0() / cm;
             vertex_index_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             vertex_mass_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMass() / MeV;
             vertex_energy_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
-            vertex_momentum_vector[vertex_number_vertex] = primary_vertex->GetPrimary()->GetMomentum().mag() / MeV;
+            vertex_momentum_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
             vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
             vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
 
@@ -283,10 +286,13 @@ namespace Cosmic {
             theta_vertex[vertex_number_vertex]=vertex_with_index.theta();
             phi_vertex[vertex_number_vertex]=vertex_with_index.phi();
 
+            vertex_x_vector[vertex_number_vertex] = primary_vertex_with_index->GetX0() / cm;
+            vertex_y_vector[vertex_number_vertex] = primary_vertex_with_index->GetY0() / cm;
+            vertex_z_vector[vertex_number_vertex] = primary_vertex_with_index->GetZ0() / cm;
             vertex_index_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             vertex_mass_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMass() / MeV;
             vertex_energy_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
-            vertex_momentum_vector[vertex_number_vertex] = primary_vertex->GetPrimary()->GetMomentum().mag() / MeV;
+            vertex_momentum_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
             vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
             vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
 
@@ -811,19 +817,20 @@ namespace Cosmic {
         analysisManager->FillNtupleDColumn(4, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
 
 
-        analysisManager->FillNtupleDColumn(5, vertex_x / cm);
-        analysisManager->FillNtupleDColumn(6, vertex_y / cm);
-        analysisManager->FillNtupleDColumn(7, vertex_z / cm);
-        analysisManager->FillNtupleIColumn(8, vertex_index);
-        analysisManager->FillNtupleIColumn(9, vertex_mass / MeV);
-        analysisManager->FillNtupleDColumn(10, vertex_energy / MeV);
-        analysisManager->FillNtupleDColumn(11, vertex_momentum / MeV);
-        analysisManager->FillNtupleDColumn(12, vertex_theta / degree);
-        analysisManager->FillNtupleDColumn(13, vertex_phi / degree);
-        analysisManager->FillNtupleDColumn(14, vertex_Pzz);
-        analysisManager->FillNtupleDColumn(15, vertex_Energy_gamma / MeV);
-        analysisManager->FillNtupleDColumn(16, vertex_number_reaction);
-        analysisManager->FillNtupleDColumn(17, vertex_number_event);
+        //    analysisManager->FillNtupleDColumn(5, vertex_x / cm);
+        //    analysisManager->FillNtupleDColumn(6, vertex_y / cm);
+        //    analysisManager->FillNtupleDColumn(7, vertex_z / cm);
+        //    analysisManager->FillNtupleIColumn(8, vertex_index);
+        //   analysisManager->FillNtupleIColumn(9, vertex_mass / MeV);
+        //   analysisManager->FillNtupleDColumn(10, vertex_energy / MeV);
+        //   analysisManager->FillNtupleDColumn(11, vertex_momentum / MeV);
+        //   analysisManager->FillNtupleDColumn(12, vertex_theta / degree);
+        //   analysisManager->FillNtupleDColumn(13, vertex_phi / degree);
+
+        analysisManager->FillNtupleDColumn(5, vertex_Pzz);
+        analysisManager->FillNtupleDColumn(6, vertex_Energy_gamma / MeV);
+        analysisManager->FillNtupleDColumn(7, vertex_number_reaction);
+        analysisManager->FillNtupleDColumn(8, vertex_number_event);
 
 
 
