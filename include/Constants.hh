@@ -35,11 +35,12 @@
 
 namespace Cosmic {
 
+#define CONCRETE // Бетон
 
-#define PF2_FAT
+#define PF2_FAT // Толстые пластики
 #define PF1_FAT
 
-#define PF1_THIN
+#define PF1_THIN // Тонкие пластики
 #define PF2_THIN
 
 #define HADCAL1 // Адронный калориметр
@@ -50,8 +51,8 @@ namespace Cosmic {
 #define VCARM1 // Вершинная камера
 #define VCARM2
 
-#define TARGET
-#define MAGNET
+#define TARGET // Мишень+фольга
+#define MAGNET // Магнит мишени
 
 #define LOWQ1 // электронные плечи ЛО-КУ поляриметра
 #define LOWQ2

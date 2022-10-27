@@ -142,7 +142,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4VisAttributes *Stef_VisAtt;
         G4VisAttributes *Plastic_VisAtt;
         G4VisAttributes *Convertor_VisAtt;
-        G4VisAttributes *CONCRETE_VisAtt;
+        G4VisAttributes *Concrete_VisAtt;
         G4VisAttributes *WOOD_VisAtt;
         G4VisAttributes *ProCover_VisAtt;
         G4VisAttributes *TitanFoil_VisAtt;

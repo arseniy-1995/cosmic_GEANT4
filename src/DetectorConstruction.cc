@@ -156,7 +156,7 @@ namespace Cosmic {
 
         //  G4Material* Air  = man->FindOrBuildMaterial("G4_AIR");
 
-        G4Material *CONCRETE = nistManager->FindOrBuildMaterial("G4_CONCRETE"); //бетон, поиск в стандартной таблице
+        G4Material *Concrete = nistManager->FindOrBuildMaterial("G4_CONCRETE"); //бетон, поиск в стандартной таблице
 
 
         G4Material *Wood = nistManager->FindOrBuildMaterial("G4_CELLULOSE_CELLOPHANE");
@@ -250,7 +250,7 @@ namespace Cosmic {
         G4Colour mylar_col(0.5, 0.2, 0.2);
         G4Colour alfoil_col(0.9, 0.9, 0.9);
         G4Colour blackpaper_col(0.2, 0.2, 0.2);
-        G4Colour CONCRETE_col(0., 0.1, 0.8);
+        G4Colour concrete_col(0., 0.1, 0.8);
         G4Colour WOOD_col(0., 0.9, 0.1);
 
         Gas_VisAtt = new G4VisAttributes(gas_col);
@@ -263,7 +263,7 @@ namespace Cosmic {
         Alum_VisAtt = new G4VisAttributes(alum_col);
         Plastic_VisAtt = new G4VisAttributes(plastic_col);
         Convertor_VisAtt = new G4VisAttributes(convertor_col);
-        CONCRETE_VisAtt = new G4VisAttributes(CONCRETE_col);
+        Concrete_VisAtt = new G4VisAttributes(concrete_col);
         WOOD_VisAtt = new G4VisAttributes(WOOD_col);
         ProCover_VisAtt = new G4VisAttributes(blackpaper_col); // обертка майлар
         TitanFoil_VisAtt = new G4VisAttributes(titanfoil_col);
@@ -562,7 +562,8 @@ namespace Cosmic {
 
 // БЕТОН
 
-        G4double betonSizeX = 3. * m, betonSizeY = 1. * m, betonSizeZ = 3. * m;
+#ifdef CONCRETE
+        G4double betonSizeX = 5. * m, betonSizeY = 1. * m, betonSizeZ = 5. * m;
         G4double betonPositionX = 0, betonPositionY = 3.5 * m, betonPositionZ = 0;
 
         auto betonS
@@ -585,6 +586,7 @@ namespace Cosmic {
                 0,                // copy number
                 fCheckOverlaps);  // checking overlaps
 
+#endif //CONCRETE
 /*
   // print parameters
   //
@@ -619,8 +621,9 @@ namespace Cosmic {
 
         //plastic_thin_nsys1LV[0]->SetVisAttributes(simpleBoxVisAtt);
         // plastic_thin_nsys2LV[1]->SetVisAttributes(simpleBoxVisAtt);
+#ifdef CONCRETE
         betonLV->SetVisAttributes(simpleBoxVisAtt);
-
+#endif //CONCRETE
         //
         // Always return the physical World
         //
@@ -1681,7 +1684,7 @@ namespace Cosmic {
 
         Volume_log = new G4LogicalVolume(Volume, SteelMaterial, "Volume_log", 0, 0, 0);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(),
-                                     Volume_log, "Volume_phys", worldLV, false, -1);
+                                     Volume_log, "Volume_phys", worldLV, false, -1, fCheckOverlaps);
 
 //  G4VisAttributes *Volume_logVisAtt = new G4VisAttributes(steel_col);
         Volume_log->SetVisAttributes(Steel_VisAtt);
@@ -1690,7 +1693,7 @@ namespace Cosmic {
                                                          "InTub_log", 0, 0, 0);
         vol_phys = new G4PVPlacement(
                 G4Transform3D(Rotate90Y, G4ThreeVector((1.2 + 10.) * cm, 0.0 * cm, 0.0 * cm)),
-                InTub_log, "InTub_phys", worldLV, false, -1);
+                InTub_log, "InTub_phys", worldLV, false, -1, fCheckOverlaps);
         InTub_log->SetVisAttributes(Alum_VisAtt);
 
 // Windows

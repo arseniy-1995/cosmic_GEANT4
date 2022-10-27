@@ -95,6 +95,7 @@ namespace Cosmic {
             genbos_start_(&FileNum);
             // lock.unlock();
             PrepareNames();
+            //TODO сделать класс, чтение генератора из файла
         }
         //  genbos_start_(&FileNum);
 
@@ -1027,7 +1028,7 @@ namespace Cosmic {
             // r2 = rand() / 2147483647.;
             r1 = G4UniformRand();
             r2 = G4UniformRand();
-            om = 145. * exp(r1 * log(10.));
+            om = 145. * exp(r1 * log(10.)); // Энергия виртуального фотона
             y = 0.033 * r2;
         } while (y > dal(om));
 //cerr<<y<<"\t"<<dal(om)<<endl;

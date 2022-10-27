@@ -87,7 +87,7 @@ RunAction::RunAction(EventAction* eventAction)
     // Creating ntuple
     //
     if ( fEventAction ) {
-        analysisManager->CreateNtuple("Cosmic", "Edep and TrackL");
+        analysisManager->CreateNtuple("TO", "Edep and TrackL");
 
         analysisManager->CreateNtupleIColumn("EventNumber"); // column Id = 0
 
