@@ -148,7 +148,7 @@ namespace Cosmic {
             //   GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
             // GenerateLowQ_method2(anEvent);
-            // GenerateProton(anEvent);
+            //  GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
             GenerateProtonNeutron(anEvent);
             // GenerateGenbos(anEvent);
@@ -657,26 +657,27 @@ namespace Cosmic {
         particle = particleTable->FindParticle("proton");
 
         energy1 = (10. + 450. * G4UniformRand()) * MeV;
-        theta1 = M_PI * G4UniformRand();
+        //theta1 = M_PI * G4UniformRand();
+        theta1 = acos(1.0 - 2.0 * G4UniformRand());
         phi1 = 2.0 * M_PI * G4UniformRand();
 
         // Нужно генерить две частицы для срабатывания тригера
         energy2 = (10. + 450. * G4UniformRand()) * MeV;
-        theta2 = M_PI * G4UniformRand();
+        // theta2 = M_PI * G4UniformRand();
+        theta2 = acos(1.0 - 2.0 * G4UniformRand());
         phi2 = M_PI - phi1;
 
-        auto v_direction1 = G4ThreeVector(sin(theta1) * sin(phi1), sin(theta1) * cos(phi1), cos(theta1));
-        auto v_direction2 = G4ThreeVector(sin(theta2) * sin(phi2), sin(theta2) * cos(phi2), cos(theta2));
-
+        auto v_direction1 = G4ThreeVector(sin(theta1) * cos(phi1), sin(theta1) * sin(phi1), cos(theta1));
+        auto v_direction2 = G4ThreeVector(sin(theta2) * cos(phi2), sin(theta2) * sin(phi2), cos(theta2));
         fParticleGun->SetParticleEnergy(energy1);
-        //fParticleGun->SetParticleMomentumDirection(v_direction1);
+        // fParticleGun->SetParticleMomentumDirection(v_direction1);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand()));
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
         fParticleGun->SetParticleEnergy(energy2);
-        //  fParticleGun->SetParticleMomentumDirection(v_direction2);
+        //   fParticleGun->SetParticleMomentumDirection(v_direction2);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand()));
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticlePosition(vertex);
@@ -708,16 +709,18 @@ namespace Cosmic {
         particle = particleTable->FindParticle("neutron");
 
         energy1 = (10. + 450. * G4UniformRand()) * MeV;
-        theta1 = M_PI * G4UniformRand();
+        // theta1 = M_PI * G4UniformRand();
+        theta1 = acos(1.0 - 2.0 * G4UniformRand());
         phi1 = 2.0 * M_PI * G4UniformRand();
 
         // Нужно генерить две частицы для срабатывания тригера
         energy2 = (10. + 450. * G4UniformRand()) * MeV;
-        theta2 = M_PI * G4UniformRand();
+        // theta2 = M_PI * G4UniformRand();
+        theta2 = acos(1.0 - 2.0 * G4UniformRand());
         phi2 = M_PI - phi1;
 
-        auto v_direction1 = G4ThreeVector(sin(theta1) * sin(phi1), sin(theta1) * cos(phi1), cos(theta1));
-        auto v_direction2 = G4ThreeVector(sin(theta2) * sin(phi2), sin(theta2) * cos(phi2), cos(theta2));
+        auto v_direction1 = G4ThreeVector(sin(theta1) * cos(phi1), sin(theta1) * sin(phi1), cos(theta1));
+        auto v_direction2 = G4ThreeVector(sin(theta2) * cos(phi2), sin(theta2) * sin(phi2), cos(theta2));
 
         fParticleGun->SetParticleEnergy(energy1);
         //fParticleGun->SetParticleMomentumDirection(v_direction1);
@@ -776,18 +779,20 @@ namespace Cosmic {
             n_det++;
             n.mm() = Mn * Mn;
             p_pn.mm() = p.mm() = Mp * Mp;
-            d.e() = Md;
+            d.e() = Md; // дейтрон покоиться, развал
             d.mm() = Md * Md;
-            q.e() = dalits(); //generate energy virtual photon
+            q.e() = virtual_photon_random(); //generate energy virtual photon
             q.z() = q.e();
             pn = q + d;
             M2 = sqrt(pn.mmr());
             p_pn.e() = (M2 * M2 + Mp * Mp - Mn * Mn) / 2. / M2;
-           // costet = 2. * rand() / 2147483647. - 1.;
+            // costet = 2. * rand() / 2147483647. - 1.;
             // phi=360.*ra*rand()/2147483647.;
-            theta = M_PI * G4UniformRand();
+            //  theta = M_PI * G4UniformRand();
+            // theta = acos(2.*G4UniformRand()-1);
+            theta = acos(1.0 - 2.0 * G4UniformRand());
             phi = 2.0 * M_PI * G4UniformRand();
-            p_pn.x() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp))* sin(theta) * cos(phi);
+            p_pn.x() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp)) * sin(theta) * cos(phi);
             p_pn.y() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp)) * sin(theta) * sin(phi);
             p_pn.z() = sqrt(p_pn.e() * p_pn.e() - Mp * Mp) * cos(theta);
             p = prodol(pn.p(), pn.e(), M2, p_pn);
@@ -835,7 +840,7 @@ namespace Cosmic {
 
         EventInfo *info = new EventInfo();
 //   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
-        info->SetEgamma(500.0);
+        info->SetEgamma(q.e());
         info->SetNreac(1);
         info->SetNp(2);
         info->SetEntry(FileNum);
@@ -1006,33 +1011,51 @@ namespace Cosmic {
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    G4double PrimaryGeneratorAction::dal(G4double om) {
-        const G4double E = 2000.0;
+    G4double PrimaryGeneratorAction::virtual_photon_distrib(G4double Egamma) {
+        G4double Eelectron = 2000.0;
         G4double fl1, fl2, f1, f2, sl;
-        G4double dal_temp;
-        fl1 = 2. * E * (E - om) / Me / (2. * E - om);
-        fl2 = (2. * E - om) / om;
-        f1 = 2. * (1. - om / E + om * om / 2. / E / E);
-        f2 = om * om / 2. / E / E;
-        sl = om / E - 1.;
-        dal_temp = (alpha_em * (f1 * log10(fabs(fl1)) + f2 * log10(fabs(fl2)) + sl) / M_PI);
-        return dal_temp;
+        G4double x = Egamma / Eelectron;
+        G4double Egamma_distr_temp;
+
+        // Это код из Томска
+        //  fl1 = 2. * Eelectron * (Eelectron - Egamma) / Me / (2. * Eelectron - Egamma);
+        //  fl2 = (2. * Eelectron - Egamma) / Egamma;
+        //  f1 = 2. * (1. - x + pow(x, 2.0) / 2.);
+        //  f2 = pow(x, 2.0) / 2.;
+        //  sl = x - 1.;
+        //  Egamma_distr_temp = (alpha_em * (f1 * log10(fabs(fl1)) + f2 * log10(fabs(fl2)) + sl) / M_PI);
+
+        //G4double theta_e_max = 5.*M_PI/180.;
+        G4double theta_e_max = 84.0 * pow(10.0, -3); //84 mrad
+        Eelectron = 800.0;
+        Egamma_distr_temp = (2.0 * alpha_em / M_PI) *
+                            ((1 - x + pow(x, 2.0) / 2.) * log(fabs((Eelectron - Egamma) * theta_e_max / (Me * x))) -
+                             (1. - x));
+
+        return Egamma_distr_temp;
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    G4double PrimaryGeneratorAction::dalits() {
-        G4double r1, r2, om, y;
+    G4double PrimaryGeneratorAction::virtual_photon_random() {
+        G4double r1, r2, Egamma, y;
+
+        G4double Egamma_min = 100., Egamma_max = 650.;
         do {
             // r1 = rand() / 2147483647.;
             // r2 = rand() / 2147483647.;
             r1 = G4UniformRand();
             r2 = G4UniformRand();
-            om = 145. * exp(r1 * log(10.)); // Энергия виртуального фотона
-            y = 0.033 * r2;
-        } while (y > dal(om));
+            //  Egamma = 145. * exp(r1 * log(10.)); // Энергия виртуального фотона в диапозоне 145...1450 МэВ
+            //  y = 0.033 * r2;
+
+            Egamma = Egamma_min * exp(r1 * log(Egamma_max /
+                                               Egamma_min)); // Энергия виртуального фотона в диапозоне Egamma_min...Egamma_max
+            y = 0.05 * r2; // максимум 0,05
+
+        } while (y > virtual_photon_distrib(Egamma));
 //cerr<<y<<"\t"<<dal(om)<<endl;
-        return om;
+        return Egamma;
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
