@@ -59,7 +59,9 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     G4ThreadLocal
-    G4GlobalMagFieldMessenger *DetectorConstruction::fMagFieldMessenger = nullptr;
+    G4GlobalMagFieldMessenger
+            *
+            DetectorConstruction::fMagFieldMessenger = nullptr;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -422,13 +424,15 @@ namespace Cosmic {
         G4int pCopyNo_HADCAL_nsys1 = 0;
         new G4PVPlacement(G4Transform3D(Rotate180Z, G4ThreeVector(0.0 * cm, -171. * cm, 84. *
                                                                                         cm)), // y-position and z-position modyfied by Gauzshtein
-                          HadronCalorimeter_nsys1LV, "Sand_phys_nsys1", worldLV, false, pCopyNo_HADCAL_nsys1, fCheckOverlaps);
+                          HadronCalorimeter_nsys1LV, "Sand_phys_nsys1", worldLV, false, pCopyNo_HADCAL_nsys1,
+                          fCheckOverlaps);
 #endif
 #ifdef HADCAL2
-       // G4int pCopyNo_HADCAL_nsys2 = ARM2_IND;
+        // G4int pCopyNo_HADCAL_nsys2 = ARM2_IND;
         G4int pCopyNo_HADCAL_nsys2 = 0;
         new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0.0 * cm, 171. * cm, 78. * cm)),
-                          HadronCalorimeter_nsys2LV, "Sand_phys_nsys2", worldLV, false, pCopyNo_HADCAL_nsys2, fCheckOverlaps);
+                          HadronCalorimeter_nsys2LV, "Sand_phys_nsys2", worldLV, false, pCopyNo_HADCAL_nsys2,
+                          fCheckOverlaps);
 #endif
 
 
@@ -483,7 +487,7 @@ namespace Cosmic {
 // ARM #1
 #ifdef DCARM1
 
-       // G4int pCopyNo_WC_nsys1 = ARM1_IND;
+        // G4int pCopyNo_WC_nsys1 = ARM1_IND;
         G4int pCopyNo_WC_nsys1 = 0;
         new G4PVPlacement(G4Transform3D(Rotate180Z,
                                         G4ThreeVector(0.0 * cm, -14.8 * cm, 9.4 * cm)),
@@ -551,14 +555,20 @@ namespace Cosmic {
         //МАГНИТЫ
 
 #ifdef TARGET
-//////////////////////////////////////////////////////////////////////
-// 		Magnet
-//////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // 		Magnet
+        //////////////////////////////////////////////////////////////////////
 #ifdef MAGNET
         ConstructMagnet();
 #endif    // MAGNET
 #endif // TARGET
 
+
+// MRPC
+
+#ifdef MRPC1
+        ConstructMRPC();
+#endif
 
 // БЕТОН
 
@@ -1153,7 +1163,7 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 // Адронный калориметр
-    G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(G4int nsys =1) {
+    G4LogicalVolume *DetectorConstruction::ConstructHadronCalorimeter(G4int nsys = 1) {
 
         auto ScintilMaterial = G4Material::GetMaterial("Scintillator");
         auto betonMaterial = G4Material::GetMaterial("G4_CONCRETE");
@@ -1164,7 +1174,7 @@ namespace Cosmic {
         G4LogicalVolume *Volume_log;
         G4VPhysicalVolume *vol_phys;
 
-        G4LogicalVolume* scint_HadCalLV;
+        G4LogicalVolume *scint_HadCalLV;
 
         G4double x_pos, y_pos, z_pos;
         G4double dx, dy, dz;
@@ -1385,10 +1395,203 @@ namespace Cosmic {
         G4cerr << " HCX_IND=" << HCX_IND << " HCZ_IND=" << HCZ_IND << " LQ_IND=" << LQ_IND << G4endl;
 
 
-        if (nsys ==1) scint_HadCal_nsys1LV = scint_HadCalLV;
-        if (nsys ==2) scint_HadCal_nsys2LV = scint_HadCalLV;
+        if (nsys == 1) scint_HadCal_nsys1LV = scint_HadCalLV;
+        if (nsys == 2) scint_HadCal_nsys2LV = scint_HadCalLV;
+
 
         return sand_vol;
+    }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+// MRP-детекторы
+    void DetectorConstruction::ConstructMRPC_old() {
+
+        // RPC
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+        //BEGIN RPC// for simulated mRPC
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+
+        auto ScintilMaterial = G4Material::GetMaterial("Scintillator");
+
+        G4int NbOfXBars;    // number of bars for phi
+        G4int NbOfZBars;    // number of bars for theta
+        G4double ScintSizeX;// 10.*cm;
+        G4double ScintSizeZ;// 10.*cm;
+
+        G4double GapX = 0.5 * mm;
+        G4double GapY = 0.25 * mm;
+
+        G4double ScintThickness = 7. * mm;
+        ScintSizeX = 79.5 * mm;
+        ScintSizeZ = NX_BARS * (ScintSizeX + GapX);
+
+        G4double IronThickness = 16. * mm;
+        G4double IronSizeX = 16. * cm;
+        G4double IronSizeZ = ScintSizeZ + 2. * 10. * cm;
+
+        G4int NbOfLayers = N_LAYERS;// Hadron Calo layers */
+        NbOfXBars = NX_BARS;  // number of bars for phi
+        NbOfZBars = NZ_BARS;  // number of bars for theta
+
+        G4double LayerStep = 35. * mm;
+
+        // Compute sizes
+        G4double StripSizeX = IronSizeX;//(ScintSizeX+GapX)*2;
+        G4double StripSizeZ = IronSizeZ + 2 * GapX;
+        G4double StripSizeY = (ScintThickness + GapY) * 2 + IronThickness + 4 * GapY;
+
+        G4double LayerSizeX = StripSizeX * NbOfXBars / 2;
+        G4double LayerSizeY = StripSizeY;
+        G4double LayerSizeZ = StripSizeZ;
+
+        G4double SandSizeX = IronSizeZ + 1 * mm;
+        G4double SandSizeY = LayerStep * (NbOfLayers + 1.0) + 1 * mm;// no ACC layers
+        G4double SandSizeZ = IronSizeZ + 1 * mm;
+
+        G4double pl_thick = 1.0 * cm;    // y-axis
+        G4double pl_width = SandSizeZ;    // z-axis
+        G4double pl_length = SandSizeX;    // x-axis
+
+        G4double VertPos = 150.0 * cm;// 150.*cm; !! now to fron face of SANDW
+        G4double HorPos = 73.8 * cm;
+
+//G4Material* rpc_material=Scintil;
+
+        auto ubox = new G4Box("RPC", pl_length / 2., pl_thick / 2., pl_width / 2.);
+        G4LogicalVolume *RPC_log = new G4LogicalVolume(ubox, ScintilMaterial, "RPC_log", 0, 0, 0);
+        RPC_log->SetVisAttributes(Plastic_VisAtt);
+
+// PLACE RPC
+// Position -- close to HS
+        G4double x_pos = 0.0;
+        G4double y_pos = VertPos - 0.5 * LayerSizeY;
+//G4cout<<"*** RPC_Y = "<<y_pos<<G4endl;
+        G4double z_pos = y_pos * (tan((90. - 45.) * deg) + tan((90. - 85.) * deg)) / 2.;
+//G4cerr << "========> AC : y_pos="<<y_pos/cm<<" cm  z_pos="<<z_pos/cm<<" cm"<<G4endl;
+
+//#ifdef RPC
+/*
+i=TOF_IND  + ARM1_IND;
+new G4PVPlacement(G4Transform3D(RotateNull,
+   		  G4ThreeVector(x_pos, -y_pos, z_pos)),
+		  RPC_log,
+                  "RPC1_phys",
+                  logicWorld,
+                  false,
+                  i);
+*/
+
+        G4int i = TOF_IND + ARM2_IND;
+        new G4PVPlacement(G4Transform3D(Rotate180Z,
+                                        G4ThreeVector(x_pos, y_pos, z_pos)),
+                          RPC_log,
+                          "RPC2_phys",
+                          worldLV,
+                          false,
+                          -1, fCheckOverlaps);
+//                  i);
+
+//#endif
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+        //END RPC// for simulated mRPC
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void DetectorConstruction::ConstructMRPC() {
+
+        // RPC
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+        //BEGIN RPC// for simulated mRPC
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+
+        auto ScintilMaterial = G4Material::GetMaterial("Scintillator");
+
+        G4int NbOfXBars;    // number of bars for phi
+        G4int NbOfZBars;    // number of bars for theta
+        G4double ScintSizeX;// 10.*cm;
+        G4double ScintSizeZ;// 10.*cm;
+
+        G4double GapX = 0.5 * mm;
+        G4double GapY = 0.25 * mm;
+
+        G4double ScintThickness = 7. * mm;
+        ScintSizeX = 79.5 * mm;
+        ScintSizeZ = NX_BARS * (ScintSizeX + GapX);
+
+        G4double IronThickness = 16. * mm;
+        G4double IronSizeX = 16. * cm;
+        G4double IronSizeZ = ScintSizeZ + 2. * 10. * cm;
+
+        G4int NbOfLayers = N_LAYERS;// Hadron Calo layers */
+        NbOfXBars = NX_BARS;  // number of bars for phi
+        NbOfZBars = NZ_BARS;  // number of bars for theta
+
+        G4double LayerStep = 35. * mm;
+
+        // Compute sizes
+        G4double StripSizeX = IronSizeX;//(ScintSizeX+GapX)*2;
+        G4double StripSizeZ = IronSizeZ + 2 * GapX;
+        G4double StripSizeY = (ScintThickness + GapY) * 2 + IronThickness + 4 * GapY;
+
+        G4double LayerSizeX = StripSizeX * NbOfXBars / 2;
+        G4double LayerSizeY = StripSizeY;
+        G4double LayerSizeZ = StripSizeZ;
+
+        G4double SandSizeX = IronSizeZ + 1 * mm;
+        G4double SandSizeY = LayerStep * (NbOfLayers + 1.0) + 1 * mm;// no ACC layers
+        G4double SandSizeZ = IronSizeZ + 1 * mm;
+
+        G4double pl_thick = 1.0 * cm;    // y-axis
+        G4double pl_width = SandSizeZ;    // z-axis
+        G4double pl_length = SandSizeX;    // x-axis
+
+//G4Material* rpc_material=Scintil;
+
+        auto ubox = new G4Box("RPC", pl_length / 2., pl_thick / 2., pl_width / 2.);
+        G4LogicalVolume *RPC_log = new G4LogicalVolume(ubox, ScintilMaterial, "RPC_log", 0, 0, 0);
+        RPC_log->SetVisAttributes(Plastic_VisAtt);
+
+        G4double VertPos = 150.0 * cm;// 150.*cm; !! now to fron face of SANDW
+        G4double HorPos = 73.8 * cm;
+
+// PLACE RPC
+// Position -- close to HS
+        G4double x_pos = 0.0;
+        G4double y_pos = VertPos - 0.5 * LayerSizeY;
+//G4cout<<"*** RPC_Y = "<<y_pos<<G4endl;
+        G4double z_pos = y_pos * (tan((90. - 45.) * deg) + tan((90. - 85.) * deg)) / 2.;
+//G4cerr << "========> AC : y_pos="<<y_pos/cm<<" cm  z_pos="<<z_pos/cm<<" cm"<<G4endl;
+
+
+
+        G4int i = TOF_IND + ARM1_IND;
+        new G4PVPlacement(G4Transform3D(RotateNull,
+                                        G4ThreeVector(x_pos, -y_pos, z_pos)),
+                          RPC_log,
+                          "RPC1_phys",
+                          worldLV,
+                          false,
+                          i, fCheckOverlaps);
+
+
+        i = TOF_IND + ARM2_IND;
+        new G4PVPlacement(G4Transform3D(Rotate180Z,
+                                        G4ThreeVector(x_pos, y_pos, z_pos)),
+                          RPC_log,
+                          "RPC2_phys",
+                          worldLV,
+                          false,
+                          -1, fCheckOverlaps);
+        //                  i);
+
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+        //END RPC// for simulated mRPC
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -1806,9 +2009,9 @@ namespace Cosmic {
         //МАГНИТЫ
 
 #ifdef TARGET
-//////////////////////////////////////////////////////////////////////
-// 		Magnet
-//////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // 		Magnet
+        //////////////////////////////////////////////////////////////////////
 #ifdef MAGNET
 
         auto CopperMaterial = G4Material::GetMaterial("Copper");
@@ -1868,7 +2071,7 @@ namespace Cosmic {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    G4LogicalVolume * DetectorConstruction::ConstructLOWQ(G4int nsys =1) {
+    G4LogicalVolume *DetectorConstruction::ConstructLOWQ(G4int nsys = 1) {
 
 #if defined(LOWQ1) || defined(LOWQ2)
         ////////////////////////////////////////////////////////////////////////////////
@@ -2125,16 +2328,18 @@ namespace Cosmic {
 
 
 #ifdef HADCAL1
-          auto ahadron_calorimeter_nsys1SD = new HadronCalorimeterSD(SDname="/hadron_calorimeter_nsys1SD", "hadron_calorimeter_nsys1HitsCollection", 1);
-          sdManager->AddNewDetector(ahadron_calorimeter_nsys1SD);
-          scint_HadCal_nsys1LV->SetSensitiveDetector(ahadron_calorimeter_nsys1SD);
+        auto ahadron_calorimeter_nsys1SD = new HadronCalorimeterSD(SDname = "/hadron_calorimeter_nsys1SD",
+                                                                   "hadron_calorimeter_nsys1HitsCollection", 1);
+        sdManager->AddNewDetector(ahadron_calorimeter_nsys1SD);
+        scint_HadCal_nsys1LV->SetSensitiveDetector(ahadron_calorimeter_nsys1SD);
 #endif
 
 
 #ifdef HADCAL2
-         auto ahadron_calorimeter_nsys2SD = new HadronCalorimeterSD(SDname="/hadron_calorimeter_nsys2SD", "hadron_calorimeter_nsys2HitsCollection", 2);
-         sdManager->AddNewDetector(ahadron_calorimeter_nsys2SD);
-         scint_HadCal_nsys2LV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
+        auto ahadron_calorimeter_nsys2SD = new HadronCalorimeterSD(SDname = "/hadron_calorimeter_nsys2SD",
+                                                                   "hadron_calorimeter_nsys2HitsCollection", 2);
+        sdManager->AddNewDetector(ahadron_calorimeter_nsys2SD);
+        scint_HadCal_nsys2LV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
 #endif
 
 
@@ -2172,6 +2377,7 @@ namespace Cosmic {
 
         VCGas_log_nsys2LV->SetSensitiveDetector(aV_chamber_nsys2SD);
 #endif
+
 
 
         //END sensitive detector for proton plastic

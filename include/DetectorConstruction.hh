@@ -89,21 +89,33 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     // methods
     //
     void DefineMaterials();
+
     void DefineRotationMatrices();
+
     void DefineVisAttributes();
 
-    G4VPhysicalVolume* DefineVolumes();
+    G4VPhysicalVolume *DefineVolumes();
 
     G4LogicalVolume *ConstructHadronCalorimeter(G4int nsys);
+
+    void ConstructMRPC_old();
+
+    void ConstructMRPC();
+
     G4LogicalVolume *ConstructVC(G4LogicalVolume *&forSD);
-    G4LogicalVolume *ConstructWC(G4double Lwin, G4double Wwin, G4int ind, G4LogicalVolume*& forSD);
+
+    G4LogicalVolume *ConstructWC(G4double Lwin, G4double Wwin, G4int ind, G4LogicalVolume *&forSD);
 
     void ConstructPlasticFat1();
+
     void ConstructPlasticFat2();
+
     void ConstructPlasticThin1();
+
     void ConstructPlasticThin2();
 
     void ConstructTarget();
+
     void ConstructMagnet();
     G4LogicalVolume * ConstructLOWQ(G4int nsys);
 

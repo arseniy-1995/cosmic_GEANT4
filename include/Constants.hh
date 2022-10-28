@@ -46,6 +46,9 @@ namespace Cosmic {
 #define HADCAL1 // Адронный калориметр
 #define HADCAL2
 
+//#define MRPC1 // MRPC-детекторы
+//#define MRPC2
+
 #define DCARM1 // Дрейфовая камера
 #define DCARM2
 #define VCARM1 // Вершинная камера
@@ -77,6 +80,10 @@ namespace Cosmic {
 #define N_HCX NX_BARS *N_LAYERS
 #define HCZ_IND (HCX_IND + N_HCX) /* Z bars */
 #define N_HCZ NZ_BARS *N_LAYERS
+
+#define N_AC    1
+#define TOF_IND (AC_IND+N_AC)        /* MRPC */
+#define N_TOF    1
 
 //#define VC_IND (HCZ_IND + N_HCZ)    /* Vertex Ch */
 //#define WC1_IND (VC_IND + NVC_WRS)  /* Drift Chambers */
