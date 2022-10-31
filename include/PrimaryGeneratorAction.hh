@@ -37,10 +37,11 @@
 #include "G4ThreeVector.hh"
 #include "Constants.hh"
 #include "p4vector.hh"
+#include "GenbosClass.hh"
 
 #ifdef GENBOS
 
-#include "Genbos.hh"
+//#include "Genbos.hh"
 
 #endif
 
@@ -113,20 +114,20 @@ namespace Cosmic {
         void SetEgMin(G4double val) {
             EgMin = val / GeV;
             G4int n = 2;
-            genbos_beam_(&n, &EgMin, &EgMax);
+            //genbos_beam_(&n, &EgMin, &EgMax);
         }
 
         void SetEgMax(G4double val) {
             EgMax = val / GeV;
             G4int n = 2;
-            genbos_beam_(&n, &EgMin, &EgMax);
+            //genbos_beam_(&n, &EgMin, &EgMax);
         }
 
-        void SetEgMin(G4double val_min, G4double val_max) {
+        void SetEgMinMax(G4double val_min, G4double val_max) {
             EgMin = val_min / GeV;
             EgMax = val_max / GeV;
             G4int n = 2;
-            genbos_beam_(&n, &EgMin, &EgMax);
+            //genbos_beam_(&n, &EgMin, &EgMax);
         }
         //////
 
@@ -179,6 +180,8 @@ namespace Cosmic {
 
         G4int GenbosBool;
 
+        GenbosClass *fGenbosClass = nullptr;
+
         G4int cstep;
         G4String countFlag;
         G4String rndmFlag;
@@ -199,10 +202,12 @@ namespace Cosmic {
         G4float vy;
         G4float vz;
         G4int np; // number of generated particles
-        G4int idg[11];   //[np] // list of particle's indexes
-        G4float cx[11];   //[np] // lists of momentum components
-        G4float cy[11];   //[np]
-        G4float cz[11];   //[np]
+        G4int *idg = new G4int[11];   //[np] // list of particle's indexes
+        G4float *cx = new G4float[11];   //[np] // lists of momentum components
+        G4float *cy = new G4float[11];   //[np]
+        G4float *cz = new G4float[11];   //[np]
+
+
 
         //////
 
