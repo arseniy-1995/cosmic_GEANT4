@@ -538,8 +538,11 @@ namespace Cosmic {
                     fHCX_N[0][index]++;
                     fHCX_Edep[0][index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
                     fHCX_LO[0][index] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                    fHCX_A[0][index] += HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
                     fHCX_A1[0][index] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
+                    fHCX_A2[0][index] = HadronCalorimeter_nsys1Hit_->GetA2() / MeV;
                     fHCX_T1[0][index] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
+                    fHCX_T2[0][index] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
                     fHCX_TrackLength[0][index] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
                     fHCX_ToF[0][index] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
 
@@ -559,15 +562,19 @@ namespace Cosmic {
                     fHCZ_N[0][index]++;
                     fHCZ_Edep[0][index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
                     fHCZ_LO[0][index] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                    fHCZ_A[0][index] += HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
                     fHCZ_A1[0][index] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
+                    fHCZ_A2[0][index] = HadronCalorimeter_nsys1Hit_->GetA2() / MeV;
                     fHCZ_T1[0][index] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
+                    fHCZ_T2[0][index] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
+
                     fHCZ_TrackLength[0][index] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
                     fHCZ_ToF[0][index] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
 
                     fHCZ_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
                     fHCZ_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                     fHCZ_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
-                    hcdep[0]|=2;
+                    hcdep[0] |= 2;
                     continue;
                 }
             }
@@ -591,15 +598,19 @@ namespace Cosmic {
                     fHCX_N[1][index]++;
                     fHCX_Edep[1][index] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
                     fHCX_LO[1][index] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                    fHCX_A[1][index] += HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
                     fHCX_A1[1][index] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
+                    fHCX_A2[1][index] = HadronCalorimeter_nsys2Hit_->GetA2() / MeV;
                     fHCX_T1[1][index] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
+                    fHCX_T2[1][index] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
+
                     fHCX_TrackLength[1][index] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
                     fHCX_ToF[1][index] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
 
                     fHCX_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
                     fHCX_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
                     fHCX_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
-                    hcdep[1]|=1;
+                    hcdep[1] |= 1;
                     continue;
                 }
                 index = index - HCZ_IND;
@@ -611,15 +622,19 @@ namespace Cosmic {
                     fHCZ_N[1][index]++;
                     fHCZ_Edep[1][i] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
                     fHCZ_LO[1][index] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                    fHCZ_A[1][index] += HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
                     fHCZ_A1[1][index] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
+                    fHCZ_A2[1][index] = HadronCalorimeter_nsys2Hit_->GetA2() / MeV;
                     fHCZ_T1[1][index] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
+                    fHCZ_T2[1][index] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
+
                     fHCZ_TrackLength[1][index] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
                     fHCZ_ToF[1][index] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
 
                     fHCZ_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
                     fHCZ_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
                     fHCZ_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
-                    hcdep[1]|=2;
+                    hcdep[1] |= 2;
                     continue;
                 }
             }
@@ -637,7 +652,11 @@ namespace Cosmic {
                     fVC_YPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fVC_ZPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fVC_RPos[0][index] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    wcdep[0]|=1;
+                    fVC_Theta[0][index] = V_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fVC_Phi[0][index] = V_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fVC_Mass[0][index] = V_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fVC_KineticEnergy[0][index] = V_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    wcdep[0] |= 1;
                     continue;
                 }
             }
@@ -653,7 +672,11 @@ namespace Cosmic {
                     fVC_YPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fVC_ZPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fVC_RPos[1][index] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    wcdep[1]|=1;
+                    fVC_Theta[1][index] = V_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fVC_Phi[1][index] = V_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fVC_Mass[1][index] = V_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fVC_KineticEnergy[1][index] = V_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    wcdep[1] |= 1;
                     continue;
                 }
             }
@@ -843,7 +866,7 @@ namespace Cosmic {
                 //     && ((ahx[0]>HC_THRES && ahz[0]>HC_THRES)		// HC hit in arm 1
                 //	|| (ahx[1]>HC_THRES && ahz[1]>HC_THRES))	// HC hit in arm 2
                 && (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory)
-                || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // LQ
+                // || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // LQ
                     ) {
 //G4cout << "Taken!"<<G4endl;
                 //  TO->Fill();

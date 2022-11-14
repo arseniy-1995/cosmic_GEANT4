@@ -122,21 +122,42 @@ class ChamberHit : public G4VHit
 
 
         inline void SetT1(G4double t1) { fT1 = t1; }
+
         //  void AddT1(G4double t1) { fT1 += t1; }
         inline G4double GetT1() const { return fT1; }
 
         inline void SetT2(G4double t2) { fT2 = t2; }
+
         //  void AddT2(G4double t2) { fT2 += t2; }
         inline G4double GetT2() const { return fT2; }
 
+        inline void SetMass(G4double mass) { fMass = mass; }
+
+        inline G4double GetMass() const { return fMass; }
+
+        inline void SetKineticEnergy(G4double kinetic_energy) { fKineticEnergy = kinetic_energy; }
+
+        inline G4double GetKineticEnergy() const { return fKineticEnergy; }
+
+        inline void SetPosTheta(G4double theta) { fPosTheta = theta; }
+
+        inline G4double GetPosTheta() const { return fPosTheta; }
+
+        inline void SetPosPhi(G4double phi) { fPosPhi = phi; }
+
+        inline G4double GetPosPhi() const { return fPosPhi; }
 
         inline void SetTrackLength(G4double dl) { fTrackLength = dl; }
+
         void AddTrackLength(G4double dl) { fTrackLength += dl; }
+
         inline G4double GetTrackLength() const { return fTrackLength; }
 
 
         inline void SetToF(G4double tof) { fToF = tof; }
+
         void AddToF(G4double tof) { fToF = tof; }
+
         inline G4double GetToF() const { return fToF; }
 
 
@@ -192,26 +213,28 @@ class ChamberHit : public G4VHit
     G4double fLO = 0.;        ///< Light Output in the sensitive volume
     G4double fTrackLength = 0.; ///< Track length in the  sensitive volume
     G4double fA1 = 0.;  // Амплитуды с двух концов счетчиков
-    G4double fA2 = 0.;
-    G4double fT1 = 0.;  // Времена с двух концов счетчиков
-    G4double fT2 = 0.;
-    G4ThreeVector fHalfLength = G4ThreeVector();
-    G4double fAbsorbtion  = 0.;
-    G4ThreeVector fLocalPos = G4ThreeVector(); // точка взаимодействия в координатах детектора
-    G4ThreeVector fWorldPos = G4ThreeVector();
-    G4ThreeVector fVPos = G4ThreeVector(); // вершина (точка генерации)
-    G4RotationMatrix fRot = G4RotationMatrix();
-    G4double fRhoX = 0.,fRhoZ = 0., fRhoY = 0.;
-    const G4LogicalVolume* fPLogV = nullptr;
+        G4double fA2 = 0.;
+        G4double fT1 = 0.;  // Времена с двух концов счетчиков
+        G4double fT2 = 0.;
+        G4ThreeVector fHalfLength = G4ThreeVector();
+        G4double fAbsorbtion = 0.;
+        G4ThreeVector fLocalPos = G4ThreeVector(); // точка взаимодействия в координатах детектора
+        G4ThreeVector fWorldPos = G4ThreeVector();
+        G4ThreeVector fVPos = G4ThreeVector(); // вершина (точка генерации)
+        G4RotationMatrix fRot = G4RotationMatrix();
+        G4double fRhoX = 0., fRhoZ = 0., fRhoY = 0.;
+        G4double fPosTheta = 0., fPosPhi = 0.; // углы в глобальной системе координат
+        G4double fMass = 0., fKineticEnergy = 0.;
+        const G4LogicalVolume *fPLogV = nullptr;
 
-    void CalcRho(G4ThreeVector v);
+        void CalcRho(G4ThreeVector v);
 
-    G4double threshold = 0.;
-    G4double pde = 0.;
+        G4double threshold = 0.;
+        G4double pde = 0.;
 
-    G4int blkN = 0;
+        G4int blkN = 0;
 
-    G4bool Trig;
+        G4bool Trig;
     G4int Nprim = 0;
 
 

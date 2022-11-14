@@ -41,7 +41,7 @@
 
 #ifdef GENBOS
 
-//#include "Genbos.hh"
+#include "Genbos.hh"
 
 #endif
 
@@ -114,20 +114,20 @@ namespace Cosmic {
         void SetEgMin(G4double val) {
             EgMin = val / GeV;
             G4int n = 2;
-            //genbos_beam_(&n, &EgMin, &EgMax);
+            genbos_beam_(&n, &EgMin, &EgMax);
         }
 
         void SetEgMax(G4double val) {
             EgMax = val / GeV;
             G4int n = 2;
-            //genbos_beam_(&n, &EgMin, &EgMax);
+            genbos_beam_(&n, &EgMin, &EgMax);
         }
 
         void SetEgMinMax(G4double val_min, G4double val_max) {
             EgMin = val_min / GeV;
             EgMax = val_max / GeV;
             G4int n = 2;
-            //genbos_beam_(&n, &EgMin, &EgMax);
+            genbos_beam_(&n, &EgMin, &EgMax);
         }
         //////
 

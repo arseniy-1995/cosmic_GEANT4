@@ -300,6 +300,11 @@ namespace Cosmic {
             return fHCX_LO[0];
         }
 
+        std::vector<G4float> &Get_HCX_A(G4int nsys = 1) {
+            if (nsys == 2) return fHCX_A[1];
+            return fHCX_A[0];
+        }
+
         std::vector<G4float> &Get_HCX_A1(G4int nsys = 1) {
             if (nsys == 2) return fHCX_A1[1];
             return fHCX_A1[0];
@@ -367,6 +372,11 @@ namespace Cosmic {
         std::vector<G4float> &Get_HCZ_LO(G4int nsys = 1) {
             if (nsys == 2) return fHCZ_LO[1];
             return fHCZ_LO[0];
+        }
+
+        std::vector<G4float> &Get_HCZ_A(G4int nsys = 1) {
+            if (nsys == 2) return fHCZ_A[1];
+            return fHCZ_A[0];
         }
 
         std::vector<G4float> &Get_HCZ_A1(G4int nsys = 1) {
@@ -483,7 +493,6 @@ namespace Cosmic {
         }
 
         std::vector<G4int> &Get_VC_N(G4int nsys = 1) {
-
             if (nsys == 2) return fVC_N[1];
             return fVC_N[0];
         }
@@ -504,14 +513,37 @@ namespace Cosmic {
             return fVC_XPos[0];
         }
 
+        std::vector<G4float> &Get_VC_Mass(G4int nsys = 1) {
+            if (nsys == 2) return fVC_Mass[1];
+            return fVC_Mass[0];
+        }
+
+        std::vector<G4float> &Get_VC_KineticEnergy(G4int nsys = 1) {
+            if (nsys == 2) return fVC_KineticEnergy[1];
+            return fVC_KineticEnergy[0];
+        }
+
+        std::vector<G4float> &Get_VC_Theta(G4int nsys = 1) {
+            if (nsys == 2) return fVC_Theta[1];
+            return fVC_Theta[0];
+        }
+
+        std::vector<G4float> &Get_VC_Phi(G4int nsys = 1) {
+            if (nsys == 2) return fVC_Phi[1];
+            return fVC_Phi[0];
+        }
+
         std::vector<G4float> &GetVertexXYZ(G4int index = 1) {
             if (index == 1) return vertex_x_vector;
             if (index == 2) return vertex_y_vector;
             if (index == 3) return vertex_z_vector;
             return vertex_x_vector;
         }
+
         std::vector<G4float> &GetVertexIndex() { return vertex_index_vector; }
+
         std::vector<G4float> &GetVertexEnergy() { return vertex_energy_vector; }
+
         std::vector<G4float> &GetVertexMomentum() { return vertex_momentum_vector; }
         std::vector<G4float> &GetVertexMass() { return vertex_mass_vector; }
         std::vector<G4float> &GetVertexTheta() { return vertex_theta_vector; }
@@ -677,108 +709,122 @@ namespace Cosmic {
         ////// Для Адронного Калориметра
 
         std::array<std::vector<G4int>, 2> fHCX_N{
-                {std::vector<G4int>(N_HCX + 1, 0.0), std::vector<G4int>(N_HCX + 1, NAN)}};
+                {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4int>, 2> fHCX_AL{
-                {std::vector<G4int>(N_HCX + 1, 0.0), std::vector<G4int>(N_HCX + 1, NAN)}};
+                {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_Edep{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_LO{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fHCX_A{
+                {std::vector<G4float>(N_HCX + 1, 0.0),
+                 std::vector<G4float>(N_HCX + 1, 0.0)}}; // здесь нужно заполнять нулями
         std::array<std::vector<G4float>, 2> fHCX_A1{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_A2{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_T1{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_T2{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_TrackLength{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_ToF{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_XPos{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_YPos{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_ZPos{
-                {std::vector<G4float>(N_HCX + 1, 0.0), std::vector<G4float>(N_HCX + 1, NAN)}};
+                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
 
         std::array<std::vector<G4int>, 2> fHCZ_N{
-                {std::vector<G4int>(N_HCZ + 1, 0.0), std::vector<G4int>(N_HCZ + 1, NAN)}};
+                {std::vector<G4int>(N_HCZ + 1, NAN), std::vector<G4int>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4int>, 2> fHCZ_AL{
-                {std::vector<G4int>(N_HCZ + 1, 0.0), std::vector<G4int>(N_HCZ + 1, NAN)}};
+                {std::vector<G4int>(N_HCZ + 1, NAN), std::vector<G4int>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_Edep{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_LO{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fHCZ_A{
+                {std::vector<G4float>(N_HCZ + 1, 0.0),
+                 std::vector<G4float>(N_HCZ + 1, 0.0)}}; // здесь нужно заполнять нулями
         std::array<std::vector<G4float>, 2> fHCZ_A1{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_A2{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_T1{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_T2{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_TrackLength{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_ToF{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_XPos{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_YPos{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_ZPos{
-                {std::vector<G4float>(N_HCZ + 1, 0.0), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
 
 ///////
 
-        // Для камер
+        // Для дрейфовых (трековых) камер
 
         std::array<std::vector<G4int>, 2> fWa_N{
-                {std::vector<G4int>(NW1_WRS + 1, 0.0), std::vector<G4int>(NW1_WRS + 1, NAN)}};
+                {std::vector<G4int>(NW1_WRS + 1, NAN), std::vector<G4int>(NW1_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWa_XPos{
-                {std::vector<G4float>(NW1_WRS + 1, 0.0), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWa_YPos{
-                {std::vector<G4float>(NW1_WRS + 1, 0.0), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWa_ZPos{
-                {std::vector<G4float>(NW1_WRS + 1, 0.0), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWa_RPos{
-                {std::vector<G4float>(NW1_WRS + 1, 0.0), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
 //////
         std::array<std::vector<G4int>, 2> fWb_N{
-                {std::vector<G4int>(NW2_WRS + 1, 0.0), std::vector<G4int>(NW2_WRS + 1, NAN)}};
+                {std::vector<G4int>(NW2_WRS + 1, NAN), std::vector<G4int>(NW2_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWb_XPos{
-                {std::vector<G4float>(NW2_WRS + 1, 0.0), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWb_YPos{
-                {std::vector<G4float>(NW2_WRS + 1, 0.0), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWb_ZPos{
-                {std::vector<G4float>(NW2_WRS + 1, 0.0), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWb_RPos{
-                {std::vector<G4float>(NW2_WRS + 1, 0.0), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
 /////
         std::array<std::vector<G4int>, 2> fWc_N{
-                {std::vector<G4int>(NW3_WRS + 1, 0.0), std::vector<G4int>(NW3_WRS + 1, NAN)}};
+                {std::vector<G4int>(NW3_WRS + 1, NAN), std::vector<G4int>(NW3_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWc_XPos{
-                {std::vector<G4float>(NW3_WRS + 1, 0.0), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWc_YPos{
-                {std::vector<G4float>(NW3_WRS + 1, 0.0), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWc_ZPos{
-                {std::vector<G4float>(NW3_WRS + 1, 0.0), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWc_RPos{
-                {std::vector<G4float>(NW3_WRS + 1, 0.0), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
 
         // Для вершинных камер
 
         std::array<std::vector<G4int>, 2> fVC_N{
-                {std::vector<G4int>(NVC_WRS + 1, 0.0), std::vector<G4int>(NVC_WRS + 1, NAN)}};
+                {std::vector<G4int>(NVC_WRS + 1, NAN), std::vector<G4int>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_Mass{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_KineticEnergy{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_Theta{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_Phi{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_XPos{
-                {std::vector<G4float>(NVC_WRS + 1, 0.0), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_YPos{
-                {std::vector<G4float>(NVC_WRS + 1, 0.0), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_ZPos{
-                {std::vector<G4float>(NVC_WRS + 1, 0.0), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_RPos{
-                {std::vector<G4float>(NVC_WRS + 1, 0.0), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
 
         // Для GENBOS через индекс вершины
 

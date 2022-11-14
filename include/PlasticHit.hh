@@ -188,14 +188,14 @@ class PlasticHit : public G4VHit
     G4double fT1 = 0.;  // Времена с двух концов счетчиков
     G4double fT2 = 0.;
     G4ThreeVector fHalfLength = G4ThreeVector();
-    G4double fAbsorbtion  = 0.;
-    G4double fPosTheta  = 0., fPosPhi = 0.;
+    G4double fAbsorbtion = 0.;
+    G4double fPosTheta = 0., fPosPhi = 0.; // углы в глобальной системе координат
     G4ThreeVector fLocalPos = G4ThreeVector(); // точка взаимодействия в координатах детектора
     G4ThreeVector fWorldPos = G4ThreeVector();
     G4ThreeVector fVPos = G4ThreeVector(); // вершина (точка генерации)
     G4RotationMatrix fRot = G4RotationMatrix();
-    G4double fRhoX = 0.,fRhoZ = 0., fRhoY = 0.;
-    const G4LogicalVolume* fPLogV = nullptr;
+    G4double fRhoX = 0., fRhoZ = 0., fRhoY = 0.;
+    const G4LogicalVolume *fPLogV = nullptr;
 
     void CalcRho(G4ThreeVector v);
 

@@ -33,6 +33,8 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 
+class G4Timer;
+
 class G4Run;
 
 namespace Cosmic
@@ -68,8 +70,10 @@ class RunAction : public G4UserRunAction
     void   EndOfRunAction(const G4Run*) override;
 
 private:
-    EventAction* fEventAction = nullptr;
+    EventAction *fEventAction = nullptr;
+    G4Timer *timer = nullptr;
 
+    G4int FileNum;
 };
 
 }

@@ -133,21 +133,25 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 //  aTrack->SetTrackStatus(fStopAndKill);
 
+
     auto tof = aTrack->GetGlobalTime(); // время
     auto posit = aTrack->GetPosition(); // позиция
     G4ThreeVector posit_local(0, 0, 0);
     auto dx = aStep->GetDeltaPosition();
     auto velosity = preStepPoint->GetVelocity(); // скорость
 
-  // step length
-  G4double stepLength = 0.;
-  if ( aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0. ) {
-    stepLength = aStep->GetStepLength();
-  }
+    // step length
+    G4double stepLength = 0.;
+    if (aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0.) {
+        stepLength = aStep->GetStepLength();
+    }
 
     // if ( edep==0. && stepLength == 0. ) return false;
 
-
+    auto mass = preStepPoint->GetMass();
+    auto kinetic_energy = preStepPoint->GetKineticEnergy();
+    auto theta = aTrack->GetPosition().getTheta();
+    auto phi = aTrack->GetPosition().getPhi();
 
 
     auto touchable = preStepPoint->GetTouchable();
@@ -255,6 +259,10 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hit->AddWorldPos(posit);
     hit->AddLocalPos(posit_local);
     hit->SetHalfLength(halflength);
+    hit->SetPosTheta(theta);
+    hit->SetPosPhi(phi);
+    hit->SetMass(mass);
+    hit->SetKineticEnergy(kinetic_energy);
 
     hitTotal->AddEdep(edep);
     hitTotal->AddLO(edep, posit, dx, velosity, tof);
@@ -263,9 +271,13 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);
     hitTotal->SetHalfLength(halflength);
+    hitTotal->SetPosTheta(theta);
+    hitTotal->SetPosPhi(phi);
+    hitTotal->SetMass(mass);
+    hitTotal->SetKineticEnergy(kinetic_energy);
 
 
-    ROhist=NULL;
+    ROhist = NULL;
     return true;
 }
 

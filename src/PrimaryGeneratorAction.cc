@@ -45,7 +45,7 @@
 
 #ifdef GENBOS
 
-//#include "Genbos.hh"
+#include "Genbos.hh"
 #include <unistd.h>
 #include <fcntl.h>
 #include "G4MTRunManager.hh"
@@ -64,8 +64,8 @@ namespace Cosmic {
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
                                                        GenbosBool(1), cstep(100), countFlag("off"), rndmFlag("off"),
                                                        vertexFlag("off"), Mode(0),
-            //  FileNum(0),
-                                                       FileNum(G4Threading::G4GetThreadId()),
+                                                       FileNum(0),
+            // FileNum(G4Threading::G4GetThreadId()),
                                                        EgMin(400 * MeV), EgMax(650 * MeV) {
 
         // G4cerr<<"!!!!!!!!"<<G4Threading::G4GetThreadId()<< std::endl;
@@ -91,18 +91,18 @@ namespace Cosmic {
         // ShowParticleTable();
 
         if (GenbosBool == 1) {
-            //  G4AutoLock lock(&aMutex);
-            // genbos_start_(&FileNum);
+            G4AutoLock lock(&aMutex);
+            genbos_start_(&FileNum);
+            G4int n = 2;
+            genbos_beam_(&n, &EgMin, &EgMax);
             // lock.unlock();
             PrepareNames();
 
             //  fGenbosClass = new GenbosClass(&FileNum);
 
             // G4Threading::G4GetThreadId();
-            //TODO сделать класс, чтение генератора из файла
         }
         //  genbos_start_(&FileNum);
-
 
         // PrepareNames();
         // genbos_start_(&FileNum);
@@ -111,9 +111,9 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::~PrimaryGeneratorAction() {
-        //if (GenbosBool == 1) {
-        //   G4AutoLock lock(&aMutex);
-        //  }
+        if (GenbosBool == 1) {
+            G4AutoLock lock(&aMutex);
+        }
         //genbos_stop_();
         // lock.unlock();
 
@@ -160,12 +160,11 @@ namespace Cosmic {
             // GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
 
-            //  G4AutoLock lock(&aMutex);
+            G4AutoLock lock(&aMutex);
             //  G4cout<<"!!!"<< std::endl;
             //genbos_start_(&FileNum);
             //  fGenbosClass = new GenbosClass(&FileNum);
 
-            // fGenbosClass = new GenbosClass(&FileNum);
             GenerateGenbos(anEvent);
             // delete fGenbosClass;
             //   genbos_stop_();
@@ -469,7 +468,7 @@ namespace Cosmic {
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-
+// метод 1 - это просто по углам, без учета ячейки
     void PrimaryGeneratorAction::GenerateLowQ_method1(G4Event *event) {
 
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
@@ -558,7 +557,7 @@ namespace Cosmic {
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+// метод 2 - это по поверхности счетчика, с учетам ячейки
     void PrimaryGeneratorAction::GenerateLowQ_method2(G4Event *event) {
 
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
@@ -778,12 +777,12 @@ namespace Cosmic {
 
         G4double x0 = 0.0, y0 = 0.0, z0 = 0.0;
         const G4double ra = M_PI / 180.;
-      //  G4double costet = 0.0;
+        //  G4double costet = 0.0;
         G4double theta = 0.0, phi = 0.0, M2 = 0.0;
         G4int n_det = 0;
 
         p4vector q, d, n, p, pn;
-        p4vector p_pn;
+        p4vector p_pn; // продольная составляющая
 
         do {
             n_det++;
@@ -861,7 +860,7 @@ namespace Cosmic {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void PrimaryGeneratorAction::GenerateGenbos(G4Event *event) {
-        fGenbosClass = new GenbosClass(&FileNum);
+        //  fGenbosClass = new GenbosClass(&FileNum);
 
         G4ThreeVector vertex;
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
@@ -872,17 +871,23 @@ namespace Cosmic {
 
         while (qq != 3) {
 
-            // genbos_event_(&efot, &nreac, &np, idg, cx, cy, cz);
-            //fGenbosClass->SetEgMinMax(400.*MeV,650.*MeV);
-            fGenbosClass->GenbosGenerator();
+            genbos_event_(&efot, &nreac, &np, idg, cx, cy, cz);
 
-            efot = fGenbosClass->GetEfot();
-            nreac = fGenbosClass->GetNreac();
-            np = fGenbosClass->GetNp();
-            idg = fGenbosClass->GetId();
-            cx = fGenbosClass->GetPx();
-            cy = fGenbosClass->GetPy();
-            cz = fGenbosClass->GetPz();
+            /*
+
+           //fGenbosClass->SetEgMinMax(400.*MeV,650.*MeV);
+
+           fGenbosClass->GenbosGenerator();
+
+           efot = fGenbosClass->GetEfot();
+           nreac = fGenbosClass->GetNreac();
+           np = fGenbosClass->GetNp();
+           idg = fGenbosClass->GetId();
+           cx = fGenbosClass->GetPx();
+           cy = fGenbosClass->GetPy();
+           cz = fGenbosClass->GetPz();
+           */
+
             for (G4int i = 0; i < np; i++) {
 
                 // G4cerr<<"cx[i] = " <<cx[i]<<" cy[i] = " <<cy[i]<< " cz[i] = " <<cz[i] <<std::endl;
@@ -942,7 +947,7 @@ namespace Cosmic {
 
         if (rndmFlag == "on") {
 // Randomizer ;-)
-            //  G4AutoLock lock(&aMutex);
+            G4AutoLock lock(&aMutex);
             G4int i;
             long prand;
 
@@ -957,9 +962,9 @@ namespace Cosmic {
             CLHEP::HepRandom::setTheSeed(prand);
             G4cout << "\n/\\/\\/\\ Randomizied !  prand = " << prand << " /\\/\\/\\" << G4endl;;
 
-            // genbos_rand_(&i);
+            genbos_rand_(&i);
 
-            fGenbosClass->SetRandom(i);
+            //fGenbosClass->SetRandom(i);
 // ---------------------
         }
 
@@ -1028,11 +1033,11 @@ namespace Cosmic {
             memset(ireac, 0, sizeof(ireac));
             nreac = 1;
             ireac[0] = 34;
-            // G4AutoLock lock(&aMutex);
-            // genbos_reactions_(&nreac, ireac);
-            // genbos_start_(&FileNum);
+            G4AutoLock lock(&aMutex);
+            genbos_reactions_(&nreac, ireac);
+            genbos_start_(&FileNum);
 
-            fGenbosClass->SetMode(Mode);
+            //fGenbosClass->SetMode(Mode);
 
         }
     }
