@@ -85,23 +85,35 @@ class PlasticHit : public G4VHit
 
     G4RotationMatrix GetVRot() const;
     G4int GetBlkN() const;
-   // G4double GetToF() const;
+
+    // G4double GetToF() const;
     G4bool GetTrig() const;
+
     G4int GetNprim() const;
 
     // set, get and add methods
-    inline void SetBlkN(G4int n)	{ blkN = n;};
+    inline void SetBlkN(G4int n) { blkN = n; };
 
-    inline void SetTrig(G4bool v)	{Trig=v;};
-    inline void SetNprim(G4int v)	{Nprim=v;};
+    inline void SetTrig(G4bool v) { Trig = v; };
 
+    inline void SetNprim(G4int v) { Nprim = v; };
+
+    inline void SetTrackID(G4int TrackID) { fTrackID = TrackID; }
+
+    void AddTrackID(G4int TrackID) { fTrackID = TrackID; }
+
+    inline G4int GetTrackID() const { return fTrackID; }
 
     inline void SetEdep(G4double de) { fEdep = de; }
+
     void AddEdep(G4double de) { fEdep += de; }
+
     inline G4double GetEdep() const { return fEdep; }
 
     inline void SetLO(G4double lo) { fLO = lo; }
+
     void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF);
+
     // void AddLO(G4double lo) { fLO += lo; }
     inline G4double GetLO() const { return fLO; }
 
@@ -179,6 +191,7 @@ class PlasticHit : public G4VHit
 
   private:
     G4int fLayerID = -1;
+    G4int fTrackID = -1;
     G4double fToF = 0.; // Time of Flight
     G4double fEdep = 0.;        ///< Energy deposit in the sensitive volume
     G4double fLO = 0.;        ///< Light Output in the sensitive volume

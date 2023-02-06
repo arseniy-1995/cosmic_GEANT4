@@ -68,6 +68,13 @@ namespace Cosmic {
         void EndOfEventAction(const G4Event *event) override;
 
         ///////// ТОЛСТЫЕ ПЛАСТИКИ
+
+
+        std::vector<G4int> &GetTrackIDPlasticFat(G4int nsys = 1) {
+            if (nsys == 2) return fPlastic_fatTrackID[1];
+            return fPlastic_fatTrackID[0];
+        }
+
         std::vector<G4float> &GetPlasticFatEdep(G4int nsys = 1) {
             if (nsys == 2) return fPlastic_fatEdep[1];
             return fPlastic_fatEdep[0];
@@ -100,7 +107,7 @@ namespace Cosmic {
 
         std::vector<G4float> &GetPlasticFatTrackLength(G4int nsys = 1) {
             if (nsys == 2) return fPlastic_fatTrackLength[1];
-            return fPlastic_fatTrackLength[1];
+            return fPlastic_fatTrackLength[0];
         }
 
         std::vector<G4float> &GetPlasticFatToF(G4int nsys = 1) {
@@ -122,6 +129,21 @@ namespace Cosmic {
             return fPlastic_fatXPos[0];
         }
 
+        std::vector<G4float> &GetPlasticFatGlobalPos(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_fat_global_XPos[0];
+                if (index == 2) return fPlastic_fat_global_YPos[0];
+                if (index == 3) return fPlastic_fat_global_ZPos[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_fat_global_XPos[1];
+                if (index == 2) return fPlastic_fat_global_YPos[1];
+                if (index == 3) return fPlastic_fat_global_ZPos[1];
+            }
+            return fPlastic_fat_global_XPos[0];
+        }
+
+
         std::vector<G4float> &GetPlasticFatAngle(G4int nsys = 1, G4int index = 1) {
             if (nsys == 1) {
                 if (index == 1) return fPlastic_fatTheta[0];
@@ -136,6 +158,11 @@ namespace Cosmic {
         }
 
         /////////////// ТОНКИЕ ПЛАСТИКИ
+
+        std::vector<G4int> &GetTrackIDPlasticThin(G4int nsys = 1) {
+            if (nsys == 2) return fPlastic_thinTrackID[1];
+            return fPlastic_thinTrackID[0];
+        }
 
         std::vector<G4float> &GetPlasticThinEdep(G4int nsys = 1) {
             if (nsys == 2) return fPlastic_thinEdep[1];
@@ -169,7 +196,7 @@ namespace Cosmic {
 
         std::vector<G4float> &GetPlasticThinTrackLength(G4int nsys = 1) {
             if (nsys == 2) return fPlastic_thinTrackLength[1];
-            return fPlastic_thinTrackLength[1];
+            return fPlastic_thinTrackLength[0];
         }
 
         std::vector<G4float> &GetPlasticThinToF(G4int nsys = 1) {
@@ -191,6 +218,22 @@ namespace Cosmic {
             return fPlastic_thinXPos[0];
         }
 
+
+        std::vector<G4float> &GetPlasticThinGlobalPos(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_thin_global_XPos[0];
+                if (index == 2) return fPlastic_thin_global_YPos[0];
+                if (index == 3) return fPlastic_thin_global_ZPos[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_thin_global_XPos[1];
+                if (index == 2) return fPlastic_thin_global_YPos[1];
+                if (index == 3) return fPlastic_thin_global_ZPos[1];
+            }
+            return fPlastic_thin_global_XPos[0];
+        }
+
+
         std::vector<G4float> &GetPlasticThinAngle(G4int nsys = 1, G4int index = 1) {
             if (nsys == 1) {
                 if (index == 1) return fPlastic_thinTheta[0];
@@ -206,6 +249,11 @@ namespace Cosmic {
 
 
         ///////////////
+
+        std::vector<G4int> &GetTrackIDPlasticLQ(G4int nsys = 1) {
+            if (nsys == 2) return fPlastic_LQTrackID[1];
+            return fPlastic_LQTrackID[0];
+        }
 
         std::vector<G4float> &GetPlasticLQEdep(G4int nsys = 1) {
             if (nsys == 2) return fPlastic_LQ_Edep[1];
@@ -261,6 +309,22 @@ namespace Cosmic {
             }
 
             return fPlastic_LQ_XPos[0];
+        }
+
+
+        std::vector<G4float> &GetPlasticLQGlobalPos(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_LQ_global_XPos[0];
+                if (index == 2) return fPlastic_LQ_global_YPos[0];
+                if (index == 3) return fPlastic_LQ_global_ZPos[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_LQ_global_XPos[1];
+                if (index == 2) return fPlastic_LQ_global_YPos[1];
+                if (index == 3) return fPlastic_LQ_global_ZPos[1];
+            }
+
+            return fPlastic_LQ_global_XPos[0];
         }
 
         std::vector<G4float> &GetPlasticLQAngle(G4int nsys = 1, G4int index = 1) {
@@ -584,6 +648,12 @@ namespace Cosmic {
         //     std::vector<G4double> fPlastic_fat_nsys1Edep{std::vector<G4double>(fNofLayers_plastic_thin_nsys1 + 1, 0.0)};
         //        std::vector<G4double> fPlastic_fat_nsys2Edep{std::vector<G4double>(fNofLayers_plastic_thin_nsys2 + 1, 0.0)};
 
+
+
+        std::array<std::vector<G4int>, 2> fPlastic_fatTrackID{
+                {std::vector<G4int>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
+                 std::vector<G4int>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+
         std::array<std::vector<G4float>, 2> fPlastic_fatEdep{
                 {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
@@ -617,6 +687,16 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_fatZPos{
                 {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_fat_global_XPos{
+                {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_fat_global_YPos{
+                {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_fat_global_ZPos{
+                {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+
         std::array<std::vector<G4float>, 2> fPlastic_fatTheta{
                 {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
@@ -625,6 +705,9 @@ namespace Cosmic {
                  std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
 
 //////////////
+        std::array<std::vector<G4int>, 2> fPlastic_thinTrackID{
+                {std::vector<G4int>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                 std::vector<G4int>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_thinEdep{
                 {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
@@ -658,6 +741,15 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_thinZPos{
                 {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_thin_global_XPos{
+                {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_thin_global_YPos{
+                {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_thin_global_ZPos{
+                {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_thinTheta{
                 {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
@@ -666,6 +758,9 @@ namespace Cosmic {
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
 
         //////////////
+        std::array<std::vector<G4int>, 2> fPlastic_LQTrackID{
+                {std::vector<G4int>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
+                 std::vector<G4int>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_LQ_Edep{
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
@@ -697,6 +792,15 @@ namespace Cosmic {
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_LQ_ZPos{
+                {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_LQ_global_XPos{
+                {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_LQ_global_YPos{
+                {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_LQ_global_ZPos{
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_LQ_Theta{
@@ -774,6 +878,14 @@ namespace Cosmic {
 
         std::array<std::vector<G4int>, 2> fWa_N{
                 {std::vector<G4int>(NW1_WRS + 1, NAN), std::vector<G4int>(NW1_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWa_Mass{
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWa_KineticEnergy{
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWa_Theta{
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWa_Phi{
+                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWa_XPos{
                 {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWa_YPos{
@@ -785,6 +897,14 @@ namespace Cosmic {
 //////
         std::array<std::vector<G4int>, 2> fWb_N{
                 {std::vector<G4int>(NW2_WRS + 1, NAN), std::vector<G4int>(NW2_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWb_Mass{
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWb_KineticEnergy{
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWb_Theta{
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWb_Phi{
+                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWb_XPos{
                 {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWb_YPos{
@@ -796,6 +916,14 @@ namespace Cosmic {
 /////
         std::array<std::vector<G4int>, 2> fWc_N{
                 {std::vector<G4int>(NW3_WRS + 1, NAN), std::vector<G4int>(NW3_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWc_Mass{
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWc_KineticEnergy{
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWc_Theta{
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fWc_Phi{
+                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWc_XPos{
                 {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fWc_YPos{

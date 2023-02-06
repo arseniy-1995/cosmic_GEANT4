@@ -37,7 +37,8 @@
 #include "G4ThreeVector.hh"
 #include "Constants.hh"
 #include "p4vector.hh"
-#include "GenbosClass.hh"
+
+//#include "GenbosClass.hh"
 
 #ifdef GENBOS
 
@@ -114,20 +115,30 @@ namespace Cosmic {
         void SetEgMin(G4double val) {
             EgMin = val / GeV;
             G4int n = 2;
+#ifdef GENBOS
             genbos_beam_(&n, &EgMin, &EgMax);
+#endif //GENBOS
         }
 
         void SetEgMax(G4double val) {
             EgMax = val / GeV;
             G4int n = 2;
+#ifdef GENBOS
             genbos_beam_(&n, &EgMin, &EgMax);
+#endif //GENBOS
+
+
         }
 
         void SetEgMinMax(G4double val_min, G4double val_max) {
             EgMin = val_min / GeV;
             EgMax = val_max / GeV;
             G4int n = 2;
+
+#ifdef GENBOS
             genbos_beam_(&n, &EgMin, &EgMax);
+#endif //GENBOS
+
         }
         //////
 
@@ -180,7 +191,7 @@ namespace Cosmic {
 
         G4int GenbosBool;
 
-        GenbosClass *fGenbosClass = nullptr;
+        // GenbosClass *fGenbosClass = nullptr;
 
         G4int cstep;
         G4String countFlag;

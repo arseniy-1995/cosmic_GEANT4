@@ -101,23 +101,26 @@ void PlasticSD::Initialize(G4HCofThisEvent* hce)
 G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 {
 
-   PlasticHit* hit;
-   PlasticHit* hitTotal;
+    PlasticHit *hit;
+    PlasticHit *hitTotal;
 
-  // energy deposit
-  auto edep = aStep->GetTotalEnergyDeposit();
-  if (edep == 0.) return true;
+    // energy deposit
+    auto edep = aStep->GetTotalEnergyDeposit();
+    if (edep == 0.) return true;
 
-  G4Track *aTrack=aStep->GetTrack();
-  auto preStepPoint = aStep->GetPreStepPoint();
-  auto postStepPoint = aStep->GetPostStepPoint();
- // G4cout<<"Position:" << preStepPoint->GetPosition()<<G4endl;
+    G4Track *aTrack = aStep->GetTrack();
+
+    G4int TrackID = aTrack->GetTrackID();
+
+    auto preStepPoint = aStep->GetPreStepPoint();
+    auto postStepPoint = aStep->GetPostStepPoint();
+    // G4cout<<"Position:" << preStepPoint->GetPosition()<<G4endl;
 
 //  aTrack->SetTrackStatus(fStopAndKill);
 
-  auto tof = aTrack->GetGlobalTime(); // время
-  auto posit=aTrack->GetPosition(); // позиция (вектор)
-  G4ThreeVector posit_local(0,0,0);
+    auto tof = aTrack->GetGlobalTime(); // время
+    auto posit = aTrack->GetPosition(); // позиция (вектор)
+    G4ThreeVector posit_local(0, 0, 0);
   auto dx = aStep->GetDeltaPosition(); // смещение (вектор)
   auto velosity = preStepPoint->GetVelocity(); // скорость
 
@@ -205,6 +208,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     // add energy deposition
     // Add values
+    hit->AddTrackID(TrackID);
     hit->AddEdep(edep);
     hit->AddLO(edep, posit, dx, velosity, tof);
     hit->AddTrackLength(stepLength);
@@ -215,6 +219,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hit->SetPosTheta(theta);
     hit->SetPosPhi(phi);
 
+    hitTotal->AddTrackID(TrackID);
     hitTotal->AddEdep(edep);
     hitTotal->AddLO(edep, posit, dx, velosity, tof);
     hitTotal->AddTrackLength(stepLength);

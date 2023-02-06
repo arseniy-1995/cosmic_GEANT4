@@ -90,8 +90,8 @@ namespace Cosmic {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    EventAction::EventAction():
-    drawFlag("all")
+    EventAction::EventAction() :
+            drawFlag("all")
     //drawFlag("charged")
     //drawFlag("neutral")
     {
@@ -100,7 +100,7 @@ namespace Cosmic {
 
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
         G4ParticleDefinition *particle = particleTable->FindParticle("proton");
-        base_code=particle->GetPDGEncoding();
+        base_code = particle->GetPDGEncoding();
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -201,15 +201,23 @@ namespace Cosmic {
         // Get hits collections IDs (only once)
         G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
 
-        if (fplastic_fat_nsys1HCID == -1) fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
-        if (fplastic_fat_nsys2HCID == -1) fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
-        if (fplastic_thin_nsys1HCID == -1) fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
-        if (fplastic_thin_nsys2HCID == -1) fplastic_thin_nsys2HCID = SDmanp->GetCollectionID("plastic_thin_nsys2HitsCollection");
-        if (fplastic_LQ_nsys1HCID == -1) fplastic_LQ_nsys1HCID = SDmanp->GetCollectionID("plastic_LQ_nsys1HitsCollection");
-        if (fplastic_LQ_nsys2HCID == -1) fplastic_LQ_nsys2HCID = SDmanp->GetCollectionID("plastic_LQ_nsys2HitsCollection");
+        if (fplastic_fat_nsys1HCID == -1)
+            fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
+        if (fplastic_fat_nsys2HCID == -1)
+            fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
+        if (fplastic_thin_nsys1HCID == -1)
+            fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
+        if (fplastic_thin_nsys2HCID == -1)
+            fplastic_thin_nsys2HCID = SDmanp->GetCollectionID("plastic_thin_nsys2HitsCollection");
+        if (fplastic_LQ_nsys1HCID == -1)
+            fplastic_LQ_nsys1HCID = SDmanp->GetCollectionID("plastic_LQ_nsys1HitsCollection");
+        if (fplastic_LQ_nsys2HCID == -1)
+            fplastic_LQ_nsys2HCID = SDmanp->GetCollectionID("plastic_LQ_nsys2HitsCollection");
 
-        if (fHadronCalorimeter_nsys1HCID == -1) fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
-        if (fHadronCalorimeter_nsys2HCID == -1) fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
+        if (fHadronCalorimeter_nsys1HCID == -1)
+            fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
+        if (fHadronCalorimeter_nsys2HCID == -1)
+            fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
 
 
         if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_Chamber_nsys1HitsCollection");
@@ -217,17 +225,18 @@ namespace Cosmic {
         if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_Chamber_nsys1HitsCollection");
         if (fV_Chamber_nsys2HCID == -1) fV_Chamber_nsys2HCID = SDmanp->GetCollectionID("V_Chamber_nsys2HitsCollection");
 
-        auto event_info = (EventInfo*)event->GetUserInformation();
-       // EventInfo* event_info =(EventInfo*)event->GetUserInformation();
+        auto event_info = (EventInfo *) event->GetUserInformation();
+        // EventInfo* event_info =(EventInfo*)event->GetUserInformation();
 
-         if (event_info == NULL) return;
+        if (event_info == NULL) return;
 
 
         G4int number_vertex = event->GetNumberOfPrimaryVertex();
-        if(number_vertex<2) return;
+        // if(number_vertex<2) return;
 //TODO только для GENBOS
 
         auto primary_vertex = event->GetPrimaryVertex();
+
 
         vertex_x = primary_vertex->GetX0();
         vertex_y = primary_vertex->GetY0();
@@ -241,10 +250,10 @@ namespace Cosmic {
 
         vertex_Pzz = event_info->GetPzz();
         vertex_Energy_gamma = event_info->GetEgamma();
-        vertex_number_reaction =event_info->GetNreac();
+        vertex_number_reaction = event_info->GetNreac();
         vertex_number_event = event_info->GetEntry();
 
-        G4int i_vertex,k_vertex,n_vertex,nch_vertex,ip_vertex;
+        G4int i_vertex, k_vertex, n_vertex, nch_vertex, ip_vertex;
         G4PrimaryVertex *primary_vertex_with_index;
 
         for (ip_vertex = 0; ip_vertex < number_vertex; ip_vertex++) {
@@ -255,22 +264,24 @@ namespace Cosmic {
         if (ip_vertex == number_vertex) primary_vertex_with_index = event->GetPrimaryVertex(0);
 
         G4ThreeVector vertex_with_index;
-        vertex_number_vertex=0;
-        if(ip_vertex<number_vertex){
+        vertex_number_vertex = 0;
+        if (ip_vertex < number_vertex) {
             primary_vertex_with_index = event->GetPrimaryVertex(ip_vertex);
-            index_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetPDGcode();
-            energy_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
-            vertex_with_index=primary_vertex_with_index->GetPrimary()->GetMomentum();
-            theta_vertex[vertex_number_vertex]=vertex_with_index.theta();
-            phi_vertex[vertex_number_vertex]=vertex_with_index.phi();
+            index_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
+            energy_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
+            vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentum();
+            theta_vertex[vertex_number_vertex] = vertex_with_index.theta();
+            phi_vertex[vertex_number_vertex] = vertex_with_index.phi();
 
             vertex_x_vector[vertex_number_vertex] = primary_vertex_with_index->GetX0() / cm;
             vertex_y_vector[vertex_number_vertex] = primary_vertex_with_index->GetY0() / cm;
             vertex_z_vector[vertex_number_vertex] = primary_vertex_with_index->GetZ0() / cm;
             vertex_index_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             vertex_mass_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMass() / MeV;
-            vertex_energy_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
-            vertex_momentum_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
+            vertex_energy_vector[vertex_number_vertex] =
+                    primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
+            vertex_momentum_vector[vertex_number_vertex] =
+                    primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
             vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
             vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
 
@@ -278,22 +289,24 @@ namespace Cosmic {
 
         }
 
-        for(i_vertex=0;i_vertex<number_vertex;i_vertex++){
-            if(i_vertex==ip_vertex)continue;
+        for (i_vertex = 0; i_vertex < number_vertex; i_vertex++) {
+            if (i_vertex == ip_vertex)continue;
             primary_vertex_with_index = event->GetPrimaryVertex(i_vertex);
-            index_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetPDGcode();
-            energy_vertex[vertex_number_vertex]=primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
-            vertex_with_index=primary_vertex_with_index->GetPrimary()->GetMomentum();
-            theta_vertex[vertex_number_vertex]=vertex_with_index.theta();
-            phi_vertex[vertex_number_vertex]=vertex_with_index.phi();
+            index_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
+            energy_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
+            vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentum();
+            theta_vertex[vertex_number_vertex] = vertex_with_index.theta();
+            phi_vertex[vertex_number_vertex] = vertex_with_index.phi();
 
             vertex_x_vector[vertex_number_vertex] = primary_vertex_with_index->GetX0() / cm;
             vertex_y_vector[vertex_number_vertex] = primary_vertex_with_index->GetY0() / cm;
             vertex_z_vector[vertex_number_vertex] = primary_vertex_with_index->GetZ0() / cm;
             vertex_index_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             vertex_mass_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMass() / MeV;
-            vertex_energy_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
-            vertex_momentum_vector[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
+            vertex_energy_vector[vertex_number_vertex] =
+                    primary_vertex_with_index->GetPrimary()->GetKineticEnergy() / MeV;
+            vertex_momentum_vector[vertex_number_vertex] =
+                    primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
             vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
             vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
 
@@ -377,11 +390,11 @@ namespace Cosmic {
 
         //
         // For trigger
-        G4int hcdep[2]={0,0};
-        G4int wcdep[2]={0,0};
-        G4int de_fat_dep[2]={0,0};
-        G4int de_thin_dep[2]={0,0};
-        G4int de_LQ_dep[2]={0,0};
+        G4int hcdep[2] = {0, 0}; // адронный калориметр
+        G4int wcdep[2] = {0, 0}; // камеры
+        G4int de_fat_dep[2] = {0, 0}; // толстые счетчики
+        G4int de_thin_dep[2] = {0, 0}; // тонкие счетчики
+        G4int de_LQ_dep[2] = {0, 0}; // счетчики LQ
 
         //  HadronCalorimeter_nsys1HC->GetHit(0)->
 
@@ -398,6 +411,7 @@ namespace Cosmic {
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
             if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold) {
+                fPlastic_fatTrackID[0][i] = plastic_fat_nsys1Hit[i]->GetTrackID();
                 fPlastic_fatEdep[0][i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
                 fPlastic_fatLO[0][i] = plastic_fat_nsys1Hit[i]->GetLO() / MeV;
                 fPlastic_fatA1[0][i] = plastic_fat_nsys1Hit[i]->GetA1() / MeV;
@@ -410,16 +424,20 @@ namespace Cosmic {
                 fPlastic_fatXPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_fatYPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_fatTheta[0][i] =  plastic_fat_nsys1Hit[i]->GetPosTheta() / degree;
-                fPlastic_fatPhi[0][i] =  plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
+                fPlastic_fat_global_XPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_fat_global_YPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().y() / cm;
+                fPlastic_fat_global_ZPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_fatTheta[0][i] = plastic_fat_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_fatPhi[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
 
-                de_fat_dep[0]=1;
+                de_fat_dep[0] = 1;
             }
         }
 
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys2; i++) {
             if (i >= 1) plastic_fat_nsys2Hit[i] = (*plastic_fat_nsys2HC)[i - 1];
             if (plastic_fat_nsys2Hit[i]->GetEdep() > plastic_fat_threshold) {
+                fPlastic_fatTrackID[1][i] = plastic_fat_nsys2Hit[i]->GetTrackID();
                 fPlastic_fatEdep[1][i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
                 fPlastic_fatLO[1][i] = plastic_fat_nsys2Hit[i]->GetLO() / MeV;
                 fPlastic_fatA1[1][i] = plastic_fat_nsys2Hit[i]->GetA1() / MeV;
@@ -432,10 +450,13 @@ namespace Cosmic {
                 fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_fatYPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_fatTheta[1][i] =  plastic_fat_nsys2Hit[i]->GetPosTheta() / degree;
-                fPlastic_fatPhi[1][i] =  plastic_fat_nsys2Hit[i]->GetPosPhi() / degree;
+                fPlastic_fat_global_XPos[1][i] = plastic_fat_nsys2Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_fat_global_YPos[1][i] = plastic_fat_nsys2Hit[i]->GetWorldPos().y() / cm;
+                fPlastic_fat_global_ZPos[1][i] = plastic_fat_nsys2Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_fatTheta[1][i] = plastic_fat_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_fatPhi[1][i] = plastic_fat_nsys2Hit[i]->GetPosPhi() / degree;
 
-                de_fat_dep[1]=1;
+                de_fat_dep[1] = 1;
             }
         }
 /////////////////////
@@ -443,6 +464,7 @@ namespace Cosmic {
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys1; i++) {
             if (i >= 1) plastic_thin_nsys1Hit[i] = (*plastic_thin_nsys1HC)[i - 1];
             if (plastic_thin_nsys1Hit[i]->GetEdep() > plastic_thin_threshold) {
+                fPlastic_thinTrackID[0][i] = plastic_thin_nsys1Hit[i]->GetTrackID();
                 fPlastic_thinEdep[0][i] = plastic_thin_nsys1Hit[i]->GetEdep() / MeV;
                 fPlastic_thinLO[0][i] = plastic_thin_nsys1Hit[i]->GetLO() / MeV;
                 fPlastic_thinA1[0][i] = plastic_thin_nsys1Hit[i]->GetA1() / MeV;
@@ -453,15 +475,19 @@ namespace Cosmic {
                 fPlastic_thinXPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_thinYPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_thinZPos[0][i] = plastic_thin_nsys1Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_thinTheta[0][i] =  plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
-                fPlastic_thinPhi[0][i] =  plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
+                fPlastic_thin_global_XPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_thin_global_YPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().y() / cm;
+                fPlastic_thin_global_ZPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_thinTheta[0][i] = plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
 
-                de_thin_dep[0]=1;
+                de_thin_dep[0] = 1;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys2; i++) {
             if (i >= 1) plastic_thin_nsys2Hit[i] = (*plastic_thin_nsys2HC)[i - 1];
             if (plastic_thin_nsys2Hit[i]->GetEdep() > plastic_thin_threshold) {
+                fPlastic_thinTrackID[1][i] = plastic_thin_nsys2Hit[i]->GetTrackID();
                 fPlastic_thinEdep[1][i] = plastic_thin_nsys2Hit[i]->GetEdep() / MeV;
                 fPlastic_thinLO[1][i] = plastic_thin_nsys2Hit[i]->GetLO() / MeV;
                 fPlastic_thinA1[1][i] = plastic_thin_nsys2Hit[i]->GetA1() / MeV;
@@ -472,10 +498,13 @@ namespace Cosmic {
                 fPlastic_thinXPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_thinYPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_thinZPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_thinTheta[1][i] =  plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
-                fPlastic_thinPhi[1][i] =  plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
+                fPlastic_thin_global_XPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_thin_global_YPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().y() / cm;
+                fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
 
-                de_thin_dep[1]=1;
+                de_thin_dep[1] = 1;
             }
         }
 
@@ -484,6 +513,7 @@ namespace Cosmic {
         for (G4int i = 0; i <= fNofLayers_plastic_LQ_nsys1; i++) {
             if (i >= 1) plastic_LQ_nsys1Hit[i] = (*plastic_LQ_nsys1HC)[i - 1];
             if (plastic_LQ_nsys1Hit[i]->GetEdep() > plastic_LQ_threshold) {
+                fPlastic_LQTrackID[0][i] = plastic_LQ_nsys1Hit[i]->GetTrackID();
                 fPlastic_LQ_Edep[0][i] = plastic_LQ_nsys1Hit[i]->GetEdep() / MeV;
                 fPlastic_LQ_LO[0][i] = plastic_LQ_nsys1Hit[i]->GetLO() / MeV;
                 fPlastic_LQ_A1[0][i] = plastic_LQ_nsys1Hit[i]->GetA1() / MeV;
@@ -494,15 +524,19 @@ namespace Cosmic {
                 fPlastic_LQ_XPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_LQ_YPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_LQ_ZPos[0][i] = plastic_LQ_nsys1Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_LQ_Theta[0][i] =  plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
-                fPlastic_LQ_Phi[0][i] =  plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
+                fPlastic_LQ_global_XPos[0][i] = plastic_LQ_nsys1Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_LQ_global_YPos[0][i] = plastic_LQ_nsys1Hit[i]->GetWorldPos().y() / cm;
+                fPlastic_LQ_global_ZPos[0][i] = plastic_LQ_nsys1Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_LQ_Theta[0][i] = plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_LQ_Phi[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
 
-                de_LQ_dep[0]=1;
+                de_LQ_dep[0] = 1;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_LQ_nsys2; i++) {
             if (i >= 1) plastic_LQ_nsys2Hit[i] = (*plastic_LQ_nsys2HC)[i - 1];
             if (plastic_LQ_nsys2Hit[i]->GetEdep() > plastic_LQ_threshold) {
+                fPlastic_LQTrackID[1][i] = plastic_LQ_nsys2Hit[i]->GetTrackID();
                 fPlastic_LQ_Edep[1][i] = plastic_LQ_nsys2Hit[i]->GetEdep() / MeV;
                 fPlastic_LQ_LO[1][i] = plastic_LQ_nsys2Hit[i]->GetLO() / MeV;
                 fPlastic_LQ_A1[1][i] = plastic_LQ_nsys2Hit[i]->GetA1() / MeV;
@@ -513,13 +547,16 @@ namespace Cosmic {
                 fPlastic_LQ_XPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_LQ_YPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_LQ_ZPos[1][i] = plastic_LQ_nsys2Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_LQ_Theta[1][i] =  plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
-                fPlastic_LQ_Phi[1][i] =  plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
+                fPlastic_LQ_global_XPos[1][i] = plastic_LQ_nsys2Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_LQ_global_YPos[1][i] = plastic_LQ_nsys2Hit[i]->GetWorldPos().y() / cm;
+                fPlastic_LQ_global_ZPos[1][i] = plastic_LQ_nsys2Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_LQ_Theta[1][i] = plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_LQ_Phi[1][i] = plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
 
-                de_LQ_dep[1]=1;
+                de_LQ_dep[1] = 1;
             }
         }
-        
+
 /////////////////////// КАЛОРИМЕТР
         G4int index = 0;
         G4int k = 0;
@@ -549,7 +586,7 @@ namespace Cosmic {
                     fHCX_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
                     fHCX_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                     fHCX_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
-                    hcdep[0]|=1;
+                    hcdep[0] |= 1;
                     continue;
                 }
 
@@ -579,7 +616,7 @@ namespace Cosmic {
                 }
             }
         }
-        
+
         index = 0;
         k = 0;
 
@@ -694,7 +731,11 @@ namespace Cosmic {
                     fWa_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWa_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWa_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    wcdep[0]|=2;
+                    fWa_Theta[0][index] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWa_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWa_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWa_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    wcdep[0] |= 2;
                     continue;
                 }
                 index = index - WC2_IND;
@@ -704,7 +745,11 @@ namespace Cosmic {
                     fWb_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWb_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWb_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().x() / cm;
-                    wcdep[0]|=4;
+                    fWb_Theta[0][index] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWb_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWb_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWb_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    wcdep[0] |= 4;
                     continue;
                 }
                 index = index - WC3_IND;
@@ -714,7 +759,11 @@ namespace Cosmic {
                     fWc_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWc_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWc_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    wcdep[0]|=8;
+                    fWc_Theta[0][index] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWc_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWc_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWc_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    wcdep[0] |= 8;
                     continue;
                 }
             }
@@ -731,7 +780,11 @@ namespace Cosmic {
                     fWa_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fWa_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fWa_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    wcdep[1]|=2;
+                    fWa_Theta[1][index] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWa_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWa_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWa_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    wcdep[1] |= 2;
                     continue;
                 }
                 index = index - WC2_IND;
@@ -741,7 +794,11 @@ namespace Cosmic {
                     fWb_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fWb_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fWb_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().x() / cm;
-                    wcdep[1]|=4;
+                    fWb_Theta[1][index] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWb_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWb_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWb_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    wcdep[1] |= 4;
                     continue;
                 }
                 index = index - WC3_IND;
@@ -751,13 +808,17 @@ namespace Cosmic {
                     fWc_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
                     fWc_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
                     fWc_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    wcdep[1]|=8;
+                    fWc_Theta[1][index] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWc_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWc_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWc_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    wcdep[1] |= 8;
                     continue;
                 }
             }
         }
 
-            
+
 
         //     totalPlasticEdep = 0.;
         //   totalPlasticTrackLength =0.0;
@@ -823,6 +884,9 @@ namespace Cosmic {
             analysisManager->FillH1(3, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
         }
 
+        if (vertex_energy > 0) analysisManager->FillH1(8, vertex_energy / MeV);
+        if (vertex_Energy_gamma > 0) analysisManager->FillH1(9, vertex_Energy_gamma / MeV);
+
         // fill ntuple
 
 
@@ -866,7 +930,8 @@ namespace Cosmic {
                 //     && ((ahx[0]>HC_THRES && ahz[0]>HC_THRES)		// HC hit in arm 1
                 //	|| (ahx[1]>HC_THRES && ahz[1]>HC_THRES))	// HC hit in arm 2
                 && (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory)
-                // || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // LQ
+                // || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // for LQ
+                // || (( de_thin_dep[0] && de_fat_dep[0]) && (de_thin_dep[1] && de_fat_dep[1])) // for cosmic
                     ) {
 //G4cout << "Taken!"<<G4endl;
                 //  TO->Fill();
@@ -880,26 +945,25 @@ namespace Cosmic {
         }
 
         // Это без триггера, все. Если нет тригера по энергии, то пишется нулями
-       // analysisManager->AddNtupleRow(0);
+        // analysisManager->AddNtupleRow(0);
 
         //  }
 
 
         // extract the trajectories and draw them
 
-        if (G4VVisManager::GetConcreteInstance())
-        {
-            G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
+        if (G4VVisManager::GetConcreteInstance()) {
+            G4TrajectoryContainer *trajectoryContainer = event->GetTrajectoryContainer();
             G4int n_trajectories = 0;
             if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
 
-            for (G4int i=0; i<n_trajectories; i++)
-            { G4Trajectory* trj = (G4Trajectory*)
+            for (G4int i = 0; i < n_trajectories; i++) {
+                G4Trajectory *trj = (G4Trajectory *)
                         ((*(event->GetTrajectoryContainer()))[i]);
                 if (drawFlag == "all") trj->DrawTrajectory();
-                else if ((drawFlag == "charged")&&(trj->GetCharge() != 0.))
+                else if ((drawFlag == "charged") && (trj->GetCharge() != 0.))
                     trj->DrawTrajectory();
-                else if ((drawFlag == "neutral")&&(trj->GetCharge() == 0.))
+                else if ((drawFlag == "neutral") && (trj->GetCharge() == 0.))
                     trj->DrawTrajectory();
             }
         }

@@ -3,10 +3,11 @@
 //
 
 #include "GenbosClass.hh"
-//#include "Genbos.hh"
+#include "Genbos.hh"
 
 namespace Cosmic {
 
+#ifdef GENBOSCLASSON
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     GenbosClass::GenbosClass(int *RN) {
@@ -35,5 +36,7 @@ namespace Cosmic {
 
         genbos_event_(&fefot, &fnreac, &fnp, fid, fpx, fpy, fpz);
     }
+
+#endif //GENBOSCLASSON
 
 }

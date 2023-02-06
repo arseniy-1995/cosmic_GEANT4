@@ -32,6 +32,7 @@
 
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4PhysicalConstants.hh"
 
 namespace Cosmic {
 
@@ -101,6 +102,7 @@ namespace Cosmic {
 #define WC3_IND (WC2_IND + NW2_WRS) /* Drift Chambers */
 
 
+
 #define NSENS ARM2_IND * 2
 
 // detector element type
@@ -140,14 +142,15 @@ namespace Cosmic {
 
     // FOR GENBOS
 
-#define GENBOS
+//#define GENBOS
+
 #define PHIC    90.*0.0174532925199
 #define DPHI    35.*0.0174532925199
 #define THDN    40.*0.0174532925199
 #define XY_RAND
 #define VMAX  8
     constexpr G4double cell_z_size_2 = 20.0 * cm;
-    constexpr G4double meanX_beam =0., meanY_beam =0.;
+    constexpr G4double meanX_beam = 0., meanY_beam = 0.;
     constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm;
 
 

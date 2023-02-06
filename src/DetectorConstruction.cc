@@ -288,7 +288,7 @@ namespace Cosmic {
 
 
         auto worldSizeX = 10.0 * m;
-        auto worldSizeY = 10.0 * m;
+        auto worldSizeY = 35.0 * m;
         auto worldSizeZ = 10.0 * m;
 
         // Get materials
@@ -573,6 +573,9 @@ namespace Cosmic {
 // БЕТОН
 
 #ifdef CONCRETE
+
+
+///// БАЛКИ
         G4double betonSizeX = 5. * m, betonSizeY = 1. * m, betonSizeZ = 5. * m;
         G4double betonPositionX = 0, betonPositionY = 3.5 * m, betonPositionZ = 0;
 
@@ -591,6 +594,34 @@ namespace Cosmic {
                 G4ThreeVector(betonPositionX, betonPositionY, betonPositionZ),  // at (0,0,0)
                 betonLV,          // its logical volume
                 "beton",    // its name
+                worldLV,          // its mother  volume
+                false,            // no boolean operation
+                0,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+
+
+
+        //////// КРЫША
+
+        G4double beton_roofSizeX = 5. * m, beton_roofSizeY = 20. * cm, beton_roofSizeZ = 5. * m;
+        G4double beton_roofPositionX = 0, beton_roofPositionY = 12.0 * m + 3.5 * m, beton_roofPositionZ = 0;
+
+        auto beton_roofS
+                = new G4Box("beton_roof",     // its name
+                            beton_roofSizeX / 2, beton_roofSizeY / 2, beton_roofSizeZ / 2); // its size
+
+        auto beton_roofLV
+                = new G4LogicalVolume(
+                        beton_roofS,     // its solid
+                        betonMaterial,  // its material
+                        "beton_roofLV");   // its name
+
+        new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(beton_roofPositionX, beton_roofPositionY, beton_roofPositionZ),  // at (0,0,0)
+                beton_roofLV,          // its logical volume
+                "beton_roof",    // its name
                 worldLV,          // its mother  volume
                 false,            // no boolean operation
                 0,                // copy number
@@ -624,7 +655,8 @@ namespace Cosmic {
         plastic_fat_nsys1LV->SetVisAttributes(Plastic_VisAtt);
 #endif
 #ifdef PF2_FAT
-        plastic_fat_nsys2LV->SetVisAttributes(Plastic_VisAtt);
+        plastic_fat_nsys2LV_120->SetVisAttributes(Plastic_VisAtt);
+        plastic_fat_nsys2LV_125->SetVisAttributes(Plastic_VisAtt);
 #endif
         //plastic_thin_nsys1LV[0]->SetVisAttributes(simpleBoxVisAtt);
         // plastic_thin_nsys2LV[0]->SetVisAttributes(simpleBoxVisAtt);
@@ -662,26 +694,35 @@ namespace Cosmic {
 
         G4double plasticFatNsys1PositionX = 0.;
         G4double plasticFatNsys1PositionY = -102.4 * cm;
-        G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 2.0 * cm;
+        G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 0.7 * cm;
         // G4double plasticFatNsys1PositionZ_initial = 43.8 * cm - 3.5 * plasticFatNsys1dz; // RIA
-        G4double plasticFatNsys1PositionZ_initial = 6.6 * cm; //Gauzshtein
-        G4double plasticFatNsys1PositionZ_final =
-                plasticFatNsys1PositionZ_initial + fNofLayers_plastic_fat_nsys1 * plasticFatNsys1dz;
+        // G4double plasticFatNsys1PositionZ_initial = 6.6 * cm; //Gauzshtein
+        G4double plasticFatNsys1PositionZ_initial = -4.5 * cm; //Yurchenko
+//        G4double plasticFatNsys1PositionZ_final =
+//                plasticFatNsys1PositionZ_initial + fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1dz + 0.01 * cm);
+
+        G4double plasticFatNsys1PositionZ_final = 115.5 * cm;
+        //G4double plasticFatNsys1PositionZ = plasticFatNsys1PositionZ_initial +
+        //                                    (plasticFatNsys1PositionZ_final - plasticFatNsys1PositionZ_initial) / 2.;
+
         G4double plasticFatNsys1PositionZ = plasticFatNsys1PositionZ_initial +
                                             (plasticFatNsys1PositionZ_final - plasticFatNsys1PositionZ_initial) / 2.;
 
         // Это объем всех шести счетчиков с пленкой
         auto plastic_fat_nsys1_boxallS = new G4Box("plastic_fat_nsys1_boxS",
-                                                   1.0 * (plasticFatNsys1SizeX + 2.0 * cm) / 2.,
-                                                   1.0 * (plasticFatNsys1SizeY + 2.0 * cm) / 2.,
-                                                   fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1SizeZ + 2.0 * cm) /
+                                                   1.0 * (plasticFatNsys1SizeX + 0.5 * cm) / 2.,
+                                                   1.0 * (plasticFatNsys1SizeY + 0.5 * cm) / 2.,
+                                                   fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1SizeZ + 0.5 * cm) /
                                                    2.);
         auto plastic_fat_nsys1_boxallLV = new G4LogicalVolume(plastic_fat_nsys1_boxallS, AirMaterial,
                                                               "plastic_fat_nsys1_boxallLV");
         plastic_fat_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+        auto rmx = new G4RotationMatrix();
+        rmx->rotateX(180. * deg);
         auto plastic_fat_nsys1_boxallPV
                 = new G4PVPlacement(
-                        0,                // no rotation
+                        rmx,                // no rotation
                         G4ThreeVector(plasticFatNsys1PositionX, plasticFatNsys1PositionY,
                                       plasticFatNsys1PositionZ),  // at (0,0,0)
                         plastic_fat_nsys1_boxallLV,          // its logical volume
@@ -692,9 +733,9 @@ namespace Cosmic {
                         fCheckOverlaps);  // checking overlaps
 
         // Это объем счетчик + пленка
-        auto plastic_fat_nsys1_boxS = new G4Box("plastic_fat_nsys1_boxS", (plasticFatNsys1SizeX + 2.0 * cm) / 2.,
-                                                (plasticFatNsys1SizeY + 2.0 * cm) / 2.,
-                                                (plasticFatNsys1SizeZ + 2.0 * cm) / 2.);
+        auto plastic_fat_nsys1_boxS = new G4Box("plastic_fat_nsys1_boxS", (plasticFatNsys1SizeX + 0.3 * cm) / 2.,
+                                                (plasticFatNsys1SizeY + 0.3 * cm) / 2.,
+                                                (plasticFatNsys1SizeZ + 0.3 * cm) / 2.);
         auto plastic_fat_nsys1_boxLV = new G4LogicalVolume(plastic_fat_nsys1_boxS, AirMaterial,
                                                            "plastic_fat_nsys1_boxLV");
         plastic_fat_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
@@ -791,27 +832,39 @@ namespace Cosmic {
 
         // fNofLayers_plastic_fat_nsys2 = 8;
 
-        G4double plasticFatNsys2SizeX = 1000. * mm, plasticFatNsys2SizeY = 120. * mm, plasticFatNsys2SizeZ = 120. * mm;
+        G4double plasticFatNsys2SizeX_120 = 1000. * mm, plasticFatNsys2SizeY_120 = 120. * mm, plasticFatNsys2SizeZ_120 =
+                120. * mm;
+        G4double plasticFatNsys2SizeX_125 = 1000. * mm, plasticFatNsys2SizeY_125 = 120. * mm, plasticFatNsys2SizeZ_125 =
+                125. * mm;
 
         G4double plasticFatNsys2PositionX = 0.;
         G4double plasticFatNsys2PositionY = +92. * cm;
-        G4double plasticFatNsys2dz = plasticFatNsys2SizeZ + 1.0 * cm;
+        G4double plasticFatNsys2dz = plasticFatNsys2SizeZ_125 + 1.0 * cm;
         //  G4double plasticFatNsys2PositionZ_initial = 36.3 * cm - 3.5 * plasticFatNsys2dz; // RIA
-        G4double plasticFatNsys2PositionZ_initial = 6.2 * cm; //Gauzshtein
-        G4double plasticFatNsys2PositionZ_final =
-                plasticFatNsys2PositionZ_initial + fNofLayers_plastic_fat_nsys2 * plasticFatNsys2dz;
+        // G4double plasticFatNsys2PositionZ_initial = 6.2 * cm; //Gauzshtein
+        G4double plasticFatNsys2PositionZ_initial =
+                0.1 * cm; //Yurchenko, последняя геометрия (некоторые счетчики 125 и 120)
+        // G4double plasticFatNsys2PositionZ_final =
+        //         plasticFatNsys2PositionZ_initial + fNofLayers_plastic_fat_nsys2 * plasticFatNsys2dz;
+        G4double plasticFatNsys2PositionZ_final = 101.5 * cm;
+
         G4double plasticFatNsys2PositionZ = plasticFatNsys2PositionZ_initial +
                                             (plasticFatNsys2PositionZ_final - plasticFatNsys2PositionZ_initial) / 2.;
 
         // Это объем всех восьми счетчиков с пленкой
         auto plastic_fat_nsys2_boxallS = new G4Box("plastic_fat_nsys2_boxallS",
-                                                   1.0 * (plasticFatNsys2SizeX + 1.0 * cm) / 2.,
-                                                   1.0 * (plasticFatNsys2SizeY + 1.0 * cm) / 2.,
-                                                   fNofLayers_plastic_fat_nsys2 * (plasticFatNsys2SizeZ + 1.0 * cm) /
+                                                   1.0 * (plasticFatNsys2SizeX_125 + 1.0 * cm) / 2.,
+                                                   1.0 * (plasticFatNsys2SizeY_125 + 1.0 * cm) / 2.,
+                                                   fNofLayers_plastic_fat_nsys2 *
+                                                   (plasticFatNsys2SizeZ_125 + 1.0 * cm) /
                                                    2.);
         auto plastic_fat_nsys2_boxallLV = new G4LogicalVolume(plastic_fat_nsys2_boxallS, AirMaterial,
                                                               "plastic_fat_nsys2_boxallLV");
         plastic_fat_nsys2_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+        auto rmx = new G4RotationMatrix();
+        rmx->rotateX(180. * deg);
+
         auto plastic_fat_nsys2_boxallPV
                 = new G4PVPlacement(
                         0,                // no rotation
@@ -827,71 +880,286 @@ namespace Cosmic {
 
 
         // Это объем счетчик + пленка
-        auto plastic_fat_nsys2_boxS = new G4Box("plastic_fat_nsys2_boxS", (plasticFatNsys2SizeX + 1.0 * cm) / 2.,
-                                                (plasticFatNsys2SizeY + 1.0 * cm) / 2.,
-                                                (plasticFatNsys2SizeZ + 1.0 * cm) / 2.);
-        auto plastic_fat_nsys2_boxLV = new G4LogicalVolume(plastic_fat_nsys2_boxS, AirMaterial,
-                                                           "plastic_fat_nsys2_boxLV");
-        plastic_fat_nsys2_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
 
-        auto plastic_fat_nsys2_boxPV = new G4PVReplica(
-                "plastic_fat_nsys2_boxPV",          // its name
-                plastic_fat_nsys2_boxLV,          // its logical volume
-                plastic_fat_nsys2_boxallLV,          // its mother
-                kZAxis,           // axis of replication
-                fNofLayers_plastic_fat_nsys2,        // number of replica
-                plasticFatNsys2dz);  // witdth of replica
+        // для счетчиков 120
+        auto plastic_fat_nsys2_boxS_120 = new G4Box("plastic_fat_nsys2_boxS",
+                                                    (plasticFatNsys2SizeX_120 + 0.2 * cm) / 2.,
+                                                    (plasticFatNsys2SizeY_120 + 0.2 * cm) / 2.,
+                                                    (plasticFatNsys2SizeZ_120 + 0.2 * cm) / 2.);
+        auto plastic_fat_nsys2_boxLV_120 = new G4LogicalVolume(plastic_fat_nsys2_boxS_120, AirMaterial,
+                                                               "plastic_fat_nsys2_boxLV");
+        plastic_fat_nsys2_boxLV_120->SetVisAttributes(G4VisAttributes::GetInvisible());
 
 
+        // Это объем счетчик + пленка
+
+        // для счетчиков 125
+        auto plastic_fat_nsys2_boxS_125 = new G4Box("plastic_fat_nsys2_boxS",
+                                                    (plasticFatNsys2SizeX_125 + 0.2 * cm) / 2.,
+                                                    (plasticFatNsys2SizeY_125 + 0.2 * cm) / 2.,
+                                                    (plasticFatNsys2SizeZ_125 + 0.2 * cm) / 2.);
+        auto plastic_fat_nsys2_boxLV_125 = new G4LogicalVolume(plastic_fat_nsys2_boxS_125, AirMaterial,
+                                                               "plastic_fat_nsys2_boxLV");
+        plastic_fat_nsys2_boxLV_125->SetVisAttributes(G4VisAttributes::GetInvisible());
+
+
+
+//        auto plastic_fat_nsys2_boxPV = new G4PVReplica(
+//                "plastic_fat_nsys2_boxPV",          // its name
+//                plastic_fat_nsys2_boxLV_120,          // its logical volume
+//                plastic_fat_nsys2_boxallLV,          // its mother
+//                kZAxis,           // axis of replication
+//                fNofLayers_plastic_fat_nsys2,        // number of replica
+//                plasticFatNsys2dz);  // witdth of replica
+
+
+        // размещение
+
+        // auto plastic_fat_nsys2_boxPV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys2PositionX,  plasticFatNsys2PositionY,  plasticFatNsys2PositionZ),plastic_fat_nsys2_boxLV, Phname, worldLV, false, ARM2_IND + DE_IND + i -1, fCheckOverlaps);
+
+
+        G4double plasticFatNsys2PositionZ_temp =
+                -(plasticFatNsys2PositionZ_final - plasticFatNsys2PositionZ_initial) / 2. + 125.0 * mm / 2.;
+
+
+//////// РАЗМЕЩЕНИЕ
+
+// счетчик №8
+        auto plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                        0,                // no rotation
+                        G4ThreeVector(0, 0,
+                                      plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                        plastic_fat_nsys2_boxLV_125,          // its logical volume
+                        "plastic_fat_nsys2_boxPV",    // its name
+                        plastic_fat_nsys2_boxallLV,          // its mother  volume
+                        false,            // no boolean operation
+                        8 - 1,                // copy number
+                        fCheckOverlaps);  // checking overlaps
+
+
+// счетчик №7
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 2.0 * mm;
+
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_125,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                7 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+
+// счетчик №6
+
+        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 125.0 * mm / 2 + 4.0 * mm;
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_120,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                6 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+
+// счетчик №5
+
+        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 120.0 * mm / 2 + 6.0 * mm;
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_120,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                5 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+// счетчик №4
+
+        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 120.0 * mm / 2 + 7.0 * mm;
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_120,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                4 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+
+// счетчик №3
+
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 120.0 * mm / 2 + 2.0 * mm;
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_125,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                3 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+// счетчик №2
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 2.0 * mm;
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_125,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                2 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+// счетчик №1
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 3.0 * mm;
+        plastic_fat_nsys2_boxPV
+                = new G4PVPlacement(
+                0,                // no rotation
+                G4ThreeVector(0, 0,
+                              plasticFatNsys2PositionZ_temp),  // at (0,0,0)
+                plastic_fat_nsys2_boxLV_125,          // its logical volume
+                "plastic_fat_nsys2_boxPV",    // its name
+                plastic_fat_nsys2_boxallLV,          // its mother  volume
+                false,            // no boolean operation
+                1 - 1,                // copy number
+                fCheckOverlaps);  // checking overlaps
+
+//////// КОНЕЦ РАЗМЕЩЕНИЯ
+
+
+// для счетчиков 120
         // Это объем с самим пластиком
-        auto plastic_fat_nsys2S
+        auto plastic_fat_nsys2S_120
                 = new G4Box("plastic_fat_nsys2S",     // its name
-                            plasticFatNsys2SizeX / 2., plasticFatNsys2SizeY / 2.,
-                            plasticFatNsys2SizeZ / 2.); // its size
+                            plasticFatNsys2SizeX_120 / 2., plasticFatNsys2SizeY_120 / 2.,
+                            plasticFatNsys2SizeZ_120 / 2.); // its size
 
-        plastic_fat_nsys2LV
+        plastic_fat_nsys2LV_120
                 = new G4LogicalVolume(
-                plastic_fat_nsys2S,     // its solid
+                plastic_fat_nsys2S_120,     // its solid
                 plasticMaterial,  // its material
                 "plastic_fat_nsys2LV");   // its name
 
-        auto plastic_fat_nsys2PV
+        auto plastic_fat_nsys2PV_120
                 = new G4PVPlacement(
                         0,                // no rotation
                         G4ThreeVector(0.0, 0.0, 0.0),  // at (0,0,0)
-                        plastic_fat_nsys2LV,          // its logical volume
+                        plastic_fat_nsys2LV_120,          // its logical volume
                         "plastic_fat_nsys2PV",    // its name
-                        plastic_fat_nsys2_boxLV,          // its mother  volume
+                        plastic_fat_nsys2_boxLV_120,          // its mother  volume
+                        false,            // no boolean operation
+                        0,                // copy number
+                        fCheckOverlaps);  // checking overlaps
+
+
+// для счетчиков 125
+// Это объем с самим пластиком
+        auto plastic_fat_nsys2S_125
+                = new G4Box("plastic_fat_nsys2S",     // its name
+                            plasticFatNsys2SizeX_125 / 2., plasticFatNsys2SizeY_125 / 2.,
+                            plasticFatNsys2SizeZ_125 / 2.); // its size
+
+        plastic_fat_nsys2LV_125
+                = new G4LogicalVolume(
+                plastic_fat_nsys2S_125,     // its solid
+                plasticMaterial,  // its material
+                "plastic_fat_nsys2LV");   // its name
+
+        auto plastic_fat_nsys2PV_125
+                = new G4PVPlacement(
+                        0,                // no rotation
+                        G4ThreeVector(0.0, 0.0, 0.0),  // at (0,0,0)
+                        plastic_fat_nsys2LV_125,          // its logical volume
+                        "plastic_fat_nsys2PV",    // its name
+                        plastic_fat_nsys2_boxLV_125,          // its mother  volume
                         false,            // no boolean operation
                         0,                // copy number
                         fCheckOverlaps);  // checking overlaps
 
 
 
-// пленка
+
+// пленка для счетчиков 120
 
         //  G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
-        auto plastic_fat_nsys2_coverS = new G4Box("plastic_fat_nsys2_coverS", plasticFatNsys2SizeX / 2., 0.15 / 2. * mm,
-                                                  plasticFatNsys2SizeZ / 2.);
-        auto plastic_fat_nsys2_coverLV = new G4LogicalVolume(plastic_fat_nsys2_coverS, MylarMaterial,
-                                                             "plastic_fat_nsys2_coverLV");
-        plastic_fat_nsys2_coverLV->SetVisAttributes(ProCover_VisAtt);
+        auto plastic_fat_nsys2_coverS_120 = new G4Box("plastic_fat_nsys2_coverS", plasticFatNsys2SizeX_120 / 2.,
+                                                      0.15 / 2. * mm,
+                                                      plasticFatNsys2SizeZ_120 / 2.);
+        auto plastic_fat_nsys2_coverLV_120 = new G4LogicalVolume(plastic_fat_nsys2_coverS_120, MylarMaterial,
+                                                                 "plastic_fat_nsys2_coverLV");
+        plastic_fat_nsys2_coverLV_120->SetVisAttributes(ProCover_VisAtt);
         // plastic_fat_nsys2_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
 
-        new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys2SizeY / 2. + 0.1 * mm, 0.0), plastic_fat_nsys2_coverLV,
-                          "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0, fCheckOverlaps);
-        new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys2SizeY / 2. - 0.1 * mm, 0.0), plastic_fat_nsys2_coverLV,
-                          "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0, fCheckOverlaps);
+        new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys2SizeY_120 / 2. + 0.1 * mm, 0.0),
+                          plastic_fat_nsys2_coverLV_120,
+                          "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_120, false, 0, fCheckOverlaps);
+        new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys2SizeY_120 / 2. - 0.1 * mm, 0.0),
+                          plastic_fat_nsys2_coverLV_120,
+                          "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_120, false, 0, fCheckOverlaps);
 
         auto rmx2 = new G4RotationMatrix();
         rmx2->rotateX(90. * deg);
-        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ / 2. + 0.1 * mm),
-                          plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0,
+        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ_120 / 2. + 0.1 * mm),
+                          plastic_fat_nsys2_coverLV_120, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_120,
+                          false, 0,
                           fCheckOverlaps);
-        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ / 2. - 0.1 * mm),
-                          plastic_fat_nsys2_coverLV, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV, false, 0,
+        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ_120 / 2. - 0.1 * mm),
+                          plastic_fat_nsys2_coverLV_120, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_120,
+                          false, 0,
                           fCheckOverlaps);
 
+
+
+        // пленка для счетчиков 125
+
+        //  G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+        auto plastic_fat_nsys2_coverS_125 = new G4Box("plastic_fat_nsys2_coverS", plasticFatNsys2SizeX_125 / 2.,
+                                                      0.15 / 2. * mm,
+                                                      plasticFatNsys2SizeZ_125 / 2.);
+        auto plastic_fat_nsys2_coverLV_125 = new G4LogicalVolume(plastic_fat_nsys2_coverS_125, MylarMaterial,
+                                                                 "plastic_fat_nsys2_coverLV");
+        plastic_fat_nsys2_coverLV_125->SetVisAttributes(ProCover_VisAtt);
+        // plastic_fat_nsys2_coverLV->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+
+        new G4PVPlacement(0, G4ThreeVector(0.0, +plasticFatNsys2SizeY_125 / 2. + 0.1 * mm, 0.0),
+                          plastic_fat_nsys2_coverLV_125,
+                          "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125, false, 0, fCheckOverlaps);
+        new G4PVPlacement(0, G4ThreeVector(0.0, -plasticFatNsys2SizeY_125 / 2. - 0.1 * mm, 0.0),
+                          plastic_fat_nsys2_coverLV_125,
+                          "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125, false, 0, fCheckOverlaps);
+
+
+        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ_125 / 2. + 0.1 * mm),
+                          plastic_fat_nsys2_coverLV_125, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125,
+                          false, 0,
+                          fCheckOverlaps);
+        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ_125 / 2. - 0.1 * mm),
+                          plastic_fat_nsys2_coverLV_125, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125,
+                          false, 0,
+                          fCheckOverlaps);
+
+
+        /////////////
 
 /*
     for (int i = 1; i <= 8; i++) {
@@ -1256,16 +1524,16 @@ namespace Cosmic {
 
         // Compute sizes
         G4double StripSizeX = IronSizeX;//(ScintSizeX+GapX)*2;
-        G4double StripSizeZ = IronSizeZ + 2 * GapX;
-        G4double StripSizeY = (ScintThickness + GapY) * 2 + IronThickness + 4 * GapY;
+        G4double StripSizeZ = IronSizeZ + 2. * GapX;
+        G4double StripSizeY = (ScintThickness + GapY) * 2. + IronThickness + 4. * GapY;
 
-        G4double LayerSizeX = StripSizeX * NbOfXBars / 2;
+        G4double LayerSizeX = StripSizeX * NbOfXBars / 2.;
         G4double LayerSizeY = StripSizeY;
         G4double LayerSizeZ = StripSizeZ;
 
-        G4double SandSizeX = IronSizeZ + 1 * mm;
-        G4double SandSizeY = LayerStep * (NbOfLayers + 1.0) + 1 * mm;// no ACC layers
-        G4double SandSizeZ = IronSizeZ + 1 * mm;
+        G4double SandSizeX = IronSizeZ + 1. * mm;
+        G4double SandSizeY = LayerStep * (NbOfLayers + 1.0) + 1. * mm;// no ACC layers
+        G4double SandSizeZ = IronSizeZ + 1. * mm;
 
         G4double VertPos = 150.0 * cm;// 150.*cm; !! now to fron face of SANDW
         G4double HorPos = 73.8 * cm;
@@ -1288,7 +1556,8 @@ namespace Cosmic {
 
         // Standard layer : iron bar and 2 pairs of scints above and below
         // iron bar
-        vol_phys = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), absor_vol, "BarI", strip_log, false, 0);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), absor_vol, "BarI", strip_log, false, 0,
+                                     fCheckOverlaps);
         y_pos = (IronThickness + ScintThickness) / 2. + GapY;
         x_pos = (ScintSizeX + GapX) / 2.;
         // 2 scint strips on bottom of  iron bar
@@ -1301,6 +1570,7 @@ namespace Cosmic {
                                      2 * N_UNITS, fCheckOverlaps);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
                                      3 * N_UNITS, fCheckOverlaps);
+
 
         ubox = new G4Box("Layer", LayerSizeX / 2., LayerSizeY / 2., LayerSizeZ / 2.);
         G4LogicalVolume *layer_log = new G4LogicalVolume(ubox, AirMaterial, "Layer", 0, 0, 0);
@@ -2287,7 +2557,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto aplastic_fat_nsys2SD = new PlasticSD(SDname = "/plastic_fat_nsys2SD", "plastic_fat_nsys2HitsCollection",
                                                   fNofLayers_plastic_fat_nsys2);
         sdManager->AddNewDetector(aplastic_fat_nsys2SD);
-        plastic_fat_nsys2LV->SetSensitiveDetector(aplastic_fat_nsys2SD);
+        plastic_fat_nsys2LV_120->SetSensitiveDetector(aplastic_fat_nsys2SD);
+        plastic_fat_nsys2LV_125->SetSensitiveDetector(aplastic_fat_nsys2SD);
 #endif
 
 #ifdef PF1_THIN

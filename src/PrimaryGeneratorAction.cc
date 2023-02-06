@@ -62,7 +62,7 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
-                                                       GenbosBool(1), cstep(100), countFlag("off"), rndmFlag("off"),
+                                                       GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
                                                        vertexFlag("off"), Mode(0),
                                                        FileNum(0),
             // FileNum(G4Threading::G4GetThreadId()),
@@ -92,9 +92,15 @@ namespace Cosmic {
 
         if (GenbosBool == 1) {
             G4AutoLock lock(&aMutex);
+#ifdef GENBOS
             genbos_start_(&FileNum);
+#endif //GENBOS
+
             G4int n = 2;
+#ifdef GENBOS
             genbos_beam_(&n, &EgMin, &EgMax);
+#endif //GENBOS
+
             // lock.unlock();
             PrepareNames();
 
@@ -151,12 +157,12 @@ namespace Cosmic {
         }
 
         if (GenbosBool == 0) {
-            //   GenerateCosmic(anEvent);
+            //GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
             // GenerateLowQ_method2(anEvent);
-            //  GenerateProton(anEvent);
+            GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
-            GenerateProtonNeutron(anEvent);
+            //GenerateProtonNeutron(anEvent);
             // GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
 
@@ -421,12 +427,12 @@ namespace Cosmic {
 
         if (fRandomDirection) {
 
-            G4double x_initial_pos, y_initial_pos = 4.5 * m, z_initial_pos;
-            G4double x_initial = -0.5 * m, y_initial = 4.5 * m, z_initial = 0.5 * m;
-            G4double x_final = 0.5 * m, y_final = 4.5 * m, z_final = 1.0 * m;
+            G4double x_initial_pos, y_initial_pos = 12.0 * m + 4.5 * m, z_initial_pos;
+            G4double x_initial = -1.0 * m, y_initial = 12.0 * m + 4.5 * m, z_initial = -0.8 * m + 0.8 * m;
+            G4double x_final = 1.0 * m, y_final = 12.0 * m + 4.5 * m, z_final = 0.8 * m + 0.8 * m;
             G4double vx, vy, vz;
             G4double theta, psi;
-            G4double initial_theta = 0.0, final_theta = 30. * M_PI / 180.;
+            G4double initial_theta = 0. * M_PI / 180., final_theta = 10. * M_PI / 180.;
             G4double initial_momentum = 10.0, final_momentum = 10000.0; // в МэВ
             G4double max_f = 1.0;
             G4double momentum, kinetic_energy;
@@ -463,6 +469,15 @@ namespace Cosmic {
         fParticleGun->SetParticleMomentumDirection(initial_momentum_direction);
         fParticleGun->SetParticlePosition(initial_pos);
         fParticleGun->GeneratePrimaryVertex(event);
+        // fParticleGun->GeneratePrimaryVertex(event); // две частицы из одной точки
+
+        EventInfo *info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(500. * MeV);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
 
     }
 
@@ -661,11 +676,11 @@ namespace Cosmic {
         G4double energy2, theta2, phi2;
 
         G4double Xbeam = 0., Ybeam = 0.;
-        vertex = GenVertex(Xbeam, Ybeam, 0.7 * mm, 0.3 * mm);
+        vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
 
         particle = particleTable->FindParticle("proton");
 
-        energy1 = (10. + 450. * G4UniformRand()) * MeV;
+        energy1 = (10. + 450. * G4UniformRand()) * MeV; // от 10 до 460 МэВ
         //theta1 = M_PI * G4UniformRand();
         theta1 = acos(1.0 - 2.0 * G4UniformRand());
         phi1 = 2.0 * M_PI * G4UniformRand();
@@ -713,7 +728,7 @@ namespace Cosmic {
         G4double energy2, theta2, phi2;
 
         G4double Xbeam = 0., Ybeam = 0.;
-        vertex = GenVertex(Xbeam, Ybeam, 0.7 * mm, 0.3 * mm);
+        vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
 
         particle = particleTable->FindParticle("neutron");
 
@@ -733,14 +748,14 @@ namespace Cosmic {
 
         fParticleGun->SetParticleEnergy(energy1);
         //fParticleGun->SetParticleMomentumDirection(v_direction1);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand()));
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1., 1., G4UniformRand()));
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
         fParticleGun->SetParticleEnergy(energy2);
         //  fParticleGun->SetParticleMomentumDirection(v_direction2);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand()));
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1., -1., G4UniformRand()));
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
@@ -767,7 +782,7 @@ namespace Cosmic {
         G4double energy2, theta2, phi2;
 
         G4double Xbeam = 0., Ybeam = 0.;
-        vertex = GenVertex(Xbeam, Ybeam, 0.7 * mm, 0.3 * mm);
+        vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
 
         particle1 = particleTable->FindParticle("proton");
         particle2 = particleTable->FindParticle("neutron");
@@ -805,16 +820,22 @@ namespace Cosmic {
             p_pn.y() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp)) * sin(theta) * sin(phi);
             p_pn.z() = sqrt(p_pn.e() * p_pn.e() - Mp * Mp) * cos(theta);
             p = prodol(pn.p(), pn.e(), M2, p_pn);
+
             p.theta() = p.thetar();
             p.phi() = p.phir();
             n = pn - p;
             n.theta() = n.thetar();
             n.phi() = n.phir();
 
-        } while ((p.e() - Mp) < 20. || (p.e() - Mp) > 1000. ||
-                 (n.e() - Mn) < 5. || (n.e() - Mn) > 1000. ||
-                 p.theta() < 30. * ra || p.theta() > 110. * ra ||
-                 n.theta() < 30. * ra || n.theta() > 110. * ra);
+        } while (
+                (p.e() - Mp) < 20. || (p.e() - Mp) > 1000. ||
+                (n.e() - Mn) < 5. || (n.e() - Mn) > 1000. ||
+                // p.theta() < 30. * ra || p.theta() > 110. * ra ||
+                // n.theta() < 30. * ra || n.theta() > 110. * ra
+                p.theta() < 40. * ra || p.theta() > 130. * ra ||
+                n.theta() < 40. * ra || n.theta() > 130. * ra
+
+                );
         //n.fi()<60.*ra||n.fi()>120.*ra );
 
         //G4cout<<"n_det="<<n_det<<"\t"<<"Eq="<<q.e()<<G4endl;
@@ -871,7 +892,10 @@ namespace Cosmic {
 
         while (qq != 3) {
 
+#ifdef GENBOS
             genbos_event_(&efot, &nreac, &np, idg, cx, cy, cz);
+#endif //GENBOS
+
 
             /*
 
@@ -951,18 +975,26 @@ namespace Cosmic {
             G4int i;
             long prand;
 
+#ifdef GENBOS
             i = open("/dev/urandom", O_RDONLY);
+#endif //GENBOS
+
             if (i < 0) prand = time(NULL);
             else {
+#ifdef GENBOS
                 read(i, &prand, sizeof(long));
                 close(i);
+#endif //GENBOS
+
             }
             prand &= 0xFFFFFF;
             i = (G4int) prand;
             CLHEP::HepRandom::setTheSeed(prand);
             G4cout << "\n/\\/\\/\\ Randomizied !  prand = " << prand << " /\\/\\/\\" << G4endl;;
-
+#ifdef GENBOS
             genbos_rand_(&i);
+#endif //GENBOS
+
 
             //fGenbosClass->SetRandom(i);
 // ---------------------
@@ -1034,8 +1066,11 @@ namespace Cosmic {
             nreac = 1;
             ireac[0] = 34;
             G4AutoLock lock(&aMutex);
+#ifdef GENBOS
             genbos_reactions_(&nreac, ireac);
             genbos_start_(&FileNum);
+#endif //GENBOS
+
 
             //fGenbosClass->SetMode(Mode);
 
@@ -1062,8 +1097,8 @@ namespace Cosmic {
         G4double theta_e_max = 84.0 * pow(10.0, -3); //84 mrad
         Eelectron = 800.0;
         Egamma_distr_temp = (2.0 * alpha_em / M_PI) *
-                            ((1 - x + pow(x, 2.0) / 2.) * log(fabs((Eelectron - Egamma) * theta_e_max / (Me * x))) -
-                             (1. - x));
+                ((1. - x + pow(x, 2.0) / 2.) * log(fabs((Eelectron - Egamma) * theta_e_max / (Me * x))) -
+                 (1. - x));
 
         return Egamma_distr_temp;
     }

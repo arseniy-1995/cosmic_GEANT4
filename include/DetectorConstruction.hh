@@ -162,26 +162,27 @@ class DetectorConstruction : public G4VUserDetectorConstruction
        // PlasticSD* aplasticSD;
 
 
-    // data members
-    //
-    static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger;
-                                      // magnetic field messenger
+        // data members
+        //
+        static G4ThreadLocal G4GlobalMagFieldMessenger *fMagFieldMessenger;
+        // magnetic field messenger
 
-    G4bool fCheckOverlaps = true; // option to activate checking of volumes overlaps
+        G4bool fCheckOverlaps = true; // option to activate checking of volumes overlaps
 
         // Логические Объемы for SD
 
-        G4LogicalVolume* plastic_fat_nsys1LV = nullptr;
-        G4LogicalVolume* plastic_fat_nsys2LV = nullptr;
-        G4LogicalVolume* plastic_thin_nsys1LV = nullptr;
-        G4LogicalVolume* plastic_thin_nsys2LV = nullptr;
+        G4LogicalVolume *plastic_fat_nsys1LV = nullptr;
+        G4LogicalVolume *plastic_fat_nsys2LV_120 = nullptr;
+        G4LogicalVolume *plastic_fat_nsys2LV_125 = nullptr;
+        G4LogicalVolume *plastic_thin_nsys1LV = nullptr;
+        G4LogicalVolume *plastic_thin_nsys2LV = nullptr;
 
 
-        G4LogicalVolume* scint_HadCal_nsys1LV = nullptr;
-        G4LogicalVolume* scint_HadCal_nsys2LV = nullptr;
+        G4LogicalVolume *scint_HadCal_nsys1LV = nullptr;
+        G4LogicalVolume *scint_HadCal_nsys2LV = nullptr;
 
-        G4LogicalVolume* scint_LQ_nsys1LV = nullptr;
-        G4LogicalVolume* scint_LQ_nsys2LV = nullptr;
+        G4LogicalVolume *scint_LQ_nsys1LV = nullptr;
+        G4LogicalVolume *scint_LQ_nsys2LV = nullptr;
 
 
         G4LogicalVolume *WCTheta1_gas_nsys1LV = nullptr ;

@@ -146,13 +146,20 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
         stepLength = aStep->GetStepLength();
     }
 
+    G4bool did = (aTrack->GetTrackID() == 0) or (aTrack->GetTrackID() == 1); // position only for original particle
+    //  G4bool did = (aTrack->GetParentID() ==0); // position only for original particle
+
     // if ( edep==0. && stepLength == 0. ) return false;
 
     auto mass = preStepPoint->GetMass();
     auto kinetic_energy = preStepPoint->GetKineticEnergy();
-    auto theta = aTrack->GetPosition().getTheta();
-    auto phi = aTrack->GetPosition().getPhi();
+    //auto theta = preStepPoint->GetPosition().getTheta();
+    //auto phi = preStepPoint->GetPosition().getPhi();
 
+    G4double theta = 0., phi = 0.;
+
+    if (did) theta = aTrack->GetPosition().getTheta(); // position only for original particle
+    if (did) phi = aTrack->GetPosition().getPhi(); // position only for original particle
 
     auto touchable = preStepPoint->GetTouchable();
     auto copyNo = touchable->GetCopyNumber();
@@ -167,23 +174,26 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     auto rotation = touchable->GetRotation();
 
 
-    auto box = (G4Box*) touchable->GetSolid();
-    auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
-
+    auto box = (G4Box *) touchable->GetSolid();
+    auto halflength = G4ThreeVector(box->GetXHalfLength(), box->GetYHalfLength(), box->GetZHalfLength());
 
 
     auto Vpos = touchable->GetTranslation();
-    posit_local =posit-Vpos;
+    posit_local = posit - Vpos;
     posit_local.transform(*rotation);
+
+    // if(did) theta = Vpos.getTheta();
+    //if(did) phi = Vpos.getPhi();
+
     // G4cout<<"Detector position= "<< positionDetector<<G4endl;
-   // G4cout<<"Detector position= "<< positionDetector<<G4endl;
+    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
 
     // Get calorimeter cell id
     auto layerNumber = touchable->GetReplicaNumber(1);
     auto hitID = layerNumber; // начинается с нуля
     auto hitTime = preStepPoint->GetGlobalTime();
 
-    auto evt=G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+    auto evt = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
    // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 

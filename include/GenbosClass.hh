@@ -9,7 +9,11 @@
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
 
+//#define GENBOSCLASSON
+
 namespace Cosmic {
+
+#ifdef GENBOSCLASSON
     class GenbosClass {
 
 
@@ -122,7 +126,9 @@ namespace Cosmic {
 
         G4int fix; //	ix -- random seed
 
+
     };
+#endif // GENBOSCLASSON
 
 }
 

@@ -268,25 +268,27 @@ namespace Cosmic {
 
         if (dx > 0.0) {
             G4double a = (de / MeV) / (dx / cm * DENSITY_LO);
-            G4double k1 = 0.001, k2 = 0.000009;
+            G4double k1 = 0.011, k2 = 0.000009;
             G4double f = 1.0 + k1 * a + k2 * pow(a, 2.);
             dlo = de / f;
-       //     G4cerr << " ___ a="<<a<<" f="<<f<<" lo="<<dlo<<G4endl;
+            //     G4cerr << " ___ a="<<a<<" f="<<f<<" lo="<<dlo<<G4endl;
             fLO += dlo;
 
 
             G4double halflength = fHalfLength.x();
             G4double absorbtion = 200 * cm;
+            G4double n_refract = 1.58;
+            G4double velocity_light = c_light / n_refract;
 
-         //   G4cerr << " half ="<<halflength<<" xpos="<<xpos<<G4endl;
+            //   G4cerr << " half ="<<halflength<<" xpos="<<xpos<<G4endl;
             dA1 = dlo * exp(-(halflength - xpos) / absorbtion);
             dA2 = dlo * exp(-(halflength + xpos) / absorbtion);
-            dT1 = (halflength - xpos) / velocity + ToF;
-            dT2 = (halflength + xpos) / velocity + ToF;
+            dT1 = (halflength - xpos) / velocity_light + ToF;
+            dT2 = (halflength + xpos) / velocity_light + ToF;
             fA1 += dA1;
             fA2 += dA2;
-            fT1 += dT1;
-            fT2 += dT2;
+            fT1 = dT1;
+            fT2 = dT2;
 
         }
 
