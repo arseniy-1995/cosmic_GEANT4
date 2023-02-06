@@ -694,14 +694,14 @@ namespace Cosmic {
 
         G4double plasticFatNsys1PositionX = 0.;
         G4double plasticFatNsys1PositionY = -102.4 * cm;
-        G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 0.7 * cm;
+        G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 0.5 * cm;
         // G4double plasticFatNsys1PositionZ_initial = 43.8 * cm - 3.5 * plasticFatNsys1dz; // RIA
         // G4double plasticFatNsys1PositionZ_initial = 6.6 * cm; //Gauzshtein
         G4double plasticFatNsys1PositionZ_initial = -4.5 * cm; //Yurchenko
 //        G4double plasticFatNsys1PositionZ_final =
 //                plasticFatNsys1PositionZ_initial + fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1dz + 0.01 * cm);
 
-        G4double plasticFatNsys1PositionZ_final = 115.5 * cm;
+        G4double plasticFatNsys1PositionZ_final = 115.5 * cm; // Yurchenko
         //G4double plasticFatNsys1PositionZ = plasticFatNsys1PositionZ_initial +
         //                                    (plasticFatNsys1PositionZ_final - plasticFatNsys1PositionZ_initial) / 2.;
 
@@ -713,7 +713,7 @@ namespace Cosmic {
                                                    1.0 * (plasticFatNsys1SizeX + 0.5 * cm) / 2.,
                                                    1.0 * (plasticFatNsys1SizeY + 0.5 * cm) / 2.,
                                                    fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1SizeZ + 0.5 * cm) /
-                                                   2.);
+                                                   2.); // точно равно plasticFatNsys1dz, иначе программа зависает при большом счете
         auto plastic_fat_nsys1_boxallLV = new G4LogicalVolume(plastic_fat_nsys1_boxallS, AirMaterial,
                                                               "plastic_fat_nsys1_boxallLV");
         plastic_fat_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
@@ -733,9 +733,9 @@ namespace Cosmic {
                         fCheckOverlaps);  // checking overlaps
 
         // Это объем счетчик + пленка
-        auto plastic_fat_nsys1_boxS = new G4Box("plastic_fat_nsys1_boxS", (plasticFatNsys1SizeX + 0.3 * cm) / 2.,
-                                                (plasticFatNsys1SizeY + 0.3 * cm) / 2.,
-                                                (plasticFatNsys1SizeZ + 0.3 * cm) / 2.);
+        auto plastic_fat_nsys1_boxS = new G4Box("plastic_fat_nsys1_boxS", (plasticFatNsys1SizeX + 0.2 * cm) / 2.,
+                                                (plasticFatNsys1SizeY + 0.2 * cm) / 2.,
+                                                (plasticFatNsys1SizeZ + 0.2 * cm) / 2.);
         auto plastic_fat_nsys1_boxLV = new G4LogicalVolume(plastic_fat_nsys1_boxS, AirMaterial,
                                                            "plastic_fat_nsys1_boxLV");
         plastic_fat_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
@@ -883,9 +883,9 @@ namespace Cosmic {
 
         // для счетчиков 120
         auto plastic_fat_nsys2_boxS_120 = new G4Box("plastic_fat_nsys2_boxS",
-                                                    (plasticFatNsys2SizeX_120 + 0.2 * cm) / 2.,
-                                                    (plasticFatNsys2SizeY_120 + 0.2 * cm) / 2.,
-                                                    (plasticFatNsys2SizeZ_120 + 0.2 * cm) / 2.);
+                                                    (plasticFatNsys2SizeX_120 + 0.3 * cm) / 2.,
+                                                    (plasticFatNsys2SizeY_120 + 0.3 * cm) / 2.,
+                                                    (plasticFatNsys2SizeZ_120 + 0.3 * cm) / 2.);
         auto plastic_fat_nsys2_boxLV_120 = new G4LogicalVolume(plastic_fat_nsys2_boxS_120, AirMaterial,
                                                                "plastic_fat_nsys2_boxLV");
         plastic_fat_nsys2_boxLV_120->SetVisAttributes(G4VisAttributes::GetInvisible());
@@ -895,9 +895,9 @@ namespace Cosmic {
 
         // для счетчиков 125
         auto plastic_fat_nsys2_boxS_125 = new G4Box("plastic_fat_nsys2_boxS",
-                                                    (plasticFatNsys2SizeX_125 + 0.2 * cm) / 2.,
-                                                    (plasticFatNsys2SizeY_125 + 0.2 * cm) / 2.,
-                                                    (plasticFatNsys2SizeZ_125 + 0.2 * cm) / 2.);
+                                                    (plasticFatNsys2SizeX_125 + 0.3 * cm) / 2.,
+                                                    (plasticFatNsys2SizeY_125 + 0.3 * cm) / 2.,
+                                                    (plasticFatNsys2SizeZ_125 + 0.3 * cm) / 2.);
         auto plastic_fat_nsys2_boxLV_125 = new G4LogicalVolume(plastic_fat_nsys2_boxS_125, AirMaterial,
                                                                "plastic_fat_nsys2_boxLV");
         plastic_fat_nsys2_boxLV_125->SetVisAttributes(G4VisAttributes::GetInvisible());
@@ -917,9 +917,10 @@ namespace Cosmic {
 
         // auto plastic_fat_nsys2_boxPV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys2PositionX,  plasticFatNsys2PositionY,  plasticFatNsys2PositionZ),plastic_fat_nsys2_boxLV, Phname, worldLV, false, ARM2_IND + DE_IND + i -1, fCheckOverlaps);
 
-
+        G4double dz_temp = 0.0 * mm;
         G4double plasticFatNsys2PositionZ_temp =
-                -(plasticFatNsys2PositionZ_final - plasticFatNsys2PositionZ_initial) / 2. + 125.0 * mm / 2.;
+                -(plasticFatNsys2PositionZ_final - plasticFatNsys2PositionZ_initial) / 2. + 125.0 * mm / 2. + 1.0 * mm +
+                dz_temp;
 
 
 //////// РАЗМЕЩЕНИЕ
@@ -939,7 +940,7 @@ namespace Cosmic {
 
 
 // счетчик №7
-        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 2.0 * mm;
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 3.5 * mm + dz_temp;
 
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
@@ -956,7 +957,7 @@ namespace Cosmic {
 
 // счетчик №6
 
-        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 125.0 * mm / 2 + 4.0 * mm;
+        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 125.0 * mm / 2 + 4.0 * mm + dz_temp;
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
                 0,                // no rotation
@@ -972,7 +973,7 @@ namespace Cosmic {
 
 // счетчик №5
 
-        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 120.0 * mm / 2 + 6.0 * mm;
+        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 120.0 * mm / 2 + 6.0 * mm + dz_temp;
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
                 0,                // no rotation
@@ -987,7 +988,7 @@ namespace Cosmic {
 
 // счетчик №4
 
-        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 120.0 * mm / 2 + 7.0 * mm;
+        plasticFatNsys2PositionZ_temp += 120.0 * mm / 2 + 120.0 * mm / 2 + 7.0 * mm + dz_temp;
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
                 0,                // no rotation
@@ -1003,7 +1004,7 @@ namespace Cosmic {
 
 // счетчик №3
 
-        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 120.0 * mm / 2 + 2.0 * mm;
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 120.0 * mm / 2 + 4.0 * mm + dz_temp;
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
                 0,                // no rotation
@@ -1017,7 +1018,7 @@ namespace Cosmic {
                 fCheckOverlaps);  // checking overlaps
 
 // счетчик №2
-        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 2.0 * mm;
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 3.5 * mm + dz_temp;
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
                 0,                // no rotation
@@ -1031,7 +1032,7 @@ namespace Cosmic {
                 fCheckOverlaps);  // checking overlaps
 
 // счетчик №1
-        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 3.0 * mm;
+        plasticFatNsys2PositionZ_temp += 125.0 * mm / 2 + 125.0 * mm / 2 + 3.0 * mm + dz_temp;
         plastic_fat_nsys2_boxPV
                 = new G4PVPlacement(
                 0,                // no rotation
@@ -1044,7 +1045,7 @@ namespace Cosmic {
                 1 - 1,                // copy number
                 fCheckOverlaps);  // checking overlaps
 
-//////// КОНЕЦ РАЗМЕЩЕНИЯ
+////////// КОНЕЦ РАЗМЕЩЕНИЯ
 
 
 // для счетчиков 120
@@ -1148,12 +1149,14 @@ namespace Cosmic {
                           plastic_fat_nsys2_coverLV_125,
                           "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125, false, 0, fCheckOverlaps);
 
+        auto rmx3 = new G4RotationMatrix();
+        rmx3->rotateX(90. * deg);
 
-        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ_125 / 2. + 0.1 * mm),
+        new G4PVPlacement(rmx3, G4ThreeVector(0.0, 0.0, +plasticFatNsys2SizeZ_125 / 2. + 0.1 * mm),
                           plastic_fat_nsys2_coverLV_125, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125,
                           false, 0,
                           fCheckOverlaps);
-        new G4PVPlacement(rmx2, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ_125 / 2. - 0.1 * mm),
+        new G4PVPlacement(rmx3, G4ThreeVector(0.0, 0.0, -plasticFatNsys2SizeZ_125 / 2. - 0.1 * mm),
                           plastic_fat_nsys2_coverLV_125, "plastic_fat_nsys2_coverPV", plastic_fat_nsys2_boxLV_125,
                           false, 0,
                           fCheckOverlaps);

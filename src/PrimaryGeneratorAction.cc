@@ -157,10 +157,10 @@ namespace Cosmic {
         }
 
         if (GenbosBool == 0) {
-            //GenerateCosmic(anEvent);
+            GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
             // GenerateLowQ_method2(anEvent);
-            GenerateProton(anEvent);
+            //GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
             //GenerateProtonNeutron(anEvent);
             // GenerateGenbos(anEvent);
