@@ -694,7 +694,7 @@ namespace Cosmic {
 
         G4double plasticFatNsys1PositionX = 0.;
         G4double plasticFatNsys1PositionY = -102.4 * cm;
-        G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 0.5 * cm;
+        G4double plasticFatNsys1dz = plasticFatNsys1SizeZ + 0.4 * cm;
         // G4double plasticFatNsys1PositionZ_initial = 43.8 * cm - 3.5 * plasticFatNsys1dz; // RIA
         // G4double plasticFatNsys1PositionZ_initial = 6.6 * cm; //Gauzshtein
         G4double plasticFatNsys1PositionZ_initial = -4.5 * cm; //Yurchenko
@@ -712,7 +712,7 @@ namespace Cosmic {
         auto plastic_fat_nsys1_boxallS = new G4Box("plastic_fat_nsys1_boxS",
                                                    1.0 * (plasticFatNsys1SizeX + 0.5 * cm) / 2.,
                                                    1.0 * (plasticFatNsys1SizeY + 0.5 * cm) / 2.,
-                                                   fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1SizeZ + 0.5 * cm) /
+                                                   fNofLayers_plastic_fat_nsys1 * (plasticFatNsys1SizeZ + 0.4 * cm) /
                                                    2.); // точно равно plasticFatNsys1dz, иначе программа зависает при большом счете
         auto plastic_fat_nsys1_boxallLV = new G4LogicalVolume(plastic_fat_nsys1_boxallS, AirMaterial,
                                                               "plastic_fat_nsys1_boxallLV");

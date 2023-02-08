@@ -157,12 +157,15 @@ namespace Cosmic {
         }
 
         if (GenbosBool == 0) {
-            GenerateCosmic(anEvent);
+            //GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
             // GenerateLowQ_method2(anEvent);
-            //GenerateProton(anEvent);
+            // GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
-            //GenerateProtonNeutron(anEvent);
+            GenerateProtonNeutron(anEvent);
+            // GenerateProtonNeutron_rachek(anEvent);
+            // GenerateDeuteronPi0(anEvent);
+            // GenerateGamma(anEvent);
             // GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
 
@@ -880,6 +883,262 @@ namespace Cosmic {
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+    void PrimaryGeneratorAction::GenerateProtonNeutron_rachek(G4Event *event) {
+        G4ThreeVector vertex;
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4String particleName;
+        G4ParticleDefinition *d_particle, *p_particle, *n_particle;
+        G4ParticleMomentum Momentum;
+        G4double p_energy, p_theta, p_phi;
+        G4double n_energy, n_theta, n_phi;
+        G4double p_theta_cm; // угол протона в с.ц.м.
+
+        G4double gamma_energy;
+
+        G4double Xbeam = 0., Ybeam = 0.;
+        vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
+
+        // generate particles
+        d_particle = particleTable->FindParticle("deuteron");
+        G4double d_mass = d_particle->GetPDGMass();
+        p_particle = particleTable->FindParticle("proton");
+        G4double p_mass = p_particle->GetPDGMass();
+        n_particle = particleTable->FindParticle("neutron");
+        G4double n_mass = n_particle->GetPDGMass();
+
+        // Нужно генерить две частицы для срабатывания тригера
+
+
+        // default particle kinematic
+
+
+        gamma_energy = virtual_photon_random(); //generate energy virtual photon
+        // Range of Egamma and p_theta_CM  -  uniform distribution here
+
+        // gamma_energy = (10.0 + 690.0 * G4UniformRand()) * MeV;    // from 10 to 700 MeV
+        p_theta_cm = (20.0 + 110.0 * G4UniformRand()) * deg;    // from 20 to 140 degree
+
+        // two-body photodesintegration kinematics
+
+
+        G4LorentzVector deuteron4;
+        G4LorentzVector proton4;
+        G4LorentzVector neutron4;
+
+        G4LorentzVector photon4(Egamma, G4ThreeVector(0.0, 0.0, gamma_energy));
+        G4LorentzVector target(d_mass, G4ThreeVector());
+        G4LorentzVector dg = photon4 + target;
+        G4double dg_mass = dg.m();
+        G4double beta = dg.beta();
+
+        G4double pcm = sqrt((dg_mass * dg_mass - (p_mass + n_mass) * (p_mass + n_mass)) *
+                            (dg_mass * dg_mass - (p_mass - n_mass) * (p_mass - n_mass))) /
+                       (2.0 * dg_mass);
+        G4double epcm = (dg_mass * dg_mass + p_mass * p_mass - n_mass * n_mass) /
+                        (2.0 * dg_mass);
+
+        proton4 = G4LorentzVector(epcm, G4ThreeVector(0.0, 0.0, pcm));
+
+        proton4.setTheta(p_theta_cm);
+        proton4.boostZ(beta);
+
+
+        p_phi = 270.0 + (G4UniformRand() * 2.0 - 1.0) * 40.0;    // phi proton
+        proton4.setPhi(p_phi * deg);
+        p_energy = proton4.e() - p_mass;
+
+        neutron4 = dg - proton4;
+        n_energy = neutron4.e() - n_mass;
+
+
+        G4ThreeVector p_direction(proton4.vect().unit());
+        G4ThreeVector n_direction(neutron4.vect().unit());
+
+        fParticleGun->SetParticleDefinition(p_particle);
+        fParticleGun->SetParticleMomentumDirection(p_direction);
+        fParticleGun->SetParticleEnergy(p_energy);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        fParticleGun->SetParticleDefinition(n_particle);
+        fParticleGun->SetParticleMomentumDirection(n_direction);
+        fParticleGun->SetParticleEnergy(n_energy);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        EventInfo *info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(gamma_energy);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    void PrimaryGeneratorAction::GenerateDeuteronPi0(G4Event *event) {
+        G4ThreeVector vertex;
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4String particleName;
+        G4ParticleDefinition *d_particle, *pi_particle;
+
+        G4double pi_energy, d_energy;
+
+        G4double d_theta, d_phi;
+
+
+        G4double gamma_energy;
+
+        G4double Xbeam = 0., Ybeam = 0.;
+        vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
+
+        // generate particles
+        d_particle = particleTable->FindParticle("deuteron");
+        G4double d_mass = d_particle->GetPDGMass();
+        pi_particle = particleTable->FindParticle("pi0");
+        G4double pi_mass = pi_particle->GetPDGMass();
+
+        // Нужно генерить две частицы для срабатывания тригера
+
+
+        // default particle kinematic
+
+
+        //  gamma_energy = virtual_photon_random(); //generate energy virtual photon
+        // Range of Egamma and p_theta_CM  -  uniform distribution here
+
+        // gamma_energy = (10.0 + 690.0 * G4UniformRand()) * MeV;    // from 10 to 700 MeV
+        gamma_energy = 400. * MeV; //generate energy virtual photon
+
+        //G4double pi_theta_cm = (20.0 + 110.0 * G4UniformRand()) * deg;    // from 20 to 140 degree
+        G4double pi_theta_cm = 120.0 * deg;
+
+
+        G4LorentzVector photon4(Egamma, G4ThreeVector(0.0, 0.0, gamma_energy));
+        G4LorentzVector target(d_mass, G4ThreeVector());
+        G4LorentzVector dg = photon4 + target;
+        G4double dg_mass = dg.m();
+        G4double beta = dg.beta();
+
+
+        G4double pcm = sqrt((dg_mass * dg_mass - (d_mass + pi_mass) * (d_mass + pi_mass)) *
+                            (dg_mass * dg_mass - (d_mass - pi_mass) * (d_mass - pi_mass))) /
+                       (2.0 * dg_mass);
+        G4double edcm = (dg_mass * dg_mass + d_mass * d_mass - pi_mass * pi_mass) /
+                        (2.0 * dg_mass);
+
+
+        G4LorentzVector deuteron4(edcm, G4ThreeVector(0.0, 0.0, pcm));
+
+        deuteron4.setTheta(M_PI - pi_theta_cm);
+        deuteron4.boostZ(beta);
+        d_theta = deuteron4.theta() * deg;
+
+        d_phi = 270.0 + (G4UniformRand() * 2. - 1.) * 40.0;
+        deuteron4.setPhi(d_phi * deg);
+        d_energy = deuteron4.e() - d_mass;
+
+        G4LorentzVector pion4 = dg - deuteron4;
+        pi_energy = pion4.e() - pi_mass;
+
+        G4ThreeVector pi_direction(pion4.vect().unit());
+        G4ThreeVector d_direction(deuteron4.vect().unit());
+
+        fParticleGun->SetParticleDefinition(d_particle);
+        fParticleGun->SetParticleEnergy(d_energy);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->SetParticleMomentumDirection(d_direction);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+        fParticleGun->SetParticleDefinition(pi_particle);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->SetParticleMomentumDirection(pi_direction);
+        fParticleGun->SetParticleEnergy(pi_energy);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        EventInfo *info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(gamma_energy);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void PrimaryGeneratorAction::GenerateGamma(G4Event *event) {
+        G4ThreeVector vertex;
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4String particleName;
+        G4ParticleDefinition *gamma_particle;
+
+
+        G4double gamma_energy;
+
+        G4double Xbeam = 0., Ybeam = 0.;
+        vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
+
+        // generate particles
+        gamma_particle = particleTable->FindParticle("gamma");
+
+
+        // Нужно генерить две частицы для срабатывания тригера
+
+
+        // default particle kinematic
+
+
+        gamma_energy = virtual_photon_random(); //generate energy virtual photon
+        // Range of Egamma and p_theta_CM  -  uniform distribution here
+
+        // gamma_energy = (10.0 + 690.0 * G4UniformRand()) * MeV;    // from 10 to 700 MeV
+        gamma_energy = 300. * MeV; //generate energy virtual photon
+
+        G4ThreeVector gamma_direction1(0, 1, 0);
+        G4double gamma_theta1 = 130.0;//+20.0*G4UniformRand();
+        gamma_direction1.setTheta(gamma_theta1 * deg);
+
+        G4ThreeVector gamma_direction2(0, -1, 0);
+        G4double gamma_theta2 = 130.0;//+20.0*G4UniformRand();
+        gamma_direction1.setTheta(gamma_theta2 * deg);
+
+
+        fParticleGun->SetParticleDefinition(gamma_particle);
+        fParticleGun->SetParticleMomentumDirection(gamma_direction1);
+        fParticleGun->SetParticleEnergy(gamma_energy);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        fParticleGun->SetParticleDefinition(gamma_particle);
+        fParticleGun->SetParticleMomentumDirection(gamma_direction2);
+        fParticleGun->SetParticleEnergy(gamma_energy);
+        fParticleGun->SetParticlePosition(vertex);
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        EventInfo *info = new EventInfo();
+//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(gamma_energy);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+
+
+
+
     void PrimaryGeneratorAction::GenerateGenbos(G4Event *event) {
         //  fGenbosClass = new GenbosClass(&FileNum);
 
@@ -1097,8 +1356,8 @@ namespace Cosmic {
         G4double theta_e_max = 84.0 * pow(10.0, -3); //84 mrad
         Eelectron = 800.0;
         Egamma_distr_temp = (2.0 * alpha_em / M_PI) *
-                ((1. - x + pow(x, 2.0) / 2.) * log(fabs((Eelectron - Egamma) * theta_e_max / (Me * x))) -
-                 (1. - x));
+                            ((1. - x + pow(x, 2.0) / 2.) * log(fabs((Eelectron - Egamma) * theta_e_max / (Me * x))) -
+                             (1. - x));
 
         return Egamma_distr_temp;
     }
@@ -1108,7 +1367,7 @@ namespace Cosmic {
     G4double PrimaryGeneratorAction::virtual_photon_random() {
         G4double r1, r2, Egamma, y;
 
-        G4double Egamma_min = 100., Egamma_max = 650.;
+        G4double Egamma_min = 10., Egamma_max = 700.;
         do {
             // r1 = rand() / 2147483647.;
             // r2 = rand() / 2147483647.;
@@ -1119,7 +1378,7 @@ namespace Cosmic {
 
             Egamma = Egamma_min * exp(r1 * log(Egamma_max /
                                                Egamma_min)); // Энергия виртуального фотона в диапозоне Egamma_min...Egamma_max
-            y = 0.05 * r2; // максимум 0,05
+            y = 0.065 * r2; // максимум 0,065
 
         } while (y > virtual_photon_distrib(Egamma));
 //cerr<<y<<"\t"<<dal(om)<<endl;

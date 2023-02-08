@@ -71,9 +71,16 @@ namespace Cosmic {
         void GenerateLowQ_method1(G4Event *event); // for ed-generator for LQ-polarimeter
         void GenerateLowQ_method2(G4Event *event);
 
+
         void GenerateProton(G4Event *event); // for pp-generator
         void GenerateNeutron(G4Event *event); // for nn-generator
-        void GenerateProtonNeutron(G4Event *event); // for nn-generator
+        void GenerateProtonNeutron(G4Event *event); // for pn-generator
+        void GenerateProtonNeutron_rachek(G4Event *event); // for pn-generator
+        void GenerateDeuteronPi0(G4Event *event); // for dpi0-generator
+        void GenerateGamma(G4Event *event); // for gamma-generator
+
+
+
 
         G4double virtual_photon_random();
 
