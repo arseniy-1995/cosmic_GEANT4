@@ -555,6 +555,8 @@ namespace Cosmic {
 
         /// Для вершинных камер
 
+#if defined(VCARM1) && defined(RUN21)
+
         analysisManager->CreateNtupleIColumn("nvc_nsys1",
                                              fEventAction->Get_VC_N(1)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleFColumn("Xvc_nsys1",
@@ -578,6 +580,10 @@ namespace Cosmic {
         analysisManager->CreateNtupleFColumn("Energyvc_nsys2", fEventAction->Get_VC_KineticEnergy(2));
         analysisManager->CreateNtupleFColumn("Thetavc_nsys2", fEventAction->Get_VC_Theta(2));
         analysisManager->CreateNtupleFColumn("Phivc_nsys2", fEventAction->Get_VC_Phi(2));
+
+#endif
+
+        /////////////////
 
         analysisManager->FinishNtuple(0);
     }
@@ -621,7 +627,9 @@ RunAction::~RunAction()
 
     // The default file name is set in RunAction::RunAction(),
     // it can be overwritten in a macro
-    analysisManager->OpenFile();
+      //  if (analysisManager->IsActive()) {
+            analysisManager->OpenFile();
+      //  }
   G4cout << "Using " << analysisManager->GetType() << G4endl;
 }
 
@@ -664,9 +672,10 @@ RunAction::~RunAction()
 
         // save histograms & ntuple
         //
-        analysisManager->Write();
-        analysisManager->CloseFile(false);
-
+        if (analysisManager->IsActive()) {
+            analysisManager->Write();
+            analysisManager->CloseFile(false);
+        }
         // Keep content of histos so that they are plotted.
         // The content will be reset at start of the next run.
 

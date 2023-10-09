@@ -1,0 +1,12 @@
+# Macro file for RUN21 (GENBOS)
+#
+# To be run preferably in batch, without graphics:
+# % run21_geant4_2 run2.mac
+#
+#/run/numberOfThreads 4
+#/control/cout/ignoreThreadsExcept 0
+#
+/run/initialize
+/tracking/storeTrajectory 0
+/run/printProgress 10000
+/run/beamOn 200000

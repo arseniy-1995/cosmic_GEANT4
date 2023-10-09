@@ -96,6 +96,8 @@ int main(int argc, char **argv) {
         ui = new G4UIExecutive(argc, argv, session);
     }
 
+
+    ////////
     // Optionally: choose a different Random engine...
     // Привязка генератора к системному времени
 
@@ -114,6 +116,8 @@ int main(int argc, char **argv) {
         G4int precision = 4;
         G4SteppingVerbose::UseBestUnit(precision);
     }
+
+    /////////
 
     // Construct the default run manager
     //
@@ -179,6 +183,7 @@ int main(int argc, char **argv) {
 
     delete visManager;
     delete runManager;
+    return 0;
 }
 
 

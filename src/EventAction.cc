@@ -342,9 +342,11 @@ namespace Cosmic {
 
         auto W_Chamber_nsys1HC = GetHC(event, fW_Chamber_nsys1HCID);
         auto W_Chamber_nsys2HC = GetHC(event, fW_Chamber_nsys2HCID);
+
+#if defined(VCARM1) && defined(RUN21)
         auto V_Chamber_nsys1HC = GetHC(event, fV_Chamber_nsys1HCID);
         auto V_Chamber_nsys2HC = GetHC(event, fV_Chamber_nsys2HCID);
-
+#endif
         if (!plastic_fat_nsys1HC) return;
         if (!plastic_fat_nsys2HC) return;
         if (!plastic_thin_nsys1HC) return;
@@ -357,9 +359,11 @@ namespace Cosmic {
 
         if (!W_Chamber_nsys1HC) return;
         if (!W_Chamber_nsys2HC) return;
+
+#if defined(VCARM1) && defined(RUN21)
         if (!V_Chamber_nsys1HC) return;
         if (!V_Chamber_nsys2HC) return;
-
+#endif
         // Get hit with total values
 
 
@@ -679,6 +683,8 @@ namespace Cosmic {
 
         /// ВЕРШИННЫЕ КАМЕРЫ
 
+#if defined(VCARM1) && defined(RUN21)
+
         for (G4int i = 0; i < (G4int) V_Chamber_nsys1HC->GetSize(); i++) {
             auto V_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys1HC->GetHit(i));
             if (V_Chamber_nsys1Hit_->GetEdep() > VChamber_threshold) {
@@ -718,6 +724,8 @@ namespace Cosmic {
                 }
             }
         }
+
+#endif
 
         /////////////////////// ДРЕЙФОВЫЕ КАМЕРЫ
 

@@ -194,6 +194,9 @@ namespace Cosmic {
         GasArCO2->AddMaterial(GasAr, .2);
         GasArCO2->AddMaterial(GasCO2, .8);
 
+        G4Material *Convertor_LQ = nistManager->FindOrBuildMaterial("G4_Pb");
+
+
         // Print materials
         G4cout << *(G4Material::GetMaterialTable()) << G4endl;
     }
@@ -254,6 +257,7 @@ namespace Cosmic {
         G4Colour blackpaper_col(0.2, 0.2, 0.2);
         G4Colour concrete_col(0., 0.1, 0.8);
         G4Colour WOOD_col(0., 0.9, 0.1);
+        G4Colour CONVERTOR_LQ_col(0.9, 0.1, 0.1);
 
         Gas_VisAtt = new G4VisAttributes(gas_col);
         Foil_VisAtt = new G4VisAttributes(alfoil_col);
@@ -267,6 +271,7 @@ namespace Cosmic {
         Convertor_VisAtt = new G4VisAttributes(convertor_col);
         Concrete_VisAtt = new G4VisAttributes(concrete_col);
         WOOD_VisAtt = new G4VisAttributes(WOOD_col);
+        Convertor_LQ_VisAtt = new G4VisAttributes(CONVERTOR_LQ_col);
         ProCover_VisAtt = new G4VisAttributes(blackpaper_col); // обертка майлар
         TitanFoil_VisAtt = new G4VisAttributes(titanfoil_col);
 
@@ -437,7 +442,7 @@ namespace Cosmic {
 
 
 // Vertex Chambers
-#ifdef VCARM1
+#if defined(VCARM1) && defined(RUN21)
         auto VCBox_log_nsys1 = ConstructVC(VCGas_log_nsys1LV);
         //G4int pCopyNo_VC_nsys1 = ARM1_IND;
         G4int pCopyNo_VC_nsys1 = 0;
@@ -445,7 +450,7 @@ namespace Cosmic {
                           VCBox_log_nsys1, "VCBox_phys_nsys1", worldLV, false, pCopyNo_VC_nsys1, fCheckOverlaps);
 #endif
 
-#ifdef VCARM2
+#if defined(VCARM2) && defined(RUN21)
         auto VCBox_log_nsys2 = ConstructVC(VCGas_log_nsys2LV);
         //G4int pCopyNo_VC_nsys2 = ARM2_IND;
         G4int pCopyNo_VC_nsys2 = 0;
@@ -545,7 +550,7 @@ namespace Cosmic {
                                      LQBox_log_nsys2, "LQ_phys", worldLV, false, 0, fCheckOverlaps);
 #endif
 
-#endif // LOWQ1
+#endif // LOWQ1 or LOWQ2
 
 
 #ifdef TARGET
@@ -2353,6 +2358,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto AirMaterial = G4Material::GetMaterial("Air");
         auto MylarMaterial = G4Material::GetMaterial("Mylar");
         auto WoodMaterial = G4Material::GetMaterial("G4_CELLULOSE_CELLOPHANE");
+        auto ConvertorLQMaterial = G4Material::GetMaterial("G4_Pb");
+
 
 // Размер Пластика
         G4double pl1_thick = 1.0 * cm;//2.0*cm;	// y-axis
@@ -2363,10 +2370,24 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         G4double pl2_width = 50.0 * cm;    // x-axis
         G4double pl2_length = 20.0 * cm;    // z-axis
 
+#ifdef RUN23
+        pl2_thick = 1.0 * cm;//2.0*cm;	// y-axis
+#endif
+
 
         G4double LQ_box_thick = 0.0;	// y-axis
         G4double LQ_box_width = 0.0;    // x-axis
         G4double LQ_box_length = 0.0;    // z-axis
+
+        // Размер Конвертера
+        G4double convertor_thick = 1.6 * cm;	// y-axis
+        G4double convertor_width = 50.0 * cm;    // x-axis
+        G4double convertor_length = 20.0 * cm;    // z-axis
+
+#ifdef RUN21
+        convertor_thick = 0. * cm;	// y-axis
+#endif
+
 
         G4Box *ubox;
         G4VPhysicalVolume *vol_phys;
@@ -2378,7 +2399,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         if (nsys==1){
 
-            LQ_box_thick =  (pl1_thick + 1.2 * cm) / 2. +  (pl2_thick + 1.2 * cm) / 2.;	// y-axis
+            LQ_box_thick =  (pl1_thick + 1.2 * cm) / 2. +  (pl2_thick + 1.2 * cm) / 2. + convertor_thick;	// y-axis
             LQ_box_width = (pl1_width + 1.0 * cm) / 2.;    // x-axis
             LQ_box_length = (pl1_length + 1.0 * cm) / 2.;    // z-axis
 
@@ -2402,11 +2423,12 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             vol_phys = new G4PVPlacement(0, placement1,
                                          LQBoxCover1_log, "LQ1", LQBox_log, false, 0, fCheckOverlaps);
 
-
+#if defined(RUN21)
             vol_phys = new G4PVPlacement(0, placement2,
                                          LQBoxCover2_log, "LQ2", LQBox_log, false, 1, fCheckOverlaps);
+#endif //RUN21
 
-            // Это объем одного сцинтияллтора
+            // Это объем одного сцинтиллятора
             auto ubox1 = new G4Box("LQ1", pl1_width / 2., pl1_thick / 2., pl1_length / 2.);
             auto ubox2 = new G4Box("LQ2", pl2_width / 2., pl2_thick / 2., pl2_length / 2.);
             LQ_log_nsys1 = new G4LogicalVolume(ubox1, ScintilMaterial, "LQ1_log", 0, 0, 0);
@@ -2418,8 +2440,23 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             LQ_log_nsys1 = new G4LogicalVolume(ubox2, ScintilMaterial, "LQ2_log", 0, 0, 0);
             LQ_log_nsys1 ->SetVisAttributes(Plastic_VisAtt);
 
+#if defined(RUN21)
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
                                          LQ_log_nsys1 , "LQ2", LQBoxCover2_log, false, 0, fCheckOverlaps);
+#endif //RUN21
+
+
+#if defined(RUN23) && defined(LOWQ_CONVERTOR)
+
+            // Это объем конвертера перед сцинтиллятором
+            auto convertor_box = new G4Box("CONVERTOR_LQ", convertor_width / 2., convertor_thick / 2., convertor_length / 2.);
+            auto convertorLV = new G4LogicalVolume(convertor_box, ConvertorLQMaterial, "CONVERTOR_LQ_log", 0, 0, 0);
+            convertorLV->SetVisAttributes(Convertor_LQ_VisAtt);
+
+            auto converterPV = new G4PVPlacement(0,
+                                                 G4ThreeVector(0.0, -(placement1.y() + pl1_thick / 2. + convertor_thick / 2. + 0.5 * cm - 1.*cm), 0.0),
+                                                 convertorLV, "CONVERTOR_LQ_phys", LQBox_log, false, 0, fCheckOverlaps);
+#endif //RUN23
 
 
             // Это объем пленки
@@ -2438,10 +2475,13 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             G4LogicalVolume *LQCover2_log = new G4LogicalVolume(ubox, MylarMaterial, "LQCover2_log", 0, 0, 0);
 //   LQCover_log->SetVisAttributes(ProCover_VisAtt);
             LQCover2_log->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
+
+#if defined(RUN21)
             new G4PVPlacement(0, G4ThreeVector(0.0, +pl2_thick / 2. + 0.1 * mm, 0.0),
                               LQCover2_log, "LQCover2_phys", LQBoxCover2_log, false, -1, fCheckOverlaps);
             new G4PVPlacement(0, G4ThreeVector(0.0, -pl2_thick / 2. - 0.1 * mm, 0.0),
                               LQCover2_log, "LQCover2_phys", LQBoxCover2_log, false, -1, fCheckOverlaps);
+#endif //RUN21
 
         }
 
@@ -2453,12 +2493,18 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             G4double wood_width = 50.0 * cm;    // x-axis
             G4double wood_length = 20.0 * cm;    // z-axis
 
-            LQ_box_thick = 2 * (pl1_thick + 1.2 * cm) / 2. + wood_thick;	// y-axis
+#if defined(RUN23)
+            wood_thick = 0.5 *  cm;	// y-axis
+#endif
+
+            LQ_box_thick = 2 * (pl1_thick + 1.2 * cm) / 2. + wood_thick + convertor_thick;	// y-axis
             LQ_box_width = (pl1_width + 1.0 * cm) / 2.;    // x-axis
             LQ_box_length = (pl1_length + 1.0 * cm) / 2.;    // z-axis
 
+
+
             auto placement1 = G4ThreeVector(0.0, -0.6 * cm, 0.0);
-            auto placement2 = G4ThreeVector(0.0, 0.6 * cm + wood_thick + 1.0*cm, 0.0);
+            auto placement2 = G4ThreeVector(0.0, 0.6 * cm + wood_thick + 1.0*cm + convertor_thick, 0.0);
 
 
             // Это объем двух сцинтилляторов с пленокой
@@ -2475,10 +2521,10 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             vol_phys = new G4PVPlacement(0, placement1,
                                          LQBoxCover_log, "LQ1", LQBox_log, false, 0, fCheckOverlaps);
 
-
+#if defined(RUN21) // два сцинтиллятора только в заходе 21 года
             vol_phys = new G4PVPlacement(0, placement2,
                                          LQBoxCover_log, "LQ2", LQBox_log, false, 1, fCheckOverlaps);
-
+#endif //RUN21
             // Это объем одного сцинтияллтора
             ubox = new G4Box("LQ", pl1_width / 2., pl1_thick / 2., pl1_length / 2.);
             LQ_log_nsys2 = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
@@ -2489,14 +2535,31 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
             // Это объем дерева между сцинтилляторами
             auto wood_box = new G4Box("WOOD_LQ", wood_width / 2., wood_thick / 2., wood_length / 2.);
-            auto woodLV = new G4LogicalVolume(wood_box, ScintilMaterial, "WOOD_LQ_log", 0, 0, 0);
+            auto woodLV = new G4LogicalVolume(wood_box, WoodMaterial, "WOOD_LQ_log", 0, 0, 0);
             woodLV->SetVisAttributes(WOOD_VisAtt);
 
             // дерево только для верхней системы
 
+#if defined(RUN21)
             auto woodPV = new G4PVPlacement(0,
                                                 G4ThreeVector(0.0, placement1.y() + pl1_thick / 2. + wood_thick / 2. + 0.5 * cm, 0.0),
                                                 woodLV, "WOOD_LQ_phys", LQBox_log, false, 0, fCheckOverlaps);
+#endif //RUN21
+
+#if defined(RUN23) && defined(LOWQ_CONVERTOR)
+
+            // Это объем конвертера перед сцинтиллятором
+            auto convertor_box = new G4Box("CONVERTOR_LQ", convertor_width / 2., convertor_thick / 2., convertor_length / 2.);
+            auto convertorLV = new G4LogicalVolume(convertor_box, ConvertorLQMaterial, "CONVERTOR_LQ_log", 0, 0, 0);
+            convertorLV->SetVisAttributes(Convertor_LQ_VisAtt);
+
+            auto converterPV = new G4PVPlacement(0,
+                                                G4ThreeVector(0.0, -(placement1.y() + pl1_thick / 2. + convertor_thick / 2. + 0.5 * cm + 1.*cm), 0.0),
+                                                 convertorLV, "CONVERTOR_LQ_phys", LQBox_log, false, 0, fCheckOverlaps);
+#endif //RUN23
+
+
+
 
             // Это объем пленки
 //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
@@ -2598,7 +2661,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         sdManager->AddNewDetector(aplastic_LQ_nsys2SD);
         scint_LQ_nsys2LV->SetSensitiveDetector(aplastic_LQ_nsys2SD);
 
-#endif // LOWQ1
+#endif // LOWQ2
 
 
 #ifdef HADCAL1
@@ -2639,13 +2702,13 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #endif
 
 
-#ifdef VCARM1
+#if defined(VCARM1) && defined(RUN21)
         auto aV_chamber_nsys1SD = new ChamberSD(SDname = "/V_chamber_nsys1SD", "V_Chamber_nsys1HitsCollection", 1);
         sdManager->AddNewDetector(aV_chamber_nsys1SD);
 
         VCGas_log_nsys1LV->SetSensitiveDetector(aV_chamber_nsys1SD);
 #endif
-#ifdef VCARM2
+#if defined(VCARM2) && defined(RUN21)
         auto aV_chamber_nsys2SD = new ChamberSD(SDname = "/V_chamber_nsys2SD", "V_Chamber_nsys2HitsCollection", 2);
         sdManager->AddNewDetector(aV_chamber_nsys2SD);
 

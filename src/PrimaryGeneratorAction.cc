@@ -157,16 +157,16 @@ namespace Cosmic {
         }
 
         if (GenbosBool == 0) {
-            //GenerateCosmic(anEvent);
+           // GenerateCosmic(anEvent);
             //GenerateLowQ_method1(anEvent);
-            // GenerateLowQ_method2(anEvent);
+             GenerateLowQ_method2(anEvent);
             // GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
-            GenerateProtonNeutron(anEvent);
+            //GenerateProtonNeutron(anEvent);
             // GenerateProtonNeutron_rachek(anEvent);
             // GenerateDeuteronPi0(anEvent);
-            // GenerateGamma(anEvent);
-            // GenerateGenbos(anEvent);
+           // GenerateGamma(anEvent);
+           //  GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
 
             G4AutoLock lock(&aMutex);
@@ -468,6 +468,12 @@ namespace Cosmic {
             initial_momentum_direction = G4ThreeVector(0.0, -1.0, 0.0);
             initial_pos = G4ThreeVector(0., 4.5 * m, 1.0 * m + 100 * mm);
         }
+
+        auto particleTable = G4ParticleTable::GetParticleTable();
+
+        auto particleDefinition = particleTable->FindParticle("mu-");
+        fParticleGun->SetParticleDefinition(particleDefinition);
+
 
         fParticleGun->SetParticleMomentumDirection(initial_momentum_direction);
         fParticleGun->SetParticlePosition(initial_pos);
@@ -1079,7 +1085,28 @@ namespace Cosmic {
         G4ParticleDefinition *gamma_particle;
 
 
-        G4double gamma_energy;
+        G4double gamma_energy1, gamma_theta1, gamma_phi1;
+        G4double gamma_energy2, gamma_theta2, gamma_phi2;
+
+
+        gamma_energy1 = (200. + 200. * G4UniformRand()) * MeV; // 200..400 MeV
+        // theta1 = M_PI * G4UniformRand();
+
+      //  gamma_theta1 = acos(1.0 - 2.0 * G4UniformRand());
+     //   gamma_phi1 = 2.0 * M_PI * G4UniformRand();
+
+        // Нужно генерить две частицы для срабатывания тригера
+        gamma_energy2 = (200. + 200. * G4UniformRand()) * MeV; // 200..400 MeV
+        // theta2 = M_PI * G4UniformRand();
+
+      //  gamma_theta2 = acos(1.0 - 2.0 * G4UniformRand());
+       // gamma_phi2 = M_PI - gamma_phi1;
+
+      //  auto v_direction1 = G4ThreeVector(sin(gamma_theta1) * cos(gamma_phi1), sin(gamma_theta1) * sin(gamma_phi1),
+      //                                    cos(gamma_theta1));
+     //   auto v_direction2 = G4ThreeVector(sin(gamma_theta2) * cos(gamma_phi2), sin(gamma_theta2) * sin(gamma_phi2),
+      //                                    cos(gamma_theta2));
+
 
         G4double Xbeam = 0., Ybeam = 0.;
         vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
@@ -1090,42 +1117,65 @@ namespace Cosmic {
 
         // Нужно генерить две частицы для срабатывания тригера
 
-
         // default particle kinematic
 
 
-        gamma_energy = virtual_photon_random(); //generate energy virtual photon
+        // gamma_energy = virtual_photon_random(); //generate energy virtual photon
         // Range of Egamma and p_theta_CM  -  uniform distribution here
 
         // gamma_energy = (10.0 + 690.0 * G4UniformRand()) * MeV;    // from 10 to 700 MeV
-        gamma_energy = 300. * MeV; //generate energy virtual photon
+        //gamma_energy1 = 300. * MeV; //generate energy virtual photon
+       // gamma_energy2 = 300. * MeV
 
-        G4ThreeVector gamma_direction1(0, 1, 0);
-        G4double gamma_theta1 = 130.0;//+20.0*G4UniformRand();
-        gamma_direction1.setTheta(gamma_theta1 * deg);
+      //  G4ThreeVector gamma_direction1(0, 1, 0);
+       //  gamma_theta1 = 130.0;//+20.0*G4UniformRand();
+      // gamma_theta1 = 30.0 +100.0*G4UniformRand(); // 30...130
+      //  gamma_direction1.setTheta(gamma_theta1 * deg);
+     //  gamma_phi1 = -30.0 + 60.0*G4UniformRand(); // -30...30
+      //  gamma_direction1.setPhi(gamma_phi1 * deg);
 
-        G4ThreeVector gamma_direction2(0, -1, 0);
-        G4double gamma_theta2 = 130.0;//+20.0*G4UniformRand();
-        gamma_direction1.setTheta(gamma_theta2 * deg);
+       // G4ThreeVector gamma_direction2(0, -1, 0);
+       // gamma_theta2 = 130.0;//+20.0*G4UniformRand();
+       // gamma_theta2 = 30.0 + 100.0*G4UniformRand(); // 30...130
+       // gamma_theta2 = 180. - gamma_theta1;
+       // gamma_direction2.setTheta(gamma_theta2 * deg);
+       // gamma_phi2 = 180. - gamma_phi1;
+       // gamma_phi2 = -30.0 + 60.0*G4UniformRand(); // -30...30 вниз
+       // gamma_direction2.setPhi(gamma_phi2 * deg);
 
+
+
+//        auto v_direction1 = G4ThreeVector(sin(gamma_theta1) * cos(gamma_phi1), sin(gamma_theta1) * sin(gamma_phi1),
+//                                            cos(gamma_theta1));
+//           auto v_direction2 = G4ThreeVector(sin(gamma_theta2) * cos(gamma_phi2), sin(gamma_theta2) * sin(gamma_phi2),
+//                                           cos(gamma_theta2));
+
+
+
+        auto gamma_direction1 = G4ThreeVector(sin(gamma_theta1 * deg) * cos(gamma_phi1* deg), 1.,
+                                          cos(gamma_theta1* deg));
+        auto gamma_direction2 = G4ThreeVector(sin(gamma_theta2* deg) * cos(gamma_phi2* deg), -1.,
+                                          cos(gamma_theta2* deg));
 
         fParticleGun->SetParticleDefinition(gamma_particle);
-        fParticleGun->SetParticleMomentumDirection(gamma_direction1);
-        fParticleGun->SetParticleEnergy(gamma_energy);
+       //  fParticleGun->SetParticleMomentumDirection(gamma_direction1);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1., 1., G4UniformRand()));
+        fParticleGun->SetParticleEnergy(gamma_energy1);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
 
         fParticleGun->SetParticleDefinition(gamma_particle);
-        fParticleGun->SetParticleMomentumDirection(gamma_direction2);
-        fParticleGun->SetParticleEnergy(gamma_energy);
+        // fParticleGun->SetParticleMomentumDirection(gamma_direction2);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1., -1., G4UniformRand()));
+        fParticleGun->SetParticleEnergy(gamma_energy2);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
 
         EventInfo *info = new EventInfo();
 //   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
-        info->SetEgamma(gamma_energy);
+        info->SetEgamma(0.5 * (gamma_energy1 + gamma_energy2));
         info->SetNreac(1);
         info->SetNp(2);
         info->SetEntry(FileNum);

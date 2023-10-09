@@ -23,6 +23,7 @@ find_package(ROOT REQUIRED COMPONENTS RIO Net)
 find_package(GSL REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+#find_package(CERNLIB REQUIRED)
 
 # ROOT version 6 required
 if(ROOT_FOUND)
@@ -61,14 +62,25 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #file(GLOB lib ${PROJECT_SOURCE_DIR}/lib/*.a)
 
 set(CMAKE_CXX_STANDARD 14)
-set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
+
+# FOR GENBOS
+set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
+
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/libgenbos.a -lgfortran -lm)
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/libgenbos.a -lgfortran -lm)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(cosmic cosmic.cc ${sources} ${headers})
-#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
 target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
+
+
+# FOR GENBOS
+#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+
+
 #target_link_libraries(cosmic ${Geant4_LIBRARIES})
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -88,6 +100,7 @@ set(COSMIC_SCRIPTS
         Proton.mac
         Neutron.mac
         ProtonNeutron.mac
+        Gamma.mac
         Cosmic.mac
         LQ.mac
         vis.mac

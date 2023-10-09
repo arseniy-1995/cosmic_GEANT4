@@ -36,7 +36,12 @@
 
 namespace Cosmic {
 
-#define CONCRETE // Бетон
+//#define RUN21
+
+#define RUN23
+#define LOWQ_CONVERTOR
+
+//#define CONCRETE // Бетон
 
 #define PF2_FAT // Толстые пластики
 #define PF1_FAT
@@ -60,6 +65,8 @@ namespace Cosmic {
 
 #define LOWQ1 // электронные плечи ЛО-КУ поляриметра
 #define LOWQ2
+
+
 
 
 #define NX_BARS 22
@@ -117,8 +124,15 @@ namespace Cosmic {
     constexpr G4int fNofLayers_plastic_thin_nsys1 = 2; // число тонких пластиков
     constexpr G4int fNofLayers_plastic_thin_nsys2 = 2;
 
+#ifdef RUN21
     constexpr G4int fNofLayers_plastic_LQ_nsys1 = 2; // число пластиков LQ электронного плеча
     constexpr G4int fNofLayers_plastic_LQ_nsys2 = 2;
+#endif // RUN21
+
+#ifdef RUN23
+    constexpr G4int fNofLayers_plastic_LQ_nsys1 = 1; // число пластиков LQ электронного плеча
+    constexpr G4int fNofLayers_plastic_LQ_nsys2 = 1;
+#endif // RUN23
 
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 =
             N_HCX + N_HCZ + 100; // число чувствительных элементов в калориметре
