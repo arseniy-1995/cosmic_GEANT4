@@ -580,7 +580,7 @@ namespace Cosmic {
         analysisManager->CreateNtupleFColumn("Energyvc_nsys2", fEventAction->Get_VC_KineticEnergy(2));
         analysisManager->CreateNtupleFColumn("Thetavc_nsys2", fEventAction->Get_VC_Theta(2));
         analysisManager->CreateNtupleFColumn("Phivc_nsys2", fEventAction->Get_VC_Phi(2));
- 
+
 #endif
 
         /////////////////

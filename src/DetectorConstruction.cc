@@ -184,15 +184,26 @@ namespace Cosmic {
         SiO2->AddElement(elSi, 1);
         SiO2->AddElement(elO, 2);
 
-        G4Material *GasAr = new G4Material("ArgonGas", 18, 39.95 * g / mole, 1.98e-03 * g / cm3);
+        G4Material *GasAr = new G4Material("ArgonGas", 18, 39.95 * g / mole, 1.7839e-03 * g / cm3);
 
-        G4Material *GasCO2 = new G4Material("CarbonicGas", 1.98e-03 * g / cm3, 2);
+        G4Material *GasCO2 = new G4Material("CarbonicGas", 1.977e-03 * g / cm3, 2);
         GasCO2->AddElement(elC, 1);
         GasCO2->AddElement(elO, 2);
 
+        G4Material *GasIsobutane = new G4Material("IsobutaneGas", 2.486e-03 * g / cm3, 2);
+        GasIsobutane->AddElement(elC, 4);
+        GasIsobutane->AddElement(elH, 10);
+
         G4Material *GasArCO2 = new G4Material("ArgonCarbonicGas", 1.98e-03 * g / cm3, 2);
-        GasArCO2->AddMaterial(GasAr, .2);
-        GasArCO2->AddMaterial(GasCO2, .8);
+       // GasArCO2->AddMaterial(GasAr, .2); // .8 // .82
+      //  GasArCO2->AddMaterial(GasCO2, .8); // .2 // .18
+        GasArCO2->AddMaterial(GasAr, .82);
+        GasArCO2->AddMaterial(GasCO2, .18);
+
+
+        G4Material *GasArIsobutane = new G4Material("ArgonIsobutaneGas", 1.910278e-03 * g / cm3, 2);
+        GasArIsobutane->AddMaterial(GasAr, .82);
+        GasArIsobutane->AddMaterial(GasIsobutane, .18);
 
         G4Material *Convertor_LQ = nistManager->FindOrBuildMaterial("G4_Pb");
 
@@ -1882,6 +1893,12 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto SteelMaterial = G4Material::GetMaterial("Steel");
         auto SiO2Material = G4Material::GetMaterial("SiO2");
         auto GasArCO2Material = G4Material::GetMaterial("ArgonCarbonicGas");
+        auto GasArIsobutaMaterial = G4Material::GetMaterial("ArgonIsobutaneGas");
+
+       // auto GasVCMaterial = G4Material::GetMaterial("ArgonCarbonicGas");
+        auto GasVCMaterial = G4Material::GetMaterial("ArgonIsobutaneGas");
+
+
 
         ////////////////////////////////////////////////////////////////////////////////
 // VOLUME : Vertex chamber
@@ -1929,14 +1946,14 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         vbox = new G4Box("VCGas_trap", 2. * NVC_WRS / 2. * mm, 10.0 / 2. * mm, 43.6 / 2. * cm);
 
-        VC_log = new G4LogicalVolume(vbox, GasArCO2Material, "VCGas_log", 0, 0, 0);
+        VC_log = new G4LogicalVolume(vbox, GasVCMaterial, "VCGas_log", 0, 0, 0);
         new G4PVPlacement(0, G4ThreeVector(0.0 * cm, 0.0 * cm, 0.0 * cm),
                           VC_log, "VCtrap_phys", VCBox_log, false, VC_IND, fCheckOverlaps);
 
         vbox = new G4Box("VCGas_cell", 2. / 2. * mm, 10.0 / 2. * mm, 43.6 / 2. * cm);
 
         G4LogicalVolume *
-                VCGas_log = new G4LogicalVolume(vbox, GasArCO2Material, "VCGas_log", 0, 0, 0);
+                VCGas_log = new G4LogicalVolume(vbox, GasVCMaterial, "VCGas_log", 0, 0, 0);
         new G4PVReplica("VCcells", VCGas_log, VC_log, kXAxis, NVC_WRS, 2. * mm);
 
 
@@ -1981,6 +1998,11 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto SteelMaterial = G4Material::GetMaterial("Steel");
         auto SiO2Material = G4Material::GetMaterial("SiO2");
         auto GasArCO2Material = G4Material::GetMaterial("ArgonCarbonicGas");
+        auto GasArIsobutaMaterial = G4Material::GetMaterial("ArgonIsobutaneGas");
+
+        // auto GasWCMaterial = G4Material::GetMaterial("ArgonCarbonicGas");
+        auto GasWCMaterial = G4Material::GetMaterial("ArgonIsobutaneGas");
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2011,7 +2033,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                 new G4Box("WCBox_box", Wframe / 2., thk / 2., Lframe / 2.);
 
         G4LogicalVolume *
-                WCBox_log = new G4LogicalVolume(WCBox_box, GasArCO2Material, "WCBox_log", 0, 0, 0);
+                WCBox_log = new G4LogicalVolume(WCBox_box, GasWCMaterial, "WCBox_log", 0, 0, 0);
         WCBox_log->SetVisAttributes(G4VisAttributes::GetInvisible());
 
 //------------------------------------------------------------------------------
@@ -2079,11 +2101,11 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                 WCcell_box = new G4Box("WCcell_box", x_pos / 2., y_pos / 2., 2. * cm / 2.);
 
         G4LogicalVolume *
-                WCplane_log = new G4LogicalVolume(WCplane_box, GasArCO2Material, "WCplane", 0, 0, 0);
+                WCplane_log = new G4LogicalVolume(WCplane_box, GasWCMaterial, "WCplane", 0, 0, 0);
         WCplane_log->SetVisAttributes(G4VisAttributes::GetInvisible());
 
         G4LogicalVolume *
-                WCcell_log = new G4LogicalVolume(WCcell_box, GasArCO2Material, "WCcell", 0, 0, 0);
+                WCcell_log = new G4LogicalVolume(WCcell_box, GasWCMaterial, "WCcell", 0, 0, 0);
 //   WCcell_log->SetVisAttributes(Gas_VisAtt);
         WCcell_log->SetVisAttributes(Steel_VisAtt);
 
