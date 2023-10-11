@@ -64,21 +64,36 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 set(CMAKE_CXX_STANDARD 14)
 
 # FOR GENBOS
-set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
+find_package(cernlib REQUIRED)
 
-#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
+#include(${CERNLIB_INCLUDE_DIR})
+#include(${CERNLIB_LIBRARIES})
+
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib -lkernlib -lphtools -lmathlib -lgfortran -lm )
+
+set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -lkernlib -lphtools -lmathlib /opt/local/lib/gcc12/libgfortran.a -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+
+#  /opt/homebrew/Cellar/gcc/13.2.0/lib/gcc/current/libgfortran.a
+
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm )
 #set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/libgenbos.a -lgfortran -lm)
 #set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/libgenbos.a -lgfortran -lm)
+
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.so ${CERNLIB_LIBRARIES} )
+
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(cosmic cosmic.cc ${sources} ${headers})
-target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
-
+#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 
 # FOR GENBOS
-#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+
 
 
 #target_link_libraries(cosmic ${Geant4_LIBRARIES})

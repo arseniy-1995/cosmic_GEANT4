@@ -62,6 +62,9 @@ namespace Cosmic {
 
 #define TARGET // Мишень+фольга
 #define MAGNET // Магнит мишени
+#define CELL
+#define SHIELD // Фольга (экран) вокруг кубика
+#define FOIL
 
 #define LOWQ1 // электронные плечи ЛО-КУ поляриметра
 #define LOWQ2

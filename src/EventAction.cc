@@ -222,8 +222,13 @@ namespace Cosmic {
 
         if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_Chamber_nsys1HitsCollection");
         if (fW_Chamber_nsys2HCID == -1) fW_Chamber_nsys2HCID = SDmanp->GetCollectionID("W_Chamber_nsys2HitsCollection");
+
+#if defined(VCARM1) && defined(RUN21)
         if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_Chamber_nsys1HitsCollection");
+#endif
+#if defined(VCARM2) && defined(RUN21)
         if (fV_Chamber_nsys2HCID == -1) fV_Chamber_nsys2HCID = SDmanp->GetCollectionID("V_Chamber_nsys2HitsCollection");
+#endif
 
         auto event_info = (EventInfo *) event->GetUserInformation();
         // EventInfo* event_info =(EventInfo*)event->GetUserInformation();

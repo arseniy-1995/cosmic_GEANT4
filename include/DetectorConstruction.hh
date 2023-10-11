@@ -146,6 +146,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
         G4VisAttributes *Steel_VisAtt;
         G4VisAttributes *Mag_VisAtt;
+        G4VisAttributes *Shield_VisAtt;
         G4VisAttributes *Iron_VisAtt;
         G4VisAttributes *Alum_VisAtt;
         G4VisAttributes *Gas_VisAtt;
@@ -159,6 +160,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4VisAttributes *Convertor_LQ_VisAtt;
         G4VisAttributes *ProCover_VisAtt;
         G4VisAttributes *TitanFoil_VisAtt;
+        G4VisAttributes *BerylliumFoil_VisAtt;
+
 
        // PlasticSD* aplasticSD;
 

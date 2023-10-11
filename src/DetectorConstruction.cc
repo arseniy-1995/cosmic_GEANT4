@@ -101,12 +101,17 @@ namespace Cosmic {
         G4double z;  // z=mean number of protons;
         G4double density;
 
+        G4int ncomponents, natoms;
+        G4double fractionmass;
+        G4double temperature, pressure;
+
         ////////////////////////////////////////////////////////////////////////////////
         // ELEMENTS :
         ////////////////////////////////////////////////////////////////////////////////
 
         G4Element *elH = new G4Element("Hydrogen", "H", 1, 1.01 * g / mole);
         G4Element *elC = new G4Element("Carbon", "C", 6, 12.01 * g / mole);
+        G4Element *elBe = new G4Element("Beryllium", "Be", 4, 9.1218 * g / mole);
         G4Element *elN = new G4Element("Nitrogen", "N", 7, 14.01 * g / mole);
         G4Element *elO = new G4Element("Oxygen", "O", 8, 16.00 * g / mole);
         G4Element *elNa = new G4Element("Sodium", "Na", 11, 22.99 * g / mole);
@@ -165,6 +170,10 @@ namespace Cosmic {
 
         G4Material *Alumin = new G4Material("Aluminum", 13, 26.98 * g / mole, 2.7 * g / cm3);
         G4Material *Titan = new G4Material("Titanium", 22, 47.87 * g / mole, 4.54 * g / cm3);
+
+        // G4Material *Beryllium = new G4Material("Beryllium", 4, 9.1218 * g / mole, 4.54 * g / cm3);
+        G4Material *Beryllium = new G4Material("Beryllium", 1.85 * g / cm3, 1);
+        Beryllium->AddElement(elBe, 1.0);
 
         // отражающая обертка
         G4Material *Mylar = new G4Material("Mylar", density = 1.39 * g / cm3, 3);
@@ -257,6 +266,7 @@ namespace Cosmic {
         G4Colour iron_col(0.5, 0.5, 0.8);
         G4Colour alum_col(0.0, 0.8, 0.8);
         G4Colour titanfoil_col(0.8, 0.8, 0.8);
+        G4Colour berylliumfoil_col(0.8, 0.8, 0.8);
         G4Colour copper_col(1.0, 0.0, 0.0);
         G4Colour convertor_col(0.0, 0.5, 0.5);
         G4Colour brass_col(0.75, 0.75, 0.1);
@@ -276,6 +286,7 @@ namespace Cosmic {
         Stef_VisAtt = new G4VisAttributes(stef_col);
         Steel_VisAtt = new G4VisAttributes(steel_col);
         Mag_VisAtt = new G4VisAttributes(copper_col);
+        Shield_VisAtt = new G4VisAttributes(copper_col);
         Iron_VisAtt = new G4VisAttributes(iron_col);
         Alum_VisAtt = new G4VisAttributes(alum_col);
         Plastic_VisAtt = new G4VisAttributes(plastic_col);
@@ -285,6 +296,7 @@ namespace Cosmic {
         Convertor_LQ_VisAtt = new G4VisAttributes(CONVERTOR_LQ_col);
         ProCover_VisAtt = new G4VisAttributes(blackpaper_col); // обертка майлар
         TitanFoil_VisAtt = new G4VisAttributes(titanfoil_col);
+        BerylliumFoil_VisAtt = new G4VisAttributes(berylliumfoil_col);
 
 
     }
@@ -2141,6 +2153,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto AluminMaterial = G4Material::GetMaterial("Aluminum");
         auto VacuumMaterial = G4Material::GetMaterial("Vacuum");
         auto TitanMaterial = G4Material::GetMaterial("Titanium");
+        auto BerylliumMaterial = G4Material::GetMaterial("Beryllium");
+        auto CopperMaterial = G4Material::GetMaterial("Copper"); // материал для медной фольги
 
         G4LogicalVolume *Volume_log;
         G4VPhysicalVolume *vol_phys;
@@ -2192,6 +2206,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 //  G4VisAttributes *Volume_logVisAtt = new G4VisAttributes(steel_col);
         Volume_log->SetVisAttributes(Steel_VisAtt);
 
+// Размещение трубки для инжекции атомов
+
         G4LogicalVolume *InTub_log = new G4LogicalVolume(Inlet_tub, AluminMaterial,
                                                          "InTub_log", 0, 0, 0);
         vol_phys = new G4PVPlacement(
@@ -2203,6 +2219,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         G4Box *Window_box = new G4Box("Window_box", 5.2 / 2 * cm, 3.0 / 2 * mm, (w_lng + 1.4 * cm) / 2);
         G4LogicalVolume *Window_log = new G4LogicalVolume(Window_box, VacuumMaterial, "Window_log", 0, 0, 0);
         Window_log->SetVisAttributes(G4VisAttributes::GetInvisible());
+
 
         G4Box *W1b = new G4Box("W1b", 2.0 / 2 * mm, 2.0 / 2 * mm, w_lng / 2);
         G4LogicalVolume *W1b_log = new G4LogicalVolume(W1b, SteelMaterial, "W1b_log", 0, 0, 0);
@@ -2259,9 +2276,80 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 //   new G4UnionSolid("Volume_10", Volume_9, Flange,
 //  			G4Transform3D(Rotate180X, G4ThreeVector(0.0*cm, 0.0*cm, 26.7*cm)));
 
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // COUPPER FOILS SHIELD
+        ////////////////////////////////////////////////////////////////////////////////
+
+#if defined(SHIELD)
+
+        G4double thick_shield = 30. * um;
+
+        G4Box *CoipperShield_box1 =
+                new G4Box("CoipperShield_box1", 6.3 / 2 * cm, thick_shield / 2,
+                          (52.8 * cm - (w_lng + 1.4 * cm) - w_pos - 2.0 * cm) / 2. / 2.);
+
+        G4Box *CoipperShield_box2 =
+                new G4Box("CoipperShield_box2", 6.3 / 2 * cm, thick_shield / 2,
+                          (52.8 * cm - (w_lng + 1.4 * cm) + w_pos + 1.5 * cm) / 2. / 2.);
+
+        G4Box *CoipperShield_box3 =
+                new G4Box("CoipperShield_box3", 6.3 / 2 * cm, 6.3 / 2 * cm, thick_shield / 2);
+
+//G4cout<< w_pos <<"!!!!" << G4endl;
+
+        G4LogicalVolume *
+                CoipperShield_log1 = new G4LogicalVolume(CoipperShield_box1, CopperMaterial, "CoipperShield_log", 0, 0,
+                                                         0);
+
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, 2.81 * cm + 0.2 * mm, w_pos + w_lng / 4 - 4 * cm / 4 +
+                                                                                      (52.8 * cm - (w_lng + 1.4 * cm)) /
+                                                                                      2.),
+                                     CoipperShield_log1, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, -2.81 * cm - 0.2 * mm, w_pos + w_lng / 4 - 4 * cm / 4 +
+                                                                                       (52.8 * cm -
+                                                                                        (w_lng + 1.4 * cm)) / 2.),
+                                     CoipperShield_log1, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+
+        G4LogicalVolume *
+                CoipperShield_log2 = new G4LogicalVolume(CoipperShield_box2, CopperMaterial, "CoipperShield_log", 0, 0,
+                                                         0);
+
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, 2.81 * cm + 0.2 * mm, w_pos - w_lng / 4 - 4 * cm / 4 -
+                                                                                      (52.8 * cm - (w_lng + 1.4 * cm)) /
+                                                                                      2.),
+                                     CoipperShield_log2, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, -2.81 * cm - 0.2 * mm, w_pos - w_lng / 4 - 4 * cm / 4 -
+                                                                                       (52.8 * cm -
+                                                                                        (w_lng + 1.4 * cm)) / 2.),
+                                     CoipperShield_log2, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+
+        G4LogicalVolume *
+                CoipperShield_log3 = new G4LogicalVolume(CoipperShield_box3, CopperMaterial, "CoipperShield_log", 0, 0,
+                                                         0);
+
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, 0.0 * cm, (52.8 + 0.2) / 2 * cm),
+                                     CoipperShield_log3, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, 0.0 * cm, -(52.8 + 0.2) / 2 * cm),
+                                     CoipperShield_log3, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+
+
+        CoipperShield_log1->SetVisAttributes(Shield_VisAtt);
+        CoipperShield_log2->SetVisAttributes(Shield_VisAtt);
+        CoipperShield_log3->SetVisAttributes(Shield_VisAtt);
+
+
+#endif //SHIELD
+
         ////////////////////////////////////////////////////////////////////////////////
         // TITAN FOILS
         ////////////////////////////////////////////////////////////////////////////////
+
+#if defined(FOIL)
+
+        // титановая фольга 70 мкм закрывает вылет из окна
+#if defined(RUN21)
 
         G4Box *TitanFoil_box =
                 new G4Box("TitanFoil_box", 5.2 / 2 * cm, 0.007 / 2 * cm, (w_lng + 1.4 * cm) / 2.);
@@ -2275,11 +2363,35 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 
         TitanFoil_log->SetVisAttributes(TitanFoil_VisAtt);
+#endif
+
+        // бериллиевая фольга 300 мкм закрывает вылет из окна
+
+#if defined(RUN23)
+
+        G4Box *BerylliumFoil_box =
+                new G4Box("BerylliumFoil_box", 5.2 / 2 * cm, 300. / 2 * um, (w_lng + 1.4 * cm) / 2.);
+
+        G4LogicalVolume *
+                BerylliumFoil_log = new G4LogicalVolume(BerylliumFoil_box, BerylliumMaterial, "BerylliumFoil_log", 0, 0,
+                                                        0);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, 2.82 * cm, w_pos),
+                                     BerylliumFoil_log, "BerylliumFoil_phys", worldLV, false, -1, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0 * cm, -2.82 * cm, w_pos),
+                                     BerylliumFoil_log, "BerylliumFoil_phys", worldLV, false, -1, fCheckOverlaps);
+
+
+        BerylliumFoil_log->SetVisAttributes(BerylliumFoil_VisAtt);
+#endif
+
+#endif //FOIL
+
 
         ////////////////////////////////////////////////////////////////////////////////
         // VOLUME : Storage cell
         ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef CELL
 #define CELL_THICK 0.05
         G4Tubs *Cell_tube =
                 new G4Tubs("Cell", 13. / 2. * mm, (13. + CELL_THICK) / 2. * mm, 40. / 2. * cm, 90. * deg, 180. * deg);
@@ -2297,6 +2409,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                                      Cell_log, "Cell", worldLV, false, -1, fCheckOverlaps);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(0., -(13. + CELL_THICK) / 2., 0.),
                                      Cell_log, "Cell", worldLV, false, -1, fCheckOverlaps);
+#endif //CELL
 
 #endif // TARGET
 

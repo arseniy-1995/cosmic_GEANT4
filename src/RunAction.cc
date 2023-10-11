@@ -568,7 +568,8 @@ namespace Cosmic {
         analysisManager->CreateNtupleFColumn("Energyvc_nsys1", fEventAction->Get_VC_KineticEnergy(1));
         analysisManager->CreateNtupleFColumn("Thetavc_nsys1", fEventAction->Get_VC_Theta(1));
         analysisManager->CreateNtupleFColumn("Phivc_nsys1", fEventAction->Get_VC_Phi(1));
-
+#endif
+#if defined(VCARM2) && defined(RUN21)
         analysisManager->CreateNtupleIColumn("nvc_nsys2",
                                              fEventAction->Get_VC_N(2)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleFColumn("Xvc_nsys2",
