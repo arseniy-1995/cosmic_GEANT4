@@ -2297,6 +2297,15 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         G4Box *CoipperShield_box3 =
                 new G4Box("CoipperShield_box3", 6.3 / 2 * cm, 6.3 / 2 * cm, thick_shield / 2);
 
+
+
+
+        G4Box *CoipperShield_box4 =
+                new G4Box("CoipperShield_box4", thick_shield / 2, 6.3 / 2 * cm, 52.8 / 2 * cm + 0.5 * mm);
+
+        G4Box *CoipperShield_box5 =
+                new G4Box("CoipperShield_box5", thick_shield / 2, 6.3 / 2 * cm, 52.8 / 4 * cm - d_y1 / 2 - 1.0 * mm);
+
 //G4cout<< w_pos <<"!!!!" << G4endl;
 
         G4LogicalVolume *
@@ -2335,9 +2344,29 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                                      CoipperShield_log3, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
 
 
+        G4LogicalVolume *
+                CoipperShield_log4 = new G4LogicalVolume(CoipperShield_box4, CopperMaterial, "CoipperShield_log", 0, 0,
+                                                         0);
+
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(-3.15 * cm - 0.2 * mm, 0.0 * cm, 0.0 * cm),
+                                     CoipperShield_log4, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+
+        G4LogicalVolume *
+                CoipperShield_log5 = new G4LogicalVolume(CoipperShield_box5, CopperMaterial, "CoipperShield_log", 0, 0,
+                                                         0);
+
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(3.15 * cm + 0.2 * mm, 0.0 * cm, -(52.8 /2  * cm +
+                                                                                       1.5* d_y1) / 2.),
+                                     CoipperShield_log5, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(3.15 * cm + 0.2 * mm, 0.0 * cm, (52.8 / 2 * cm +
+                                             1.5* d_y1) / 2.),
+                                     CoipperShield_log5, "CoipperShield_phys", worldLV, false, -1, fCheckOverlaps);
+
         CoipperShield_log1->SetVisAttributes(Shield_VisAtt);
         CoipperShield_log2->SetVisAttributes(Shield_VisAtt);
         CoipperShield_log3->SetVisAttributes(Shield_VisAtt);
+        CoipperShield_log4->SetVisAttributes(Shield_VisAtt);
+        CoipperShield_log5->SetVisAttributes(Shield_VisAtt);
 
 
 #endif //SHIELD
