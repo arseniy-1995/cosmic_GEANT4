@@ -1,0 +1,29 @@
+ Reaction channels:
+              1 gamma + p --->  pi+  n                            
+              2 gamma + p --->  pi0  p                            
+              3 gamma + n --->  pi-  p                            
+              4 gamma + n --->  pi0  n                            
+              5 gamma + p --->  del++ pi-                         
+              6 gamma + p --->  del+  pi0                         
+              7 gamma + p --->  del0  pi+                         
+              8 gamma + n --->  del+  pi-                         
+              9 gamma + n --->  del0  pi0                         
+             10 gamma + n --->  del-  pi+                         
+             15 gamma + p --->  pi+  pi-  p                       
+             16 gamma + p --->  pi0  pi+  n                       
+             17 gamma + n --->  pi+  pi-  n                       
+             18 gamma + n --->  pi0  pi-  p                       
+             33 gamma + D --->  pi0  D                            
+             34 gamma + D --->  p  n                              
+
+ Random Seed:       76762
+
+ Bremsstrahlun spectrum: Emax=     1.000 Emin=     0.600
+
+ Deuteron target
+
+ Laboratory system for outgoing particles
+
+ New Random Seed:       76762
+
+ TOTAL EVENTS PROCESSED :        500

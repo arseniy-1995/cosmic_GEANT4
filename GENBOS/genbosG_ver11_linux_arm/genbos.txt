@@ -1,0 +1,292 @@
+			THE CODE
+			--------
+
+-PHYSICS
+This Monte Carlo code describes photoreactions on free 
+nucleons and on deuterons for photon energy from pion 
+production threshold up to 10 GeV. The code describes 
+in a phenomenological way 31 different reaction channels, 
+generating hadronic events with nucleons, pions and light 
+mesons in the final state. Both the resonant and non 
+resonant contributions are taken into account.
+For each hadronic event, the program:
+1) select a reaction channel, depending on total cross 
+   sections of all selected ones;
+2) generates the kinematical quantities of final particles,
+   according of tabulated differential cross sections for
+   two-body channels or through the CERN routine GENBOD for
+   multi-body channels and checking for conservation of 
+   tetramomenta;
+3) takes into account delta and rho decaying, if needed;
+4) performs the LAB to CM system transformations, if needed.
+
+-COMPUTER
+The code was originally developed for VMS machines. Now, 
+it was installed also on a Unix machine with Linux platform.
+A BOS interface was also developed, in order to use its 
+output as input file for GSIM.
+The code consists of some tenth of fortran routines with few 
+include files. It can be compiled with its makefile, and the 
+executable file named 'genbos' run with the input file 
+'genbos.in'.
+It needs only the standard CERN libraries, like PAW, HBOOK, 
+and so on, and CLAS BOS libraries.
+
+-REFERENCES
+For full reference about total and differential cross sections
+calculation and comparison with experimental data for gamma-N 
+reactions:
+[1] A.S.Iljinov et al. - Nuclear Physics A 616,575 (1997)
+For deuteron photodisintegration channel:
+[2] P.Rossi et al. - Phys. Rev. C 40,2412 (1989)
+[3] L.A. Kondratyuk et al. - Phys. Rev. C 48, 1491 (1993)
+
+
+		GAMMA-NUCLEON INTERACTIONS
+		--------------------------
+
+-TWO-BODY CHANNELS
+The code takes into account 9 two-body channels both on 
+proton and neutron, including channels with production of 
+barionic (delta) resonances and scalar (eta) or vector 
+mesons (rho and omega). Due to their small life time, delta 
+and rho decay into N-pi and pi-pi channels, respectively. 
+For each channels, both total and differential cross section 
+are calculated from a phenomenological analisys of 
+experimental data.
+
+ No.           two-body channel
+ 1            gamma p --->  pi+  n 
+ 2            gamma p --->  pi0  p 
+ 3            gamma n --->  pi-  p 
+ 4            gamma n --->  pi0  n 
+ 5            gamma p --->  delta++ pi- 
+ 6            gamma p --->  delta+  pi0 
+ 7            gamma p --->  delta0  pi+ 
+ 8            gamma n --->  delta+  pi- 
+ 9            gamma n --->  delta0  pi0 
+ 10           gamma n --->  delta-  pi+ 
+ 11           gamma p --->  rho0  p 
+ 12           gamma p --->  rho+  n 
+ 13           gamma n --->  rho-  p 
+ 14           gamma n --->  rho0  n 
+ 19           gamma p --->  eta  p 
+ 20           gamma n --->  eta  n 
+ 21           gamma p --->  omega  p 
+ 22           gamma n --->  omega  n 
+
+
+-MANY-BODY CHANNELS
+At high energy, at least few tenths of channels opens, a 
+lot of these not measurables. So, they are described 
+appling statistical relations in the isospin space from 
+knowed channels, kept as reference channels. Using this 
+method, channels with up to 8 pions in the final state 
+are taken in account.
+
+ No.           many-body channel
+ 15           gamma p --->  pi+  pi-  p 
+ 16           gamma p --->  pi0  pi+  n 
+ 17           gamma n --->  pi+  pi-  n 
+ 18           gamma n --->  pi0  pi-  p 
+ 23           gamma p --->  pi+  pi-  pi0  p 
+ 24           gamma p --->  3pi0 p. pi+ 2pi0 n. 2pi+ pi- n 
+ 25           gamma n --->  pi+  pi-  pi0  n 
+ 26           gamma n --->  3pi0 n. pi- 2pi0 p. pi+ 2pi- p 
+ 27           gamma p --->  (4-8)pi N 
+ 28           gamma n --->  (4-8)pi N 
+
+-EXPERIMENTAL CHECKS
+The gamma-nucleon code gives in output hadronic events with 
+a nucleon, pions and light mesons (eta and omega, since rho 
+decays into pions). The results of the generator have been
+extensively checked comparing total cross sections, number 
+of generated particles and their distributions with 
+experimental data. 
+With respect to results of Ref. [1], only few improvements 
+have been done. 
+1) a new fit of experimental data of total cross section for 
+gamma n --> p rho-, from wich also the gamma p --> n rho+ 
+cross section can be obtained via isospin relations;
+2) a better separation of resonant (rho0) and non resonant
+contribution to pi+pi- production on neutron.
+For any other detailed information, see Ref. [1].
+
+
+		GAMMA-DEUTERONS INTERACTIONS
+		----------------------------
+
+-SINGLE NUCLEON REACTIONS
+The 28 two-body and multi-body channels on single nucleon
+are taken into account considering Fermi motion and binding 
+energy  of the interacting nucleon inside the deuteron 
+nucleus, while the non interacting nucleon is considered 
+as a spectator. So, for these channels, the final state has 
+a high energy nucleon (the interacting one), a low energy 
+nucleon (the spectator one) and a number of mesons.
+
+-SPECIAL DEUTERON CHANNELS
+Three special channels have been added for gamma-deuteron 
+reactions:
+
+ No.           special deuteron channel
+ 33           gamma D --->  pi0  D 
+ 34           gamma D --->  p  n 
+ 35           gamma D --->  rho0  D 
+
+For channels 33 and 35, total and differential cross sections 
+are derived from phenomenological fits of experimental data.
+For photodisintegration channel, at energy lower than 0.5 GeV a 
+fit of experimental data with Legendre polynomial was performed
+(see Ref. [2]). At higher energies, total and differential cross 
+sections are calculated from a model based on Quark Gluon String
+model (see Ref. [3]).
+
+-COMPARISON WITH EXPERIMENTAL DATA
+The extension of the code to gamma-deuteron interactions is only 
+a recent result. Various experimental checks have been performed 
+on this new part, but the code is still under verification. The 
+following simple tests have been performed:
+
+gamma D --> pi0 X    total cross section
+gamma D --> eta X    total cross section
+gamma D --> p X      proton momentum distribution
+gamma D --> D pi0    diff. cross section
+gamma D --> D rho0   total cross section
+gamma D --> p n      diff. cross section
+
+Total and differential cross section are derived from the generator 
+simply from the number of events generated for the proper reaction, 
+taking as a normalization value the total cross section gamma-D, 
+and compared with available experimental data.
+This list above obviously does'nt complete all the possible tests 
+of the deuteron generator. This is only the checks we performed, 
+tacking experimental data from the web server
+http://durpdg.dur.ac.uk/hepdata.
+Any comment is wellcome.
+
+
+		HOW TO RUN THE PROGRAM
+		----------------------
+
+The input file to run the program looks like this:
+
+ -------------------------------------------------------------------------
+           2|   I12  | ICIBLE=0 neutron; =1 proton                       |
+	    |        |       =2 deuteron            as a target          |
+           2|   I12  | IBEAM=0, gaussian, =2 Bremsstrahlung =3 uniform   |
+    1.500   |  F12.3 | ETAG, mean gamma energy (GeV)                     |
+    0.300   |  F12.3 | FWHM,  width of gamma energy distribution (GeV)   |
+  .true.    |   L12  | CMSF, momenta in CMS (true) or in LAB. (false)    |
+      3     |   I12  | TARGTYPE=0 point,=1 cyl.                          |
+    2.0     |  F12.3 | TARG_R  target radius (cm)                        |
+   10.0     |  F12.3 | TARG_L  total target length (cm)                  |
+  ----------|  40I3  | ICHAIN number of ch. to be included (next 2 lines)|
+01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20
+21 22 23 24 25 26 27 28 33 34 35 00 00 00 00 00 00 00 00 00
+ ------------------------ end of ICHAIN ----------------------------------
+       05000|   I12  | NSTATIS total number of events                    |
+       10065|   I12  | IX             INITIAL SEED VALUE                 |
+  .false.   |   L12  | NO_NT_OUT  no rzn out file                        |
+  .false.   |   L12  | NO_BOS_OUT  no bos out file                       |
+ -------------------------------------------------------------------------
+
+You can choose the following options in the first column:
+
+- the target index ICIBLE, for proton, neutron or deuteron;
+
+- the photon energy, extracted between (ETAG-FWHM) and (ETAG+FWHM), with
+  three different distributions setting IBEAM;
+
+- the interaction vertex, setting the index TARG_TYPE
+  for TARG_TYPE=0 the interaction vertex is 0
+  for TARG_TYPE=1 the interaction vertex is uniformly extracted in 
+	a cylinder with length TARG_L and radius TARG_R
+  for TARG_TYPE=2 the interaction vertex is uniformly extracted in 
+	a volume with shape like the CLAS target 'cuivre' (a 
+	cylinder with a spherical endcap) with total length 
+	TARG_L and radius TARG_R
+  for TARG_TYPE=3 the interaction vertex is uniformly extracted in 
+	a volume with shape like the CLAS target 'cigare' (a 
+	cylinder with two spherical endcaps) with total length 
+	TARG_L and radius TARG_R
+
+- the reference system for outgoing particles, setting CMSF
+	.false. --> laboratory system, in wich target is at rest
+	.true.  --> center of mass of photon-target system
+
+- the active reaction channels, setting in the ICHAIN vector index the
+  corresponding channel number from the list above. For instance,
+  if you are interested in the rho0 photoproduction on deuteron,
+  you can select only the channels 11,14 and 35 setting	
+
+	35 11 14 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	
+  The only important limitations are that 40 numbers must be fed
+  putting the rigth numbers of 00 and that no 00 must be put 
+  between selected channel numbers.
+
+- the number NSTATIS of hadronic events to be generated, keeping in mind
+  that a run with 150000 events takes 2-4 Gb for the HBOOK file and 
+  7-10 Gb for the BOS file (see below) and that the speed is about
+  1M of events/hour on a intel Pentium II 300 MHz processor
+
+- the output files: setting TRUE the variable NO_BOS_OUT (NO_NT_OUT) 
+  the BOS (RZN) file will not be created (see below).
+
+
+			OUTPUT FILES
+			------------
+
+The output of the generator consists of three files.
+- a log-file 'out_log_xx.log' where xx is the run number, with the input 
+  parameters;
+- a BOS file 'out_BOS_xx.evt' with kinematical quantities of generated
+  particles, directly readable from GSIM;
+- a HBOOK file 'out_nt_xx.rzn' with a column wise ntuple containing the 
+  following variables:
+
+  BLOCK evnt: GENERAL OF EVENT
+	nev	NUMBER OF EVENT
+	efot	PHOTON ENERGY
+	nreac	REACTION CHANNEL
+	vx
+	vy	INTERACTION POINT
+	vz
+  BLOCK finst: FINAL STATE PARTICLES
+	np	NUMBER OF GENERATED PARTICLES
+	idg	GEANT PARTICLE ID
+	idr	LUND PARTICLE ID
+	qch	CHARGE
+	mass	MASS (GeV)
+	imp	MOMENTUM (GeV)
+	cx
+	cy	DIRECTION COSINES
+	cx
+  BLOCK prim: PRIMARY INTERACTION, BEFORE DECAYING
+	np1	NUMBER OF PRIMARY PARTICLES
+	idg1	GEANT PARTICLE ID
+	idr1	LUND PARTICLE ID
+	qch1	CHARGE
+	mass1	MASS (GeV)
+	imp1	MOMENTUM (GeV)
+	cx1
+	cy1	DIRECTION COSINES
+	cx1
+
+
+			FUTURE DEVELOPMENTS
+			-------------------
+
+As previously pointed out, the gamma-deuteron part is still under
+verification, but we hope that not too big new modifications will
+be needed.
+The original VMS code includes also a gamma-nucleus generator (see 
+Ref. [1]). The intra-nuclear cascade model takes into account 
+rescattering and absorption in the nucleus of pions, nucleons and 
+mesons generated in the elementary gamma-nucleon reaction. The 
+evaporation, fission and multifragmentation of highly excited 
+residual nucleus is also taken into account. This part is still to 
+install on Unix, and the BOS interface is to develope.
+
