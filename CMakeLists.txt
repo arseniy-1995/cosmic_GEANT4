@@ -72,7 +72,24 @@ find_package(cernlib REQUIRED)
 #set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lkernlib -lphtools -lmathlib -lgfortran -lm)
 #set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib -lkernlib -lphtools -lmathlib -lgfortran -lm )
 
-set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -lkernlib -lphtools -lmathlib /opt/local/lib/gcc12/libgfortran.a -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+#set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -lkernlib -lphtools -lmathlib /opt/local/lib/gcc12/libgfortran.a -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+
+##set(GENBOSLIBS $(PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib -lkernlib -lphtools -|mathlib -lgfortran -lm)
+##set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -lkernlib -lphtools -lmathlib /opt/local/lib/gcc12/libgfortran.a -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+##set(GENBOSLIBS $(PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+
+
+#####LINUX ARM OK
+
+#set (GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathllb -lgeant321 -lpacklib -lgfortran -lm -lns -lphtools)
+
+#####
+
+##### MAC ARM OK
+
+set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/  -lphtools  -lmathlib  -lgfortran -lkernlib -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+
+#####
 
 #set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
 

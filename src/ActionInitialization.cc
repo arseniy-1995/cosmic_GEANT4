@@ -59,8 +59,15 @@ void ActionInitialization::BuildForMaster() const
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+//    namespace {
+//        G4Mutex aMutex = G4MUTEX_INITIALIZER;
+//
+//    }
+
 void ActionInitialization::Build() const
 {
+
+   // G4AutoLock lock(&aMutex);
     SetUserAction(new PrimaryGeneratorAction);
 
     auto eventAction = new EventAction;

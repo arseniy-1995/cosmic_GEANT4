@@ -45,6 +45,10 @@
 
 #endif
 
+//namespace {
+//    G4Mutex aMutex = G4MUTEX_INITIALIZER;
+//
+//}
 
 namespace Cosmic {
 
@@ -54,6 +58,7 @@ namespace Cosmic {
             : fEventAction(eventAction), FileNum(0) {
         timer = new G4Timer;
 
+        //G4AutoLock lock(&aMutex);
         //genbos_start_(&FileNum);
 
         // set printing event number per each event

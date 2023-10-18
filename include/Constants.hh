@@ -159,7 +159,7 @@ namespace Cosmic {
 
     // FOR GENBOS
 
-//#define GENBOS
+#define GENBOS
 
 #define PHIC    90.*0.0174532925199
 #define DPHI    35.*0.0174532925199

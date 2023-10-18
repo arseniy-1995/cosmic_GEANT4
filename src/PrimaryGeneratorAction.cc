@@ -58,11 +58,12 @@ namespace Cosmic {
 
     namespace {
         G4Mutex aMutex = G4MUTEX_INITIALIZER;
+
     }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
-                                                       GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
+                                                       GenbosBool(1), cstep(100), countFlag("off"), rndmFlag("off"),
                                                        vertexFlag("off"), Mode(0),
                                                        FileNum(0),
             // FileNum(G4Threading::G4GetThreadId()),
@@ -90,21 +91,32 @@ namespace Cosmic {
 
         // ShowParticleTable();
 
+
+        //G4AutoLock lock(&aMutex);
+
         if (GenbosBool == 1) {
             G4AutoLock lock(&aMutex);
+
+
+
+           // lock.lock();
 #ifdef GENBOS
+           // lock.lock();
             genbos_start_(&FileNum);
+
+           // SetMode(34);
 #endif //GENBOS
 
             G4int n = 2;
 #ifdef GENBOS
             genbos_beam_(&n, &EgMin, &EgMax);
+
 #endif //GENBOS
 
             // lock.unlock();
             PrepareNames();
 
-            //  fGenbosClass = new GenbosClass(&FileNum);
+              //fGenbosClass = new GenbosClass(&FileNum);
 
             // G4Threading::G4GetThreadId();
         }
@@ -120,7 +132,7 @@ namespace Cosmic {
         if (GenbosBool == 1) {
             G4AutoLock lock(&aMutex);
         }
-        //genbos_stop_();
+        genbos_stop_();
         // lock.unlock();
 
         // delete fGenbosClass;
@@ -168,11 +180,15 @@ namespace Cosmic {
            // GenerateGamma(anEvent);
            //  GenerateGenbos(anEvent);
         } else if (GenbosBool == 1) {
-
+            //genbos_start_(&FileNum);
             G4AutoLock lock(&aMutex);
             //  G4cout<<"!!!"<< std::endl;
+
+           // lock.unlock();
             //genbos_start_(&FileNum);
             //  fGenbosClass = new GenbosClass(&FileNum);
+
+            //genbos_start_(&FileNum);
 
             GenerateGenbos(anEvent);
             // delete fGenbosClass;
@@ -1281,12 +1297,14 @@ namespace Cosmic {
         if (rndmFlag == "on") {
 // Randomizer ;-)
             G4AutoLock lock(&aMutex);
-            G4int i;
-            long prand;
+            G4int i = 0;
+            long prand = 1;
 
 #ifdef GENBOS
             i = open("/dev/urandom", O_RDONLY);
+           // i = 5;
 #endif //GENBOS
+
 
             if (i < 0) prand = time(NULL);
             else {

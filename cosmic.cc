@@ -41,6 +41,14 @@
 
 #include <G4PhysListFactory.hh>
 
+
+//#ifdef GENBOS
+//
+//#include "Genbos.hh"
+//#include "G4AutoLock.hh"
+//
+//#endif
+
 //#include <TString.h>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -59,6 +67,12 @@ namespace {
 
 
 int main(int argc, char **argv) {
+
+    //G4int FileNum=0;
+
+    //genbos_start_(&FileNum);
+
+
     // Evaluate arguments
     //
     if (argc > 7) {
