@@ -46,8 +46,17 @@ const G4int NofLayers_plastic_fat_nsys1 = 6;
 const G4int NofLayers_plastic_fat_nsys2 = 8;
 const G4int NofLayers_plastic_thin_nsys1 = 2;
 const G4int NofLayers_plastic_thin_nsys2 = 2;
+
+#ifdef RUN21
 const G4int NofLayers_plastic_LQ_nsys1 = 2;
 const G4int NofLayers_plastic_LQ_nsys2 = 2;
+#endif
+
+#ifdef RUN23
+const G4int NofLayers_plastic_LQ_nsys1 = 1;
+const G4int NofLayers_plastic_LQ_nsys2 = 1;
+#endif
+
 
 namespace Cosmic {
 

@@ -9,4 +9,5 @@
 /run/initialize
 /tracking/storeTrajectory 0
 /run/printProgress 10000
-/run/beamOn 20000000
+#/run/beamOn 20000000
+/run/beamOn 60000

@@ -107,6 +107,8 @@ namespace Cosmic {
         if (fEventAction) {
             analysisManager->CreateNtuple("TO", "Edep and TrackL");
 
+
+
             analysisManager->CreateNtupleIColumn("EventNumber"); // column Id = 0
 
             analysisManager->CreateNtupleDColumn("Eplastic_fat_nsys1_sum"); // column Id = 1
@@ -440,77 +442,78 @@ namespace Cosmic {
 
 // Для пластиков LQ-поляриметра
 /////////////////////////////
+// здесь индексы системы перепутаны!!! 1<->2
 
-            analysisManager->CreateNtupleIColumn("TrackIDplastic_LQ_nsys1", fEventAction->GetTrackIDPlasticLQ(1));
-            analysisManager->CreateNtupleIColumn("TrackIDplastic_LQ_nsys2", fEventAction->GetTrackIDPlasticLQ(2));
+            analysisManager->CreateNtupleIColumn("TrackIDplastic_LQ_nsys1", fEventAction->GetTrackIDPlasticLQ(2));
+            analysisManager->CreateNtupleIColumn("TrackIDplastic_LQ_nsys2", fEventAction->GetTrackIDPlasticLQ(1));
             analysisManager->CreateNtupleFColumn("Eplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQEdep(1)); // column Id = 12
+                                                 fEventAction->GetPlasticLQEdep(2)); // column Id = 12
             analysisManager->CreateNtupleFColumn("Eplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQEdep(2)); // column Id = 13
+                                                 fEventAction->GetPlasticLQEdep(1)); // column Id = 13
 
             analysisManager->CreateNtupleFColumn("LOplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQLO(1)); // column Id = 14
+                                                 fEventAction->GetPlasticLQLO(2)); // column Id = 14
             analysisManager->CreateNtupleFColumn("LOplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQLO(2)); // column Id = 15
+                                                 fEventAction->GetPlasticLQLO(1)); // column Id = 15
 
             analysisManager->CreateNtupleFColumn("Lplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQTrackLength(1)); // column Id = 16
+                                                 fEventAction->GetPlasticLQTrackLength(2)); // column Id = 16
             analysisManager->CreateNtupleFColumn("Lplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQTrackLength(2)); // column Id = 17
+                                                 fEventAction->GetPlasticLQTrackLength(1)); // column Id = 17
 
             analysisManager->CreateNtupleFColumn("A1plastic_LQ_nsys1", fEventAction->GetPlasticLQA1(
-                    1)); // column Id = 8 // Амплутуды с противоположных торцов
-        analysisManager->CreateNtupleFColumn("A2plastic_LQ_nsys1", fEventAction->GetPlasticLQA2(1)); // column Id = 9
-        analysisManager->CreateNtupleFColumn("A1plastic_LQ_nsys2", fEventAction->GetPlasticLQA1(2)); // column Id = 9
-        analysisManager->CreateNtupleFColumn("A2plastic_LQ_nsys2", fEventAction->GetPlasticLQA2(2));
+                    2)); // column Id = 8 // Амплутуды с противоположных торцов
+        analysisManager->CreateNtupleFColumn("A2plastic_LQ_nsys1", fEventAction->GetPlasticLQA2(2)); // column Id = 9
+        analysisManager->CreateNtupleFColumn("A1plastic_LQ_nsys2", fEventAction->GetPlasticLQA1(1)); // column Id = 9
+        analysisManager->CreateNtupleFColumn("A2plastic_LQ_nsys2", fEventAction->GetPlasticLQA2(1));
 
-        analysisManager->CreateNtupleFColumn("T1plastic_LQ_nsys1", fEventAction->GetPlasticLQT1(1)); // column Id = 8 // Времена с противоположных торцов
-        analysisManager->CreateNtupleFColumn("T2plastic_LQ_nsys1", fEventAction->GetPlasticLQT2(1)); // column Id = 9
-        analysisManager->CreateNtupleFColumn("T1plastic_LQ_nsys2", fEventAction->GetPlasticLQT1(2)); // column Id = 9
-        analysisManager->CreateNtupleFColumn("T2plastic_LQ_nsys2", fEventAction->GetPlasticLQT2(2)); // column Id = 9
+        analysisManager->CreateNtupleFColumn("T1plastic_LQ_nsys1", fEventAction->GetPlasticLQT1(2)); // column Id = 8 // Времена с противоположных торцов
+        analysisManager->CreateNtupleFColumn("T2plastic_LQ_nsys1", fEventAction->GetPlasticLQT2(2)); // column Id = 9
+        analysisManager->CreateNtupleFColumn("T1plastic_LQ_nsys2", fEventAction->GetPlasticLQT1(1)); // column Id = 9
+        analysisManager->CreateNtupleFColumn("T2plastic_LQ_nsys2", fEventAction->GetPlasticLQT2(1)); // column Id = 9
 
             analysisManager->CreateNtupleFColumn("ToFplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQToF(1)); // column Id = 18
+                                                 fEventAction->GetPlasticLQToF(2)); // column Id = 18
             analysisManager->CreateNtupleFColumn("ToFplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQToF(2)); // column Id = 19
+                                                 fEventAction->GetPlasticLQToF(1)); // column Id = 19
 
-            analysisManager->CreateNtupleFColumn("Xplastic_LQ_nsys1", fEventAction->GetPlasticLQPos(1,
+            analysisManager->CreateNtupleFColumn("Xplastic_LQ_nsys1", fEventAction->GetPlasticLQPos(2,
                                                                                                     1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Yplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQPos(1, 2)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQPos(2, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQPos(1, 3)); // column Id = 4 //
-            analysisManager->CreateNtupleFColumn("Xplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(2,
+                                                 fEventAction->GetPlasticLQPos(2, 3)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Xplastic_LQ_nsys2", fEventAction->GetPlasticLQPos(1,
                                                                                                     1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Yplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQPos(2, 2)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQPos(1, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQPos(2, 3)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQPos(1, 3)); // column Id = 4 //
 
 
-            analysisManager->CreateNtupleFColumn("Xglob_plastic_LQ_nsys1", fEventAction->GetPlasticLQGlobalPos(1,
+            analysisManager->CreateNtupleFColumn("Xglob_plastic_LQ_nsys1", fEventAction->GetPlasticLQGlobalPos(2,
                                                                                                                1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Yglob_plastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQGlobalPos(1, 2)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQGlobalPos(2, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zglob_plastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQGlobalPos(1, 3)); // column Id = 4 //
-            analysisManager->CreateNtupleFColumn("Xglob_plastic_LQ_nsys2", fEventAction->GetPlasticLQGlobalPos(2,
+                                                 fEventAction->GetPlasticLQGlobalPos(2, 3)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Xglob_plastic_LQ_nsys2", fEventAction->GetPlasticLQGlobalPos(1,
                                                                                                                1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Yglob_plastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQGlobalPos(2, 2)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQGlobalPos(1, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zglob_plastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQGlobalPos(2, 3)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQGlobalPos(1, 3)); // column Id = 4 //
 
 
             analysisManager->CreateNtupleFColumn("Thetaplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQAngle(1, 1)); // column Id = 4 // Углы
+                                                 fEventAction->GetPlasticLQAngle(2, 1)); // column Id = 4 // Углы
             analysisManager->CreateNtupleFColumn("Phiplastic_LQ_nsys1",
-                                                 fEventAction->GetPlasticLQAngle(1, 2)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQAngle(2, 2)); // column Id = 4 //
 
-            analysisManager->CreateNtupleFColumn("Thetaplastic_LQ_nsys2", fEventAction->GetPlasticLQAngle(2,
+            analysisManager->CreateNtupleFColumn("Thetaplastic_LQ_nsys2", fEventAction->GetPlasticLQAngle(1,
                                                                                                           1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Phiplastic_LQ_nsys2",
-                                                 fEventAction->GetPlasticLQAngle(2, 2)); // column Id = 4 //
+                                                 fEventAction->GetPlasticLQAngle(1, 2)); // column Id = 4 //
 
 
             /// Для трековых камер
@@ -633,9 +636,9 @@ RunAction::~RunAction()
 
     // The default file name is set in RunAction::RunAction(),
     // it can be overwritten in a macro
-      //  if (analysisManager->IsActive()) {
+       // if (analysisManager->IsActive()) {
             analysisManager->OpenFile();
-      //  }
+        //}
   G4cout << "Using " << analysisManager->GetType() << G4endl;
 }
 
@@ -678,10 +681,14 @@ RunAction::~RunAction()
 
         // save histograms & ntuple
         //
-        if (analysisManager->IsActive()) {
-            analysisManager->Write();
-            analysisManager->CloseFile(false);
-        }
+       // if (analysisManager->IsActive()) {
+          //  analysisManager->Write();
+         //   analysisManager->CloseFile(false);
+       // }
+// its true fir new versin GEANT
+
+        analysisManager->Write();
+        analysisManager->CloseFile(false);
         // Keep content of histos so that they are plotted.
         // The content will be reset at start of the next run.
 

@@ -2556,7 +2556,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         G4Box *ubox;
         G4VPhysicalVolume *vol_phys;
 
-        G4LogicalVolume *LQ_log_nsys1 = nullptr;
+        G4LogicalVolume *LQ_log_nsys1_layer1 = nullptr;
+            G4LogicalVolume *LQ_log_nsys1_layer2 = nullptr;
         G4LogicalVolume *LQ_log_nsys2 = nullptr;
 
         G4LogicalVolume *LQBox_log = nullptr;
@@ -2583,30 +2584,37 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             auto LQBoxCover2_log = new G4LogicalVolume(ubox2_cover, AirMaterial, "LQBoxCover2_log", 0, 0, 0);
             // LQBoxCover_log->SetVisAttributes(Plastic_VisAtt);
 
+                G4int copy_number = 0;
+
+#ifdef RUN21
+                copy_number = 1;
+#endif
 
             vol_phys = new G4PVPlacement(0, placement1,
-                                         LQBoxCover1_log, "LQ1", LQBox_log, false, 0, fCheckOverlaps);
+                                         LQBoxCover1_log, "LQ1", LQBox_log, false, copy_number, fCheckOverlaps);
 
 #if defined(RUN21)
             vol_phys = new G4PVPlacement(0, placement2,
-                                         LQBoxCover2_log, "LQ2", LQBox_log, false, 1, fCheckOverlaps);
+                                         LQBoxCover2_log, "LQ2", LQBox_log, false, copy_number - 1, fCheckOverlaps);
 #endif //RUN21
 
             // Это объем одного сцинтиллятора
             auto ubox1 = new G4Box("LQ1", pl1_width / 2., pl1_thick / 2., pl1_length / 2.);
             auto ubox2 = new G4Box("LQ2", pl2_width / 2., pl2_thick / 2., pl2_length / 2.);
-            LQ_log_nsys1 = new G4LogicalVolume(ubox1, ScintilMaterial, "LQ1_log", 0, 0, 0);
-            LQ_log_nsys1 ->SetVisAttributes(Plastic_VisAtt);
+            LQ_log_nsys1_layer1 = new G4LogicalVolume(ubox1, ScintilMaterial, "LQ1_log", 0, 0, 0);
+            LQ_log_nsys1_layer1 ->SetVisAttributes(Plastic_VisAtt);
+
+
 
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                         LQ_log_nsys1 , "LQ1", LQBoxCover1_log, false, 0, fCheckOverlaps);
+                                         LQ_log_nsys1_layer1 , "LQ1", LQBoxCover1_log, false, 0, fCheckOverlaps);
 
-            LQ_log_nsys1 = new G4LogicalVolume(ubox2, ScintilMaterial, "LQ2_log", 0, 0, 0);
-            LQ_log_nsys1 ->SetVisAttributes(Plastic_VisAtt);
+                LQ_log_nsys1_layer2 = new G4LogicalVolume(ubox2, ScintilMaterial, "LQ2_log", 0, 0, 0);
+                LQ_log_nsys1_layer2 ->SetVisAttributes(Plastic_VisAtt);
 
 #if defined(RUN21)
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                         LQ_log_nsys1 , "LQ2", LQBoxCover2_log, false, 0, fCheckOverlaps);
+                                         LQ_log_nsys1_layer2 , "LQ2", LQBoxCover2_log, false, copy_number - 1, fCheckOverlaps);
 #endif //RUN21
 
 
@@ -2649,6 +2657,9 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         }
 
+/////////////
+/////////////
+
 
         if (nsys ==2){
 
@@ -2681,20 +2692,26 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             auto LQBoxCover_log = new G4LogicalVolume(ubox, AirMaterial, "LQBoxCover_log", 0, 0, 0);
             // LQBoxCover_log->SetVisAttributes(Plastic_VisAtt);
 
+                G4int copy_number = 0;
+
+#ifdef RUN21
+                copy_number = 1;
+#endif
+
 
             vol_phys = new G4PVPlacement(0, placement1,
-                                         LQBoxCover_log, "LQ1", LQBox_log, false, 0, fCheckOverlaps);
+                                         LQBoxCover_log, "LQ1", LQBox_log, false, copy_number, fCheckOverlaps);
 
 #if defined(RUN21) // два сцинтиллятора только в заходе 21 года
             vol_phys = new G4PVPlacement(0, placement2,
-                                         LQBoxCover_log, "LQ2", LQBox_log, false, 1, fCheckOverlaps);
+                                         LQBoxCover_log, "LQ2", LQBox_log, false, copy_number - 1, fCheckOverlaps);
 #endif //RUN21
             // Это объем одного сцинтияллтора
             ubox = new G4Box("LQ", pl1_width / 2., pl1_thick / 2., pl1_length / 2.);
             LQ_log_nsys2 = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
             LQ_log_nsys2 ->SetVisAttributes(Plastic_VisAtt);
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                         LQ_log_nsys2 , "LQ1", LQBoxCover_log, false, 0, fCheckOverlaps);
+                                         LQ_log_nsys2 , "LQ1", LQBoxCover_log, false, 1, fCheckOverlaps);
 
 
             // Это объем дерева между сцинтилляторами
@@ -2702,7 +2719,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             auto woodLV = new G4LogicalVolume(wood_box, WoodMaterial, "WOOD_LQ_log", 0, 0, 0);
             woodLV->SetVisAttributes(WOOD_VisAtt);
 
-            // дерево только для верхней системы
+            // дерево только для верхней системы в заходе 2021
 
 #if defined(RUN21)
             auto woodPV = new G4PVPlacement(0,
@@ -2742,7 +2759,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 
 
-        if (nsys == 1) scint_LQ_nsys1LV = LQ_log_nsys1;
+        if (nsys == 1) {scint_LQ_nsys1LV_layer1 = LQ_log_nsys1_layer1;scint_LQ_nsys1LV_layer2 = LQ_log_nsys1_layer2;}
         if (nsys == 2) scint_LQ_nsys2LV = LQ_log_nsys2;
 
 
@@ -2813,7 +2830,13 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto aplastic_LQ_nsys1SD = new PlasticSD(SDname = "/plastic_LQ_nsys1SD", "plastic_LQ_nsys1HitsCollection",
                                                    fNofLayers_plastic_LQ_nsys1);
         sdManager->AddNewDetector(aplastic_LQ_nsys1SD);
-       scint_LQ_nsys1LV->SetSensitiveDetector(aplastic_LQ_nsys1SD);
+       scint_LQ_nsys1LV_layer1->SetSensitiveDetector(aplastic_LQ_nsys1SD);
+
+#ifdef RUN21
+        scint_LQ_nsys1LV_layer2->SetSensitiveDetector(aplastic_LQ_nsys1SD);
+#endif
+
+
 
 #endif // LOWQ1
 

@@ -36,12 +36,18 @@
 
 namespace Cosmic {
 
-//#define RUN21
+#define isGenCosmic
 
+    //  #define isTrigPN
+    //#define isTrigLQ
+
+    //#define RUN21
 #define RUN23
 #define LOWQ_CONVERTOR
 
-//#define CONCRETE // Бетон
+#ifdef isGenCosmic
+    #define CONCRETE // Бетон
+#endif
 
 #define PF2_FAT // Толстые пластики
 #define PF1_FAT
@@ -168,8 +174,8 @@ namespace Cosmic {
 #define VMAX  8
     constexpr G4double cell_z_size_2 = 20.0 * cm;
     constexpr G4double meanX_beam = 0., meanY_beam = 0.;
-    constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm;
-
+    //constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm; //for 2GeV
+    constexpr G4double Xsigma_beam = 0.47 * mm, Ysigma_beam = 0.18 * mm; // for 800Mev из базы данных захода
 
 // FOR LQ-GENERATOR
 

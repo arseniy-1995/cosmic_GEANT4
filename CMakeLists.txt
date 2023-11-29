@@ -111,7 +111,7 @@ add_executable(cosmic cosmic.cc ${sources} ${headers})
 # FOR GENBOS
 target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
-
+#target_link_libraries(cosmic PUBLIC ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
 #target_link_libraries(cosmic ${Geant4_LIBRARIES})
 #----------------------------------------------------------------------------

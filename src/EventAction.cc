@@ -55,6 +55,8 @@
 #include "Randomize.hh"
 #include <iomanip>
 
+#include "Constants.hh"
+
 
 //using std::array;
 //using std::vector;
@@ -403,6 +405,8 @@ namespace Cosmic {
         G4int wcdep[2] = {0, 0}; // камеры
         G4int de_fat_dep[2] = {0, 0}; // толстые счетчики
         G4int de_thin_dep[2] = {0, 0}; // тонкие счетчики
+        G4int de_thin_dep_latyer1[2] = {0, 0}; // тонкие счетчики слой1
+        G4int de_thin_dep_latyer2[2] = {0, 0}; // тонкие счетчики слой2
         G4int de_LQ_dep[2] = {0, 0}; // счетчики LQ
 
         //  HadronCalorimeter_nsys1HC->GetHit(0)->
@@ -440,6 +444,7 @@ namespace Cosmic {
                 fPlastic_fatPhi[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
 
                 de_fat_dep[0] = 1;
+
             }
         }
 
@@ -466,6 +471,7 @@ namespace Cosmic {
                 fPlastic_fatPhi[1][i] = plastic_fat_nsys2Hit[i]->GetPosPhi() / degree;
 
                 de_fat_dep[1] = 1;
+
             }
         }
 /////////////////////
@@ -491,6 +497,9 @@ namespace Cosmic {
                 fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
 
                 de_thin_dep[0] = 1;
+
+                if (i==1) de_thin_dep_latyer1[0] = 1;
+                if (i==2) de_thin_dep_latyer2[0] = 1;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys2; i++) {
@@ -514,6 +523,9 @@ namespace Cosmic {
                 fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
 
                 de_thin_dep[1] = 1;
+
+                if (i==1) de_thin_dep_latyer1[1] = 1;
+                if (i==2) de_thin_dep_latyer2[1] = 1;
             }
         }
 
@@ -936,26 +948,80 @@ namespace Cosmic {
 
 
 /// Trigger записи в файл
-        if (analysisManager) {
-            if (1
-                && ((hcdep[0] == 3 && hcdep[1] == 3)    // hit in both HC arms
-                    || ((hcdep[0] == 3) && de_fat_dep[1]) || ((hcdep[1] == 3) && de_fat_dep[0]))
-                //     && ((ahx[0]>HC_THRES && ahz[0]>HC_THRES)		// HC hit in arm 1
-                //	|| (ahx[1]>HC_THRES && ahz[1]>HC_THRES))	// HC hit in arm 2
-                && (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory)
-                // || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // for LQ
-                //  || (( de_thin_dep[0] && de_fat_dep[0]) && (de_thin_dep[1] && de_fat_dep[1])) // for cosmic
-                    ) {
-//G4cout << "Taken!"<<G4endl;
-                //  TO->Fill();
-                analysisManager->AddNtupleRow(0);
-//G4cout<<" way="<<way[0]<<G4endl;
-            } else {
-//G4cout 	<< "Rejected! : ahx="<<ahx[0]<<","<<ahx[1]<<"  ahz="<<ahz[0]<<","<<ahz[1]
-//	<< " wcdep="<<wcdep[0]<<","<<wcdep[1]<<G4endl;
 
-            }
-        }
+
+
+#ifdef RUN21
+
+         if (analysisManager) {
+             if (1
+                // && ((hcdep[0] == 3 && hcdep[1] == 3)    // hit in both HC arms   !!!
+                 //    || ((hcdep[0] == 3) && de_fat_dep[1]) || ((hcdep[1] == 3) && de_fat_dep[0]))  //!!!
+                 //     && ((ahx[0]>HC_THRES && ahz[0]>HC_THRES)		// HC hit in arm 1
+                 //	|| (ahx[1]>HC_THRES && ahz[1]>HC_THRES))	// HC hit in arm 2
+                 //&& (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory) !!!
+                 // || (( de_thin_dep[0] && de_LQ_dep[1]) || (de_thin_dep[1] && de_LQ_dep[0])) // for LQ
+                 //  || (( de_thin_dep[0] && de_fat_dep[0]) && (de_thin_dep[1] && de_fat_dep[1])) // for cosmic run21
+&& (hcdep[0] == 3 && hcdep[1] == 3)
+                 ) {
+                 //G4cout << "Taken!"<<G4endl;
+                 //  TO->Fill();
+                 analysisManager->AddNtupleRow(0);
+                 //G4cout<<" way="<<way[0]<<G4endl;
+                     } else {
+                         //G4cout 	<< "Rejected! : ahx="<<ahx[0]<<","<<ahx[1]<<"  ahz="<<ahz[0]<<","<<ahz[1]
+                         //	<< " wcdep="<<wcdep[0]<<","<<wcdep[1]<<G4endl;
+
+                     }
+         }
+#endif
+
+
+      //  analysisManager->AddNtupleRow(0);
+
+#ifdef RUN23
+
+         if (analysisManager) {
+
+#ifdef isGenCosmic
+             if (1&&(hcdep[0] == 3 && hcdep[1] == 3))
+             {
+                 // hit in both HC armm for cosmic run23
+#endif
+
+#ifdef isTrigPN
+                 // if (1
+                 // && (((hcdep[0] == 3 && hcdep[1] == 3)    // hit in both HC arms
+                 //     || ((hcdep[0] == 3) && de_fat_dep[1]) || ((hcdep[1] == 3) && de_fat_dep[0]))
+                 // && (wcdep[0] >= 14 || wcdep[1] >= 14)    // track at least in one arm (VX not mandatory)
+                 //     ))
+                 // {
+
+
+                     if (1
+               && (
+                   ((de_fat_dep[0] && (wcdep[0] >= 14))&&((hcdep[1] == 3) || de_fat_dep[1]))
+                   || ((de_fat_dep[1] &&(wcdep[1] >= 14))&&((hcdep[0] == 3) || de_fat_dep[0]))
+                   )
+               ) {
+
+#endif
+
+#ifdef isTrigLQ
+                     if (1
+                     && (
+                         ( (de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0] ) && (wcdep[0] >= 14) && de_LQ_dep[1] ) || ( (de_thin_dep_latyer1[1] || de_thin_dep_latyer2[1] ) && (wcdep[1] >= 14) && de_LQ_dep[0] )
+                         ) // for LQ
+
+                    ) {
+#endif
+
+                         //  G4cout << "Taken!"<<G4endl;
+                         analysisManager->AddNtupleRow(0);
+
+                    }
+                 }
+#endif
 
         // Это без триггера, все. Если нет тригера по энергии, то пишется нулями
         // analysisManager->AddNtupleRow(0);
