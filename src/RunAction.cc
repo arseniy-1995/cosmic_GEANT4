@@ -526,8 +526,9 @@ namespace Cosmic {
             // Камера A
             analysisManager->CreateNtupleIColumn("nwa_nsys1", fEventAction->Get_W_N(1, 1));
             // column Id = 4 // Число срабатываний
-            analysisManager->CreateNtupleFColumn("Xwa_nsys1", fEventAction->Get_W_Pos(1,1,1)); // column Id = 4 // Локальная точка
-        analysisManager->CreateNtupleFColumn("Ywa_nsys1", fEventAction->Get_W_Pos(1,2,1));
+            analysisManager->CreateNtupleFColumn("Xwa_nsys1", fEventAction->Get_W_Pos(1, 1, 1));
+            // column Id = 4 // Локальная точка
+            analysisManager->CreateNtupleFColumn("Ywa_nsys1", fEventAction->Get_W_Pos(1,2,1));
         analysisManager->CreateNtupleFColumn("Zwa_nsys1", fEventAction->Get_W_Pos(1,3,1));
         analysisManager->CreateNtupleFColumn("Rwa_nsys1", fEventAction->Get_W_Pos(1,4,1));
 

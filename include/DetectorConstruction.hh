@@ -187,10 +187,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume* scint_LQ_nsys1LV_layer1 = nullptr;
     G4LogicalVolume* scint_LQ_nsys1LV_layer2 = nullptr;
-    G4LogicalVolume *scint_LQ_nsys2LV = nullptr;
+    G4LogicalVolume* scint_LQ_nsys2LV = nullptr;
 
 
-        G4LogicalVolume *WCTheta1_gas_nsys1LV = nullptr ;
+    G4LogicalVolume *WCTheta1_gas_nsys1LV = nullptr ;
         G4LogicalVolume *WCPhi1_gas_nsys1LV = nullptr;
         G4LogicalVolume *WCTheta2_gas_nsys1LV = nullptr;
         G4LogicalVolume *VCGas_log_nsys1LV = nullptr;

@@ -2663,7 +2663,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         if (nsys == 2)
         {
                 // Размер Дерева
-            G4double wood_thick = 4.5 * cm;	// y-axis
+                G4double wood_thick = 4.5 * cm;	// y-axis
             G4double wood_width = 50.0 * cm;    // x-axis
             G4double wood_length = 20.0 * cm;    // z-axis
 
@@ -2714,7 +2714,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 
                 // Это объем дерева между сцинтилляторами
-            auto wood_box = new G4Box("WOOD_LQ", wood_width / 2., wood_thick / 2., wood_length / 2.);
+                auto wood_box = new G4Box("WOOD_LQ", wood_width / 2., wood_thick / 2., wood_length / 2.);
             auto woodLV = new G4LogicalVolume(wood_box, WoodMaterial, "WOOD_LQ_log", 0, 0, 0);
             woodLV->SetVisAttributes(WOOD_VisAtt);
 
