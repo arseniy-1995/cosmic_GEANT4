@@ -46,7 +46,7 @@ namespace Cosmic {
 #define LOWQ_CONVERTOR
 
 #ifdef isGenCosmic
-    #define CONCRETE // Бетон
+#define CONCRETE // Бетон
 #endif
 
 #define PF2_FAT // Толстые пластики

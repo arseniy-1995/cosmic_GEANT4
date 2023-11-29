@@ -444,7 +444,6 @@ namespace Cosmic {
                 fPlastic_fatPhi[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
 
                 de_fat_dep[0] = 1;
-
             }
         }
 
@@ -471,7 +470,6 @@ namespace Cosmic {
                 fPlastic_fatPhi[1][i] = plastic_fat_nsys2Hit[i]->GetPosPhi() / degree;
 
                 de_fat_dep[1] = 1;
-
             }
         }
 /////////////////////
@@ -498,8 +496,8 @@ namespace Cosmic {
 
                 de_thin_dep[0] = 1;
 
-                if (i==1) de_thin_dep_latyer1[0] = 1;
-                if (i==2) de_thin_dep_latyer2[0] = 1;
+                if (i == 1) de_thin_dep_latyer1[0] = 1;
+                if (i == 2) de_thin_dep_latyer2[0] = 1;
             }
         }
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys2; i++) {
@@ -524,8 +522,8 @@ namespace Cosmic {
 
                 de_thin_dep[1] = 1;
 
-                if (i==1) de_thin_dep_latyer1[1] = 1;
-                if (i==2) de_thin_dep_latyer2[1] = 1;
+                if (i == 1) de_thin_dep_latyer1[1] = 1;
+                if (i == 2) de_thin_dep_latyer2[1] = 1;
             }
         }
 
@@ -950,7 +948,6 @@ namespace Cosmic {
 /// Trigger записи в файл
 
 
-
 #ifdef RUN21
 
          if (analysisManager) {
@@ -977,16 +974,16 @@ namespace Cosmic {
 #endif
 
 
-      //  analysisManager->AddNtupleRow(0);
+        //  analysisManager->AddNtupleRow(0);
 
 #ifdef RUN23
 
-         if (analysisManager) {
-
+        if (analysisManager)
+        {
 #ifdef isGenCosmic
-             if (1&&(hcdep[0] == 3 && hcdep[1] == 3))
-             {
-                 // hit in both HC armm for cosmic run23
+            if (1 && (hcdep[0] == 3 && hcdep[1] == 3))
+            {
+                // hit in both HC armm for cosmic run23
 #endif
 
 #ifdef isTrigPN
@@ -1016,11 +1013,10 @@ namespace Cosmic {
                     ) {
 #endif
 
-                         //  G4cout << "Taken!"<<G4endl;
-                         analysisManager->AddNtupleRow(0);
-
-                    }
-                 }
+                //  G4cout << "Taken!"<<G4endl;
+                analysisManager->AddNtupleRow(0);
+            }
+        }
 #endif
 
         // Это без триггера, все. Если нет тригера по энергии, то пишется нулями

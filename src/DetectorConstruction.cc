@@ -2556,8 +2556,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         G4Box *ubox;
         G4VPhysicalVolume *vol_phys;
 
-        G4LogicalVolume *LQ_log_nsys1_layer1 = nullptr;
-            G4LogicalVolume *LQ_log_nsys1_layer2 = nullptr;
+        G4LogicalVolume* LQ_log_nsys1_layer1 = nullptr;
+        G4LogicalVolume* LQ_log_nsys1_layer2 = nullptr;
         G4LogicalVolume *LQ_log_nsys2 = nullptr;
 
         G4LogicalVolume *LQBox_log = nullptr;
@@ -2584,7 +2584,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             auto LQBoxCover2_log = new G4LogicalVolume(ubox2_cover, AirMaterial, "LQBoxCover2_log", 0, 0, 0);
             // LQBoxCover_log->SetVisAttributes(Plastic_VisAtt);
 
-                G4int copy_number = 0;
+            G4int copy_number = 0;
 
 #ifdef RUN21
                 copy_number = 1;
@@ -2602,15 +2602,14 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             auto ubox1 = new G4Box("LQ1", pl1_width / 2., pl1_thick / 2., pl1_length / 2.);
             auto ubox2 = new G4Box("LQ2", pl2_width / 2., pl2_thick / 2., pl2_length / 2.);
             LQ_log_nsys1_layer1 = new G4LogicalVolume(ubox1, ScintilMaterial, "LQ1_log", 0, 0, 0);
-            LQ_log_nsys1_layer1 ->SetVisAttributes(Plastic_VisAtt);
-
+            LQ_log_nsys1_layer1->SetVisAttributes(Plastic_VisAtt);
 
 
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                         LQ_log_nsys1_layer1 , "LQ1", LQBoxCover1_log, false, 0, fCheckOverlaps);
+                                         LQ_log_nsys1_layer1, "LQ1", LQBoxCover1_log, false, 0, fCheckOverlaps);
 
-                LQ_log_nsys1_layer2 = new G4LogicalVolume(ubox2, ScintilMaterial, "LQ2_log", 0, 0, 0);
-                LQ_log_nsys1_layer2 ->SetVisAttributes(Plastic_VisAtt);
+            LQ_log_nsys1_layer2 = new G4LogicalVolume(ubox2, ScintilMaterial, "LQ2_log", 0, 0, 0);
+            LQ_log_nsys1_layer2->SetVisAttributes(Plastic_VisAtt);
 
 #if defined(RUN21)
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
@@ -2661,9 +2660,9 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 /////////////
 
 
-        if (nsys ==2){
-
-            // Размер Дерева
+        if (nsys == 2)
+        {
+                // Размер Дерева
             G4double wood_thick = 4.5 * cm;	// y-axis
             G4double wood_width = 50.0 * cm;    // x-axis
             G4double wood_length = 20.0 * cm;    // z-axis
@@ -2699,8 +2698,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #endif
 
 
-            vol_phys = new G4PVPlacement(0, placement1,
-                                         LQBoxCover_log, "LQ1", LQBox_log, false, copy_number, fCheckOverlaps);
+                vol_phys = new G4PVPlacement(0, placement1,
+                                             LQBoxCover_log, "LQ1", LQBox_log, false, copy_number, fCheckOverlaps);
 
 #if defined(RUN21) // два сцинтиллятора только в заходе 21 года
             vol_phys = new G4PVPlacement(0, placement2,
@@ -2711,15 +2710,15 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             LQ_log_nsys2 = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
             LQ_log_nsys2 ->SetVisAttributes(Plastic_VisAtt);
             vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                         LQ_log_nsys2 , "LQ1", LQBoxCover_log, false, 1, fCheckOverlaps);
+                                         LQ_log_nsys2, "LQ1", LQBoxCover_log, false, 1, fCheckOverlaps);
 
 
-            // Это объем дерева между сцинтилляторами
+                // Это объем дерева между сцинтилляторами
             auto wood_box = new G4Box("WOOD_LQ", wood_width / 2., wood_thick / 2., wood_length / 2.);
             auto woodLV = new G4LogicalVolume(wood_box, WoodMaterial, "WOOD_LQ_log", 0, 0, 0);
             woodLV->SetVisAttributes(WOOD_VisAtt);
 
-            // дерево только для верхней системы в заходе 2021
+                // дерево только для верхней системы в заходе 2021
 
 #if defined(RUN21)
             auto woodPV = new G4PVPlacement(0,
@@ -2752,14 +2751,14 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                               LQCover_log, "LQCover_phys", LQBoxCover_log, false, -1, fCheckOverlaps);
             new G4PVPlacement(0, G4ThreeVector(0.0, -pl1_thick / 2. - 0.1 * mm, 0.0),
                               LQCover_log, "LQCover_phys", LQBoxCover_log, false, -1, fCheckOverlaps);
-
-
-
         }
 
 
-
-        if (nsys == 1) {scint_LQ_nsys1LV_layer1 = LQ_log_nsys1_layer1;scint_LQ_nsys1LV_layer2 = LQ_log_nsys1_layer2;}
+        if (nsys == 1)
+        {
+                scint_LQ_nsys1LV_layer1 = LQ_log_nsys1_layer1;
+                scint_LQ_nsys1LV_layer2 = LQ_log_nsys1_layer2;
+        }
         if (nsys == 2) scint_LQ_nsys2LV = LQ_log_nsys2;
 
 
@@ -2830,7 +2829,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         auto aplastic_LQ_nsys1SD = new PlasticSD(SDname = "/plastic_LQ_nsys1SD", "plastic_LQ_nsys1HitsCollection",
                                                    fNofLayers_plastic_LQ_nsys1);
         sdManager->AddNewDetector(aplastic_LQ_nsys1SD);
-       scint_LQ_nsys1LV_layer1->SetSensitiveDetector(aplastic_LQ_nsys1SD);
+        scint_LQ_nsys1LV_layer1->SetSensitiveDetector(aplastic_LQ_nsys1SD);
 
 #ifdef RUN21
         scint_LQ_nsys1LV_layer2->SetSensitiveDetector(aplastic_LQ_nsys1SD);
