@@ -176,7 +176,7 @@ namespace Cosmic {
             GenerateCosmic(anEvent);
 #endif
             //GenerateLowQ_method1(anEvent);
-             GenerateLowQ_method2(anEvent);
+            // GenerateLowQ_method2(anEvent); ///!!!!
             // GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
             //GenerateProtonNeutron(anEvent);

@@ -552,24 +552,58 @@ namespace Cosmic {
 
         // PLACE LQ
 
-        G4double x_pos_LQ = 0.0;
-        G4double y_pos_LQ = 32.2 * cm;
-        G4double z_pos_LQ = 63.6 * cm;
+
 
         auto rmx = new G4RotationMatrix();
         rmx->rotateZ(180. * deg);
-        rmx->rotateX(-70. * deg);
+#if defined(RUN21)
+            G4double x_pos_LQ1 = 0.0; // нижний
+            G4double y_pos_LQ1 = 32.2 * cm;
+            G4double z_pos_LQ1 = 63.6 * cm;
+
+            G4double x_pos_LQ2 = 0.0; // верхний
+            G4double y_pos_LQ2 = 32.2 * cm;
+            G4double z_pos_LQ2 = 63.6 * cm;
+
+            rmx->rotateX(-60. * deg);
+#endif
+
+#if defined(RUN23)
+
+            G4double x_pos_LQ1 = 0.0; // нижний
+            G4double y_pos_LQ1 = 35.6 * cm;
+
+            G4double converter_th = 0.0 * cm;
+#ifdef LOWQ_CONVERTOR
+            converter_th = 1.8 * cm;
+#endif
+
+
+            G4double z_pos_LQ1 = (65.7 - converter_th) * cm; // учесть сдвиг/толщину конвертера
+
+            G4double x_pos_LQ2 = 0.0; // верхний
+            G4double y_pos_LQ2 = 31.9 * cm;
+            G4double z_pos_LQ2 = (70.7 - converter_th ) * cm; // учесть сдвиг/толщину конвертера
+            rmx->rotateX(-57. * deg);
+#endif
+
 
 #ifdef LOWQ1
         auto vol_phys_LQnsys1 = new G4PVPlacement(rmx,
-                                     G4ThreeVector(x_pos_LQ, -y_pos_LQ, z_pos_LQ),
+                                     G4ThreeVector(x_pos_LQ1, -y_pos_LQ1, z_pos_LQ1),
                                      LQBox_log_nsys1, "LQ_phys", worldLV, false, 0, fCheckOverlaps);
 #endif
 #ifdef LOWQ2
         rmx = new G4RotationMatrix();
-        rmx->rotateX(-70. * deg);
+#if defined(RUN21)
+            rmx->rotateX(-60. * deg);
+#endif
+
+#if defined(RUN23)
+            rmx->rotateX(-57. * deg);
+#endif
         auto vol_phys_LQnsys2 = new G4PVPlacement(rmx,
-                                     G4ThreeVector(x_pos_LQ, y_pos_LQ, z_pos_LQ),
+                                     G4ThreeVector(x_pos_LQ2, y_pos_LQ2, z_pos_LQ2),
                                      LQBox_log_nsys2, "LQ_phys", worldLV, false, 0, fCheckOverlaps);
 #endif
 
@@ -2528,14 +2562,15 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 // Размер Пластика
         G4double pl1_thick = 1.0 * cm;//2.0*cm;	// y-axis
         G4double pl1_width = 50.0 * cm;    // x-axis
-        G4double pl1_length = 20.0 * cm;    // z-axis
+        G4double pl1_length = 23.4 * cm;    // z-axis
 
         G4double pl2_thick = 2.0 * cm;//2.0*cm;	// y-axis
         G4double pl2_width = 50.0 * cm;    // x-axis
-        G4double pl2_length = 20.0 * cm;    // z-axis
+        G4double pl2_length = 23.5 * cm;    // z-axis
 
 #ifdef RUN23
-        pl2_thick = 1.0 * cm;//2.0*cm;	// y-axis
+        pl2_thick = 2.0 * cm;//2.0*cm;	// y-axis
+        pl1_thick = 2.0 * cm;//2.0*cm;	// y-axis
 #endif
 
 
@@ -2544,9 +2579,9 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         G4double LQ_box_length = 0.0;    // z-axis
 
         // Размер Конвертера
-        G4double convertor_thick = 1.6 * cm;	// y-axis
+        G4double convertor_thick = 1.8 * cm;	// y-axis =3*6 mm
         G4double convertor_width = 50.0 * cm;    // x-axis
-        G4double convertor_length = 20.0 * cm;    // z-axis
+        G4double convertor_length = 23.5 * cm;    // z-axis
 
 #ifdef RUN21
         convertor_thick = 0. * cm;	// y-axis
@@ -2665,7 +2700,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                 // Размер Дерева
                 G4double wood_thick = 4.5 * cm; // y-axis
                 G4double wood_width = 50.0 * cm; // x-axis
-                G4double wood_length = 20.0 * cm;    // z-axis
+                G4double wood_length = 23.5 * cm; // z-axis
 
 #if defined(RUN23)
             wood_thick = 0.5 *  cm;	// y-axis

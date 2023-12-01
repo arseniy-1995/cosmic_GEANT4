@@ -198,8 +198,16 @@ namespace Cosmic {
     constexpr G4double delta_add_counter = 5.0; //добавляем несколько см, чтобы захватить большую площадь счетчика
     constexpr G4double l_theta_counter = 12.5 + delta_add_counter; // половина размера счетчика в тета направлении, см 15
     constexpr G4double l_phi_counter = 25.0 + delta_add_counter; // половина размера счетчика в тета направлении, см 25
+
+#ifdef RUN21
     constexpr G4double R0_counter = 83.0; // радиус от центра мишени до середины счетчика, см
     constexpr G4double theta0_counter = 30.0 * Degree; // угол центра счетчика 30 градусов -> радианы
+#endif
+#ifdef RUN23
+    constexpr G4double R0_counter = 80.0; // радиус от центра мишени до середины счетчика, см
+    constexpr G4double theta0_counter = 33.0 * Degree; // угол центра счетчика 30 градусов -> радианы
+#endif
+
 
     constexpr G4double Pzz1 = 1.0, r = -2.0;
     constexpr G4double Pzz2 = r * Pzz1;
