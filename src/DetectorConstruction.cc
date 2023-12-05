@@ -512,6 +512,7 @@ namespace Cosmic {
 #endif // DCARM1
 
 #ifdef DCARM2 // Конструкторы
+
         WCTheta1_gas_nsys2LV = NULL;
         G4LogicalVolume *WCTheta1_nsys2LV = ConstructWC(NW1_WRS * 2. * cm, 20. * cm, WC1_IND, WCTheta1_gas_nsys2LV);
 
@@ -532,6 +533,8 @@ namespace Cosmic {
 
         // G4int pCopyNo_WC_nsys1 = ARM1_IND;
         G4int pCopyNo_WC_nsys1 = 0;
+
+ #ifdef RUN21
         new G4PVPlacement(G4Transform3D(Rotate180Z,
                                         G4ThreeVector(0.0 * cm, -14.8 * cm, 9.4 * cm)),
                           WCTheta1_nsys1LV, "WCTheta1a_nsys1", worldLV, false, pCopyNo_WC_nsys1, fCheckOverlaps);
@@ -541,21 +544,56 @@ namespace Cosmic {
         new G4PVPlacement(G4Transform3D(Rotate90Y180Z,
                                         G4ThreeVector(0.0 * cm, -26.5 * cm, 15.2 * cm)),
                           WCPhi1_nsys1LV, "WCPhi1a_nsys1", worldLV, false, pCopyNo_WC_nsys1, fCheckOverlaps);
+
+#endif
+
+ #ifdef RUN23
+        new G4PVPlacement(G4Transform3D(Rotate180Z,
+                                        G4ThreeVector(0.0 * cm, -14.8 * cm - 2. * mm, 9.4 * cm)),
+                          WCTheta1_nsys1LV, "WCTheta1a_nsys1", worldLV, false, pCopyNo_WC_nsys1, fCheckOverlaps);
+        new G4PVPlacement(G4Transform3D(Rotate180Z,
+                                        G4ThreeVector(0.0 * cm, -34.2 * cm - 2. * mm, 19.4 * cm)),
+                          WCTheta2_nsys1LV, "WCTheta2a_nsys1", worldLV, false, pCopyNo_WC_nsys1, fCheckOverlaps);
+        new G4PVPlacement(G4Transform3D(Rotate90Y180Z,
+                                        G4ThreeVector(0.0 * cm, -26.5 * cm - 2. * mm, 15.2 * cm)),
+                          WCPhi1_nsys1LV, "WCPhi1a_nsys1", worldLV, false, pCopyNo_WC_nsys1, fCheckOverlaps);
+
+#endif
+
 #endif
 // ARM #2
 #ifdef DCARM2
 
         //G4int pCopyNo_WC_nsys2 = ARM2_IND;
         G4int pCopyNo_WC_nsys2 = 0;
+
+  #ifdef RUN21
         new G4PVPlacement(G4Transform3D(RotateNull,
                                         G4ThreeVector(0.0 * cm, 14.8 * cm, 9.4 * cm)),
                           WCTheta1_nsys2LV, "WCTheta1b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
         new G4PVPlacement(G4Transform3D(RotateNull,
-                                        G4ThreeVector(0.0 * cm, 34.2 * cm, 19.4 * cm)),
+                                        G4ThreeVector(0.0 * cm, 34.2 * cm , 19.4 * cm)),
                           WCTheta2_nsys2LV, "WCTheta2b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
         new G4PVPlacement(G4Transform3D(Rotate90Y,
                                         G4ThreeVector(0.0 * cm, 26.5 * cm, 15.2 * cm)),
                           WCPhi1_nsys2LV, "WCPhi1b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
+
+#endif
+
+
+#ifdef RUN23
+        new G4PVPlacement(G4Transform3D(RotateNull,
+                                        G4ThreeVector(0.0 * cm, 14.8 * cm + 7. * mm, 9.4 * cm)),
+                          WCTheta1_nsys2LV, "WCTheta1b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
+        new G4PVPlacement(G4Transform3D(RotateNull,
+                                        G4ThreeVector(0.0 * cm, 34.2 * cm  + 7. * mm, 19.4 * cm)),
+                          WCTheta2_nsys2LV, "WCTheta2b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
+        new G4PVPlacement(G4Transform3D(Rotate90Y,
+                                        G4ThreeVector(0.0 * cm, 26.5 * cm  + 7. * mm, 15.2 * cm)),
+                          WCPhi1_nsys2LV, "WCPhi1b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
+
+#endif
+
 #endif
 
 
@@ -593,11 +631,11 @@ namespace Cosmic {
 #endif
 
 
-        G4double z_pos_LQ1 = (65.7 - converter_th) * cm; // учесть сдвиг/толщину конвертера
+        G4double z_pos_LQ1 = 65.7 * cm - converter_th; // учесть сдвиг/толщину конвертера
 
         G4double x_pos_LQ2 = 0.0; // верхний
         G4double y_pos_LQ2 = 31.9 * cm;
-        G4double z_pos_LQ2 = (70.7 - converter_th) * cm; // учесть сдвиг/толщину конвертера
+        G4double z_pos_LQ2 = 70.7 * cm - converter_th; // учесть сдвиг/толщину конвертера
         rmx->rotateX(-57. * deg);
 #endif
 
@@ -2717,7 +2755,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
                 G4double wood_length = 23.5 * cm; // z-axis
 
 #if defined(RUN23)
-                wood_thick = 0.5 *  cm;	// y-axis
+                wood_thick = 0.5 * cm; // y-axis
 #endif
 
             LQ_box_thick = 2 * (pl1_thick + 1.2 * cm) / 2. + wood_thick + convertor_thick;	// y-axis

@@ -534,8 +534,9 @@ namespace Cosmic {
 
             analysisManager->CreateNtupleIColumn("nwa_nsys2", fEventAction->Get_W_N(2));
             // column Id = 4 // Число срабатываний
-            analysisManager->CreateNtupleFColumn("Xwa_nsys2", fEventAction->Get_W_Pos(2,1,1)); // column Id = 4 // Локальная точка
-        analysisManager->CreateNtupleFColumn("Ywa_nsys2", fEventAction->Get_W_Pos(2,2,1));
+            analysisManager->CreateNtupleFColumn("Xwa_nsys2", fEventAction->Get_W_Pos(2, 1, 1));
+            // column Id = 4 // Локальная точка
+            analysisManager->CreateNtupleFColumn("Ywa_nsys2", fEventAction->Get_W_Pos(2,2,1));
         analysisManager->CreateNtupleFColumn("Zwa_nsys2", fEventAction->Get_W_Pos(2,3,1));
         analysisManager->CreateNtupleFColumn("Rwa_nsys2", fEventAction->Get_W_Pos(2,4,1));
 
