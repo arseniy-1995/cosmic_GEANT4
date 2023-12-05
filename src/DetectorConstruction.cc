@@ -470,7 +470,7 @@ namespace Cosmic {
             pos_HAD =  G4ThreeVector(0.0 * cm, 171. * cm, 78. * cm);
 #endif
 #ifdef RUN23
-        pos_HAD = G4ThreeVector(0.0 * cm, -171. * cm, 78.4 * cm);
+        pos_HAD = G4ThreeVector(0.0 * cm, 171. * cm, 78.4 * cm);
 #endif
 
         new G4PVPlacement(G4Transform3D(RotateNull, pos_HAD),
