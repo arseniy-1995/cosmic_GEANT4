@@ -1406,12 +1406,14 @@ namespace Cosmic {
         rmx_thin1->rotateZ(180. * deg);
         rmx_thin1->rotateX(3. * deg);
 
+         //    rmx_thin1->rotateX(0. * deg);
+
         new G4PVPlacement(rmx_thin1, G4ThreeVector(0.0, -plasticThinNsys1SizeY / 2 - 0.1 * cm, 0.0),
                                   plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV,
-                                  false, 0, fCheckOverlaps);
+                                  false, 1, fCheckOverlaps); // здесь нумерация слоев наоборот
 
         new G4PVPlacement(rmx_thin1, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2 + 0.1 * cm, 0.0), plastic_thin_nsys1_boxLV,
-                          "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 1, fCheckOverlaps);
+                          "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 0, fCheckOverlaps);
 
 #endif
 

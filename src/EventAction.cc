@@ -537,6 +537,8 @@ namespace Cosmic {
                 fPlastic_LQ_LO[0][i] = plastic_LQ_nsys1Hit[i]->GetLO() / MeV;
                 fPlastic_LQ_A1[0][i] = plastic_LQ_nsys1Hit[i]->GetA1() / MeV;
                 fPlastic_LQ_T1[0][i] = plastic_LQ_nsys1Hit[i]->GetT1() / ns;
+                fPlastic_LQ_A2[0][i] = plastic_LQ_nsys1Hit[i]->GetA2() / MeV;
+                fPlastic_LQ_T2[0][i] = plastic_LQ_nsys1Hit[i]->GetT2() / ns;
                 fPlastic_LQ_TrackLength[0][i] = plastic_LQ_nsys1Hit[i]->GetTrackLength() / cm;
                 fPlastic_LQ_ToF[0][i] = plastic_LQ_nsys1Hit[i]->GetToF() / ns;
 
@@ -560,6 +562,8 @@ namespace Cosmic {
                 fPlastic_LQ_LO[1][i] = plastic_LQ_nsys2Hit[i]->GetLO() / MeV;
                 fPlastic_LQ_A1[1][i] = plastic_LQ_nsys2Hit[i]->GetA1() / MeV;
                 fPlastic_LQ_T1[1][i] = plastic_LQ_nsys2Hit[i]->GetT1() / ns;
+                  fPlastic_LQ_A2[1][i] = plastic_LQ_nsys2Hit[i]->GetA2() / MeV;
+                fPlastic_LQ_T2[1][i] = plastic_LQ_nsys2Hit[i]->GetT2() / ns;
                 fPlastic_LQ_TrackLength[1][i] = plastic_LQ_nsys2Hit[i]->GetTrackLength() / cm;
                 fPlastic_LQ_ToF[1][i] = plastic_LQ_nsys2Hit[i]->GetToF() / ns;
 
