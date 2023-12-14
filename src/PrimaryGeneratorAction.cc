@@ -175,8 +175,12 @@ namespace Cosmic {
 #ifdef isGenCosmic
             GenerateCosmic(anEvent);
 #endif
+
+#ifdef isGenLQ
             //GenerateLowQ_method1(anEvent);
-            // GenerateLowQ_method2(anEvent); ///!!!!
+             GenerateLowQ_method2(anEvent); ///!!!!
+
+#endif
             // GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
             //GenerateProtonNeutron(anEvent);

@@ -631,11 +631,11 @@ namespace Cosmic {
 #endif
 
 
-        G4double z_pos_LQ1 = 65.7 * cm - converter_th; // учесть сдвиг/толщину конвертера
+        G4double z_pos_LQ1 = 70.7 * cm - converter_th / 2; // учесть сдвиг/толщину конвертера
 
         G4double x_pos_LQ2 = 0.0; // верхний
         G4double y_pos_LQ2 = 31.9 * cm;
-        G4double z_pos_LQ2 = 70.7 * cm - converter_th; // учесть сдвиг/толщину конвертера
+        G4double z_pos_LQ2 = 65.7 * cm - converter_th / 2; // учесть сдвиг/толщину конвертера
         rmx->rotateX(-57. * deg);
 #endif
 
@@ -1032,9 +1032,19 @@ namespace Cosmic {
         // auto plastic_fat_nsys2_boxPV = new G4PVPlacement(0, G4ThreeVector( plasticFatNsys2PositionX,  plasticFatNsys2PositionY,  plasticFatNsys2PositionZ),plastic_fat_nsys2_boxLV, Phname, worldLV, false, ARM2_IND + DE_IND + i -1, fCheckOverlaps);
 
         G4double dz_temp = 0.0 * mm;
+
+        #ifdef RUN21
+        G4double dz_temp2 = 0.0 * cm;
+        #endif
+
+        #ifdef RUN23
+        G4double dz_temp2 = -8.0 * cm;
+        #endif
+
+
         G4double plasticFatNsys2PositionZ_temp =
                 -(plasticFatNsys2PositionZ_final - plasticFatNsys2PositionZ_initial) / 2. + 125.0 * mm / 2. + 1.0 * mm +
-                dz_temp;
+                dz_temp + dz_temp2;
 
 
 //////// РАЗМЕЩЕНИЕ
@@ -1310,15 +1320,37 @@ namespace Cosmic {
         auto MylarMaterial = G4Material::GetMaterial("Mylar");
 
 
+#ifdef RUN21
         G4double plasticThinNsys1SizeX = 30. * cm, plasticThinNsys1SizeY = 1. * cm, plasticThinNsys1SizeZ = 50. * cm;
         G4double plasticThinNsys1PositionX = 0, plasticThinNsys1PositionY = -45.4 * cm, plasticThinNsys1PositionZ =
                 27.0 * cm;
 
+#endif
 
+#ifdef RUN23
+        G4double plasticThinNsys1SizeX = 56. * cm, plasticThinNsys1SizeY = 1. * cm, plasticThinNsys1SizeZ = 82. * cm;
+        G4double plasticThinNsys1PositionX = 0, plasticThinNsys1PositionY = -49.8 * cm, plasticThinNsys1PositionZ = 21.1 * cm; // 29.5 * cm;
+
+#endif
+
+#ifdef RUN21
         auto plastic_thin_nsys1_boxallS = new G4Box("plastic_thin_nsys1_boxallS",
                                                     fNofLayers_plastic_thin_nsys1 * (plasticThinNsys1SizeX + 4.0 * cm) /
                                                     2., (plasticThinNsys1SizeY + 4.0 * cm) / 2.,
                                                     (plasticThinNsys1SizeZ + 4.0 * cm) / 2.);
+
+#endif
+
+#ifdef RUN23
+
+            // Это объем 2 счетчиков с пленокй
+         auto plastic_thin_nsys1_boxallS = new G4Box("plastic_thin_nsys1_boxallS",
+                                                     (plasticThinNsys1SizeX + 4.0 * cm) / 2.,
+                                                     fNofLayers_plastic_thin_nsys2 * (plasticThinNsys1SizeY + 4.0 * cm) /
+                                                     2., (plasticThinNsys1SizeZ + 4.0 * cm) / 2.);
+
+#endif
+
         auto plastic_thin_nsys1_boxallLV = new G4LogicalVolume(plastic_thin_nsys1_boxallS, AirMaterial,
                                                                "plastic_thin_nsys1_boxallLV");
         plastic_thin_nsys1_boxallLV->SetVisAttributes(G4VisAttributes::GetInvisible());
@@ -1328,6 +1360,9 @@ namespace Cosmic {
         //   auto plastic_thin_nsys1_boxallPV =
         //           new G4PVPlacement(0, G4ThreeVector(plasticThinNsys1PositionX, plasticThinNsys1PositionY, plasticThinNsys1PositionZ),
         //                            plastic_thin_nsys1_boxallLV, "plastic_thin_nsys1_boxPV", worldLV, false, ARM1_IND);
+
+
+
 
 
         auto plastic_thin_nsys1_boxallPV
@@ -1342,6 +1377,8 @@ namespace Cosmic {
                         0,                // copy number
                         fCheckOverlaps);  // checking overlaps
 
+// Это объем счетчик + пленка
+
         auto plastic_thin_nsys1_boxS = new G4Box("plastic_thin_nsys1_boxS", (plasticThinNsys1SizeX + 0.2 * cm) / 2.,
                                                  (plasticThinNsys1SizeY + 0.2 * cm) / 2.,
                                                  (plasticThinNsys1SizeZ + 0.2 * cm) / 2.);
@@ -1350,6 +1387,7 @@ namespace Cosmic {
         plastic_thin_nsys1_boxLV->SetVisAttributes(G4VisAttributes::GetInvisible());
         plastic_thin_nsys1_boxLV->SetVisAttributes(ProCover_VisAtt);
 
+#ifdef RUN21
         auto rmx_thin1 = new G4RotationMatrix();
         rmx_thin1->rotateZ(180. * deg);
         rmx_thin1->rotateX(3. * deg);
@@ -1360,9 +1398,27 @@ namespace Cosmic {
                           plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 1,
                           fCheckOverlaps);
 
+#endif
+
+#ifdef RUN23
+
+        auto rmx_thin1 = new G4RotationMatrix();
+        rmx_thin1->rotateZ(180. * deg);
+        rmx_thin1->rotateX(3. * deg);
+
+        new G4PVPlacement(rmx_thin1, G4ThreeVector(0.0, -plasticThinNsys1SizeY / 2 - 0.1 * cm, 0.0),
+                                  plastic_thin_nsys1_boxLV, "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV,
+                                  false, 0, fCheckOverlaps);
+
+        new G4PVPlacement(rmx_thin1, G4ThreeVector(0.0, +plasticThinNsys1SizeY / 2 + 0.1 * cm, 0.0), plastic_thin_nsys1_boxLV,
+                          "plastic_thin_nsys1_boxPV", plastic_thin_nsys1_boxallLV, false, 1, fCheckOverlaps);
+
+#endif
+
 
         //  G4Box *plastic_thin_nsys1S[2];
 
+               // Это объем самого счетчика
         auto plastic_thin_nsys1S = new G4Box("plastic_thin_nsys1S", plasticThinNsys1SizeX / 2.,
                                              plasticThinNsys1SizeY / 2., plasticThinNsys1SizeZ / 2.);
         //  plastic_thin_nsys1S[1] = new G4Box("plastic_thin_nsys1S_2", plasticThinNsys1SizeX / 2., plasticThinNsys1SizeY / 2., plasticThinNsys1SizeZ / 2.);
@@ -1425,9 +1481,19 @@ namespace Cosmic {
         auto AirMaterial = G4Material::GetMaterial("Air");
         auto MylarMaterial = G4Material::GetMaterial("Mylar");
 
+#ifdef RUN22
         G4double plasticThinNsys2SizeX = 56. * cm, plasticThinNsys2SizeY = 1. * cm, plasticThinNsys2SizeZ = 82. * cm;
         G4double plasticThinNsys2PositionX = 0, plasticThinNsys2PositionY = 49.8 * cm, plasticThinNsys2PositionZ =
                 29.5 * cm;
+
+#endif
+
+#ifdef RUN23
+        G4double plasticThinNsys2SizeX = 56. * cm, plasticThinNsys2SizeY = 1. * cm, plasticThinNsys2SizeZ = 82. * cm;
+        G4double plasticThinNsys2PositionX = 0, plasticThinNsys2PositionY = 46.7 * cm, plasticThinNsys2PositionZ = 21.1 * cm; //29.5 * cm;
+
+#endif
+
         G4double plasticThinNsys2dy = plasticThinNsys2SizeY + 1.0 * cm;
 
 // Это объем 2 счетчиков с пленокй
@@ -1483,9 +1549,10 @@ namespace Cosmic {
                 //           fNofLayers_plastic_thin_nsys2,        // number of replica
                 //           plasticThinNsys2dy);  // witdth of replic
 
-                new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY / 2 - 0.1 * cm, 0.0),
+        new G4PVPlacement(0, G4ThreeVector(0.0, -plasticThinNsys2SizeY / 2 - 0.1 * cm, 0.0),
                                   plastic_thin_nsys2_boxLV, "plastic_thin_nsys2_boxPV", plastic_thin_nsys2_boxallLV,
                                   false, 0, fCheckOverlaps);
+
         new G4PVPlacement(0, G4ThreeVector(0.0, +plasticThinNsys2SizeY / 2 + 0.1 * cm, 0.0), plastic_thin_nsys2_boxLV,
                           "plastic_thin_nsys2_boxPV", plastic_thin_nsys2_boxallLV, false, 1, fCheckOverlaps);
 

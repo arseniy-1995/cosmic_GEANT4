@@ -36,10 +36,13 @@
 
 namespace Cosmic {
 
-#define isGenCosmic
+//#define isGenCosmic
+
+#define isGenLQ
+#define isTrigLQ
 
     //  #define isTrigPN
-    //#define isTrigLQ
+
 
     //#define RUN21
 #define RUN23
@@ -209,7 +212,11 @@ namespace Cosmic {
 #endif
 
 
-    constexpr G4double Pzz1 = 1.0, r = -2.0;
+    // constexpr G4double Pzz1 = 1.0, r = -2.0;
+    // constexpr G4double Pzz2 = r * Pzz1;
+
+
+        constexpr G4double Pzz1 = 0.39, r = -1.7;
     constexpr G4double Pzz2 = r * Pzz1;
 }
 
