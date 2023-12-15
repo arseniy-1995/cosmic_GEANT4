@@ -148,7 +148,7 @@ class PlasticHit : public G4VHit
     inline void SetPosPhi(G4double phi) { fPosPhi = phi; }
     inline G4double GetPosPhi() const { return fPosPhi; }
 
-        inline void SetPosPhiGlob(G4double phiGlob) { fPosPhiGlob = phiGlob; }
+    inline void SetPosPhiGlob(G4double phiGlob) { fPosPhiGlob = phiGlob; }
     inline G4double GetPosPhiGlob() const { return fPosPhiGlob; }
 
     inline void SetToF(G4double tof) { fToF = tof; }

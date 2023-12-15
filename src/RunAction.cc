@@ -231,19 +231,19 @@ namespace Cosmic {
                                                  fEventAction->GetPlasticFatAngleGlob(1, 2)); // column Id = 4 //
 
             analysisManager->CreateNtupleFColumn("Thetaplastic_fat_nsys2", fEventAction->GetPlasticFatAngle(2,
-                                                                                                            1)); // column Id = 4 // Локальная точка
+                                                     1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Phiplastic_fat_nsys2",
                                                  fEventAction->GetPlasticFatAngle(2, 2)); // column Id = 4 //
 
        analysisManager->CreateNtupleFColumn("ThetaGlobplastic_fat_nsys2", fEventAction->GetPlasticFatAngleGlob(2,
-                                                                                                            1)); // column Id = 4 // Локальная точка
+                                                1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_fat_nsys2",
                                                  fEventAction->GetPlasticFatAngleGlob(2, 2)); // column Id = 4 //
 
 
             /////////////////////// Для Адронного Калориметра
 
-        //nsys1
+            //nsys1
         // X-bars
         analysisManager->CreateNtupleIColumn("N_HCX_nsys1",
                                              fEventAction->Get_HCX_N(1)); // column Id = 4 // Число срабатываний
@@ -444,23 +444,24 @@ namespace Cosmic {
                                                  fEventAction->GetPlasticThinAngle(1, 2)); // column Id = 4 //
 
                         analysisManager->CreateNtupleFColumn("ThetaGlobplastic_thin_nsys1",
-                                                 fEventAction->GetPlasticThinAngleGlob(1, 1)); // column Id = 4 // Углы
+                                                             fEventAction->GetPlasticThinAngleGlob(1, 1));
+            // column Id = 4 // Углы
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_thin_nsys1",
                                                  fEventAction->GetPlasticThinAngleGlob(1, 2)); // column Id = 4 //
 
             analysisManager->CreateNtupleFColumn("Thetaplastic_thin_nsys2", fEventAction->GetPlasticThinAngle(2,
-                                                                                                              1)); // column Id = 4 // Локальная точка
+                                                     1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("Phiplastic_thin_nsys2",
                                                  fEventAction->GetPlasticThinAngle(2, 2)); // column Id = 4 //
 
                         analysisManager->CreateNtupleFColumn("ThetaGlobplastic_thin_nsys2", fEventAction->GetPlasticThinAngleGlob(2,
-                                                                                                              1)); // column Id = 4 // Локальная точка
+                                                                 1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_thin_nsys2",
                                                  fEventAction->GetPlasticThinAngleGlob(2, 2)); // column Id = 4 //
 
-// Для пластиков LQ-поляриметра
-/////////////////////////////
-// здесь индексы системы перепутаны!!! 1<->2
+            // Для пластиков LQ-поляриметра
+            /////////////////////////////
+            // здесь индексы системы перепутаны!!! 1<->2
 
             analysisManager->CreateNtupleIColumn("TrackIDplastic_LQ_nsys1", fEventAction->GetTrackIDPlasticLQ(2));
             analysisManager->CreateNtupleIColumn("TrackIDplastic_LQ_nsys2", fEventAction->GetTrackIDPlasticLQ(1));
@@ -545,7 +546,7 @@ namespace Cosmic {
                                                  fEventAction->GetPlasticLQAngle(1, 2)); // column Id = 4 //
 
                         analysisManager->CreateNtupleFColumn("ThetaGlobplastic_LQ_nsys2", fEventAction->GetPlasticLQAngleGlob(1,
-                                                     1)); // column Id = 4 // Локальная точка
+                                                                 1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_LQ_nsys2",
                                                  fEventAction->GetPlasticLQAngleGlob(1, 2)); // column Id = 4 //
 

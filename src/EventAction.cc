@@ -252,8 +252,15 @@ namespace Cosmic {
         vertex_mass = primary_vertex->GetPrimary()->GetMass();
         vertex_energy = primary_vertex->GetPrimary()->GetKineticEnergy();
         vertex_momentum = primary_vertex->GetPrimary()->GetMomentum().mag();
-        vertex_theta = primary_vertex->GetPrimary()->GetMomentum().theta();
-        vertex_phi = primary_vertex->GetPrimary()->GetMomentum().phi();
+
+        // vertex_theta = primary_vertex->GetPrimary()->GetMomentum().theta();
+        // vertex_phi = primary_vertex->GetPrimary()->GetMomentum().phi();
+
+        vertex_theta = primary_vertex->GetPrimary()->GetMomentumDirection().theta();
+        vertex_phi = primary_vertex->GetPrimary()->GetMomentumDirection().phi();
+
+        //G4cout<< primary_vertex->GetPrimary()->GetMomentum().theta()/degree << " "<< primary_vertex->GetPrimary()->GetMomentumDirection().theta()/degree<<G4endl;
+
 
         vertex_Pzz = event_info->GetPzz();
         vertex_Energy_gamma = event_info->GetEgamma();
@@ -276,7 +283,7 @@ namespace Cosmic {
             primary_vertex_with_index = event->GetPrimaryVertex(ip_vertex);
             index_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             energy_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
-           // vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentum();
+            // vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentum();
             vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentumDirection();
             theta_vertex[vertex_number_vertex] = vertex_with_index.theta();
             phi_vertex[vertex_number_vertex] = vertex_with_index.phi();
@@ -293,10 +300,11 @@ namespace Cosmic {
             vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
             vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
 
+            // G4cout<< event->GetPrimaryVertex(ip_vertex)->GetPrimary()->GetMomentum().theta() << " "<< event->GetPrimaryVertex(ip_vertex)->GetPrimary()->GetMomentumDirection().theta()<<G4endl;
+
             vertex_number_vertex++;
 
         }
-
 
 
         for (i_vertex = 0; i_vertex < number_vertex; i_vertex++) {
@@ -304,7 +312,7 @@ namespace Cosmic {
             primary_vertex_with_index = event->GetPrimaryVertex(i_vertex);
             index_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             energy_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy();
-           // vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentum();
+            //  vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentum();
             vertex_with_index = primary_vertex_with_index->GetPrimary()->GetMomentumDirection();
             theta_vertex[vertex_number_vertex] = vertex_with_index.theta();
             phi_vertex[vertex_number_vertex] = vertex_with_index.phi();
@@ -320,6 +328,8 @@ namespace Cosmic {
                     primary_vertex_with_index->GetPrimary()->GetMomentum().mag() / MeV;
             vertex_theta_vector[vertex_number_vertex] = vertex_with_index.theta() / degree;
             vertex_phi_vector[vertex_number_vertex] = vertex_with_index.phi() / degree;
+
+            //           G4cout<< event->GetPrimaryVertex(i_vertex)->GetPrimary()->GetMomentum().theta()/degree << " "<< event->GetPrimaryVertex(i_vertex)->GetPrimary()->GetMomentumDirection().theta()/degree<<G4endl;
 
 
             vertex_number_vertex++;
@@ -530,7 +540,7 @@ namespace Cosmic {
                 fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z() / cm;
                 fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
                 fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
-                    fPlastic_thinThetaGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosThetaGlob() / degree;
+                fPlastic_thinThetaGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhiGlob() / degree;
 
                 de_thin_dep[1] = 1;

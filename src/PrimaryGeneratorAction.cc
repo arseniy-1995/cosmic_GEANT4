@@ -366,7 +366,7 @@ namespace Cosmic {
 
             x_counter_e_temp = initial_x_counter_e + r1 * (final_x_counter_e - initial_x_counter_e);
             y_counter_e_temp = initial_x_counter_e + r2 * (final_y_counter_e - initial_y_counter_e);
-            xx_cell_temp = 0.1 * G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm;
+            xx_cell_temp = 0.1 * G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm; // в см
             yy_cell_temp = 0.1 * G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r3 * (final_zz_cell - initial_zz_cell);
             Pzz_temp = (r4 > 0.5) ? Pzz1 : Pzz2;
