@@ -198,7 +198,14 @@ namespace Cosmic {
     constexpr G4double l_zz_cell = 40.0; // длина (полная) накопительной ячейки, см
     constexpr G4double Ebeam = 800.0;  // Энергия электронов, МэВ
 
+#ifdef RUN21
     constexpr G4double delta_add_counter = 5.0; //добавляем несколько см, чтобы захватить большую площадь счетчика
+#endif
+
+#ifdef RUN23
+    constexpr G4double delta_add_counter = 10.0; //добавляем несколько см, чтобы захватить большую площадь счетчика
+#endif
+
     constexpr G4double l_theta_counter = 12.5 + delta_add_counter; // половина размера счетчика в тета направлении, см 15
     constexpr G4double l_phi_counter = 25.0 + delta_add_counter; // половина размера счетчика в тета направлении, см 25
 

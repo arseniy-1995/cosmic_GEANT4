@@ -142,8 +142,14 @@ class PlasticHit : public G4VHit
     inline void SetPosTheta(G4double theta) { fPosTheta = theta; }
     inline G4double GetPosTheta() const { return fPosTheta; }
 
+    inline void SetPosThetaGlob(G4double thetaGlob) { fPosThetaGlob = thetaGlob; }
+    inline G4double GetPosThetaGlob() const { return fPosThetaGlob; }
+
     inline void SetPosPhi(G4double phi) { fPosPhi = phi; }
     inline G4double GetPosPhi() const { return fPosPhi; }
+
+        inline void SetPosPhiGlob(G4double phiGlob) { fPosPhiGlob = phiGlob; }
+    inline G4double GetPosPhiGlob() const { return fPosPhiGlob; }
 
     inline void SetToF(G4double tof) { fToF = tof; }
     void AddToF(G4double tof) { fToF = tof; }
@@ -202,7 +208,8 @@ class PlasticHit : public G4VHit
     G4double fT2 = 0.;
     G4ThreeVector fHalfLength = G4ThreeVector();
     G4double fAbsorbtion = 0.;
-    G4double fPosTheta = 0., fPosPhi = 0.; // углы в глобальной системе координат
+    G4double fPosTheta = 0., fPosPhi = 0.; // углы по направлению движения/импульса
+    G4double fPosThetaGlob = 0., fPosPhiGlob = 0.; // углы в глобальной системе координат
     G4ThreeVector fLocalPos = G4ThreeVector(); // точка взаимодействия в координатах детектора
     G4ThreeVector fWorldPos = G4ThreeVector();
     G4ThreeVector fVPos = G4ThreeVector(); // вершина (точка генерации)

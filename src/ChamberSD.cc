@@ -158,10 +158,19 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     G4double theta = 0., phi = 0.;
 
-    if (did) theta = aTrack->GetPosition().getTheta(); // position only for original particle
-    if (did) phi = aTrack->GetPosition().getPhi(); // position only for original particle
+   //  if (did) theta = aTrack->GetPosition().getTheta(); // position only for original particle
+   //  if (did) phi = aTrack->GetPosition().getPhi(); // position only for original particle
 
-    auto touchable = preStepPoint->GetTouchable();
+
+   // theta = aTrack->GetPosition().getTheta();
+   //phi = aTrack->GetPosition().getPhi();
+   // theta = aTrack->GetMomentum().getTheta();
+   //  phi = aTrack->GetMomentum().getPhi();
+
+   theta = aTrack->GetMomentumDirection().getTheta();
+   phi = aTrack->GetMomentumDirection().getPhi();
+
+   auto touchable = preStepPoint->GetTouchable();
     auto copyNo = touchable->GetCopyNumber();
 
     auto motherPhysical = touchable->GetVolume(1); // mother

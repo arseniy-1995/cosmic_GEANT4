@@ -166,6 +166,19 @@ namespace Cosmic {
             return fPlastic_fatTheta[0];
         }
 
+                std::vector<G4float> &GetPlasticFatAngleGlob(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_fatThetaGlob[0];
+                if (index == 2) return fPlastic_fatPhiGlob[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_fatThetaGlob[1];
+                if (index == 2) return fPlastic_fatPhiGlob[1];
+
+            }
+            return fPlastic_fatThetaGlob[0];
+        }
+
         /////////////// ТОНКИЕ ПЛАСТИКИ
 
         std::vector<G4int> &GetTrackIDPlasticThin(G4int nsys = 1) {
@@ -257,6 +270,19 @@ namespace Cosmic {
         }
 
 
+                std::vector<G4float> &GetPlasticThinAngleGlob(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_thinThetaGlob[0];
+                if (index == 2) return fPlastic_thinPhiGlob[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_thinThetaGlob[1];
+                if (index == 2) return fPlastic_thinPhiGlob[1];
+
+            }
+            return fPlastic_thinThetaGlob[0];
+        }
+
         ///////////////
 
         std::vector<G4int> &GetTrackIDPlasticLQ(G4int nsys = 1) {
@@ -347,6 +373,20 @@ namespace Cosmic {
 
             }
             return fPlastic_LQ_Theta[0];
+        }
+
+
+         std::vector<G4float> &GetPlasticLQAngleGlob(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fPlastic_LQ_ThetaGlob[0];
+                if (index == 2) return fPlastic_LQ_PhiGlob[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fPlastic_LQ_ThetaGlob[1];
+                if (index == 2) return fPlastic_LQ_PhiGlob[1];
+
+            }
+            return fPlastic_LQ_ThetaGlob[0];
         }
 
         ////////////////////
@@ -712,6 +752,12 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_fatPhi{
                 {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+                std::array<std::vector<G4float>, 2> fPlastic_fatThetaGlob{
+                {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_fatPhiGlob{
+                {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
 
 //////////////
         std::array<std::vector<G4int>, 2> fPlastic_thinTrackID{
@@ -765,6 +811,13 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_thinPhi{
                 {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_thinThetaGlob{
+                {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_thinPhiGlob{
+                {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+
 
         //////////////
         std::array<std::vector<G4int>, 2> fPlastic_LQTrackID{
@@ -818,7 +871,12 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_LQ_Phi{
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
-
+        std::array<std::vector<G4float>, 2> fPlastic_LQ_ThetaGlob{
+                {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fPlastic_LQ_PhiGlob{
+                {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
+                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
         ////// Для Адронного Калориметра
 
         std::array<std::vector<G4int>, 2> fHCX_N{

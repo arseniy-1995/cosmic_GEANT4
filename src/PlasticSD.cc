@@ -110,6 +110,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     G4Track *aTrack = aStep->GetTrack();
 
+
     G4int TrackID = aTrack->GetTrackID();
 
     auto preStepPoint = aStep->GetPreStepPoint();
@@ -124,8 +125,17 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
   auto dx = aStep->GetDeltaPosition(); // смещение (вектор)
   auto velosity = preStepPoint->GetVelocity(); // скорость
 
-  auto theta = aTrack->GetPosition().getTheta();
-  auto phi = aTrack->GetPosition().getPhi();
+
+ // auto theta = aTrack->GetPosition().getTheta();
+//auto phi = aTrack->GetPosition().getPhi();
+ // auto theta = aTrack->GetMomentum().getTheta();
+ //  auto phi = aTrack->GetMomentum().getPhi();
+
+    auto theta = aTrack->GetMomentumDirection().getTheta();
+    auto phi = aTrack->GetMomentumDirection().getPhi();
+
+      auto thetaGlob = aTrack->GetPosition().getTheta();
+    auto phiGlob = aTrack->GetPosition().getPhi();
 
   // step length
   G4double stepLength = 0.;
@@ -218,6 +228,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hit->SetHalfLength(halflength);
     hit->SetPosTheta(theta);
     hit->SetPosPhi(phi);
+    hit->SetPosThetaGlob(thetaGlob);
+    hit->SetPosPhiGlob(phiGlob);
 
     hitTotal->AddTrackID(TrackID);
     hitTotal->AddEdep(edep);
@@ -229,6 +241,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hitTotal->SetHalfLength(halflength);
     hitTotal->SetPosTheta(theta);
     hitTotal->SetPosPhi(phi);
+    hitTotal->SetPosThetaGlob(thetaGlob);
+    hitTotal->SetPosPhiGlob(phiGlob);
 
 /*
 
