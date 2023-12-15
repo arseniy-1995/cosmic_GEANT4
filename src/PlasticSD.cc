@@ -137,11 +137,11 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     auto thetaGlob = aTrack->GetPosition().getTheta();
     auto phiGlob = aTrack->GetPosition().getPhi();
 
-          //   G4cout<< aTrack->GetMomentum().getTheta()/degree << " "<< aTrack->GetMomentumDirection().getTheta()/degree << " "<< aTrack->GetPosition().getTheta()/degree<<G4endl;
+    //   G4cout<< aTrack->GetMomentum().getTheta()/degree << " "<< aTrack->GetMomentumDirection().getTheta()/degree << " "<< aTrack->GetPosition().getTheta()/degree<<G4endl;
 
 
     // step length
-  G4double stepLength = 0.;
+    G4double stepLength = 0.;
   if ( aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0. ) {
     stepLength = aStep->GetStepLength();
   }

@@ -769,9 +769,11 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_fatPhiGlob{
             {
                 std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
-                std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+                std::vector<G4float>(fNofLayers_plastic_fat_nsys2 + 1, NAN)
+            }
+        };
 
-//////////////
+        //////////////
         std::array<std::vector<G4int>, 2> fPlastic_thinTrackID{
                 {std::vector<G4int>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4int>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
@@ -821,10 +823,10 @@ namespace Cosmic {
                 {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_thinPhi{
-                {
-                    std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
-                    std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)
-                }
+            {
+                std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
+                std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)
+            }
         };
         std::array<std::vector<G4float>, 2> fPlastic_thinThetaGlob{
             {
@@ -835,7 +837,7 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_thinPhiGlob{
             {
                 std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
-                 std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+                std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
 
 
         //////////////
@@ -886,7 +888,7 @@ namespace Cosmic {
                  std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_LQ_Theta{
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
-                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)
+                    std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)
                 }
         };
         std::array<std::vector<G4float>, 2> fPlastic_LQ_Phi{

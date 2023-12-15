@@ -244,7 +244,7 @@ namespace Cosmic {
             /////////////////////// Для Адронного Калориметра
 
             //nsys1
-        // X-bars
+            // X-bars
         analysisManager->CreateNtupleIColumn("N_HCX_nsys1",
                                              fEventAction->Get_HCX_N(1)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleIColumn("AL_HCX_nsys1",
@@ -454,7 +454,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Phiplastic_thin_nsys2",
                                                  fEventAction->GetPlasticThinAngle(2, 2)); // column Id = 4 //
 
-                        analysisManager->CreateNtupleFColumn("ThetaGlobplastic_thin_nsys2", fEventAction->GetPlasticThinAngleGlob(2,
+                        analysisManager->CreateNtupleFColumn("ThetaGlobplastic_thin_nsys2", fEventAction->GetPlasticThinAngleGlob(
+                                                                 2,
                                                                  1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_thin_nsys2",
                                                  fEventAction->GetPlasticThinAngleGlob(2, 2)); // column Id = 4 //
@@ -545,7 +546,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Phiplastic_LQ_nsys2",
                                                  fEventAction->GetPlasticLQAngle(1, 2)); // column Id = 4 //
 
-                        analysisManager->CreateNtupleFColumn("ThetaGlobplastic_LQ_nsys2", fEventAction->GetPlasticLQAngleGlob(1,
+                        analysisManager->CreateNtupleFColumn("ThetaGlobplastic_LQ_nsys2",
+                                                             fEventAction->GetPlasticLQAngleGlob(1,
                                                                  1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_LQ_nsys2",
                                                  fEventAction->GetPlasticLQAngleGlob(1, 2)); // column Id = 4 //
