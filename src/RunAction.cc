@@ -247,8 +247,8 @@ namespace Cosmic {
             // X-bars
             analysisManager->CreateNtupleIColumn("N_HCX_nsys1",
                                                  fEventAction->Get_HCX_N(1)); // column Id = 4 // Число срабатываний
-        analysisManager->CreateNtupleIColumn("AL_HCX_nsys1",
-                                             fEventAction->Get_HCX_AL(1)); // column Id = 4 // Номер слоя
+            analysisManager->CreateNtupleIColumn("AL_HCX_nsys1",
+                                                 fEventAction->Get_HCX_AL(1)); // column Id = 4 // Номер слоя
 
         analysisManager->CreateNtupleFColumn("E_HCX_nsys1",
                                              fEventAction->Get_HCX_Edep(1)); // column Id = 4 // Энерговыделение
