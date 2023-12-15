@@ -837,7 +837,9 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fPlastic_thinPhiGlob{
             {
                 std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
-                std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+                std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)
+            }
+        };
 
 
         //////////////

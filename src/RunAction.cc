@@ -245,8 +245,8 @@ namespace Cosmic {
 
             //nsys1
             // X-bars
-        analysisManager->CreateNtupleIColumn("N_HCX_nsys1",
-                                             fEventAction->Get_HCX_N(1)); // column Id = 4 // Число срабатываний
+            analysisManager->CreateNtupleIColumn("N_HCX_nsys1",
+                                                 fEventAction->Get_HCX_N(1)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleIColumn("AL_HCX_nsys1",
                                              fEventAction->Get_HCX_AL(1)); // column Id = 4 // Номер слоя
 
@@ -454,9 +454,9 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Phiplastic_thin_nsys2",
                                                  fEventAction->GetPlasticThinAngle(2, 2)); // column Id = 4 //
 
-                        analysisManager->CreateNtupleFColumn("ThetaGlobplastic_thin_nsys2", fEventAction->GetPlasticThinAngleGlob(
-                                                                 2,
-                                                                 1)); // column Id = 4 // Локальная точка
+            analysisManager->CreateNtupleFColumn("ThetaGlobplastic_thin_nsys2", fEventAction->GetPlasticThinAngleGlob(
+                                                     2,
+                                                     1)); // column Id = 4 // Локальная точка
             analysisManager->CreateNtupleFColumn("PhiGlobplastic_thin_nsys2",
                                                  fEventAction->GetPlasticThinAngleGlob(2, 2)); // column Id = 4 //
 

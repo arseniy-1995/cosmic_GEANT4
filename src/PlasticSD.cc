@@ -142,8 +142,9 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     // step length
     G4double stepLength = 0.;
-  if ( aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0. ) {
-    stepLength = aStep->GetStepLength();
+    if (aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0.)
+    {
+      stepLength = aStep->GetStepLength();
   }
 
     // if ( edep==0. && stepLength == 0. ) return false;
