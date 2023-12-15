@@ -252,8 +252,8 @@ namespace Cosmic {
 
             analysisManager->CreateNtupleFColumn("E_HCX_nsys1",
                                                  fEventAction->Get_HCX_Edep(1)); // column Id = 4 // Энерговыделение
-        analysisManager->CreateNtupleFColumn("LO_HCX_nsys1",
-                                             fEventAction->Get_HCX_LO(1)); // column Id = 6 // Световыход
+            analysisManager->CreateNtupleFColumn("LO_HCX_nsys1",
+                                                 fEventAction->Get_HCX_LO(1)); // column Id = 6 // Световыход
         analysisManager->CreateNtupleFColumn("A_HCX_nsys1",
                                              fEventAction->Get_HCX_A(1)); // column Id = 6 // Полный Световыход
 
@@ -538,7 +538,7 @@ namespace Cosmic {
 
                     analysisManager->CreateNtupleFColumn("ThetaGlobplastic_LQ_nsys1",
                                                  fEventAction->GetPlasticLQAngleGlob(2, 1)); // column Id = 4 // Углы
-            analysisManager->CreateNtupleFColumn("PhipGloblastic_LQ_nsys1",
+            analysisManager->CreateNtupleFColumn("PhiGlobplastic_LQ_nsys1",
                                                  fEventAction->GetPlasticLQAngleGlob(2, 2)); // column Id = 4 //
 
             analysisManager->CreateNtupleFColumn("Thetaplastic_LQ_nsys2", fEventAction->GetPlasticLQAngle(1,
