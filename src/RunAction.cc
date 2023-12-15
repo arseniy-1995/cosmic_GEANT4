@@ -250,8 +250,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("AL_HCX_nsys1",
                                                  fEventAction->Get_HCX_AL(1)); // column Id = 4 // Номер слоя
 
-        analysisManager->CreateNtupleFColumn("E_HCX_nsys1",
-                                             fEventAction->Get_HCX_Edep(1)); // column Id = 4 // Энерговыделение
+            analysisManager->CreateNtupleFColumn("E_HCX_nsys1",
+                                                 fEventAction->Get_HCX_Edep(1)); // column Id = 4 // Энерговыделение
         analysisManager->CreateNtupleFColumn("LO_HCX_nsys1",
                                              fEventAction->Get_HCX_LO(1)); // column Id = 6 // Световыход
         analysisManager->CreateNtupleFColumn("A_HCX_nsys1",
