@@ -45,12 +45,10 @@ namespace Cosmic {
 
 //#define isTrig_accept_all
 
-   constexpr G4int T2M_zanulenie[3]= {1,1,1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
+constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
 
-
-
-    //#define RUN21
+//#define RUN21
 #define RUN23
 #define LOWQ_CONVERTOR
 
@@ -58,28 +56,28 @@ namespace Cosmic {
 #define CONCRETE // Бетон
 #endif
 
-//#define PF1_FAT // Толстые пластики
-//#define PF2_FAT
+#define PF1_FAT // Толстые пластики
+#define PF2_FAT
 
 #define PF1_THIN // Тонкие пластики
 #define PF2_THIN
 
-//#define HADCAL1 // Адронный калориметр
-//#define HADCAL2
+#define HADCAL1 // Адронный калориметр
+#define HADCAL2
 
 //#define MRPC1 // MRPC-детекторы
 //#define MRPC2
 
-//#define DCARM1 // Дрейфовая камера
-//#define DCARM2
-//#define VCARM1 // Вершинная камера
-//#define VCARM2
+#define DCARM1 // Дрейфовая камера
+#define DCARM2
+#define VCARM1 // Вершинная камера
+#define VCARM2
 
-//#define TARGET // Мишень+фольга
-//#define MAGNET // Магнит мишени
-//#define CELL
-//#define SHIELD // Фольга (экран) вокруг кубика
-//#define FOIL
+#define TARGET // Мишень+фольга
+#define MAGNET // Магнит мишени
+#define CELL
+#define SHIELD // Фольга (экран) вокруг кубика
+#define FOIL
 
 #define LOWQ1 // электронные плечи ЛО-КУ поляриметра
 #define LOWQ2
@@ -166,8 +164,12 @@ namespace Cosmic {
     constexpr G4double plastic_thin_threshold = 0.1 * MeV;
     constexpr G4double plastic_LQ_threshold = 0.1 * MeV;
     constexpr G4double HadronCalorimeter_threshold = 0.1 * MeV;
-    constexpr G4double WChamber_threshold = 0.5 * keV;
-    constexpr G4double VChamber_threshold = 0.5 * keV;
+
+ //   constexpr G4double WChamber_threshold = 0.5 * keV;
+ //   constexpr G4double VChamber_threshold = 0.5 * keV;
+
+    constexpr G4double WChamber_threshold = 0.01 * keV;
+    constexpr G4double VChamber_threshold = 0.01 * keV;
 
     constexpr G4double DENSITY_LO = 1.032;    // scintill. density - for light output calculation
 

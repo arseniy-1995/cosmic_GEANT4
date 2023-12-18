@@ -123,7 +123,7 @@ namespace Cosmic {
             analysisManager->CreateNtupleDColumn("Lplastic_fat_nsys2_sum"); // column Id = 4
 
 
-      //  analysisManager->CreateNtupleDColumn("XVertex"); // column Id = 5  // Позиция вершины (точка генерации)
+            //  analysisManager->CreateNtupleDColumn("XVertex"); // column Id = 5  // Позиция вершины (точка генерации)
       //  analysisManager->CreateNtupleDColumn("YVertex"); // column Id = 6
       //  analysisManager->CreateNtupleDColumn("ZVertex"); // column Id = 7
 
@@ -419,7 +419,7 @@ namespace Cosmic {
 
 #endif
 
-// ТОНКИЕ ПЛАСТИКИ
+            // ТОНКИЕ ПЛАСТИКИ
 
 /////////////////////////////
 

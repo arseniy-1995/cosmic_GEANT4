@@ -283,8 +283,8 @@ namespace Cosmic {
 
 
         G4double dsdo_LQ(G4double theta_e, G4double Pzz, G4double zz_cell) {
-
-            G4int zp0 = T2M_zanulenie[0], zp1 = T2M_zanulenie[1], zp2 = T2M_zanulenie[2]; // зануление отдельных компонент
+            G4int zp0 = T2M_zanulenie[0], zp1 = T2M_zanulenie[1], zp2 = T2M_zanulenie[2];
+            // зануление отдельных компонент
             G4double coeff_target =1.;
 
             if (zz_cell >= 0) coeff_target = (l_zz_cell / 2. - zz_cell) / pow(l_zz_cell / 2., 2.);// коэффициент для учета труегольного распределения частиц по мишени

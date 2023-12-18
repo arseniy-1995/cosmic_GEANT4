@@ -432,8 +432,13 @@ namespace Cosmic {
         energy_deuteron = (1. - 1. / rc) * Ebeam; // кин энергия дейтрона
         energy_electron = Ebeam / rc; // энергия электрона после рассеяния
         theta_deuteron = atan(sin(theta_electron) / (rc - cos(theta_electron)));
-        phi_electron = (G4UniformRand() > 0.5) ? phi_e_temp : phi_e_temp +
-                                                              M_PI; // возможность, чтобы электроны летели в нижний счетчик тоже
+        phi_electron = (G4UniformRand() > 0.5)
+                           ? phi_e_temp
+                           : phi_e_temp +
+                           M_PI; // возможность, чтобы электроны летели в нижний счетчик тоже
+
+      //  phi_electron = phi_e_temp + M_PI;
+
         phi_deuteron = M_PI - phi_electron;
         xx_cell = xx_cell_temp;
         yy_cell = yy_cell_temp;
