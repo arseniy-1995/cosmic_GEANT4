@@ -593,7 +593,8 @@ namespace Cosmic {
 
                 fPlastic_thinTheta[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
                     theta() / degree;
-                fPlastic_thinPhi[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                fPlastic_thinPhi[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi()
+                    / degree;
 
                 fPlastic_thinThetaGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhiGlob() / degree;
@@ -638,7 +639,8 @@ namespace Cosmic {
 
                 fPlastic_LQ_Theta[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
                     theta() / degree;
-                fPlastic_LQ_Phi[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                fPlastic_LQ_Phi[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() /
+                    degree;
 
                 fPlastic_LQ_ThetaGlob[0][i] = plastic_LQ_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_LQ_PhiGlob[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhiGlob() / degree;
@@ -864,7 +866,7 @@ namespace Cosmic {
 
 #ifdef DCARM1
 
-        for (G4int i = 0; i < (G4int) W_Chamber_nsys1HC->GetSize(); i++)
+        for (G4int i = 0; i < (G4int)W_Chamber_nsys1HC->GetSize(); i++)
         {
             auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit*>(W_Chamber_nsys1HC->GetHit(i));
 
