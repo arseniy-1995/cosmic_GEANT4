@@ -566,6 +566,25 @@ namespace Cosmic {
             return fWa_N[0];
         }
 
+        std::vector<G4float>& Get_W_Edep(G4int nsys = 1, G4int type_chamber = 1)
+        {
+            if (nsys == 1)
+            {
+                if (type_chamber == 1) return fWa_Edep[0]; //a
+                if (type_chamber == 2) return fWb_Edep[0]; //b
+                if (type_chamber == 3) return fWc_Edep[0]; //c
+            }
+            if (nsys == 2)
+            {
+                if (type_chamber == 1) return fWa_Edep[1]; //a
+                if (type_chamber == 2) return fWb_Edep[1]; //b
+                if (type_chamber == 3) return fWc_Edep[1]; //c
+            }
+
+
+            return fWa_Edep[0];
+        }
+
         std::vector<G4float> &Get_W_Pos(G4int nsys = 1, G4int index = 1, G4int type_chamber = 1) {
 
             if (type_chamber == 1) // a
@@ -973,61 +992,97 @@ namespace Cosmic {
         // Для дрейфовых (трековых) камер
 
         std::array<std::vector<G4int>, 2> fWa_N{
-                {std::vector<G4int>(NW1_WRS + 1, NAN), std::vector<G4int>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4int>(NW1_WRS + 1, NAN), std::vector<G4int>(NW1_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWa_Edep{
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_Mass{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_KineticEnergy{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_Theta{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_Phi{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_XPos{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_YPos{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_ZPos{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWa_RPos{
-                {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}};
-//////
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
+        //////
         std::array<std::vector<G4int>, 2> fWb_N{
-                {std::vector<G4int>(NW2_WRS + 1, NAN), std::vector<G4int>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4int>(NW2_WRS + 1, NAN), std::vector<G4int>(NW2_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWb_Edep{
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_Mass{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_KineticEnergy{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_Theta{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_Phi{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_XPos{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_YPos{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_ZPos{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWb_RPos{
-                {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}};
-/////
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
+        /////
         std::array<std::vector<G4int>, 2> fWc_N{
-                {std::vector<G4int>(NW3_WRS + 1, NAN), std::vector<G4int>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4int>(NW3_WRS + 1, NAN), std::vector<G4int>(NW3_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWc_Edep{
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_Mass{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_KineticEnergy{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_Theta{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_Phi{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_XPos{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_YPos{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_ZPos{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fWc_RPos{
-                {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}};
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
 
         // Для вершинных камер
 

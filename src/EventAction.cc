@@ -273,7 +273,6 @@ namespace Cosmic {
         //G4cout<< primary_vertex->GetPrimary()->GetMomentum().theta()/degree << " "<< primary_vertex->GetPrimary()->GetMomentumDirection().theta()/degree<<G4endl;
 
 
-
         vertex_Pzz = event_info->GetPzz();
         vertex_Energy_gamma = event_info->GetEgamma();
         vertex_number_reaction = event_info->GetNreac();
@@ -553,11 +552,13 @@ namespace Cosmic {
                 fPlastic_thin_global_ZPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().z() / cm;
 
                 //fPlastic_thinTheta[0][i] = plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
-               // fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
+                // fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
 
 
-                fPlastic_thinTheta[0][i] =  (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).theta() / degree;
-                fPlastic_thinPhi[0][i] =  (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                fPlastic_thinTheta[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                    theta() / degree;
+                fPlastic_thinPhi[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi()
+                    / degree;
 
                 fPlastic_thinThetaGlob[0][i] = plastic_thin_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhiGlob() / degree;
@@ -586,12 +587,13 @@ namespace Cosmic {
                 fPlastic_thin_global_YPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().y() / cm;
                 fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z() / cm;
 
-              //  fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
-              //  fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
+                //  fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
+                //  fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
 
 
-                 fPlastic_thinTheta[1][i] =  (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).theta() / degree;
-                fPlastic_thinPhi[1][i] =  (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                fPlastic_thinTheta[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                    theta() / degree;
+                fPlastic_thinPhi[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
 
                 fPlastic_thinThetaGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhiGlob() / degree;
@@ -602,7 +604,7 @@ namespace Cosmic {
                 if (i == 2) de_thin_dep_latyer2[1] = 1;
 
 
-           // G4cout<< (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).theta() / degree<< " "<< event->GetPrimaryVertex(1)->GetPrimary()->GetMomentumDirection().theta() / degree << " "<< fPlastic_thinTheta[1][i] << " !!!!!" << G4endl ;
+                // G4cout<< (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).theta() / degree<< " "<< event->GetPrimaryVertex(1)->GetPrimary()->GetMomentumDirection().theta() / degree << " "<< fPlastic_thinTheta[1][i] << " !!!!!" << G4endl ;
 
 
 
@@ -634,8 +636,9 @@ namespace Cosmic {
                 //fPlastic_LQ_Theta[0][i] = plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
                 //fPlastic_LQ_Phi[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
 
-                fPlastic_LQ_Theta[0][i] =  (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).theta() / degree;
-                fPlastic_LQ_Phi[0][i] =  (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                fPlastic_LQ_Theta[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                    theta() / degree;
+                fPlastic_LQ_Phi[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
 
                 fPlastic_LQ_ThetaGlob[0][i] = plastic_LQ_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_LQ_PhiGlob[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhiGlob() / degree;
@@ -666,8 +669,9 @@ namespace Cosmic {
                 //fPlastic_LQ_Theta[1][i] = plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
                 //fPlastic_LQ_Phi[1][i] = plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
 
-                fPlastic_LQ_Theta[1][i] =  (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).theta() / degree;
-                fPlastic_LQ_Phi[1][i] =  (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                fPlastic_LQ_Theta[1][i] = (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                    theta() / degree;
+                fPlastic_LQ_Phi[1][i] = (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
 
                 fPlastic_LQ_ThetaGlob[1][i] = plastic_LQ_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_LQ_PhiGlob[1][i] = plastic_LQ_nsys2Hit[i]->GetPosPhiGlob() / degree;
@@ -860,8 +864,9 @@ namespace Cosmic {
 
 #ifdef DCARM1
 
-        for (G4int i = 0; i < (G4int) W_Chamber_nsys1HC->GetSize(); i++) {
-            auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys1HC->GetHit(i));
+        for (G4int i = 0; i < (G4int) W_Chamber_nsys1HC->GetSize(); i++)
+        {
+            auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit*>(W_Chamber_nsys1HC->GetHit(i));
 
             //if (W_Chamber_nsys1Hit_->GetEdep()/ keV >0)            G4cout <<  W_Chamber_nsys1Hit_->GetEdep()/ keV << G4endl;
 
@@ -877,6 +882,7 @@ namespace Cosmic {
                     fWa_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
                     fWa_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
                     fWa_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWa_Edep[0][index] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
                     wcdep[0] |= 2;
                     continue;
                 }
@@ -891,6 +897,7 @@ namespace Cosmic {
                     fWb_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
                     fWb_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
                     fWb_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWb_Edep[0][index] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
                     wcdep[0] |= 4;
                     continue;
                 }
@@ -905,6 +912,7 @@ namespace Cosmic {
                     fWc_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
                     fWc_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
                     fWc_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWc_Edep[0][index] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
                     wcdep[0] |= 8;
                     continue;
                 }
@@ -930,6 +938,7 @@ namespace Cosmic {
                     fWa_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
                     fWa_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
                     fWa_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWa_Edep[1][index] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
                     wcdep[1] |= 2;
                     continue;
                 }
@@ -944,6 +953,7 @@ namespace Cosmic {
                     fWb_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
                     fWb_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
                     fWb_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWb_Edep[1][index] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
                     wcdep[1] |= 4;
                     continue;
                 }
@@ -958,6 +968,7 @@ namespace Cosmic {
                     fWc_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
                     fWc_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
                     fWc_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWc_Edep[1][index] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
                     wcdep[1] |= 8;
                     continue;
                 }
@@ -1152,15 +1163,16 @@ namespace Cosmic {
 
 #ifdef isTrigLQ
 
-                        // G4cout << wcdep[0] << "" << wcdep[1]<< G4endl;
-                     if (1
-                     && (
+            // G4cout << wcdep[0] << "" << wcdep[1]<< G4endl;
+            if (1
+                && (
 
 
-                         ( (de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0] ) && (wcdep[0] >= 14) && de_LQ_dep[1] ) || ( (de_thin_dep_latyer1[1] || de_thin_dep_latyer2[1] ) && (wcdep[1] >= 14) && de_LQ_dep[0] )
+                    // ((de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0]) && (wcdep[0] >= 14) && de_LQ_dep[1]) || ((
+                    //     de_thin_dep_latyer1[1] || de_thin_dep_latyer2[1]) && (wcdep[1] >= 14) && de_LQ_dep[0])
 
-                         // ((de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0]) && de_LQ_dep[1]) || ((de_thin_dep_latyer1[
-                         //     1] || de_thin_dep_latyer2[1]) && de_LQ_dep[0]) // без тригера на камеры
+                    ((de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0]) && de_LQ_dep[1]) || ((de_thin_dep_latyer1[
+                        1] || de_thin_dep_latyer2[1]) && de_LQ_dep[0]) // без тригера на камеры
 
                      ) // for LQ
 

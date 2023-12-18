@@ -129,26 +129,26 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     // auto theta = aTrack->GetPosition().getTheta();
     //auto phi = aTrack->GetPosition().getPhi();
 
-      //  auto theta = aTrack->GetMomentum().getTheta();
-      // auto phi = aTrack->GetMomentum().getPhi();
+    //  auto theta = aTrack->GetMomentum().getTheta();
+    // auto phi = aTrack->GetMomentum().getPhi();
 
-   // auto theta = aTrack->GetMomentumDirection().getTheta();
-   // auto phi = aTrack->GetMomentumDirection().getPhi();
+    // auto theta = aTrack->GetMomentumDirection().getTheta();
+    // auto phi = aTrack->GetMomentumDirection().getPhi();
 
- //   auto theta = aTrack->GetMomentumDirection().theta();
-  //  auto phi = aTrack->GetMomentumDirection().phi();
+    //   auto theta = aTrack->GetMomentumDirection().theta();
+    //  auto phi = aTrack->GetMomentumDirection().phi();
 
-   auto theta = aStep->GetPreStepPoint()->GetMomentumDirection().theta();
-   auto phi = aStep->GetPreStepPoint()->GetMomentumDirection().phi();
+    auto theta = aStep->GetPreStepPoint()->GetMomentumDirection().theta();
+    auto phi = aStep->GetPreStepPoint()->GetMomentumDirection().phi();
 
- //auto theta = aStep->GetTrack()->GetDynamicParticle()->GetMomentumDirection().theta();
-  //  auto phi = aStep->GetTrack()->GetDynamicParticle()->GetMomentumDirection().phi();
+    //auto theta = aStep->GetTrack()->GetDynamicParticle()->GetMomentumDirection().theta();
+    //  auto phi = aStep->GetTrack()->GetDynamicParticle()->GetMomentumDirection().phi();
 
-      //      auto theta = aStep->GetPreStepPoint()->GetMomentum.theta();
-  // auto phi = aStep->GetPreStepPoint()->GetMomentum().phi();
-//
+    //      auto theta = aStep->GetPreStepPoint()->GetMomentum.theta();
+    // auto phi = aStep->GetPreStepPoint()->GetMomentum().phi();
+    //
 
-   //   aTrack->GetMomentum().transform()
+    //   aTrack->GetMomentum().transform()
 
 
     auto thetaGlob = aTrack->GetPosition().getTheta();
@@ -156,7 +156,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     //  G4cout<< aTrack->GetMomentum().getTheta()/degree << " "<< aTrack->GetMomentumDirection().getTheta()/degree << " "<< aTrack->GetPosition().getTheta()/degree<<" "<< aStep->GetTrack()->GetDynamicParticle()->GetMomentumDirection().theta()/degree<<" "<< aStep->GetPreStepPoint()->GetMomentum().theta()/degree<<G4endl;
 
- //   G4cout<< aTrack->GetMomentum().getTheta()/degree << " "<< aTrack->GetMomentumDirection().getTheta()/degree << " "<< aTrack->GetPosition().getTheta()/degree<<G4endl;
+    //   G4cout<< aTrack->GetMomentum().getTheta()/degree << " "<< aTrack->GetMomentumDirection().getTheta()/degree << " "<< aTrack->GetPosition().getTheta()/degree<<G4endl;
 
     // step length
     G4double stepLength = 0.;

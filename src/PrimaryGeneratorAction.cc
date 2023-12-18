@@ -437,7 +437,7 @@ namespace Cosmic {
                            : phi_e_temp +
                            M_PI; // возможность, чтобы электроны летели в нижний счетчик тоже
 
-      //  phi_electron = phi_e_temp + M_PI;
+        //  phi_electron = phi_e_temp + M_PI;
 
         phi_deuteron = M_PI - phi_electron;
         xx_cell = xx_cell_temp;

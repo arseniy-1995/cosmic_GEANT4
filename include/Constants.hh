@@ -65,8 +65,8 @@ constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то занулен
 #define HADCAL1 // Адронный калориметр
 #define HADCAL2
 
-//#define MRPC1 // MRPC-детекторы
-//#define MRPC2
+    //#define MRPC1 // MRPC-детекторы
+    //#define MRPC2
 
 #define DCARM1 // Дрейфовая камера
 #define DCARM2
@@ -165,8 +165,8 @@ constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то занулен
     constexpr G4double plastic_LQ_threshold = 0.1 * MeV;
     constexpr G4double HadronCalorimeter_threshold = 0.1 * MeV;
 
- //   constexpr G4double WChamber_threshold = 0.5 * keV;
- //   constexpr G4double VChamber_threshold = 0.5 * keV;
+    //   constexpr G4double WChamber_threshold = 0.5 * keV;
+    //   constexpr G4double VChamber_threshold = 0.5 * keV;
 
     constexpr G4double WChamber_threshold = 0.01 * keV;
     constexpr G4double VChamber_threshold = 0.01 * keV;

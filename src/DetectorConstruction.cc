@@ -586,7 +586,7 @@ namespace Cosmic {
                                         G4ThreeVector(0.0 * cm, 14.8 * cm + 7. * mm, 9.4 * cm)),
                           WCTheta1_nsys2LV, "WCTheta1b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
         new G4PVPlacement(G4Transform3D(RotateNull,
-                                        G4ThreeVector(0.0 * cm, 34.2 * cm  + 7. * mm, 18.8 * cm)),
+                                        G4ThreeVector(0.0 * cm, 34.2 * cm + 7. * mm, 18.8 * cm)),
                           WCTheta2_nsys2LV, "WCTheta2b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
         new G4PVPlacement(G4Transform3D(Rotate90Y,
                                         G4ThreeVector(0.0 * cm, 26.5 * cm  + 7. * mm, 15.2 * cm)),
