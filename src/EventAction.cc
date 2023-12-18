@@ -203,10 +203,14 @@ namespace Cosmic {
         // Get hits collections IDs (only once)
         G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
 
+#ifdef PF1_FAT
         if (fplastic_fat_nsys1HCID == -1)
             fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
+#endif
+#ifdef PF2_FAT
         if (fplastic_fat_nsys2HCID == -1)
             fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
+#endif
         if (fplastic_thin_nsys1HCID == -1)
             fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
         if (fplastic_thin_nsys2HCID == -1)
@@ -216,14 +220,21 @@ namespace Cosmic {
         if (fplastic_LQ_nsys2HCID == -1)
             fplastic_LQ_nsys2HCID = SDmanp->GetCollectionID("plastic_LQ_nsys2HitsCollection");
 
+#ifdef HADCAL1
         if (fHadronCalorimeter_nsys1HCID == -1)
             fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
+#endif
+#ifdef HADCAL2
         if (fHadronCalorimeter_nsys2HCID == -1)
             fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
+#endif
 
-
+#ifdef DCARM1
         if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_Chamber_nsys1HitsCollection");
+#endif
+#ifdef DCARM2
         if (fW_Chamber_nsys2HCID == -1) fW_Chamber_nsys2HCID = SDmanp->GetCollectionID("W_Chamber_nsys2HitsCollection");
+#endif
 
 #if defined(VCARM1) && defined(RUN21)
         if (fV_Chamber_nsys1HCID == -1) fV_Chamber_nsys1HCID = SDmanp->GetCollectionID("V_Chamber_nsys1HitsCollection");
@@ -351,36 +362,55 @@ namespace Cosmic {
 
         // Get hits collections
         //   auto plasticHC = GetHC(event, fplasticHCID);
+#ifdef PF1_FAT
         auto plastic_fat_nsys1HC = GetHitsCollection(fplastic_fat_nsys1HCID, event);
+#endif
+#ifdef PF2_FAT
         auto plastic_fat_nsys2HC = GetHitsCollection(fplastic_fat_nsys2HCID, event);
+#endif
         auto plastic_thin_nsys1HC = GetHitsCollection(fplastic_thin_nsys1HCID, event);
         auto plastic_thin_nsys2HC = GetHitsCollection(fplastic_thin_nsys2HCID, event);
         auto plastic_LQ_nsys1HC = GetHitsCollection(fplastic_LQ_nsys1HCID, event);
         auto plastic_LQ_nsys2HC = GetHitsCollection(fplastic_LQ_nsys2HCID, event);
-
+#ifdef HADCAL1
         auto HadronCalorimeter_nsys1HC = GetHC(event, fHadronCalorimeter_nsys1HCID);
+#endif
+#ifdef HADCAL2
         auto HadronCalorimeter_nsys2HC = GetHC(event, fHadronCalorimeter_nsys2HCID);
-
+#endif
+#ifdef DCARM1
         auto W_Chamber_nsys1HC = GetHC(event, fW_Chamber_nsys1HCID);
+#endif
+#ifdef DCARM2
         auto W_Chamber_nsys2HC = GetHC(event, fW_Chamber_nsys2HCID);
+#endif
 
 #if defined(VCARM1) && defined(RUN21)
         auto V_Chamber_nsys1HC = GetHC(event, fV_Chamber_nsys1HCID);
         auto V_Chamber_nsys2HC = GetHC(event, fV_Chamber_nsys2HCID);
 #endif
+#ifdef PF1_FAT
         if (!plastic_fat_nsys1HC) return;
+#endif
+        #ifdef PF2_FAT
         if (!plastic_fat_nsys2HC) return;
+#endif
         if (!plastic_thin_nsys1HC) return;
         if (!plastic_thin_nsys2HC) return;
         if (!plastic_LQ_nsys1HC) return;
         if (!plastic_LQ_nsys2HC) return;
-
+#ifdef HADCAL1
         if (!HadronCalorimeter_nsys1HC) return;
+#endif
+        #ifdef HADCAL2
         if (!HadronCalorimeter_nsys2HC) return;
-
+#endif
+        #ifdef DCARM1
         if (!W_Chamber_nsys1HC) return;
+#endif
+        #ifdef DCARM2
         if (!W_Chamber_nsys2HC) return;
-
+#endif
 #if defined(VCARM1) && defined(RUN21)
         if (!V_Chamber_nsys1HC) return;
         if (!V_Chamber_nsys2HC) return;
@@ -406,8 +436,13 @@ namespace Cosmic {
         ChamberHit *V_Chamber_nsys1Hit[fNofLayers_V_Chamber_nsys1 + 1];
         ChamberHit *V_Chamber_nsys2Hit[fNofLayers_V_Chamber_nsys2 + 1];
 
+#ifdef PF1_FAT
         plastic_fat_nsys1Hit[0] = (*plastic_fat_nsys1HC)[plastic_fat_nsys1HC->entries() - 1];
+#endif
+#ifdef PF2_FAT
         plastic_fat_nsys2Hit[0] = (*plastic_fat_nsys2HC)[plastic_fat_nsys2HC->entries() - 1];
+#endif
+
         plastic_thin_nsys1Hit[0] = (*plastic_thin_nsys1HC)[plastic_thin_nsys1HC->entries() - 1];
         plastic_thin_nsys2Hit[0] = (*plastic_thin_nsys2HC)[plastic_thin_nsys2HC->entries() - 1];
         plastic_LQ_nsys1Hit[0] = (*plastic_LQ_nsys1HC)[plastic_LQ_nsys1HC->entries() - 1];
@@ -435,6 +470,7 @@ namespace Cosmic {
 
         //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
 
+        #ifdef PF1_FAT
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
             if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold) {
@@ -464,6 +500,8 @@ namespace Cosmic {
             }
         }
 
+#endif
+        #ifdef PF2_FAT
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys2; i++) {
             if (i >= 1) plastic_fat_nsys2Hit[i] = (*plastic_fat_nsys2HC)[i - 1];
             if (plastic_fat_nsys2Hit[i]->GetEdep() > plastic_fat_threshold) {
@@ -491,6 +529,8 @@ namespace Cosmic {
                 de_fat_dep[1] = 1;
             }
         }
+
+#endif
 /////////////////////
 
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys1; i++) {
@@ -611,6 +651,11 @@ namespace Cosmic {
         G4int index = 0;
         G4int k = 0;
 
+#ifdef HADCAL1
+
+        index = 0;
+        k = 0;
+
         for (G4int i = 0; i < (G4int) HadronCalorimeter_nsys1HC->GetSize(); i++) {
             auto HadronCalorimeter_nsys1Hit_ = static_cast<HadronCalorimeterHit *>(HadronCalorimeter_nsys1HC->GetHit(
                     i));
@@ -666,7 +711,9 @@ namespace Cosmic {
                 }
             }
         }
+#endif
 
+  #ifdef HADCAL2
         index = 0;
         k = 0;
 
@@ -726,6 +773,7 @@ namespace Cosmic {
                 }
             }
         }
+#endif
 
         /// ВЕРШИННЫЕ КАМЕРЫ
 
@@ -773,7 +821,15 @@ namespace Cosmic {
 
 #endif
 
+#ifdef RUN23
+        wcdep[0] |= 1; // формально считаем, что в вершиной камере было энерговыделение
+        wcdep[1] |= 1;
+#endif
+
+
         /////////////////////// ДРЕЙФОВЫЕ КАМЕРЫ
+
+#ifdef DCARM1
 
         for (G4int i = 0; i < (G4int) W_Chamber_nsys1HC->GetSize(); i++) {
             auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys1HC->GetHit(i));
@@ -822,6 +878,10 @@ namespace Cosmic {
                 }
             }
         }
+
+#endif
+
+#ifdef DCARM2
 
 
         for (G4int i = 0; i < (G4int) W_Chamber_nsys2HC->GetSize(); i++) {
@@ -873,6 +933,7 @@ namespace Cosmic {
         }
 
 
+#endif
 
         //     totalPlasticEdep = 0.;
         //   totalPlasticTrackLength =0.0;
@@ -910,12 +971,15 @@ namespace Cosmic {
 
         if ((printModulo > 0) && (eventID % printModulo == 0)) {
             G4cout << "---> End of event: " << eventID << G4endl;
-
+#ifdef PF1_FAT
             PrintEventStatistics(
+
                     plastic_fat_nsys1Hit[0]->GetEdep(), plastic_fat_nsys1Hit[0]->GetTrackLength()
+
+
             );
 
-
+#endif
         }
 
 
@@ -927,19 +991,28 @@ namespace Cosmic {
 
 
         // fill histograms
-
+#ifdef PF1_FAT
         if (plastic_fat_nsys1Hit[0]->GetEdep() > plastic_fat_threshold) {
             analysisManager->FillH1(0, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
             analysisManager->FillH1(1, plastic_fat_nsys1Hit[0]->GetTrackLength() / cm);
         }
-
+#endif
+#ifdef PF2_FAT
         if (plastic_fat_nsys2Hit[0]->GetEdep() > plastic_fat_threshold) {
             analysisManager->FillH1(2, plastic_fat_nsys2Hit[0]->GetEdep() / MeV);
             analysisManager->FillH1(3, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
         }
-
+#endif
         if (vertex_energy > 0) analysisManager->FillH1(8, vertex_energy / MeV);
         if (vertex_Energy_gamma > 0) analysisManager->FillH1(9, vertex_Energy_gamma / MeV);
+
+        analysisManager->FillH1(10, vertex_x / cm);
+         analysisManager->FillH1(11, vertex_y / cm);
+         analysisManager->FillH1(12, vertex_z / cm);
+         analysisManager->FillH1(13, vertex_theta / degree);
+        analysisManager->FillH1(14, vertex_phi / degree);
+
+//G4cout << vertex_x / cm << " "<<vertex_y / cm<< " "<< vertex_z / cm << " " << vertex_theta / degree << " "<< vertex_phi / degree<<G4endl;
 
         // fill ntuple
 
@@ -953,11 +1026,14 @@ namespace Cosmic {
         //   if(plastic_fat_nsys1Hit[0]->GetEdep()/MeV>1. && plastic_fat_nsys2Hit[0]->GetEdep()/MeV>1.) {
         analysisManager->FillNtupleIColumn(0, vertex_number_event);
 
+        #ifdef PF1_FAT
         analysisManager->FillNtupleDColumn(1, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
         analysisManager->FillNtupleDColumn(2, plastic_fat_nsys1Hit[0]->GetTrackLength() / cm);
+#endif
+        #ifdef PF2_FAT
         analysisManager->FillNtupleDColumn(3, plastic_fat_nsys2Hit[0]->GetEdep() / MeV);
         analysisManager->FillNtupleDColumn(4, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
-
+#endif
 
         //    analysisManager->FillNtupleDColumn(5, vertex_x / cm);
         //    analysisManager->FillNtupleDColumn(6, vertex_y / cm);
@@ -1027,10 +1103,17 @@ namespace Cosmic {
 
 
                      if (1
-               && (
-                   ((de_fat_dep[0] && (wcdep[0] >= 14))&&((hcdep[1] == 3) || de_fat_dep[1]))
-                   || ((de_fat_dep[1] &&(wcdep[1] >= 14))&&((hcdep[0] == 3) || de_fat_dep[0]))
-                   )
+               &&
+               // (
+               //     ((de_fat_dep[0] && (wcdep[0] >= 14)) && ((hcdep[1] == 3) || de_fat_dep[1]))
+               //     || ((de_fat_dep[1] && (wcdep[1] >= 14)) && ((hcdep[0] == 3) || de_fat_dep[0]))
+               // )
+
+              ( // без тригера на камеры
+                   ((de_fat_dep[0]) && ((hcdep[1] == 3) || de_fat_dep[1]))
+                   || ((de_fat_dep[1]) && ((hcdep[0] == 3) || de_fat_dep[0]))
+               )
+
                ) {
 
 #endif
@@ -1038,10 +1121,19 @@ namespace Cosmic {
 #ifdef isTrigLQ
                      if (1
                      && (
-                         ( (de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0] ) && (wcdep[0] >= 14) && de_LQ_dep[1] ) || ( (de_thin_dep_latyer1[1] || de_thin_dep_latyer2[1] ) && (wcdep[1] >= 14) && de_LQ_dep[0] )
+
+                     //( (de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0] ) && (wcdep[0] >= 14) && de_LQ_dep[1] ) || ( (de_thin_dep_latyer1[1] || de_thin_dep_latyer2[1] ) && (wcdep[1] >= 14) && de_LQ_dep[0] )
+                        ( (de_thin_dep_latyer1[0] || de_thin_dep_latyer2[0] ) && de_LQ_dep[1] ) || ( (de_thin_dep_latyer1[1] || de_thin_dep_latyer2[1] ) && de_LQ_dep[0] ) // без тригера на камеры
+
                          ) // for LQ
 
                     ) {
+#endif
+
+#ifdef isTrig_accept_all
+                   if (1
+                    ) {
+
 #endif
 
                 //  G4cout << "Taken!"<<G4endl;

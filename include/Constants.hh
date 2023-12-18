@@ -41,7 +41,13 @@ namespace Cosmic {
 #define isGenLQ
 #define isTrigLQ
 
-    //  #define isTrigPN
+//  #define isTrigPN
+
+//#define isTrig_accept_all
+
+   constexpr G4int T2M_zanulenie[3]= {1,1,1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
+
+
 
 
     //#define RUN21
@@ -52,28 +58,28 @@ namespace Cosmic {
 #define CONCRETE // Бетон
 #endif
 
-#define PF2_FAT // Толстые пластики
-#define PF1_FAT
+//#define PF1_FAT // Толстые пластики
+//#define PF2_FAT
 
 #define PF1_THIN // Тонкие пластики
 #define PF2_THIN
 
-#define HADCAL1 // Адронный калориметр
-#define HADCAL2
+//#define HADCAL1 // Адронный калориметр
+//#define HADCAL2
 
 //#define MRPC1 // MRPC-детекторы
 //#define MRPC2
 
-#define DCARM1 // Дрейфовая камера
-#define DCARM2
-#define VCARM1 // Вершинная камера
-#define VCARM2
+//#define DCARM1 // Дрейфовая камера
+//#define DCARM2
+//#define VCARM1 // Вершинная камера
+//#define VCARM2
 
-#define TARGET // Мишень+фольга
-#define MAGNET // Магнит мишени
-#define CELL
-#define SHIELD // Фольга (экран) вокруг кубика
-#define FOIL
+//#define TARGET // Мишень+фольга
+//#define MAGNET // Магнит мишени
+//#define CELL
+//#define SHIELD // Фольга (экран) вокруг кубика
+//#define FOIL
 
 #define LOWQ1 // электронные плечи ЛО-КУ поляриметра
 #define LOWQ2
