@@ -127,7 +127,7 @@ namespace Cosmic {
             //  analysisManager->CreateNtupleDColumn("YVertex"); // column Id = 6
             //  analysisManager->CreateNtupleDColumn("ZVertex"); // column Id = 7
 
-      //  analysisManager->CreateNtupleIColumn("IndexVertex"); // column Id = 8 // Индекс частицы по PDG
+            //  analysisManager->CreateNtupleIColumn("IndexVertex"); // column Id = 8 // Индекс частицы по PDG
       //  analysisManager->CreateNtupleIColumn("MassVertex"); // column Id = 9 // Индекс частицы по PDG
      //   analysisManager->CreateNtupleDColumn("EnergyVertex"); // column Id = 10 // Кинетическая энергия
       //  analysisManager->CreateNtupleDColumn("MomentumVertex"); // column Id = 11 // Импульс
@@ -164,7 +164,10 @@ namespace Cosmic {
 
 
             //  analysisManager->CreateNtupleFColumn("Eplastic_fat_nsys1_vector", fEventAction->GetPlasticEdep()); // column Id = 4
+
             //  analysisManager->CreateNtupleFColumn("Eplastic_fat_nsys2_vector"); // column Id = 5
+
+#ifndef isGenLQ
 
 #ifdef PF1_FAT
 
@@ -418,6 +421,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Z_HCZ_nsys2", fEventAction->Get_HCZ_Pos(2, 3)); // column Id = 4 //
 
 #endif
+
+#endif// notdef isGenLQ
 
             // ТОНКИЕ ПЛАСТИКИ
 

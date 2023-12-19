@@ -551,14 +551,14 @@ namespace Cosmic {
                 fPlastic_thin_global_YPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().y() / cm;
                 fPlastic_thin_global_ZPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().z() / cm;
 
-                //fPlastic_thinTheta[0][i] = plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
-                // fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
+                fPlastic_thinTheta[0][i] = plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
+                 fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
 
 
-                fPlastic_thinTheta[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
-                    theta() / degree;
-                fPlastic_thinPhi[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi()
-                    / degree;
+                // fPlastic_thinTheta[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                //     theta() / degree;
+                // fPlastic_thinPhi[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi()
+                //     / degree;
 
                 fPlastic_thinThetaGlob[0][i] = plastic_thin_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhiGlob() / degree;
@@ -587,14 +587,14 @@ namespace Cosmic {
                 fPlastic_thin_global_YPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().y() / cm;
                 fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z() / cm;
 
-                //  fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
-                //  fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
+                fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
 
 
-                fPlastic_thinTheta[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
-                    theta() / degree;
-                fPlastic_thinPhi[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi()
-                    / degree;
+                // fPlastic_thinTheta[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                //     theta() / degree;
+                // fPlastic_thinPhi[1][i] = (plastic_thin_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi()
+                //     / degree;
 
                 fPlastic_thinThetaGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhiGlob() / degree;
@@ -634,13 +634,13 @@ namespace Cosmic {
                 fPlastic_LQ_global_YPos[0][i] = plastic_LQ_nsys1Hit[i]->GetWorldPos().y() / cm;
                 fPlastic_LQ_global_ZPos[0][i] = plastic_LQ_nsys1Hit[i]->GetWorldPos().z() / cm;
 
-                //fPlastic_LQ_Theta[0][i] = plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
-                //fPlastic_LQ_Phi[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
+                fPlastic_LQ_Theta[0][i] = plastic_LQ_nsys1Hit[i]->GetPosTheta() / degree;
+                fPlastic_LQ_Phi[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhi() / degree;
 
-                fPlastic_LQ_Theta[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
-                    theta() / degree;
-                fPlastic_LQ_Phi[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() /
-                    degree;
+                // fPlastic_LQ_Theta[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                //     theta() / degree;
+                // fPlastic_LQ_Phi[0][i] = (plastic_LQ_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() /
+                //     degree;
 
                 fPlastic_LQ_ThetaGlob[0][i] = plastic_LQ_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_LQ_PhiGlob[0][i] = plastic_LQ_nsys1Hit[i]->GetPosPhiGlob() / degree;
@@ -668,12 +668,12 @@ namespace Cosmic {
                 fPlastic_LQ_global_YPos[1][i] = plastic_LQ_nsys2Hit[i]->GetWorldPos().y() / cm;
                 fPlastic_LQ_global_ZPos[1][i] = plastic_LQ_nsys2Hit[i]->GetWorldPos().z() / cm;
 
-                //fPlastic_LQ_Theta[1][i] = plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
-                //fPlastic_LQ_Phi[1][i] = plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
+                fPlastic_LQ_Theta[1][i] = plastic_LQ_nsys2Hit[i]->GetPosTheta() / degree;
+                fPlastic_LQ_Phi[1][i] = plastic_LQ_nsys2Hit[i]->GetPosPhi() / degree;
 
-                fPlastic_LQ_Theta[1][i] = (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
-                    theta() / degree;
-                fPlastic_LQ_Phi[1][i] = (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
+                // fPlastic_LQ_Theta[1][i] = (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
+                //     theta() / degree;
+                // fPlastic_LQ_Phi[1][i] = (plastic_LQ_nsys2Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).phi() / degree;
 
                 fPlastic_LQ_ThetaGlob[1][i] = plastic_LQ_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_LQ_PhiGlob[1][i] = plastic_LQ_nsys2Hit[i]->GetPosPhiGlob() / degree;
