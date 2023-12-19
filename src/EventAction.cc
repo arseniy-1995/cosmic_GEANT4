@@ -203,6 +203,7 @@ namespace Cosmic {
         // Get hits collections IDs (only once)
         G4SDManager *SDmanp = G4SDManager::GetSDMpointer();
 
+#ifndef isGenLQ
 #ifdef PF1_FAT
         if (fplastic_fat_nsys1HCID == -1)
             fplastic_fat_nsys1HCID = SDmanp->GetCollectionID("plastic_fat_nsys1HitsCollection");
@@ -211,6 +212,8 @@ namespace Cosmic {
         if (fplastic_fat_nsys2HCID == -1)
             fplastic_fat_nsys2HCID = SDmanp->GetCollectionID("plastic_fat_nsys2HitsCollection");
 #endif
+#endif
+
         if (fplastic_thin_nsys1HCID == -1)
             fplastic_thin_nsys1HCID = SDmanp->GetCollectionID("plastic_thin_nsys1HitsCollection");
         if (fplastic_thin_nsys2HCID == -1)
@@ -220,6 +223,7 @@ namespace Cosmic {
         if (fplastic_LQ_nsys2HCID == -1)
             fplastic_LQ_nsys2HCID = SDmanp->GetCollectionID("plastic_LQ_nsys2HitsCollection");
 
+#ifndef isGenLQ
 #ifdef HADCAL1
         if (fHadronCalorimeter_nsys1HCID == -1)
             fHadronCalorimeter_nsys1HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys1HitsCollection");
@@ -228,6 +232,8 @@ namespace Cosmic {
         if (fHadronCalorimeter_nsys2HCID == -1)
             fHadronCalorimeter_nsys2HCID = SDmanp->GetCollectionID("hadron_calorimeter_nsys2HitsCollection");
 #endif
+#endif
+
 
 #ifdef DCARM1
         if (fW_Chamber_nsys1HCID == -1) fW_Chamber_nsys1HCID = SDmanp->GetCollectionID("W_Chamber_nsys1HitsCollection");
@@ -362,22 +368,30 @@ namespace Cosmic {
 
         // Get hits collections
         //   auto plasticHC = GetHC(event, fplasticHCID);
+
+#ifndef isGenLQ
 #ifdef PF1_FAT
         auto plastic_fat_nsys1HC = GetHitsCollection(fplastic_fat_nsys1HCID, event);
 #endif
 #ifdef PF2_FAT
         auto plastic_fat_nsys2HC = GetHitsCollection(fplastic_fat_nsys2HCID, event);
 #endif
+#endif
+
         auto plastic_thin_nsys1HC = GetHitsCollection(fplastic_thin_nsys1HCID, event);
         auto plastic_thin_nsys2HC = GetHitsCollection(fplastic_thin_nsys2HCID, event);
         auto plastic_LQ_nsys1HC = GetHitsCollection(fplastic_LQ_nsys1HCID, event);
         auto plastic_LQ_nsys2HC = GetHitsCollection(fplastic_LQ_nsys2HCID, event);
+
+#ifndef isGenLQ
 #ifdef HADCAL1
         auto HadronCalorimeter_nsys1HC = GetHC(event, fHadronCalorimeter_nsys1HCID);
 #endif
 #ifdef HADCAL2
         auto HadronCalorimeter_nsys2HC = GetHC(event, fHadronCalorimeter_nsys2HCID);
 #endif
+#endif
+
 #ifdef DCARM1
         auto W_Chamber_nsys1HC = GetHC(event, fW_Chamber_nsys1HCID);
 #endif
@@ -389,26 +403,33 @@ namespace Cosmic {
         auto V_Chamber_nsys1HC = GetHC(event, fV_Chamber_nsys1HCID);
         auto V_Chamber_nsys2HC = GetHC(event, fV_Chamber_nsys2HCID);
 #endif
+
+#ifndef isGenLQ
 #ifdef PF1_FAT
         if (!plastic_fat_nsys1HC) return;
 #endif
 #ifdef PF2_FAT
         if (!plastic_fat_nsys2HC) return;
 #endif
+#endif
         if (!plastic_thin_nsys1HC) return;
         if (!plastic_thin_nsys2HC) return;
         if (!plastic_LQ_nsys1HC) return;
         if (!plastic_LQ_nsys2HC) return;
+
+#ifndef isGenLQ
 #ifdef HADCAL1
         if (!HadronCalorimeter_nsys1HC) return;
 #endif
 #ifdef HADCAL2
         if (!HadronCalorimeter_nsys2HC) return;
 #endif
-        #ifdef DCARM1
+#endif
+
+#ifdef DCARM1
         if (!W_Chamber_nsys1HC) return;
 #endif
-        #ifdef DCARM2
+#ifdef DCARM2
         if (!W_Chamber_nsys2HC) return;
 #endif
 #if defined(VCARM1) && defined(RUN21)
@@ -420,29 +441,34 @@ namespace Cosmic {
 
 
         // нулевой индекс массива это полный Хит, далее это конкретные пластики
+#ifndef isGenLQ
         PlasticHit *plastic_fat_nsys1Hit[fNofLayers_plastic_fat_nsys1 + 1];
         PlasticHit *plastic_fat_nsys2Hit[fNofLayers_plastic_fat_nsys2 + 1];
+#endif
+
         PlasticHit *plastic_thin_nsys1Hit[fNofLayers_plastic_thin_nsys1 + 1];
         PlasticHit *plastic_thin_nsys2Hit[fNofLayers_plastic_thin_nsys2 + 1];
         PlasticHit *plastic_LQ_nsys1Hit[fNofLayers_plastic_LQ_nsys1 + 1];
         PlasticHit *plastic_LQ_nsys2Hit[fNofLayers_plastic_LQ_nsys2 + 1];
 
-
+#ifndef isGenLQ
         HadronCalorimeterHit *HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1];
         HadronCalorimeterHit *HadronCalorimeter_nsys2Hit[fNofLayers_HadrtonCalorimeter_nsys2 + 1];
+#endif
 
         ChamberHit *W_Chamber_nsys1Hit[fNofLayers_W_Chamber_nsys1 + 1];
         ChamberHit *W_Chamber_nsys2Hit[fNofLayers_W_Chamber_nsys2 + 1];
         ChamberHit *V_Chamber_nsys1Hit[fNofLayers_V_Chamber_nsys1 + 1];
         ChamberHit *V_Chamber_nsys2Hit[fNofLayers_V_Chamber_nsys2 + 1];
 
+#ifndef isGenLQ
 #ifdef PF1_FAT
         plastic_fat_nsys1Hit[0] = (*plastic_fat_nsys1HC)[plastic_fat_nsys1HC->entries() - 1];
 #endif
 #ifdef PF2_FAT
         plastic_fat_nsys2Hit[0] = (*plastic_fat_nsys2HC)[plastic_fat_nsys2HC->entries() - 1];
 #endif
-
+#endif
         plastic_thin_nsys1Hit[0] = (*plastic_thin_nsys1HC)[plastic_thin_nsys1HC->entries() - 1];
         plastic_thin_nsys2Hit[0] = (*plastic_thin_nsys2HC)[plastic_thin_nsys2HC->entries() - 1];
         plastic_LQ_nsys1Hit[0] = (*plastic_LQ_nsys1HC)[plastic_LQ_nsys1HC->entries() - 1];
@@ -469,7 +495,7 @@ namespace Cosmic {
 
 
         //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
-
+#ifndef isGenLQ
         #ifdef PF1_FAT
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
@@ -531,6 +557,9 @@ namespace Cosmic {
         }
 
 #endif
+
+#endif
+
 /////////////////////
 
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys1; i++) {
@@ -552,7 +581,7 @@ namespace Cosmic {
                 fPlastic_thin_global_ZPos[0][i] = plastic_thin_nsys1Hit[i]->GetWorldPos().z() / cm;
 
                 fPlastic_thinTheta[0][i] = plastic_thin_nsys1Hit[i]->GetPosTheta() / degree;
-                 fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
+                fPlastic_thinPhi[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhi() / degree;
 
 
                 // fPlastic_thinTheta[0][i] = (plastic_thin_nsys1Hit[i]->GetWorldPos() - primary_vertex->GetPosition()).
@@ -686,6 +715,8 @@ namespace Cosmic {
         G4int index = 0;
         G4int k = 0;
 
+#ifndef isGenLQ
+
 #ifdef HADCAL1
 
         index = 0;
@@ -810,6 +841,7 @@ namespace Cosmic {
         }
 #endif
 
+#endif
         /// ВЕРШИННЫЕ КАМЕРЫ
 
 #if defined(VCARM1) && defined(RUN21)
@@ -1016,7 +1048,8 @@ namespace Cosmic {
 
         if ((printModulo > 0) && (eventID % printModulo == 0)) {
             G4cout << "---> End of event: " << eventID << G4endl;
-#ifdef PF1_FAT
+#ifndef isGenLQ
+            #ifdef PF1_FAT
             PrintEventStatistics(
 
                     plastic_fat_nsys1Hit[0]->GetEdep(), plastic_fat_nsys1Hit[0]->GetTrackLength()
@@ -1025,6 +1058,8 @@ namespace Cosmic {
             );
 
 #endif
+#endif
+
         }
 
 
@@ -1036,6 +1071,7 @@ namespace Cosmic {
 
 
         // fill histograms
+#ifndef isGenLQ
 #ifdef PF1_FAT
         if (plastic_fat_nsys1Hit[0]->GetEdep() > plastic_fat_threshold) {
             analysisManager->FillH1(0, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
@@ -1047,6 +1083,7 @@ namespace Cosmic {
             analysisManager->FillH1(2, plastic_fat_nsys2Hit[0]->GetEdep() / MeV);
             analysisManager->FillH1(3, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
         }
+#endif
 #endif
         if (vertex_energy > 0) analysisManager->FillH1(8, vertex_energy / MeV);
         if (vertex_Energy_gamma > 0) analysisManager->FillH1(9, vertex_Energy_gamma / MeV);
@@ -1070,14 +1107,15 @@ namespace Cosmic {
         //   }
         //   if(plastic_fat_nsys1Hit[0]->GetEdep()/MeV>1. && plastic_fat_nsys2Hit[0]->GetEdep()/MeV>1.) {
         analysisManager->FillNtupleIColumn(0, vertex_number_event);
-
-        #ifdef PF1_FAT
+#ifndef isGenLQ
+#ifdef PF1_FAT
         analysisManager->FillNtupleDColumn(1, plastic_fat_nsys1Hit[0]->GetEdep() / MeV);
         analysisManager->FillNtupleDColumn(2, plastic_fat_nsys1Hit[0]->GetTrackLength() / cm);
 #endif
 #ifdef PF2_FAT
         analysisManager->FillNtupleDColumn(3, plastic_fat_nsys2Hit[0]->GetEdep() / MeV);
         analysisManager->FillNtupleDColumn(4, plastic_fat_nsys2Hit[0]->GetTrackLength() / cm);
+#endif
 #endif
 
         //    analysisManager->FillNtupleDColumn(5, vertex_x / cm);

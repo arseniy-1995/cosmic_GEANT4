@@ -2946,6 +2946,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         //  }
 
+#ifndef isGenLQ
 #ifdef PF1_FAT
         //  SetSensitiveDetector("plastic_fat_nsys1LV", aplasticSD);
         auto aplastic_fat_nsys1SD = new PlasticSD(SDname = "/plastic_fat_nsys1SD", "plastic_fat_nsys1HitsCollection",
@@ -2962,6 +2963,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         plastic_fat_nsys2LV_120->SetSensitiveDetector(aplastic_fat_nsys2SD);
         plastic_fat_nsys2LV_125->SetSensitiveDetector(aplastic_fat_nsys2SD);
 #endif
+#endif // isGenLQ
+
 
 #ifdef PF1_THIN
         // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
@@ -3006,6 +3009,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #endif // LOWQ2
 
 
+#ifndef isGenLQ
 #ifdef HADCAL1
         auto ahadron_calorimeter_nsys1SD = new HadronCalorimeterSD(SDname = "/hadron_calorimeter_nsys1SD",
                                                                    "hadron_calorimeter_nsys1HitsCollection", 1);
@@ -3020,7 +3024,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         sdManager->AddNewDetector(ahadron_calorimeter_nsys2SD);
         scint_HadCal_nsys2LV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
 #endif
-
+#endif //isGenLQ
 
 
 
