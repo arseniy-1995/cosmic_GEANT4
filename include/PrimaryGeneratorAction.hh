@@ -68,8 +68,11 @@ namespace Cosmic {
         void GeneratePrimaries(G4Event *event) override;
 
         void GenerateCosmic(G4Event *event); // for cosmic-generator
-        void GenerateLowQ_method1(G4Event *event); // for ed-generator for LQ-polarimeter
-        void GenerateLowQ_method2(G4Event *event);
+        void GenerateLowQ_ed_method1(G4Event* event); // for ed-generator (elastic, polarized) for LQ-polarimeter
+        void GenerateLowQ_ed_method2(G4Event* event);
+        void GenerateLowQ_ep_method2(G4Event* event); // for ep-generator (elastic, unpolarized) for LQ-polarimeter
+        void GenerateLowQ_ep_quasi_elastic_method2(G4Event* event);
+        // for ep-generator (quasi-elastic, unpolarized) for LQ-polarimeter
 
 
         void GenerateProton(G4Event *event); // for pp-generator

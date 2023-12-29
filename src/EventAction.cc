@@ -496,7 +496,7 @@ namespace Cosmic {
 
         //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
 #ifndef isGenLQ
-        #ifdef PF1_FAT
+#ifdef PF1_FAT
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
             if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold) {
@@ -560,7 +560,7 @@ namespace Cosmic {
 
 #endif
 
-/////////////////////
+        /////////////////////
 
         for (G4int i = 0; i <= fNofLayers_plastic_thin_nsys1; i++) {
             if (i >= 1) plastic_thin_nsys1Hit[i] = (*plastic_thin_nsys1HC)[i - 1];
@@ -1049,7 +1049,7 @@ namespace Cosmic {
         if ((printModulo > 0) && (eventID % printModulo == 0)) {
             G4cout << "---> End of event: " << eventID << G4endl;
 #ifndef isGenLQ
-            #ifdef PF1_FAT
+#ifdef PF1_FAT
             PrintEventStatistics(
 
                     plastic_fat_nsys1Hit[0]->GetEdep(), plastic_fat_nsys1Hit[0]->GetTrackLength()
@@ -1059,7 +1059,6 @@ namespace Cosmic {
 
 #endif
 #endif
-
         }
 
 

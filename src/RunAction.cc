@@ -129,10 +129,10 @@ namespace Cosmic {
 
             //  analysisManager->CreateNtupleIColumn("IndexVertex"); // column Id = 8 // Индекс частицы по PDG
             //  analysisManager->CreateNtupleIColumn("MassVertex"); // column Id = 9 // Индекс частицы по PDG
-     //   analysisManager->CreateNtupleDColumn("EnergyVertex"); // column Id = 10 // Кинетическая энергия
-      //  analysisManager->CreateNtupleDColumn("MomentumVertex"); // column Id = 11 // Импульс
-     //   analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
-      //  analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
+            //   analysisManager->CreateNtupleDColumn("EnergyVertex"); // column Id = 10 // Кинетическая энергия
+            //  analysisManager->CreateNtupleDColumn("MomentumVertex"); // column Id = 11 // Импульс
+            //   analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
+            //  analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
 
         analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 5 // Pzz
         analysisManager->CreateNtupleDColumn("Egamma"); // column Id = 6 // Energy gamma

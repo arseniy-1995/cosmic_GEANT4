@@ -3027,7 +3027,6 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #endif //isGenLQ
 
 
-
         // wire chambers
 #ifdef DCARM1
         auto aW_chamber_nsys1SD = new ChamberSD(SDname = "/W_chamber_nsys1SD", "W_Chamber_nsys1HitsCollection", 1);
