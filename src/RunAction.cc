@@ -134,7 +134,7 @@ namespace Cosmic {
             //   analysisManager->CreateNtupleDColumn("ThetaVertex"); // column Id = 12 // theta
             //  analysisManager->CreateNtupleDColumn("PhiVertex"); // column Id = 13 // phi
 
-        analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 5 // Pzz
+            analysisManager->CreateNtupleDColumn("Pzz"); // column Id = 5 // Pzz
         analysisManager->CreateNtupleDColumn("Egamma"); // column Id = 6 // Energy gamma
         analysisManager->CreateNtupleDColumn("NumReact"); // column Id = 7 // Number reaction
         analysisManager->CreateNtupleDColumn("NumEvnt"); // column Id = 8 // Number event

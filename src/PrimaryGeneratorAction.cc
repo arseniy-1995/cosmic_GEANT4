@@ -529,7 +529,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method1(G4Event* event)
 
     G4double initial_theta_e = 30. * M_PI / 180., final_theta_e = 90. * M_PI / 180.;
     G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
-        G4double max_f = 1.0;
+    G4double max_f = 1.0;
         G4double momentum, kinetic_energy;
         G4double Pzz1 = 1.0, r = -2.0;
         G4double Pzz2 = r * Pzz1;
@@ -618,7 +618,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
 
 
     G4double x_counter_initial = -l_theta_counter, x_counter_final = l_theta_counter;
-        G4double y_counter_initial = -l_phi_counter, y_counter_final = l_phi_counter;
+    G4double y_counter_initial = -l_phi_counter, y_counter_final = l_phi_counter;
 
         G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
         G4double max_f = 1.0;
@@ -670,6 +670,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         deuteron.theta() = deuteron.thetar();
         deuteron.phi() = deuteron.phir();
 
+
+       // G4cout << "theta = " << deuteron.thetar() * 180./ M_PI << " " << deuteron.theta() * 180./ M_PI << " " << theta_deuteron * 180./ M_PI << G4endl;
+       // G4cout << "phi = " << deuteron.phir() * 180./ M_PI << " " << deuteron.phi() * 180./ M_PI << " " << phi_deuteron * 180./ M_PI << G4endl;
 
         G4ParticleDefinition *particle; //for electron
         particle = particleTable->FindParticle("e-");
@@ -840,9 +843,10 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         //  energy_deuteron = 500;
 
         p4vector electron, proton, p0;
-        G4double md = 1875.63, ra = 3.14159 / 180.;
 
-        p0.e() = md + Ebeam;
+        G4double mp = 938.2720881629, ra = 3.14159 / 180.;
+
+        p0.e() = mp + Ebeam;
         p0.z() = Ebeam;
         // electron.e()=Ebeam-ed;
         electron.e() = energy_electron;
