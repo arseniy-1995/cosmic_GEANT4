@@ -530,8 +530,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method1(G4Event* event)
     G4double initial_theta_e = 30. * M_PI / 180., final_theta_e = 90. * M_PI / 180.;
     G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
     G4double max_f = 1.0;
-        G4double momentum, kinetic_energy;
-        G4double Pzz1 = 1.0, r = -2.0;
+    G4double momentum, kinetic_energy;
+    G4double Pzz1 = 1.0, r = -2.0;
         G4double Pzz2 = r * Pzz1;
         G4double Pzz = 0.0;
 
@@ -612,6 +612,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method1(G4Event* event)
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 // метод 2 - это по поверхности счетчика, с учетам ячейки
+// упрогое ed-рассеяние
 void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
 {
     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
@@ -620,7 +621,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     G4double x_counter_initial = -l_theta_counter, x_counter_final = l_theta_counter;
     G4double y_counter_initial = -l_phi_counter, y_counter_final = l_phi_counter;
 
-        G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
+    G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
         G4double max_f = 1.0;
         G4double momentum, kinetic_energy;
         G4double Pzz = 0.0;
@@ -671,10 +672,10 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         deuteron.phi() = deuteron.phir();
 
 
-       // G4cout << "theta = " << deuteron.thetar() * 180./ M_PI << " " << deuteron.theta() * 180./ M_PI << " " << theta_deuteron * 180./ M_PI << G4endl;
-       // G4cout << "phi = " << deuteron.phir() * 180./ M_PI << " " << deuteron.phi() * 180./ M_PI << " " << phi_deuteron * 180./ M_PI << G4endl;
+    // G4cout << "theta = " << deuteron.thetar() * 180./ M_PI << " " << deuteron.theta() * 180./ M_PI << " " << theta_deuteron * 180./ M_PI << G4endl;
+    // G4cout << "phi = " << deuteron.phir() * 180./ M_PI << " " << deuteron.phi() * 180./ M_PI << " " << phi_deuteron * 180./ M_PI << G4endl;
 
-        G4ParticleDefinition *particle; //for electron
+    G4ParticleDefinition *particle; //for electron
         particle = particleTable->FindParticle("e-");
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
@@ -709,7 +710,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-
+// упрогое ep-рассеяние
     void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     {
         G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
@@ -729,7 +730,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
 
         // TODO
-        random_Neumann_LQ_method2(x_counter_initial, x_counter_final,
+        random_Neumann_LQ_ep_method2(x_counter_initial, x_counter_final,
                                   y_counter_initial, y_counter_final,
                                   initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
                                   theta_electron, phi_electron, energy_electron,
@@ -804,6 +805,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+    // квази-упрогое ep-рассеяние
     void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* event)
     {
         G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
@@ -822,8 +824,64 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         G4double energy_electron = 0.0, energy_proton = 0.0;
         G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
 
+
+        ///
+
+        // это интеграл плотности вероятности по импульсу с шагом 10 МэВ?
+        // см. fermi_d.F из GENBOS
+
+        G4double distr_paris_potential[101] = {
+            0.0, 6.7953602E-03, 4.6238571E-02, 0.1236217, 0.2234159,
+            0.3280089, 0.4262296, 0.5131546, 0.5876556, 0.6504297,
+            0.7028700, 0.7465120, 0.7827951, 0.8129796, 0.8381307,
+            0.8591338, 0.8767187, 0.8914840, 0.9039201, 0.9144295,
+            0.9233416, 0.9309281, 0.9374120, 0.9429782, 0.9477784,
+            0.9519395, 0.9555655, 0.9587440, 0.9615465, 0.9640333,
+            0.9662549, 0.9682527, 0.9700612, 0.9717091, 0.9732212,
+            0.9746166, 0.9759121, 0.9771215, 0.9782565, 0.9793263,
+            0.9803385, 0.9812997, 0.9822153, 0.9830891, 0.9839256,
+            0.9847271, 0.9854963, 0.9862349, 0.9869449, 0.9876275,
+            0.9882837, 0.9889148, 0.9895214, 0.9901043, 0.9906641,
+            0.9912014, 0.9917168, 0.9922106, 0.9926836, 0.9931361,
+            0.9935685, 0.9939811, 0.9943746, 0.9947497, 0.9951068,
+            0.9954458, 0.9957677, 0.9960729, 0.9963619, 0.9966350,
+            0.9968930, 0.9971365, 0.9973655, 0.9975811, 0.9977834,
+            0.9979731, 0.9981509, 0.9983172, 0.9984723, 0.9986169,
+            0.9987513, 0.9988762, 0.9989921, 0.9990993, 0.9991982,
+            0.9992898, 0.9993736, 0.9994510, 0.9995219, 0.9995865,
+            0.9996458, 0.9996991, 0.9997482, 0.9997926, 0.9998326,
+            0.9998688, 0.9999010, 0.9999300, 0.9999564, 0.9999794,
+            1.000000
+        };
+
+        G4double distr_bonn_potential[101] = {
+            0.0, 7.0403279E-03, 4.7886062E-02, 0.1279474, 0.2310553,
+            0.3389300, 0.4400139, 0.5292494, 0.6055161, 0.6695801,
+            0.7229201, 0.7671533, 0.8037899, 0.8341466, 0.8593346,
+            0.8802744, 0.8977222, 0.9122964, 0.9245030, 0.9347540,
+            0.9433876, 0.9506804, 0.9568596, 0.9621121, 0.9665918,
+            0.9704258, 0.9737193, 0.9765596, 0.9790186, 0.9811566,
+            0.9830235, 0.9846612, 0.9861036, 0.9873803, 0.9885156,
+            0.9895294, 0.9904380, 0.9912565, 0.9919961, 0.9926671,
+            0.9932781, 0.9938356, 0.9943457, 0.9948140, 0.9952440,
+            0.9956399, 0.9960047, 0.9963413, 0.9966521, 0.9969389,
+            0.9972037, 0.9974484, 0.9976741, 0.9978822, 0.9980739,
+            0.9982503, 0.9984124, 0.9985616, 0.9986980, 0.9988228,
+            0.9989371, 0.9990408, 0.9991356, 0.9992215, 0.9992995,
+            0.9993696, 0.9994332, 0.9994900, 0.9995410, 0.9995866,
+            0.9996274, 0.9996639, 0.9996958, 0.9997242, 0.9997495,
+            0.9997714, 0.9997910, 0.9998078, 0.9998228, 0.9998358,
+            0.9998475, 0.9998578, 0.9998671, 0.9998750, 0.9998825,
+            0.9998896, 0.9998960, 0.9999021, 0.9999081, 0.9999138,
+            0.9999200, 0.9999259, 0.9999323, 0.9999395, 0.9999465,
+            0.9999539, 0.9999623, 0.9999706, 0.9999802, 0.9999896,
+            1.000000
+        };
+
+
+
         // TODO
-        random_Neumann_LQ_method2(x_counter_initial, x_counter_final,
+        random_Neumann_LQ_ep_quasi_elastic_method2(x_counter_initial, x_counter_final,
                                   y_counter_initial, y_counter_final,
                                   initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
                                   theta_electron, phi_electron, energy_electron,

@@ -1474,7 +1474,7 @@ namespace Cosmic {
     void DetectorConstruction::ConstructPlasticThin2() {
 
         // ТОНКИЕ ПЛАСТИКИ
-        // ВЕРХНИЕ ПЛЕЧО
+        // ВЕРХНЕЕ ПЛЕЧО
 #ifdef PF2_THIN
 
 
