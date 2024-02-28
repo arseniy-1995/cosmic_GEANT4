@@ -156,13 +156,20 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     auto phi = aTrack->GetMomentumDirection().getPhi();
 
 
-    auto touchable = preStepPoint->GetTouchable();
-    auto copyNo = touchable->GetCopyNumber();
+   auto touchable = preStepPoint->GetTouchable();
+   G4TouchableHistory* theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
+   auto copyNo = touchable->GetCopyNumber();
 
-    auto motherPhysical = touchable->GetVolume(1); // mother
+   //  G4cout << copyNo <<G4endl;
+
+   auto motherPhysical = touchable->GetVolume(1); // mother
     auto copyNo_mother = motherPhysical->GetCopyNo();
 
-    auto physicalVol = touchable->GetVolume();
+   //  G4cout << copyNo_mother <<G4endl;
+
+   // G4cout << copyNo_mother + copyNo <<G4endl;
+
+   auto physicalVol = touchable->GetVolume();
     auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
     auto copyNo_phys = physicalVol->GetCopyNo();
     auto positionDetector = physicalVol->GetTranslation();
@@ -171,6 +178,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
     auto box = (G4Box*) touchable->GetSolid();
     auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
+
 
 
 
@@ -189,13 +197,16 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
    // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 
+        // G4cout << copyNo_mother + copyNo << " " << hitID <<G4endl;
 
-    G4int CB=0;
-    G4int ni = touchable->GetHistoryDepth();
-    for(G4int i=0;i<ni;i++){		// determines element label
-        G4int k=touchable->GetReplicaNumber(i);
-        if(k>0) CB += k;
-    }
+   G4int CB = 0;
+   G4int ni = theTouchable->GetHistoryDepth();
+   for (G4int i = 0; i < ni; i++)
+   {
+       // determines element label
+       G4int k = theTouchable->GetReplicaNumber(i);
+       if (k > 0) CB += k;
+   }
 
 
    // auto rowNo = touchable->GetCopyNumber(2);
@@ -209,9 +220,32 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    // G4cerr << " CB= " << CB - ARM2_IND<<G4endl;
 
 
+
+
     hitID = CB;
 
-    hit = (*fHitsCollection)[hitID];
+   G4int number_X = 0, number_Z = 0;
+   G4int index = hitID;
+
+   index = index - HCX_IND;
+   if (index >= 0 && index < N_HCX)
+   {
+       number_X = index % NX_BARS;
+       number_X = (index % N_UNITS) * 2 + (index / N_UNITS); // re-numbering bars in a layer
+   }
+
+   index = index - HCZ_IND;
+   if (index >= 0 && index < N_HCZ)
+   {
+       number_Z = index % NZ_BARS;
+       number_Z = (number_Z % N_UNITS) * 2 + (number_Z / N_UNITS); // re-numbering bars in a layer
+   }
+
+   //   G4cout << copyNo_mother + copyNo << " " << hitID <<G4endl;
+
+   //     G4cout << hitID << " " << number_X << " " << number_Z <<G4endl;
+
+   hit = (*fHitsCollection)[hitID];
 
 
     if ( ! hit ) {
@@ -250,6 +284,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     // add energy deposition
     // Add values
 
+     //   G4cout << CB <<G4endl;
+
 
     hit->AddEdep(edep);
     hit->AddLO(edep, posit, dx, velosity, tof);
@@ -258,6 +294,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     hit->AddWorldPos(posit);
     hit->AddLocalPos(posit_local);
     hit->SetHalfLength(halflength);
+    hit->SetBlkN(CB);
 
     hitTotal->AddEdep(edep);
     hitTotal->AddLO(edep, posit, dx, velosity, tof);
@@ -266,6 +303,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);
     hitTotal->SetHalfLength(halflength);
+    hitTotal->SetBlkN(CB);
 
 
     ROhist=NULL;

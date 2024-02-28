@@ -91,7 +91,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
         //  void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta); // световыход
 
         G4RotationMatrix GetVRot() const;
-        G4int GetBlkN() const;
+        G4int GetBlkN();
         // G4double GetToF() const;
         G4bool GetTrig() const;
         G4int GetNprim() const;
@@ -241,7 +241,7 @@ extern G4ThreadLocal G4Allocator<HadronCalorimeterHit>* HadronCalorimeterHitAllo
     }
 
 
-    inline G4int HadronCalorimeterHit::GetBlkN() const { return blkN; }
+    inline G4int HadronCalorimeterHit::GetBlkN() { return blkN; }
 
 
     inline G4bool HadronCalorimeterHit::GetTrig() const { return Trig; };

@@ -355,24 +355,24 @@ namespace Cosmic {
                                        G4double &xx_cell, G4double &yy_cell, G4double &zz_cell);
 
         void random_Neumann_LQ_ep_method2(G4double initial_x_counter_e, G4double final_x_counter_e,
-                                       G4double initial_y_counter_e, G4double final_y_counter_e,
-                                       G4double initial_zz_cell, G4double final_zz_cell,
-                                       G4double Pzz1, G4double Pzz2, G4double max_f,
-                                       G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
-                                       G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
-                                       G4double &Pzz,
-                                       G4double &xx_cell, G4double &yy_cell, G4double &zz_cell);
+                                          G4double initial_y_counter_e, G4double final_y_counter_e,
+                                          G4double initial_zz_cell, G4double final_zz_cell,
+                                          G4double Pzz1, G4double Pzz2, G4double max_f,
+                                          G4double& theta_electron, G4double& phi_electron, G4double& energy_electron,
+                                          G4double& theta_deuteron, G4double& phi_deuteron, G4double& energy_deuteron,
+                                          G4double& Pzz,
+                                          G4double& xx_cell, G4double& yy_cell, G4double& zz_cell);
 
         void random_Neumann_LQ_ep_quasi_elastic_method2(G4double initial_x_counter_e, G4double final_x_counter_e,
-                                       G4double initial_y_counter_e, G4double final_y_counter_e,
-                                       G4double initial_zz_cell, G4double final_zz_cell,
-                                       G4double Pzz1, G4double Pzz2, G4double max_f,
-                                       G4double &theta_electron, G4double &phi_electron, G4double &energy_electron,
-                                       G4double &theta_deuteron, G4double &phi_deuteron, G4double &energy_deuteron,
-                                       G4double &Pzz,
-                                       G4double &xx_cell, G4double &yy_cell, G4double &zz_cell);
-
-
+                                                        G4double initial_y_counter_e, G4double final_y_counter_e,
+                                                        G4double initial_zz_cell, G4double final_zz_cell,
+                                                        G4double Pzz1, G4double Pzz2, G4double max_f,
+                                                        G4double& theta_electron, G4double& phi_electron,
+                                                        G4double& energy_electron,
+                                                        G4double& theta_deuteron, G4double& phi_deuteron,
+                                                        G4double& energy_deuteron,
+                                                        G4double& Pzz,
+                                                        G4double& xx_cell, G4double& yy_cell, G4double& zz_cell);
     };
 
 }

@@ -448,8 +448,8 @@ namespace Cosmic {
 
 #ifdef HADCAL1
 
-        //G4int pCopyNo_HADCAL_nsys1 = ARM1_IND;
-        G4int pCopyNo_HADCAL_nsys1 = 0;
+        G4int pCopyNo_HADCAL_nsys1 = ARM1_IND;
+        // G4int pCopyNo_HADCAL_nsys1 = 0;
 
         G4ThreeVector pos_HAD;
 #ifdef RUN21
@@ -464,8 +464,8 @@ namespace Cosmic {
                           fCheckOverlaps);
 #endif
 #ifdef HADCAL2
-        // G4int pCopyNo_HADCAL_nsys2 = ARM2_IND;
-        G4int pCopyNo_HADCAL_nsys2 = 0;
+        G4int pCopyNo_HADCAL_nsys2 = ARM2_IND;
+        //G4int pCopyNo_HADCAL_nsys2 = 0;
 #ifdef RUN21
             pos_HAD =  G4ThreeVector(0.0 * cm, 171. * cm, 78. * cm);
 #endif
@@ -600,8 +600,8 @@ namespace Cosmic {
         // Электронные счетчики LO-поляриметра
 #if defined(LOWQ1) || defined(LOWQ2)
 
-        auto LQBox_log_nsys1 = ConstructLOWQ(1);
-        auto LQBox_log_nsys2 = ConstructLOWQ(2);
+        auto LQBox_log_nsys1 = ConstructLOWQ(1); // нижний
+        auto LQBox_log_nsys2 = ConstructLOWQ(2); // верхний
 
         // PLACE LQ
 
@@ -636,7 +636,8 @@ namespace Cosmic {
         G4double x_pos_LQ2 = 0.0; // верхний
         G4double y_pos_LQ2 = 31.9 * cm;
         G4double z_pos_LQ2 = 65.7 * cm - converter_th / 2; // учесть сдвиг/толщину конвертера
-        rmx->rotateX(-57. * deg);
+        // rmx->rotateX(-57. * deg); // 90 - 33
+        rmx->rotateX(-63.2 * deg); // 90 - (180-153.2)
 #endif
 
 
@@ -648,11 +649,12 @@ namespace Cosmic {
 #ifdef LOWQ2
         rmx = new G4RotationMatrix();
 #if defined(RUN21)
-            rmx->rotateX(-60. * deg);
+            rmx->rotateX(-60. * deg); // 90-30
 #endif
 
 #if defined(RUN23)
-        rmx->rotateX(-57. * deg);
+        //rmx->rotateX(-57. * deg); //90-33
+        rmx->rotateX(-64.1 * deg); // 90 - (180-154.1)
 #endif
         auto vol_phys_LQnsys2 = new G4PVPlacement(rmx,
                                                   G4ThreeVector(x_pos_LQ2, y_pos_LQ2, z_pos_LQ2),
@@ -1746,12 +1748,12 @@ namespace Cosmic {
                                      fCheckOverlaps);
         y_pos = (IronThickness + ScintThickness) / 2. + GapY;
         x_pos = (ScintSizeX + GapX) / 2.;
-        // 2 scint strips on bottom of  iron bar
+        // 2 scint strips on bottom of  iron bar внизу
         vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false, 0,
                                      fCheckOverlaps);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
                                      N_UNITS, fCheckOverlaps);
-        // 2 scint strips on top of  iron bar
+        // 2 scint strips on top of  iron bar вверху
         vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
                                      2 * N_UNITS, fCheckOverlaps);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
@@ -1815,8 +1817,10 @@ namespace Cosmic {
         ///
         G4int nx = HCX_IND, nz = HCZ_IND;
 
+            // Размножение по Y
+
         y_pos = -SandSizeY / 2. + LayerStep / 2.;
-        for (G4int i = 0; i < NbOfLayers + 1; y_pos += LayerStep, i++) {
+        for (G4int i = 0; i < 1*NbOfLayers + 1; y_pos += LayerStep, i++) {
             if ((i & 1) == 1) {       // X-layer
                 if (i != NbOfLayers) {// not last layer?
                     vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)), layer_log,
@@ -1848,7 +1852,8 @@ namespace Cosmic {
         }
 
         G4cerr << "***** nx=" << nx - HCX_IND << " nz=" << nz - HCZ_IND;
-        G4cerr << " HCX_IND=" << HCX_IND << " HCZ_IND=" << HCZ_IND << " LQ_IND=" << LQ_IND << G4endl;
+        G4cerr << " HCX_IND=" << HCX_IND << " HCZ_IND=" << HCZ_IND << " LQ_IND=" << LQ_IND;
+        G4cerr << " ARM1_IND=" << ARM1_IND << " ARM2_IND=" << ARM2_IND<< G4endl;
 
 
         if (nsys == 1) scint_HadCal_nsys1LV = scint_HadCalLV;

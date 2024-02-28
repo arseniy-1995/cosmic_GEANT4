@@ -181,10 +181,14 @@ namespace Cosmic {
             GenerateLowQ_ed_method2(anEvent); ///!!!!
 
 #endif
+
+#ifdef isGenPNpair
+            GenerateProtonNeutron(anEvent);
+            // GenerateProtonNeutron_rachek(anEvent);
+#endif
             // GenerateProton(anEvent);
             //  GenerateNeutron(anEvent);
-            //GenerateProtonNeutron(anEvent);
-            // GenerateProtonNeutron_rachek(anEvent);
+
             // GenerateDeuteronPi0(anEvent);
            // GenerateGamma(anEvent);
            //  GenerateGenbos(anEvent);
@@ -437,7 +441,7 @@ namespace Cosmic {
                            : phi_e_temp +
                            M_PI; // возможность, чтобы электроны летели в нижний счетчик тоже
 
-        //  phi_electron = phi_e_temp + M_PI;
+        // phi_electron = phi_e_temp + M_PI;
 
         phi_deuteron = M_PI - phi_electron;
         xx_cell = xx_cell_temp;
@@ -622,8 +626,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     G4double y_counter_initial = -l_phi_counter, y_counter_final = l_phi_counter;
 
     G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
-        G4double max_f = 1.0;
-        G4double momentum, kinetic_energy;
+    G4double max_f = 1.0;
+    G4double momentum, kinetic_energy;
         G4double Pzz = 0.0;
 
         G4double theta_electron = 0.0, theta_deuteron = 0.0;
@@ -675,9 +679,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     // G4cout << "theta = " << deuteron.thetar() * 180./ M_PI << " " << deuteron.theta() * 180./ M_PI << " " << theta_deuteron * 180./ M_PI << G4endl;
     // G4cout << "phi = " << deuteron.phir() * 180./ M_PI << " " << deuteron.phi() * 180./ M_PI << " " << phi_deuteron * 180./ M_PI << G4endl;
 
-    G4ParticleDefinition *particle; //for electron
-        particle = particleTable->FindParticle("e-");
-        fParticleGun->SetParticleDefinition(particle);
+    G4ParticleDefinition* particle; //for electron
+    particle = particleTable->FindParticle("e-");
+    fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
         // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_electron)*cos(phi_electron),sin(theta_electron)*sin(phi_electron),cos(theta_electron)));
         fParticleGun->SetParticleEnergy(energy_electron * MeV);
@@ -711,9 +715,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 // упрогое ep-рассеяние
-    void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
-    {
-        G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
+{
+    G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
 
         G4double x_counter_initial = -l_theta_counter, x_counter_final = l_theta_counter;
@@ -730,14 +734,14 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
 
         // TODO
-        random_Neumann_LQ_ep_method2(x_counter_initial, x_counter_final,
-                                  y_counter_initial, y_counter_final,
-                                  initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
-                                  theta_electron, phi_electron, energy_electron,
-                                  theta_proton, phi_proton, energy_proton,
-                                  Pzz, xx_cell, yy_cell, zz_cell);
+        // random_Neumann_LQ_ep_method2(x_counter_initial, x_counter_final,
+    //                              y_counter_initial, y_counter_final,
+    //                              initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
+    //                              theta_electron, phi_electron, energy_electron,
+    //                              theta_proton, phi_proton, energy_proton,
+    //                              Pzz, xx_cell, yy_cell, zz_cell);
 
-        //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
+    //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
         //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
         //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
         //   G4cerr <<std::endl;
@@ -879,14 +883,13 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         };
 
 
-
         // TODO
-        random_Neumann_LQ_ep_quasi_elastic_method2(x_counter_initial, x_counter_final,
-                                  y_counter_initial, y_counter_final,
-                                  initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
-                                  theta_electron, phi_electron, energy_electron,
-                                  theta_proton, phi_proton, energy_proton,
-                                  Pzz, xx_cell, yy_cell, zz_cell);
+        // random_Neumann_LQ_ep_quasi_elastic_method2(x_counter_initial, x_counter_final,
+        //                                            y_counter_initial, y_counter_final,
+        //                                            initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
+        //                                            theta_electron, phi_electron, energy_electron,
+        //                                            theta_proton, phi_proton, energy_proton,
+        //                                            Pzz, xx_cell, yy_cell, zz_cell);
 
         //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
         //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
@@ -1090,7 +1093,10 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         p4vector q, d, n, p, pn;
         p4vector p_pn; // продольная составляющая
 
-        do {
+        double max_phi =40.*ra;
+
+        do
+        {
             n_det++;
             n.mm() = Mn * Mn;
             p_pn.mm() = p.mm() = Mp * Mp;
@@ -1119,14 +1125,31 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
             n.phi() = n.phir();
 
         } while (
-                (p.e() - Mp) < 20. || (p.e() - Mp) > 1000. ||
-                (n.e() - Mn) < 5. || (n.e() - Mn) > 1000. ||
+               ( ((p.e() - Mp) < 20. || (p.e() - Mp) > 1000.) ||
+                   ((n.e() - Mn) < 5. || (n.e() - Mn) > 1000.) ||
                 // p.theta() < 30. * ra || p.theta() > 110. * ra ||
                 // n.theta() < 30. * ra || n.theta() > 110. * ra
-                p.theta() < 40. * ra || p.theta() > 130. * ra ||
-                n.theta() < 40. * ra || n.theta() > 130. * ra
+                   ( p.theta() < 35. * ra || p.theta() > 120. * ra )||
+               ( n.theta() < 35. * ra || n.theta() > 120. * ra)) ||
 
-                );
+            // (((abs(p.phi()-(-90.) * ra) > 45.*ra) && p.phi() > 0) || ((abs(n.phi()-(90.) * ra) > 45.*ra) && n.phi() < 0))  // протон вниз - нейтрон вверх
+            //   || (((abs(p.phi()-(90.) * ra) > 45.*ra) && p.phi() < 0) || ((abs(n.phi()-(-90.) * ra) > 45.*ra) && n.phi() > 0)) // протон вверх - нейтрон вниз
+
+             //(abs(p.phi()-(-90.) * ra) > 45.*ra)
+
+              //(abs(p.phi()-(90.) * ra) > 45.*ra && abs(p.phi()-(-90.) * ra) > 45.*ra)
+            // (p.phi() < (-90. - 35.) * ra && p.phi() > (-90. + 35.) * ra && p.phi() < 0 && n.phi() < (90. -  35.) * ra && n.phi() > (90. + 35.) * ra && n.phi() > 0)
+
+
+            not (
+                ((abs(p.phi() - (-90.) * ra) < max_phi) && p.phi() < 0. && (abs(n.phi() - (90.) * ra) < max_phi) && n
+                    .phi() > 0.) // протон вниз - нейтрон вверх
+                or
+                ((abs(p.phi() - (90.) * ra) < max_phi) && p.phi() > 0. && (abs(n.phi() - (-90.) * ra) < max_phi) && n
+                    .phi() < 0.) // протон вверх - нейтрон вниз
+            )
+
+        );
         //n.fi()<60.*ra||n.fi()>120.*ra );
 
         //G4cout<<"n_det="<<n_det<<"\t"<<"Eq="<<q.e()<<G4endl;
@@ -1157,6 +1180,58 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
         //  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
+
+
+        // вручную точеная частица
+
+
+         /*particle1 = particleTable->FindParticle(particleName = "proton");
+        fParticleGun->SetParticleDefinition(particle1);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
+        fParticleGun->SetParticleEnergy(600. * MeV);
+        fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        particle2 = particleTable->FindParticle(particleName = "neutron");
+        fParticleGun->SetParticleDefinition(particle2);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
+        fParticleGun->SetParticleEnergy(600. * MeV);
+        fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
+        fParticleGun->GeneratePrimaryVertex(event);*/
+
+           /*particle1 = particleTable->FindParticle(particleName = "mu-");
+         fParticleGun->SetParticleDefinition(particle1);
+         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
+         fParticleGun->SetParticleEnergy(1000. * MeV);
+         fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.5*m));
+         fParticleGun->GeneratePrimaryVertex(event);
+
+
+         particle2 = particleTable->FindParticle(particleName = "mu-");
+         fParticleGun->SetParticleDefinition(particle2);
+         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
+         fParticleGun->SetParticleEnergy(1000. * MeV);
+         fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.5*m));
+         fParticleGun->GeneratePrimaryVertex(event);*/
+
+
+        // auto vertex2 =G4ThreeVector(1*(2*G4UniformRand()-1)*m, 0., 1*(2*G4UniformRand()-1)*m +0.7*m);
+        //   particle1 = particleTable->FindParticle(particleName = "mu-");
+        // fParticleGun->SetParticleDefinition(particle1);
+        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
+        // fParticleGun->SetParticleEnergy(1000. * MeV);
+        // fParticleGun->SetParticlePosition(vertex2 );
+        // fParticleGun->GeneratePrimaryVertex(event);
+        //
+        //
+        // particle2 = particleTable->FindParticle(particleName = "mu-");
+        // fParticleGun->SetParticleDefinition(particle2);
+        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
+        // fParticleGun->SetParticleEnergy(1000. * MeV);
+        // fParticleGun->SetParticlePosition(vertex2 );
+        // fParticleGun->GeneratePrimaryVertex(event);
+
 
 
         EventInfo *info = new EventInfo();

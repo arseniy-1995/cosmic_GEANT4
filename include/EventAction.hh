@@ -404,6 +404,12 @@ namespace Cosmic {
             return fHCX_N[0];
         }
 
+        std::vector<G4int>& Get_HCX_NSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_NSum[1];
+            return fHCX_NSum[0];
+        }
+
         std::vector<G4int> &Get_HCX_AL(G4int nsys = 1) {
             if (nsys == 2) return fHCX_AL[1];
             return fHCX_AL[0];
@@ -419,10 +425,10 @@ namespace Cosmic {
             return fHCX_LO[0];
         }
 
-        std::vector<G4float> &Get_HCX_A(G4int nsys = 1) {
-            if (nsys == 2) return fHCX_A[1];
-            return fHCX_A[0];
-        }
+        // std::vector<G4float> &Get_HCX_A(G4int nsys = 1) {
+        //     if (nsys == 2) return fHCX_A[1];
+        //     return fHCX_A[0];
+        // }
 
         std::vector<G4float> &Get_HCX_A1(G4int nsys = 1) {
             if (nsys == 2) return fHCX_A1[1];
@@ -454,6 +460,58 @@ namespace Cosmic {
             return fHCX_ToF[0];
         }
 
+        ///
+
+        std::vector<G4float>& Get_HCX_EdepSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_EdepSum[1];
+            return fHCX_EdepSum[0];
+        }
+
+        std::vector<G4float>& Get_HCX_LOSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_LOSum[1];
+            return fHCX_LOSum[0];
+        }
+
+
+        std::vector<G4float>& Get_HCX_A1Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_A1Sum[1];
+            return fHCX_A1Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCX_A2Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_A2Sum[1];
+            return fHCX_A2Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCX_T1Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_T1Sum[1];
+            return fHCX_T1Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCX_T2Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_T2Sum[1];
+            return fHCX_T2Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCX_TrackLengthSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_TrackLengthSum[1];
+            return fHCX_TrackLengthSum[0];
+        }
+
+        std::vector<G4float>& Get_HCX_ToFSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_ToFSum[1];
+            return fHCX_ToFSum[0];
+        }
+
+        ///
         std::vector<G4float> &Get_HCX_Pos(G4int nsys = 1, G4int index = 1) {
 
             if (nsys == 1) {
@@ -467,15 +525,39 @@ namespace Cosmic {
                 if (index == 3) return fHCX_ZPos[1];
             }
             return fHCX_XPos[0];
+        }
+
+
+        std::vector<G4float>& Get_HCX_GlobalPos(G4int nsys = 1, G4int index = 1)
+        {
+            if (nsys == 1)
+            {
+                if (index == 1) return fHCX_global_XPos[0];
+                if (index == 2) return fHCX_global_YPos[0];
+                if (index == 3) return fHCX_global_ZPos[0];
+            }
+            if (nsys == 2)
+            {
+                if (index == 1) return fHCX_global_XPos[1];
+                if (index == 2) return fHCX_global_YPos[1];
+                if (index == 3) return fHCX_global_ZPos[1];
+            }
+            return fHCX_global_XPos[0];
 
         }
 
         ///////
 
 
-        std::vector<G4int> &Get_HCZ_N(G4int nsys = 1) {
+        std::vector<G4int> &Get_HCZ_N(G4int nsys = 1)
+        {
             if (nsys == 2) return fHCZ_N[1];
             return fHCZ_N[0];
+        }
+
+        std::vector<G4int>& Get_HCZ_NSum(G4int nsys = 1) {
+            if (nsys == 2) return fHCZ_NSum[1];
+            return fHCZ_NSum[0];
         }
 
         std::vector<G4int> &Get_HCZ_AL(G4int nsys = 1) {
@@ -488,15 +570,16 @@ namespace Cosmic {
             return fHCZ_Edep[0];
         }
 
-        std::vector<G4float> &Get_HCZ_LO(G4int nsys = 1) {
+        std::vector<G4float> &Get_HCZ_LO(G4int nsys = 1)
+        {
             if (nsys == 2) return fHCZ_LO[1];
             return fHCZ_LO[0];
         }
 
-        std::vector<G4float> &Get_HCZ_A(G4int nsys = 1) {
-            if (nsys == 2) return fHCZ_A[1];
-            return fHCZ_A[0];
-        }
+        // std::vector<G4float> &Get_HCZ_A(G4int nsys = 1) {
+        //     if (nsys == 2) return fHCZ_A[1];
+        //     return fHCZ_A[0];
+        // }
 
         std::vector<G4float> &Get_HCZ_A1(G4int nsys = 1) {
             if (nsys == 2) return fHCZ_A1[1];
@@ -523,10 +606,65 @@ namespace Cosmic {
             return fHCZ_TrackLength[0];
         }
 
-        std::vector<G4float> &Get_HCZ_ToF(G4int nsys = 1) {
+        std::vector<G4float>& Get_HCZ_ToF(G4int nsys = 1)
+        {
             if (nsys == 2) return fHCZ_ToF[1];
             return fHCZ_ToF[0];
         }
+
+
+        ///
+
+        std::vector<G4float>& Get_HCZ_EdepSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_EdepSum[1];
+            return fHCZ_EdepSum[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_LOSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_LOSum[1];
+            return fHCZ_LOSum[0];
+        }
+
+
+        std::vector<G4float>& Get_HCZ_A1Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_A1Sum[1];
+            return fHCZ_A1Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_A2Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_A2Sum[1];
+            return fHCZ_A2Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_T1Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_T1Sum[1];
+            return fHCZ_T1Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_T2Sum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_T2Sum[1];
+            return fHCZ_T2Sum[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_TrackLengthSum(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_TrackLengthSum[1];
+            return fHCZ_TrackLengthSum[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_ToFSum(G4int nsys = 1) {
+            if (nsys == 2) return fHCZ_ToFSum[1];
+            return fHCZ_ToFSum[0];
+        }
+
+
+        ///
 
         std::vector<G4float> &Get_HCZ_Pos(G4int nsys = 1, G4int index = 1) {
 
@@ -541,6 +679,23 @@ namespace Cosmic {
                 if (index == 3) return fHCZ_ZPos[1];
             }
             return fHCZ_XPos[0];
+        }
+
+        std::vector<G4float>& Get_HCZ_GlobalPos(G4int nsys = 1, G4int index = 1)
+        {
+            if (nsys == 1)
+            {
+                if (index == 1) return fHCZ_global_XPos[0];
+                if (index == 2) return fHCZ_global_YPos[0];
+                if (index == 3) return fHCZ_global_ZPos[0];
+            }
+            if (nsys == 2)
+            {
+                if (index == 1) return fHCZ_global_XPos[1];
+                if (index == 2) return fHCZ_global_YPos[1];
+                if (index == 3) return fHCZ_global_ZPos[1];
+            }
+            return fHCZ_global_XPos[0];
 
         }
 
@@ -705,12 +860,14 @@ namespace Cosmic {
         // FOR GENBOS (нексколько частиц сгенерировано в вершине)
         G4double vertex_Energy_gamma;
         G4int vertex_number_reaction;	// reaction type
-        G4int vertex_number_vertex;		// number of vertexes (particles)
-        G4double X_vertex[VMAX],Y_vertex[VMAX],Z_vertex[VMAX];
-        G4double index_vertex[VMAX],energy_vertex[VMAX],theta_vertex[VMAX],phi_vertex[VMAX];
+        G4int vertex_number_vertex; // number of vertexes (particles)
+        G4double X_vertex[VMAX], Y_vertex[VMAX], Z_vertex[VMAX];
+        G4double index_vertex[VMAX], energy_vertex[VMAX], theta_vertex[VMAX], phi_vertex[VMAX];
 
         // methods
-        PlasticHitsCollection *GetHitsCollection(G4int hcID, const G4Event *event) const;
+        PlasticHitsCollection *GetHitsCollection_Plastic(G4int hcID, const G4Event *event) const;
+
+        HadronCalorimeterHitsCollection *GetHitsCollection_HadronCalorimeter(G4int hcID, const G4Event *event) const;
 
         void PrintEventStatistics(G4double aplasticEdep, G4double plasticTrackLength) const;
 
@@ -924,20 +1081,24 @@ namespace Cosmic {
                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fPlastic_LQ_PhiGlob{
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
-                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
+                 std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)
+                }
+        };
         ////// Для Адронного Калориметра
 
         std::array<std::vector<G4int>, 2> fHCX_N{
-                {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}};
+            {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}
+        };
+        std::array<std::vector<G4int>, 2> fHCX_NSum{
+            {std::vector<G4int>(NX_BARS+ 1, NAN), std::vector<G4int>(NX_BARS + 1, NAN)}};
+
         std::array<std::vector<G4int>, 2> fHCX_AL{
-                {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}};
+                {std::vector<G4int>(N_HCX + 1, -5), std::vector<G4int>(N_HCX + 1, -5)}};
+
         std::array<std::vector<G4float>, 2> fHCX_Edep{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_LO{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
-        std::array<std::vector<G4float>, 2> fHCX_A{
-                {std::vector<G4float>(N_HCX + 1, 0.0),
-                 std::vector<G4float>(N_HCX + 1, 0.0)}}; // здесь нужно заполнять нулями
         std::array<std::vector<G4float>, 2> fHCX_A1{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_A2{
@@ -947,27 +1108,67 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fHCX_T2{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_TrackLength{
-                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fHCX_ToF{
-                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+        };
+
+
+        std::array<std::vector<G4float>, 2> fHCX_EdepSum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_LOSum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}
+        }; // здесь нужно заполнять нулями
+        std::array<std::vector<G4float>, 2> fHCX_A1Sum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_A2Sum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_T1Sum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_T2Sum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_TrackLengthSum{
+            {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}};
+        std::array<std::vector<G4float>, 2> fHCX_ToFSum{
+                {std::vector<G4float>(NX_BARS + 1, 0.0), std::vector<G4float>(NX_BARS + 1, 0.0)}};
+
+
         std::array<std::vector<G4float>, 2> fHCX_XPos{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCX_YPos{
-                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fHCX_ZPos{
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_global_XPos{
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fHCX_global_YPos{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fHCX_global_ZPos{
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+        };
 
         std::array<std::vector<G4int>, 2> fHCZ_N{
-                {std::vector<G4int>(N_HCZ + 1, NAN), std::vector<G4int>(N_HCZ + 1, NAN)}};
+            {std::vector<G4int>(N_HCZ + 1, NAN), std::vector<G4int>(N_HCZ + 1, NAN)}
+        };
+        std::array<std::vector<G4int>, 2> fHCZ_NSum{
+                {std::vector<G4int>(NZ_BARS + 1, NAN), std::vector<G4int>(NZ_BARS + 1, NAN)}};
+
         std::array<std::vector<G4int>, 2> fHCZ_AL{
-                {std::vector<G4int>(N_HCZ + 1, NAN), std::vector<G4int>(N_HCZ + 1, NAN)}};
+                {std::vector<G4int>(N_HCZ + 1, -5), std::vector<G4int>(N_HCZ + 1, -5)}};
+
         std::array<std::vector<G4float>, 2> fHCZ_Edep{
                 {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_LO{
                 {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
-        std::array<std::vector<G4float>, 2> fHCZ_A{
-                {std::vector<G4float>(N_HCZ + 1, 0.0),
-                 std::vector<G4float>(N_HCZ + 1, 0.0)}}; // здесь нужно заполнять нулями
         std::array<std::vector<G4float>, 2> fHCZ_A1{
                 {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_A2{
@@ -977,14 +1178,49 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fHCZ_T2{
                 {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fHCZ_TrackLength{
-                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fHCZ_ToF{
-                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
+        };
+
+        std::array<std::vector<G4float>, 2> fHCZ_EdepSum{
+            {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCZ_LOSum{
+            {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}
+        }; // здесь нужно заполнять нулями
+        std::array<std::vector<G4float>, 2> fHCZ_A1Sum{
+            {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCZ_A2Sum{
+            {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCZ_T1Sum{
+            {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCZ_T2Sum{
+            {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}
+        };
+        std::array<std::vector<G4float>, 2> fHCZ_TrackLengthSum{
+                {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}};
+        std::array<std::vector<G4float>, 2> fHCZ_ToFSum{
+                {std::vector<G4float>(NZ_BARS + 1, 0.0), std::vector<G4float>(NZ_BARS + 1, 0.0)}};
+
         std::array<std::vector<G4float>, 2> fHCZ_XPos{
-                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fHCZ_YPos{
-                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
+        };
         std::array<std::vector<G4float>, 2> fHCZ_ZPos{
+            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fHCZ_global_XPos{
+            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fHCZ_global_YPos{
+                {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fHCZ_global_ZPos{
                 {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
 
 ///////
@@ -1087,7 +1323,7 @@ namespace Cosmic {
         // Для вершинных камер
 
         std::array<std::vector<G4int>, 2> fVC_N{
-                {std::vector<G4int>(NVC_WRS + 1, NAN), std::vector<G4int>(NVC_WRS + 1, NAN)}};
+                {std::vector<G4int>(NVC_WRS + 1, 0), std::vector<G4int>(NVC_WRS + 1, 0)}};
         std::array<std::vector<G4float>, 2> fVC_Mass{
                 {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_KineticEnergy{

@@ -38,12 +38,13 @@ namespace Cosmic {
 
 //#define isGenCosmic
 
-#define isGenLQ
-#define isTrigLQ
+//#define isGenLQ
+//#define isTrigLQ
 
-//  #define isTrigPN
+#define isGenPNpair
+#define isTrigPN
 
-//#define isTrig_accept_all
+    //#define isTrig_accept_all
 
 constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
@@ -151,8 +152,8 @@ constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то занулен
 #endif // RUN23
 
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 =
-            N_HCX + N_HCZ + 100; // число чувствительных элементов в калориметре
-    constexpr G4int fNofLayers_HadrtonCalorimeter_nsys2 = N_HCX + N_HCZ + 100;
+            N_HCX + N_HCZ + 0; // число чувствительных элементов в калориметре
+    constexpr G4int fNofLayers_HadrtonCalorimeter_nsys2 = N_HCX + N_HCZ + 0;
 
     constexpr G4int fNofLayers_W_Chamber_nsys1 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
     constexpr G4int fNofLayers_W_Chamber_nsys2 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;
