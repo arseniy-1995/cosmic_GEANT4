@@ -628,7 +628,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
     G4double max_f = 1.0;
     G4double momentum, kinetic_energy;
-        G4double Pzz = 0.0;
+    G4double Pzz = 0.0;
 
         G4double theta_electron = 0.0, theta_deuteron = 0.0;
         G4double phi_electron = 0.0, phi_deuteron = 0.0;
@@ -682,7 +682,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     G4ParticleDefinition* particle; //for electron
     particle = particleTable->FindParticle("e-");
     fParticleGun->SetParticleDefinition(particle);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
+    fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
         // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_electron)*cos(phi_electron),sin(theta_electron)*sin(phi_electron),cos(theta_electron)));
         fParticleGun->SetParticleEnergy(energy_electron * MeV);
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
@@ -720,7 +720,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
 
-        G4double x_counter_initial = -l_theta_counter, x_counter_final = l_theta_counter;
+    G4double x_counter_initial = -l_theta_counter, x_counter_final = l_theta_counter;
         G4double y_counter_initial = -l_phi_counter, y_counter_final = l_phi_counter;
 
         G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
@@ -742,7 +742,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     //                              Pzz, xx_cell, yy_cell, zz_cell);
 
     //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
-        //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
+    //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
         //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
         //   G4cerr <<std::endl;
 
@@ -1093,7 +1093,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         p4vector q, d, n, p, pn;
         p4vector p_pn; // продольная составляющая
 
-        double max_phi =40.*ra;
+        double max_phi = 40. * ra;
 
         do
         {
@@ -1125,23 +1125,23 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
             n.phi() = n.phir();
 
         } while (
-               ( ((p.e() - Mp) < 20. || (p.e() - Mp) > 1000.) ||
-                   ((n.e() - Mn) < 5. || (n.e() - Mn) > 1000.) ||
+            (((p.e() - Mp) < 20. || (p.e() - Mp) > 1000.) ||
+                ((n.e() - Mn) < 5. || (n.e() - Mn) > 1000.) ||
                 // p.theta() < 30. * ra || p.theta() > 110. * ra ||
                 // n.theta() < 30. * ra || n.theta() > 110. * ra
-                   ( p.theta() < 35. * ra || p.theta() > 120. * ra )||
-               ( n.theta() < 35. * ra || n.theta() > 120. * ra)) ||
+                   (p.theta() < 35. * ra || p.theta() > 120. * ra) ||
+                (n.theta() < 35. * ra || n.theta() > 120. * ra)) ||
 
             // (((abs(p.phi()-(-90.) * ra) > 45.*ra) && p.phi() > 0) || ((abs(n.phi()-(90.) * ra) > 45.*ra) && n.phi() < 0))  // протон вниз - нейтрон вверх
             //   || (((abs(p.phi()-(90.) * ra) > 45.*ra) && p.phi() < 0) || ((abs(n.phi()-(-90.) * ra) > 45.*ra) && n.phi() > 0)) // протон вверх - нейтрон вниз
 
-             //(abs(p.phi()-(-90.) * ra) > 45.*ra)
+            //(abs(p.phi()-(-90.) * ra) > 45.*ra)
 
-              //(abs(p.phi()-(90.) * ra) > 45.*ra && abs(p.phi()-(-90.) * ra) > 45.*ra)
+            //(abs(p.phi()-(90.) * ra) > 45.*ra && abs(p.phi()-(-90.) * ra) > 45.*ra)
             // (p.phi() < (-90. - 35.) * ra && p.phi() > (-90. + 35.) * ra && p.phi() < 0 && n.phi() < (90. -  35.) * ra && n.phi() > (90. + 35.) * ra && n.phi() > 0)
 
 
-            not (
+            not(
                 ((abs(p.phi() - (-90.) * ra) < max_phi) && p.phi() < 0. && (abs(n.phi() - (90.) * ra) < max_phi) && n
                     .phi() > 0.) // протон вниз - нейтрон вверх
                 or
@@ -1185,35 +1185,35 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         // вручную точеная частица
 
 
-         /*particle1 = particleTable->FindParticle(particleName = "proton");
-        fParticleGun->SetParticleDefinition(particle1);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
-        fParticleGun->SetParticleEnergy(600. * MeV);
-        fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
-        fParticleGun->GeneratePrimaryVertex(event);
+        /*particle1 = particleTable->FindParticle(particleName = "proton");
+       fParticleGun->SetParticleDefinition(particle1);
+       fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
+       fParticleGun->SetParticleEnergy(600. * MeV);
+       fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
+       fParticleGun->GeneratePrimaryVertex(event);
 
 
-        particle2 = particleTable->FindParticle(particleName = "neutron");
-        fParticleGun->SetParticleDefinition(particle2);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
-        fParticleGun->SetParticleEnergy(600. * MeV);
-        fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
-        fParticleGun->GeneratePrimaryVertex(event);*/
+       particle2 = particleTable->FindParticle(particleName = "neutron");
+       fParticleGun->SetParticleDefinition(particle2);
+       fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
+       fParticleGun->SetParticleEnergy(600. * MeV);
+       fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
+       fParticleGun->GeneratePrimaryVertex(event);*/
 
-           /*particle1 = particleTable->FindParticle(particleName = "mu-");
-         fParticleGun->SetParticleDefinition(particle1);
-         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
-         fParticleGun->SetParticleEnergy(1000. * MeV);
-         fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.5*m));
-         fParticleGun->GeneratePrimaryVertex(event);
+        /*particle1 = particleTable->FindParticle(particleName = "mu-");
+      fParticleGun->SetParticleDefinition(particle1);
+      fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.));
+      fParticleGun->SetParticleEnergy(1000. * MeV);
+      fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.5*m));
+      fParticleGun->GeneratePrimaryVertex(event);
 
 
-         particle2 = particleTable->FindParticle(particleName = "mu-");
-         fParticleGun->SetParticleDefinition(particle2);
-         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
-         fParticleGun->SetParticleEnergy(1000. * MeV);
-         fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.5*m));
-         fParticleGun->GeneratePrimaryVertex(event);*/
+      particle2 = particleTable->FindParticle(particleName = "mu-");
+      fParticleGun->SetParticleDefinition(particle2);
+      fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.));
+      fParticleGun->SetParticleEnergy(1000. * MeV);
+      fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.5*m));
+      fParticleGun->GeneratePrimaryVertex(event);*/
 
 
         // auto vertex2 =G4ThreeVector(1*(2*G4UniformRand()-1)*m, 0., 1*(2*G4UniformRand()-1)*m +0.7*m);
@@ -1233,9 +1233,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         // fParticleGun->GeneratePrimaryVertex(event);
 
 
-
-        EventInfo *info = new EventInfo();
-//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        EventInfo* info = new EventInfo();
+        //   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
         info->SetEgamma(q.e());
         info->SetNreac(1);
         info->SetNp(2);

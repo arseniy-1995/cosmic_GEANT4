@@ -139,7 +139,7 @@ namespace Cosmic {
             analysisManager->CreateNtupleDColumn("NumReact"); // column Id = 7 // Number reaction
             analysisManager->CreateNtupleDColumn("NumEvnt"); // column Id = 8 // Number event
 
-        analysisManager->CreateNtupleFColumn("XVertex", fEventAction->GetVertexXYZ(1));
+            analysisManager->CreateNtupleFColumn("XVertex", fEventAction->GetVertexXYZ(1));
         analysisManager->CreateNtupleFColumn("YVertex", fEventAction->GetVertexXYZ(2));
         analysisManager->CreateNtupleFColumn("ZVertex", fEventAction->GetVertexXYZ(3));
         analysisManager->CreateNtupleFColumn("IndexVertex", fEventAction->GetVertexIndex());
@@ -335,15 +335,17 @@ namespace Cosmic {
                                                  fEventAction->Get_HCX_ToFSum(1)); // column Id = 10 // Световыход
 
 
-            analysisManager->CreateNtupleFColumn("X_HCX_nsys1", fEventAction->Get_HCX_Pos(1, 1)); // column Id = 4 // Локальная точка
-        analysisManager->CreateNtupleFColumn("Y_HCX_nsys1", fEventAction->Get_HCX_Pos(1, 2)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("X_HCX_nsys1", fEventAction->Get_HCX_Pos(1, 1));
+            // column Id = 4 // Локальная точка
+            analysisManager->CreateNtupleFColumn("Y_HCX_nsys1", fEventAction->Get_HCX_Pos(1, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Z_HCX_nsys1", fEventAction->Get_HCX_Pos(1, 3)); // column Id = 4 //
 
             analysisManager->CreateNtupleFColumn("Xglob_HCX_nsys1", fEventAction->Get_HCX_GlobalPos(1, 1));
             // column Id = 4 // Глобальная точка
             analysisManager->CreateNtupleFColumn("Yglob_HCX_nsys1", fEventAction->Get_HCX_GlobalPos(1, 2));
             // column Id = 4 //
-        analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys1", fEventAction->Get_HCX_GlobalPos(1, 3)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys1", fEventAction->Get_HCX_GlobalPos(1, 3));
+            // column Id = 4 //
 
             //Z-bars
 
@@ -394,8 +396,8 @@ namespace Cosmic {
                                                  fEventAction->Get_HCZ_TrackLengthSum(1));
             // column Id = 8 // Длина пробега
 
-        analysisManager->CreateNtupleFColumn("ToFSum_HCZ_nsys1",
-                                             fEventAction->Get_HCZ_ToFSum(1)); // column Id = 10 // Световыход
+            analysisManager->CreateNtupleFColumn("ToFSum_HCZ_nsys1",
+                                                 fEventAction->Get_HCZ_ToFSum(1)); // column Id = 10 // Световыход
 
 
             analysisManager->CreateNtupleFColumn("X_HCZ_nsys1", fEventAction->Get_HCZ_Pos(1, 1));
@@ -403,8 +405,9 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Y_HCZ_nsys1", fEventAction->Get_HCZ_Pos(1, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Z_HCZ_nsys1", fEventAction->Get_HCZ_Pos(1, 3)); // column Id = 4 //
 
-            analysisManager->CreateNtupleFColumn("Xglob_HCZ_nsys1", fEventAction->Get_HCZ_GlobalPos(1, 1)); // column Id = 4 // Глобальная точка
-        analysisManager->CreateNtupleFColumn("Yglob_HCZ_nsys1", fEventAction->Get_HCZ_GlobalPos(1, 2));
+            analysisManager->CreateNtupleFColumn("Xglob_HCZ_nsys1", fEventAction->Get_HCZ_GlobalPos(1, 1));
+            // column Id = 4 // Глобальная точка
+            analysisManager->CreateNtupleFColumn("Yglob_HCZ_nsys1", fEventAction->Get_HCZ_GlobalPos(1, 2));
             // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zglob_HCZ_nsys1", fEventAction->Get_HCZ_GlobalPos(1, 3));
             // column Id = 4 //
@@ -419,8 +422,8 @@ namespace Cosmic {
         analysisManager->CreateNtupleIColumn("N_HCX_nsys2",
                                              fEventAction->Get_HCX_N(2)); // column Id = 4 // Число срабатываний
 
-        analysisManager->CreateNtupleIColumn("NSum_HCX_nsys2",
-                                             fEventAction->Get_HCX_NSum(2)); // column Id = 4 // Число срабатываний
+            analysisManager->CreateNtupleIColumn("NSum_HCX_nsys2",
+                                                 fEventAction->Get_HCX_NSum(2)); // column Id = 4 // Число срабатываний
 
         analysisManager->CreateNtupleIColumn("AL_HCX_nsys2",
                                              fEventAction->Get_HCX_AL(2)); // column Id = 4 // Номер слоя
@@ -477,15 +480,16 @@ namespace Cosmic {
 
             analysisManager->CreateNtupleFColumn("Xglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 1));
             // column Id = 4 // Глобальная точка
-        analysisManager->CreateNtupleFColumn("Yglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 2)); // column Id = 4 //
-        analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 3)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Yglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 2));
+            // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 3)); // column Id = 4 //
 
 //Z-bars
 
         analysisManager->CreateNtupleIColumn("N_HCZ_nsys2",
                                              fEventAction->Get_HCZ_N(2)); // column Id = 4 // Число срабатываний
-        analysisManager->CreateNtupleIColumn("NSum_HCZ_nsys2",
-                                             fEventAction->Get_HCZ_NSum(2)); // column Id = 4 // Число срабатываний
+            analysisManager->CreateNtupleIColumn("NSum_HCZ_nsys2",
+                                                 fEventAction->Get_HCZ_NSum(2)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleIColumn("AL_HCZ_nsys2",
                                              fEventAction->Get_HCZ_AL(2)); // column Id = 4 // Номер слоя
 
@@ -522,7 +526,8 @@ namespace Cosmic {
 
             analysisManager->CreateNtupleFColumn("T1Sum_HCZ_nsys2", fEventAction->Get_HCZ_T1Sum(
                                                      2)); // column Id = 8 // Времена с противоположных торцов
-        analysisManager->CreateNtupleFColumn("T2Sum_HCZ_nsys2", fEventAction->Get_HCZ_T2Sum(2)); // column Id = 10 //
+            analysisManager->CreateNtupleFColumn("T2Sum_HCZ_nsys2", fEventAction->Get_HCZ_T2Sum(2));
+            // column Id = 10 //
 
             analysisManager->CreateNtupleFColumn("LSum_HCZ_nsys2",
                                                  fEventAction->Get_HCZ_TrackLengthSum(2));
@@ -536,8 +541,10 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Y_HCZ_nsys2", fEventAction->Get_HCZ_Pos(2, 2)); // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Z_HCZ_nsys2", fEventAction->Get_HCZ_Pos(2, 3)); // column Id = 4 //
 
-            analysisManager->CreateNtupleFColumn("Xglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 1)); // column Id = 4 // Глобальная точка
-            analysisManager->CreateNtupleFColumn("Yglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 2)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Xglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 1));
+            // column Id = 4 // Глобальная точка
+            analysisManager->CreateNtupleFColumn("Yglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 2));
+            // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 3)); // column Id = 4 //
 
 #endif

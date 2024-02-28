@@ -163,14 +163,14 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    //  G4cout << copyNo <<G4endl;
 
    auto motherPhysical = touchable->GetVolume(1); // mother
-    auto copyNo_mother = motherPhysical->GetCopyNo();
+   auto copyNo_mother = motherPhysical->GetCopyNo();
 
    //  G4cout << copyNo_mother <<G4endl;
 
    // G4cout << copyNo_mother + copyNo <<G4endl;
 
    auto physicalVol = touchable->GetVolume();
-    auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
+   auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
     auto copyNo_phys = physicalVol->GetCopyNo();
     auto positionDetector = physicalVol->GetTranslation();
     auto rotation = touchable->GetRotation();
@@ -180,9 +180,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
 
 
-
-
-    auto Vpos = touchable->GetTranslation();
+   auto Vpos = touchable->GetTranslation();
     posit_local =posit-Vpos;
     posit_local.transform(*rotation);
     // G4cout<<"Detector position= "<< positionDetector<<G4endl;
@@ -197,7 +195,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
    // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 
-        // G4cout << copyNo_mother + copyNo << " " << hitID <<G4endl;
+   // G4cout << copyNo_mother + copyNo << " " << hitID <<G4endl;
 
    G4int CB = 0;
    G4int ni = theTouchable->GetHistoryDepth();
@@ -248,7 +246,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit = (*fHitsCollection)[hitID];
 
 
-    if ( ! hit ) {
+   if (!hit ) {
         G4ExceptionDescription msg;
         msg << "Cannot access hit " << layerNumber;
         G4Exception("HadronCalorimeterSD::ProcessHits()",
@@ -287,7 +285,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
      //   G4cout << CB <<G4endl;
 
 
-    hit->AddEdep(edep);
+   hit->AddEdep(edep);
     hit->AddLO(edep, posit, dx, velosity, tof);
     hit->AddTrackLength(stepLength);
     hit->AddToF(tof);
@@ -296,7 +294,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     hit->SetHalfLength(halflength);
     hit->SetBlkN(CB);
 
-    hitTotal->AddEdep(edep);
+   hitTotal->AddEdep(edep);
     hitTotal->AddLO(edep, posit, dx, velosity, tof);
     hitTotal->AddTrackLength(stepLength);
     hitTotal->AddToF(tof);
@@ -306,8 +304,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     hitTotal->SetBlkN(CB);
 
 
-    ROhist=NULL;
-    return true;
+   ROhist = NULL;
+   return true;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

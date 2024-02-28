@@ -46,7 +46,7 @@ namespace Cosmic {
 
     //#define isTrig_accept_all
 
-constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
+    constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
 
 //#define RUN21
@@ -152,7 +152,7 @@ constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то занулен
 #endif // RUN23
 
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys1 =
-            N_HCX + N_HCZ + 0; // число чувствительных элементов в калориметре
+        N_HCX + N_HCZ + 0; // число чувствительных элементов в калориметре
     constexpr G4int fNofLayers_HadrtonCalorimeter_nsys2 = N_HCX + N_HCZ + 0;
 
     constexpr G4int fNofLayers_W_Chamber_nsys1 = NW1_WRS + NW2_WRS + NW3_WRS + NVC_WRS + 100;

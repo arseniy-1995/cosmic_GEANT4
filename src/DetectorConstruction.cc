@@ -1817,11 +1817,12 @@ namespace Cosmic {
         ///
         G4int nx = HCX_IND, nz = HCZ_IND;
 
-            // Размножение по Y
+        // Размножение по Y
 
         y_pos = -SandSizeY / 2. + LayerStep / 2.;
-        for (G4int i = 0; i < 1*NbOfLayers + 1; y_pos += LayerStep, i++) {
-            if ((i & 1) == 1) {       // X-layer
+        for (G4int i = 0; i < 1 * NbOfLayers + 1; y_pos += LayerStep, i++)
+        {
+                if ((i & 1) == 1) {       // X-layer
                 if (i != NbOfLayers) {// not last layer?
                     vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)), layer_log,
                                                  "BarsX", sand_vol, false, nx, fCheckOverlaps);
@@ -1853,7 +1854,7 @@ namespace Cosmic {
 
         G4cerr << "***** nx=" << nx - HCX_IND << " nz=" << nz - HCZ_IND;
         G4cerr << " HCX_IND=" << HCX_IND << " HCZ_IND=" << HCZ_IND << " LQ_IND=" << LQ_IND;
-        G4cerr << " ARM1_IND=" << ARM1_IND << " ARM2_IND=" << ARM2_IND<< G4endl;
+        G4cerr << " ARM1_IND=" << ARM1_IND << " ARM2_IND=" << ARM2_IND << G4endl;
 
 
         if (nsys == 1) scint_HadCal_nsys1LV = scint_HadCalLV;
