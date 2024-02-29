@@ -176,7 +176,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    auto rotation = touchable->GetRotation();
 
 
-    auto box = (G4Box*) touchable->GetSolid();
+   auto box = (G4Box*) touchable->GetSolid();
     auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
 
 
@@ -252,7 +252,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
        msg << "Cannot access hit " << layerNumber;
        G4Exception("HadronCalorimeterSD::ProcessHits()",
                    "MyCode0004", FatalException, msg);
-    }
+   }
 
     if (!(hit->GetLogV())) {
         // fill volume information
@@ -290,7 +290,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->AddLO(edep, posit, dx, velosity, tof);
    hit->AddTrackLength(stepLength);
    hit->AddToF(tof);
-    hit->AddWorldPos(posit);
+   hit->AddWorldPos(posit);
     hit->AddLocalPos(posit_local);
     hit->SetHalfLength(halflength);
     hit->SetBlkN(CB);
@@ -299,7 +299,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
    hitTotal->AddTrackLength(stepLength);
    hitTotal->AddToF(tof);
-    hitTotal->AddWorldPos(posit);
+   hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);
     hitTotal->SetHalfLength(halflength);
     hitTotal->SetBlkN(CB);

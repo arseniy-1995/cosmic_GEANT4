@@ -4,6 +4,12 @@
 cmake_minimum_required(VERSION 3.16...3.21)
 project(cosmic)
 
+cmake_host_system_information(RESULT OS_NAME QUERY OS_NAME)
+#message(STATUS "${OS_NAME}")
+
+cmake_host_system_information(RESULT OS_PLATFORM QUERY OS_PLATFORM)
+#message(STATUS "${OS_PLATFORM}")
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -78,16 +84,35 @@ find_package(cernlib REQUIRED)
 ##set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -lkernlib -lphtools -lmathlib /opt/local/lib/gcc12/libgfortran.a -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
 ##set(GENBOSLIBS $(PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
 
+#####LINUX x86_64 OK
+
+if (${OS_NAME} MATCHES "Linux")
+    if (${OS_PLATFORM} MATCHES "x86_64")
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathllb -lgeant321 -lpacklib -lgfortran -lm -lns -lphtools)
+    endif ()
+endif ()
+
+#####
 
 #####LINUX ARM OK
 
-#set (GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathllb -lgeant321 -lpacklib -lgfortran -lm -lns -lphtools)
+if (${OS_NAME} MATCHES "Linux")
+    if (${OS_PLATFORM} MATCHES "aarch64")
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathllb -lgeant321 -lpacklib -lgfortran -lm -lns -lphtools)
+    endif ()
+endif ()
+
 
 #####
 
 ##### MAC ARM OK
 
-set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/  -lphtools  -lmathlib  -lgfortran -lkernlib -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+if (${OS_NAME} MATCHES "macOS")
+    if (${OS_PLATFORM} MATCHES "arm64")
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+    endif ()
+endif ()
+
 
 #####
 
