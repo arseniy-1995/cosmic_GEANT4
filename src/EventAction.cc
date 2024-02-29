@@ -738,7 +738,7 @@ namespace Cosmic {
 
 /////////////////////// КАЛОРИМЕТР
         G4int index = 0; // это номер хита, который соответсвует номеру сцинтиллятора
-        G4int index2 =0; // это номер под которыжмиться в массив
+        G4int index2 = 0; // это номер под которыжмиться в массив
         G4int k = 0;
 
 #ifndef isGenLQ
@@ -802,7 +802,7 @@ namespace Cosmic {
 
                 //if (i>450) G4cout << index << G4endl;
 
-                if (HadronCalorimeter_nsys1Hit_->GetBlkN() <= 0) index = -1;
+                if (index <= 0) index = -1;
 
                 // G4cout << HadronCalorimeter_nsys1Hit_->GetBlkN() <<" " << i << " " << (G4int)HadronCalorimeter_nsys1HC->GetSize() <<G4endl;
             }
@@ -837,11 +837,8 @@ namespace Cosmic {
                     //  G4cout << i << " " << k;
 
 
-
-
                     if (index >= 1)
                     {
-
                         index2 = fHCX_N[0][0] + 1;
 
                         fHCX_AL[0][index2] = k;
@@ -944,10 +941,8 @@ namespace Cosmic {
                     //G4cout << " " << k << G4endl;
 
 
-
                     if (index >= 1)
                     {
-
                         index2 = fHCZ_N[0][0] + 1;
 
                         fHCZ_AL[0][index2] = k;
@@ -1082,7 +1077,7 @@ namespace Cosmic {
                 index = HadronCalorimeter_nsys2Hit_->GetBlkN();
                 index -= ARM2_IND;
 
-                if (HadronCalorimeter_nsys2Hit_->GetBlkN() <= 0) index = -1;
+                if (index <= 0) index = -1;
             }
 
             //HadronCalorimeter_nsys2Hit_ = static_cast<HadronCalorimeterHit *>(HadronCalorimeter_nsys2HC->GetHit(i));
@@ -1105,11 +1100,8 @@ namespace Cosmic {
                     }
 
 
-
-
                     if (index >= 1)
                     {
-
                         index2 = fHCX_N[1][0] + 1;
 
                         fHCX_AL[1][index2] = k;
@@ -1210,10 +1202,8 @@ namespace Cosmic {
                     // k = 22 - k +1; // в эксперименте нумерация Z против пучка
 
 
-
                     if (index >= 1)
                     {
-
                         index2 = fHCZ_N[1][0] + 1;
 
                         fHCZ_AL[1][index2] = k;
@@ -1308,17 +1298,41 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
         for (G4int i = 0; i < (G4int) V_Chamber_nsys1HC->GetSize(); i++) {
             auto V_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys1HC->GetHit(i));
             if (V_Chamber_nsys1Hit_->GetEdep() > VChamber_threshold) {
-                index = i;
+                //index = i;
+
+                index = V_Chamber_nsys1Hit_->GetBlkN();
+
+                if (index <= 0) index = -1;
+
+                index = index - VC_IND;
                 if (index >= 0 && index < NVC_WRS) {
-                    fVC_N[0][index]++;
-                    fVC_XPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
-                    fVC_YPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
-                    fVC_ZPos[0][index] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
-                    fVC_RPos[0][index] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    fVC_Theta[0][index] = V_Chamber_nsys1Hit_->GetPosTheta() / degree;
-                    fVC_Phi[0][index] = V_Chamber_nsys1Hit_->GetPosPhi() / degree;
-                    fVC_Mass[0][index] = V_Chamber_nsys1Hit_->GetMass() / MeV;
-                    fVC_KineticEnergy[0][index] = V_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+
+                    index2 =  fVC_N[0][0] + 1;
+
+                    fVC_N[0][index2]++;
+                    fVC_N[0][0]++;
+
+
+                    fVC_XPos[0][index2] = V_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fVC_YPos[0][index2] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fVC_ZPos[0][index2] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fVC_RPos[0][index2] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    fVC_Theta[0][index2] = V_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fVC_Phi[0][index2] = V_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fVC_Mass[0][index2] = V_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fVC_KineticEnergy[0][index2] = V_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+
+
+                    fVC_XPos[0][0] = V_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fVC_YPos[0][0] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fVC_ZPos[0][0] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fVC_RPos[0][0] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    fVC_Theta[0][0] = V_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fVC_Phi[0][0] = V_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fVC_Mass[0][0] = V_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fVC_KineticEnergy[0][0] = V_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+
+
                     wcdep[0] |= 1;
                     continue;
                 }
@@ -1328,17 +1342,40 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
         for (G4int i = 0; i < (G4int) V_Chamber_nsys2HC->GetSize(); i++) {
             auto V_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(V_Chamber_nsys2HC->GetHit(i));
             if (V_Chamber_nsys2Hit_->GetEdep() > VChamber_threshold) {
-                index = i;
+                //index = i;
+
+                 index = V_Chamber_nsys2Hit_->GetBlkN();
+
+                if (index <= 0) index = -1;
+
+                index = index - VC_IND;
                 if (index >= 0 && index < NVC_WRS) {
+
+                    index2 =  fVC_N[1][0] + 1;
+
                     fVC_N[1][index]++;
-                    fVC_XPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
-                    fVC_YPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
-                    fVC_ZPos[1][index] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
-                    fVC_RPos[1][index] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    fVC_Theta[1][index] = V_Chamber_nsys2Hit_->GetPosTheta() / degree;
-                    fVC_Phi[1][index] = V_Chamber_nsys2Hit_->GetPosPhi() / degree;
-                    fVC_Mass[1][index] = V_Chamber_nsys2Hit_->GetMass() / MeV;
-                    fVC_KineticEnergy[1][index] = V_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fVC_N[1][0]++;
+
+
+                    fVC_XPos[1][index2] = V_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fVC_YPos[1][index2] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fVC_ZPos[1][index2] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fVC_RPos[1][index2] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    fVC_Theta[1][index2] = V_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fVC_Phi[1][index2] = V_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fVC_Mass[1][index2] = V_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fVC_KineticEnergy[1][index2] = V_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+
+                    fVC_XPos[1][0] = V_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fVC_YPos[1][0] = V_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fVC_ZPos[1][0] = V_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fVC_RPos[1][0] = V_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    fVC_Theta[1][0] = V_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fVC_Phi[1][0] = V_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fVC_Mass[1][0] = V_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fVC_KineticEnergy[1][0] = V_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+
+
                     wcdep[1] |= 1;
                     continue;
                 }
@@ -1357,6 +1394,9 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
 #ifdef DCARM1
 
+        index = -1;
+        index2 = -1;
+
         fWa_N[0].assign(fWa_N[0].size(), 0);
         fWb_N[0].assign(fWb_N[0].size(), 0);
         fWc_N[0].assign(fWc_N[0].size(), 0);
@@ -1368,49 +1408,107 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
             //if (W_Chamber_nsys1Hit_->GetEdep()/ keV >0)            G4cout <<  W_Chamber_nsys1Hit_->GetEdep()/ keV << G4endl;
 
+            index = W_Chamber_nsys1Hit_->GetBlkN();
+
+            //if (index >0) G4cout << index << G4endl;
+
+            if ( index <= 0) index = -1;
+
             if (W_Chamber_nsys1Hit_->GetEdep() > WChamber_threshold) {
-                index = i;
+                //index = i;
+
+                index = index - WC1_IND;
                 if (index >= 0 && index < NW1_WRS) {
-                    fWa_N[0][index]++;
-                    fWa_XPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
-                    fWa_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
-                    fWa_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
-                    fWa_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    fWa_Theta[0][index] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
-                    fWa_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
-                    fWa_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
-                    fWa_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
-                    fWa_Edep[0][index] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
+                    index2 = fWa_N[0][0] + 1;
+
+                    fWa_N[0][index2]++;
+                    fWa_N[0][0]++;
+
+                    fWa_XPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWa_YPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWa_ZPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWa_RPos[0][index2] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    fWa_Theta[0][index2] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWa_Phi[0][index2] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWa_Mass[0][index2] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWa_KineticEnergy[0][index2] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWa_Edep[0][index2] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
+
+                    fWa_XPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWa_YPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWa_ZPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWa_RPos[0][0] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    fWa_Theta[0][0] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWa_Phi[0][0] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWa_Mass[0][0] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWa_KineticEnergy[0][0] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWa_Edep[0][0] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
                     wcdep[0] |= 2;
                     continue;
                 }
                 index = index - WC2_IND;
                 if (index >= 0 && index < NW2_WRS) {
-                    fWb_N[0][index]++;
-                    fWb_XPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
-                    fWb_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
-                    fWb_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
-                    fWb_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().x() / cm;
-                    fWb_Theta[0][index] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
-                    fWb_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
-                    fWb_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
-                    fWb_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
-                    fWb_Edep[0][index] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
+                    index2 = fWb_N[0][0] + 1;
+
+                    fWb_N[0][index2]++;
+                    fWb_N[0][0]++;
+
+                    fWb_XPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWb_YPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWb_ZPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWb_RPos[0][index2] = W_Chamber_nsys1Hit_->GetRho().x() / cm;
+                    fWb_Theta[0][index2] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWb_Phi[0][index2] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWb_Mass[0][index2] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWb_KineticEnergy[0][index2] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWb_Edep[0][index2] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
+                    fWb_XPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWb_YPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWb_ZPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWb_RPos[0][0] = W_Chamber_nsys1Hit_->GetRho().x() / cm;
+                    fWb_Theta[0][0] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWb_Phi[0][0] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWb_Mass[0][0] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWb_KineticEnergy[0][0] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWb_Edep[0][0] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
                     wcdep[0] |= 4;
                     continue;
                 }
                 index = index - WC3_IND;
                 if (index >= 0 && index < NW3_WRS) {
-                    fWc_N[0][index]++;
-                    fWc_XPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
-                    fWc_YPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
-                    fWc_ZPos[0][index] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
-                    fWc_RPos[0][index] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    fWc_Theta[0][index] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
-                    fWc_Phi[0][index] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
-                    fWc_Mass[0][index] = W_Chamber_nsys1Hit_->GetMass() / MeV;
-                    fWc_KineticEnergy[0][index] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
-                    fWc_Edep[0][index] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
+                    index2 = fWc_N[0][0] + 1;
+
+                    fWc_N[0][index2]++;
+                    fWc_N[0][0]++;
+
+                    fWc_XPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWc_YPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWc_ZPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWc_RPos[0][index2] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    fWc_Theta[0][index2] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWc_Phi[0][index2] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWc_Mass[0][index2] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWc_KineticEnergy[0][index2] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWc_Edep[0][index2] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
+
+                    fWc_XPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;
+                    fWc_YPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
+                    fWc_ZPos[0][0] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
+                    fWc_RPos[0][0] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
+                    fWc_Theta[0][0] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
+                    fWc_Phi[0][0] = W_Chamber_nsys1Hit_->GetPosPhi() / degree;
+                    fWc_Mass[0][0] = W_Chamber_nsys1Hit_->GetMass() / MeV;
+                    fWc_KineticEnergy[0][0] = W_Chamber_nsys1Hit_->GetKineticEnergy() / MeV;
+                    fWc_Edep[0][0] = W_Chamber_nsys1Hit_->GetEdep() / MeV;
+
                     wcdep[0] |= 8;
                     continue;
                 }
@@ -1421,55 +1519,113 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
 #ifdef DCARM2
 
+        index = -1;
+        index2 = -1;
+
         fWa_N[1].assign(fWa_N[1].size(), 0);
         fWb_N[1].assign(fWb_N[1].size(), 0);
         fWc_N[1].assign(fWc_N[1].size(), 0);
 
         for (G4int i = 0; i < (G4int) W_Chamber_nsys2HC->GetSize(); i++) {
             auto W_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys2HC->GetHit(i));
+
+             index = W_Chamber_nsys2Hit_->GetBlkN();
+
+            if ( index <= 0) index = -1;
+
             if (W_Chamber_nsys2Hit_->GetEdep() > WChamber_threshold) {
                 index = i;
+
+                index = index - WC1_IND;
                 if (index >= 0 && index < NW1_WRS) {
-                    fWa_N[1][index]++;
-                    fWa_XPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
-                    fWa_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
-                    fWa_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
-                    fWa_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    fWa_Theta[1][index] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
-                    fWa_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
-                    fWa_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
-                    fWa_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
-                    fWa_Edep[1][index] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
+                    index2 = fWa_N[1][0] + 1;
+
+                    fWa_N[1][index2]++;
+                    fWa_N[1][0]++;
+
+                    fWa_XPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWa_YPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWa_ZPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWa_RPos[1][index2] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    fWa_Theta[1][index2] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWa_Phi[1][index2] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWa_Mass[1][index2] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWa_KineticEnergy[1][index2] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWa_Edep[1][index2] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
+                    fWa_XPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWa_YPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWa_ZPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWa_RPos[1][0] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    fWa_Theta[1][0] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWa_Phi[1][0] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWa_Mass[1][0] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWa_KineticEnergy[1][0] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWa_Edep[1][0] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
                     wcdep[1] |= 2;
                     continue;
                 }
                 index = index - WC2_IND;
                 if (index >= 0 && index < NW2_WRS) {
-                    fWb_N[1][index]++;
-                    fWb_XPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
-                    fWb_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
-                    fWb_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
-                    fWb_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().x() / cm;
-                    fWb_Theta[1][index] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
-                    fWb_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
-                    fWb_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
-                    fWb_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
-                    fWb_Edep[1][index] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
+                    index2 = fWb_N[1][0] + 1;
+
+                    fWb_N[1][index2]++;
+                    fWb_N[1][0]++;
+
+                    fWb_XPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWb_YPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWb_ZPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWb_RPos[1][index2] = W_Chamber_nsys2Hit_->GetRho().x() / cm;
+                    fWb_Theta[1][index2] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWb_Phi[1][index2] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWb_Mass[1][index2] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWb_KineticEnergy[1][index2] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWb_Edep[1][index2] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
+                    fWb_XPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWb_YPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWb_ZPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWb_RPos[1][0] = W_Chamber_nsys2Hit_->GetRho().x() / cm;
+                    fWb_Theta[1][0] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWb_Phi[1][0] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWb_Mass[1][0] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWb_KineticEnergy[1][0] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWb_Edep[1][0] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
                     wcdep[1] |= 4;
                     continue;
                 }
                 index = index - WC3_IND;
                 if (index >= 0 && index < NW3_WRS) {
-                    fWc_N[1][index]++;
-                    fWc_XPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
-                    fWc_YPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
-                    fWc_ZPos[1][index] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
-                    fWc_RPos[1][index] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
-                    fWc_Theta[1][index] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
-                    fWc_Phi[1][index] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
-                    fWc_Mass[1][index] = W_Chamber_nsys2Hit_->GetMass() / MeV;
-                    fWc_KineticEnergy[1][index] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
-                    fWc_Edep[1][index] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
+                    index2 = fWc_N[1][0] + 1;
+
+                    fWc_N[1][index2]++;
+                    fWc_N[1][0]++;
+
+                    fWc_XPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWc_YPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWc_ZPos[1][index2] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWc_RPos[1][index2] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    fWc_Theta[1][index2] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWc_Phi[1][index2] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWc_Mass[1][index2] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWc_KineticEnergy[1][index2] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWc_Edep[1][index2] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
+                    fWc_XPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().x() / cm;
+                    fWc_YPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().y() / cm;
+                    fWc_ZPos[1][0] = W_Chamber_nsys2Hit_->GetLocalPos().z() / cm;
+                    fWc_RPos[1][0] = W_Chamber_nsys2Hit_->GetRho().z() / cm;
+                    fWc_Theta[1][0] = W_Chamber_nsys2Hit_->GetPosTheta() / degree;
+                    fWc_Phi[1][0] = W_Chamber_nsys2Hit_->GetPosPhi() / degree;
+                    fWc_Mass[1][0] = W_Chamber_nsys2Hit_->GetMass() / MeV;
+                    fWc_KineticEnergy[1][0] = W_Chamber_nsys2Hit_->GetKineticEnergy() / MeV;
+                    fWc_Edep[1][0] = W_Chamber_nsys2Hit_->GetEdep() / MeV;
+
                     wcdep[1] |= 8;
                     continue;
                 }

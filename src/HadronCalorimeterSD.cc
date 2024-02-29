@@ -172,7 +172,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    auto physicalVol = touchable->GetVolume();
    auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
    auto copyNo_phys = physicalVol->GetCopyNo();
-    auto positionDetector = physicalVol->GetTranslation();
+   auto positionDetector = physicalVol->GetTranslation();
     auto rotation = touchable->GetRotation();
 
 
@@ -181,8 +181,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
 
    auto Vpos = touchable->GetTranslation();
-   posit_local =posit-Vpos;
-    posit_local.transform(*rotation);
+   posit_local = posit - Vpos;
+   posit_local.transform(*rotation);
     // G4cout<<"Detector position= "<< positionDetector<<G4endl;
    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
 
@@ -249,7 +249,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    if (!hit)
    {
        G4ExceptionDescription msg;
-        msg << "Cannot access hit " << layerNumber;
+       msg << "Cannot access hit " << layerNumber;
         G4Exception("HadronCalorimeterSD::ProcessHits()",
                     "MyCode0004", FatalException, msg);
     }
@@ -288,7 +288,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
-    hit->AddTrackLength(stepLength);
+   hit->AddTrackLength(stepLength);
     hit->AddToF(tof);
     hit->AddWorldPos(posit);
     hit->AddLocalPos(posit_local);
@@ -297,7 +297,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
-    hitTotal->AddTrackLength(stepLength);
+   hitTotal->AddTrackLength(stepLength);
     hitTotal->AddToF(tof);
     hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);

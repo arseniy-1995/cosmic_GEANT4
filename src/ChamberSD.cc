@@ -271,29 +271,31 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     // Add values
 
 
-    hit->AddEdep(edep);
-    hit->AddLO(edep, posit, dx, velosity, tof);
-    hit->AddTrackLength(stepLength);
-    hit->AddToF(tof);
-    hit->AddWorldPos(posit);
-    hit->AddLocalPos(posit_local);
-    hit->SetHalfLength(halflength);
-    hit->SetPosTheta(theta);
-    hit->SetPosPhi(phi);
-    hit->SetMass(mass);
-    hit->SetKineticEnergy(kinetic_energy);
+   hit->AddEdep(edep);
+   hit->AddLO(edep, posit, dx, velosity, tof);
+   hit->AddTrackLength(stepLength);
+   hit->AddToF(tof);
+   hit->AddWorldPos(posit);
+   hit->AddLocalPos(posit_local);
+   hit->SetHalfLength(halflength);
+   hit->SetPosTheta(theta);
+   hit->SetPosPhi(phi);
+   hit->SetMass(mass);
+   hit->SetKineticEnergy(kinetic_energy);
+   hit->SetBlkN(CB);
 
-    hitTotal->AddEdep(edep);
-    hitTotal->AddLO(edep, posit, dx, velosity, tof);
-    hitTotal->AddTrackLength(stepLength);
-    hitTotal->AddToF(tof);
-    hitTotal->AddWorldPos(posit);
-    hitTotal->AddLocalPos(posit_local);
-    hitTotal->SetHalfLength(halflength);
-    hitTotal->SetPosTheta(theta);
-    hitTotal->SetPosPhi(phi);
-    hitTotal->SetMass(mass);
-    hitTotal->SetKineticEnergy(kinetic_energy);
+   hitTotal->AddEdep(edep);
+   hitTotal->AddLO(edep, posit, dx, velosity, tof);
+   hitTotal->AddTrackLength(stepLength);
+   hitTotal->AddToF(tof);
+   hitTotal->AddWorldPos(posit);
+   hitTotal->AddLocalPos(posit_local);
+   hitTotal->SetHalfLength(halflength);
+   hitTotal->SetPosTheta(theta);
+   hitTotal->SetPosPhi(phi);
+   hitTotal->SetMass(mass);
+   hitTotal->SetKineticEnergy(kinetic_energy);
+   hitTotal->SetBlkN(CB);
 
 
     ROhist = NULL;

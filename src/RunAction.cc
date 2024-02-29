@@ -141,7 +141,7 @@ namespace Cosmic {
 
             analysisManager->CreateNtupleFColumn("XVertex", fEventAction->GetVertexXYZ(1));
             analysisManager->CreateNtupleFColumn("YVertex", fEventAction->GetVertexXYZ(2));
-        analysisManager->CreateNtupleFColumn("ZVertex", fEventAction->GetVertexXYZ(3));
+            analysisManager->CreateNtupleFColumn("ZVertex", fEventAction->GetVertexXYZ(3));
         analysisManager->CreateNtupleFColumn("IndexVertex", fEventAction->GetVertexIndex());
         analysisManager->CreateNtupleFColumn("MassVertex", fEventAction->GetVertexMass());
         analysisManager->CreateNtupleFColumn("EnergyVertex", fEventAction->GetVertexEnergy());
@@ -428,8 +428,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("AL_HCX_nsys2",
                                                  fEventAction->Get_HCX_AL(2)); // column Id = 4 // Номер слоя
 
-        analysisManager->CreateNtupleFColumn("E_HCX_nsys2",
-                                             fEventAction->Get_HCX_Edep(2)); // column Id = 4 // Энерговыделение
+            analysisManager->CreateNtupleFColumn("E_HCX_nsys2",
+                                                 fEventAction->Get_HCX_Edep(2)); // column Id = 4 // Энерговыделение
         analysisManager->CreateNtupleFColumn("LO_HCX_nsys2",
                                              fEventAction->Get_HCX_LO(2)); // column Id = 6 // Световыход
 
