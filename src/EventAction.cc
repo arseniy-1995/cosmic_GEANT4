@@ -737,7 +737,8 @@ namespace Cosmic {
         }
 
 /////////////////////// КАЛОРИМЕТР
-        G4int index = 0;
+        G4int index = 0; // это номер хита, который соответсвует номеру сцинтиллятора
+        G4int index2 =0; // это номер под которыжмиться в массив
         G4int k = 0;
 
 #ifndef isGenLQ
@@ -745,6 +746,7 @@ namespace Cosmic {
 #ifdef HADCAL1
 
         index = -1;
+        index2 = -1;
         k = -5;
 
         // зануление
@@ -835,35 +837,40 @@ namespace Cosmic {
                     //  G4cout << i << " " << k;
 
 
+
+
                     if (index >= 1)
                     {
-                        fHCX_AL[0][index] = k;
+
+                        index2 = fHCX_N[0][0] + 1;
+
+                        fHCX_AL[0][index2] = k;
                         fHCX_AL[0][0] = k;
 
-                        fHCX_N[0][index]++;
+                        fHCX_N[0][index2]++;
                         fHCX_N[0][0]++;
                     }
 
 
                     if (index >= 1)
                     {
-                        fHCX_Edep[0][index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
-                        fHCX_LO[0][index] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
-                        //fHCX_A[0][index] += HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
-                        fHCX_A1[0][index] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
-                        fHCX_A2[0][index] = HadronCalorimeter_nsys1Hit_->GetA2() / MeV;
-                        fHCX_T1[0][index] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
-                        fHCX_T2[0][index] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
-                        fHCX_TrackLength[0][index] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
-                        fHCX_ToF[0][index] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
+                        fHCX_Edep[0][index2] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
+                        fHCX_LO[0][index2] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                        //fHCX_A[0][index2] += HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                        fHCX_A1[0][index2] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
+                        fHCX_A2[0][index2] = HadronCalorimeter_nsys1Hit_->GetA2() / MeV;
+                        fHCX_T1[0][index2] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
+                        fHCX_T2[0][index2] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
+                        fHCX_TrackLength[0][index2] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
+                        fHCX_ToF[0][index2] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
 
-                        fHCX_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
-                        fHCX_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
-                        fHCX_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
+                        fHCX_XPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
+                        fHCX_YPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
+                        fHCX_ZPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
 
-                        fHCX_global_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
-                        fHCX_global_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
-                        fHCX_global_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
+                        fHCX_global_XPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
+                        fHCX_global_YPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
+                        fHCX_global_ZPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
 
 
                         fHCX_Edep[0][0] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
@@ -888,24 +895,24 @@ namespace Cosmic {
 
                     fHCX_NSum[0][k]++;
 
-                    fHCX_EdepSum[0][k] += fHCX_Edep[0][index];
-                    fHCX_LOSum[0][k] += fHCX_LO[0][index];
-                    fHCX_A1Sum[0][k] += fHCX_A1[0][index];
-                    fHCX_A2Sum[0][k] += fHCX_A2[0][index];
-                    fHCX_T1Sum[0][k] += fHCX_T1[0][index];
-                    fHCX_T2Sum[0][k] += fHCX_T2[0][index];
-                    fHCX_TrackLengthSum[0][k] += fHCX_TrackLength[0][index];
-                    fHCX_ToFSum[0][k] += fHCX_ToF[0][index];
+                    fHCX_EdepSum[0][k] += fHCX_Edep[0][index2];
+                    fHCX_LOSum[0][k] += fHCX_LO[0][index2];
+                    fHCX_A1Sum[0][k] += fHCX_A1[0][index2];
+                    fHCX_A2Sum[0][k] += fHCX_A2[0][index2];
+                    fHCX_T1Sum[0][k] += fHCX_T1[0][index2];
+                    fHCX_T2Sum[0][k] += fHCX_T2[0][index2];
+                    fHCX_TrackLengthSum[0][k] += fHCX_TrackLength[0][index2];
+                    fHCX_ToFSum[0][k] += fHCX_ToF[0][index2];
 
                     fHCX_NSum[0][0]++;
-                    fHCX_EdepSum[0][0] += fHCX_Edep[0][index];
-                    fHCX_LOSum[0][0] += fHCX_LO[0][index];
-                    fHCX_A1Sum[0][0] += fHCX_A1[0][index];
-                    fHCX_A2Sum[0][0] += fHCX_A2[0][index];
-                    fHCX_T1Sum[0][0] += fHCX_T1[0][index];
-                    fHCX_T2Sum[0][0] += fHCX_T2[0][index];
-                    fHCX_TrackLengthSum[0][0] += fHCX_TrackLength[0][index];
-                    fHCX_ToFSum[0][0] += fHCX_ToF[0][index];
+                    fHCX_EdepSum[0][0] += fHCX_Edep[0][index2];
+                    fHCX_LOSum[0][0] += fHCX_LO[0][index2];
+                    fHCX_A1Sum[0][0] += fHCX_A1[0][index2];
+                    fHCX_A2Sum[0][0] += fHCX_A2[0][index2];
+                    fHCX_T1Sum[0][0] += fHCX_T1[0][index2];
+                    fHCX_T2Sum[0][0] += fHCX_T2[0][index2];
+                    fHCX_TrackLengthSum[0][0] += fHCX_TrackLength[0][index2];
+                    fHCX_ToFSum[0][0] += fHCX_ToF[0][index2];
 
                     ///
 
@@ -937,36 +944,40 @@ namespace Cosmic {
                     //G4cout << " " << k << G4endl;
 
 
+
                     if (index >= 1)
                     {
-                        fHCZ_AL[0][index] = k;
+
+                        index2 = fHCZ_N[0][0] + 1;
+
+                        fHCZ_AL[0][index2] = k;
                         fHCZ_AL[0][0] = k;
 
-                        fHCZ_N[0][index]++;
+                        fHCZ_N[0][index2]++;
                         fHCZ_N[0][0]++;
                     }
 
 
                     if (index >= 1)
                     {
-                        fHCZ_Edep[0][index] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
-                        fHCZ_LO[0][index] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
-                        //fHCZ_A[0][index] += HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
-                        fHCZ_A1[0][index] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
-                        fHCZ_A2[0][index] = HadronCalorimeter_nsys1Hit_->GetA2() / MeV;
-                        fHCZ_T1[0][index] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
-                        fHCZ_T2[0][index] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
+                        fHCZ_Edep[0][index2] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
+                        fHCZ_LO[0][index2] = HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                        //fHCZ_A[0][index2] += HadronCalorimeter_nsys1Hit_->GetLO() / MeV;
+                        fHCZ_A1[0][index2] = HadronCalorimeter_nsys1Hit_->GetA1() / MeV;
+                        fHCZ_A2[0][index2] = HadronCalorimeter_nsys1Hit_->GetA2() / MeV;
+                        fHCZ_T1[0][index2] = HadronCalorimeter_nsys1Hit_->GetT1() / ns;
+                        fHCZ_T2[0][index2] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
 
-                        fHCZ_TrackLength[0][index] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
-                        fHCZ_ToF[0][index] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
+                        fHCZ_TrackLength[0][index2] = HadronCalorimeter_nsys1Hit_->GetTrackLength() / cm;
+                        fHCZ_ToF[0][index2] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
 
-                        fHCZ_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
-                        fHCZ_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
-                        fHCZ_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
+                        fHCZ_XPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetLocalPos().x() / cm;
+                        fHCZ_YPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
+                        fHCZ_ZPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
 
-                        fHCZ_global_XPos[0][index] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
-                        fHCZ_global_YPos[0][index] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
-                        fHCZ_global_ZPos[0][index] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
+                        fHCZ_global_XPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
+                        fHCZ_global_YPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
+                        fHCZ_global_ZPos[0][index2] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
 
 
                         fHCZ_Edep[0][0] = HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
@@ -992,24 +1003,24 @@ namespace Cosmic {
 
                     fHCZ_NSum[0][k]++;
 
-                    fHCZ_EdepSum[0][k] += fHCZ_Edep[0][index];
-                    fHCZ_LOSum[0][k] += fHCZ_LO[0][index];
-                    fHCZ_A1Sum[0][k] += fHCZ_A1[0][index];
-                    fHCZ_A2Sum[0][k] += fHCZ_A2[0][index];
-                    fHCZ_T1Sum[0][k] += fHCZ_T1[0][index];
-                    fHCZ_T2Sum[0][k] += fHCZ_T2[0][index];
-                    fHCZ_TrackLengthSum[0][k] += fHCZ_TrackLength[0][index];
-                    fHCZ_ToFSum[0][k] += fHCZ_ToF[0][index];
+                    fHCZ_EdepSum[0][k] += fHCZ_Edep[0][index2];
+                    fHCZ_LOSum[0][k] += fHCZ_LO[0][index2];
+                    fHCZ_A1Sum[0][k] += fHCZ_A1[0][index2];
+                    fHCZ_A2Sum[0][k] += fHCZ_A2[0][index2];
+                    fHCZ_T1Sum[0][k] += fHCZ_T1[0][index2];
+                    fHCZ_T2Sum[0][k] += fHCZ_T2[0][index2];
+                    fHCZ_TrackLengthSum[0][k] += fHCZ_TrackLength[0][index2];
+                    fHCZ_ToFSum[0][k] += fHCZ_ToF[0][index2];
 
                     fHCZ_NSum[0][0]++;
-                    fHCZ_EdepSum[0][0] += fHCZ_Edep[0][index];
-                    fHCZ_LOSum[0][0] += fHCZ_LO[0][index];
-                    fHCZ_A1Sum[0][0] += fHCZ_A1[0][index];
-                    fHCZ_A2Sum[0][0] += fHCZ_A2[0][index];
-                    fHCZ_T1Sum[0][0] += fHCZ_T1[0][index];
-                    fHCZ_T2Sum[0][0] += fHCZ_T2[0][index];
-                    fHCZ_TrackLengthSum[0][0] += fHCZ_TrackLength[0][index];
-                    fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index];
+                    fHCZ_EdepSum[0][0] += fHCZ_Edep[0][index2];
+                    fHCZ_LOSum[0][0] += fHCZ_LO[0][index2];
+                    fHCZ_A1Sum[0][0] += fHCZ_A1[0][index2];
+                    fHCZ_A2Sum[0][0] += fHCZ_A2[0][index2];
+                    fHCZ_T1Sum[0][0] += fHCZ_T1[0][index2];
+                    fHCZ_T2Sum[0][0] += fHCZ_T2[0][index2];
+                    fHCZ_TrackLengthSum[0][0] += fHCZ_TrackLength[0][index2];
+                    fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index2];
 
                     ///
 
@@ -1022,7 +1033,8 @@ namespace Cosmic {
 #endif
 
 #ifdef HADCAL2
-        index = 0;
+        index = -1;
+        index2 = -1;
         k = 0;
 
         // зануление
@@ -1092,37 +1104,43 @@ namespace Cosmic {
                         k += 1;
                     }
 
+
+
+
                     if (index >= 1)
                     {
-                        fHCX_AL[1][index] = k;
+
+                        index2 = fHCX_N[1][0] + 1;
+
+                        fHCX_AL[1][index2] = k;
                         fHCX_AL[1][0] = k;
 
-                        fHCX_N[1][index]++;
+                        fHCX_N[1][index2]++;
                         fHCX_N[1][0]++;
                     }
 
 
                     if (index >= 1)
                     {
-                        fHCX_Edep[1][index] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
-                        fHCX_LO[1][index] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
-                        //fHCX_A[1][index] += HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
-                        fHCX_A1[1][index] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
-                        fHCX_A2[1][index] = HadronCalorimeter_nsys2Hit_->GetA2() / MeV;
-                        fHCX_T1[1][index] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
-                        fHCX_T2[1][index] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
+                        fHCX_Edep[1][index2] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
+                        fHCX_LO[1][index2] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                        //fHCX_A[1][index2] += HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                        fHCX_A1[1][index2] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
+                        fHCX_A2[1][index2] = HadronCalorimeter_nsys2Hit_->GetA2() / MeV;
+                        fHCX_T1[1][index2] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
+                        fHCX_T2[1][index2] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
 
-                        fHCX_TrackLength[1][index] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
-                        fHCX_ToF[1][index] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
+                        fHCX_TrackLength[1][index2] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
+                        fHCX_ToF[1][index2] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
 
-                        fHCX_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
-                        fHCX_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
-                        fHCX_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+                        fHCX_XPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
+                        fHCX_YPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
+                        fHCX_ZPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
 
 
-                        fHCX_global_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetWorldPos().x() / cm;
-                        fHCX_global_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetWorldPos().y() / cm;
-                        fHCX_global_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetWorldPos().z() / cm;
+                        fHCX_global_XPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetWorldPos().x() / cm;
+                        fHCX_global_YPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetWorldPos().y() / cm;
+                        fHCX_global_ZPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetWorldPos().z() / cm;
 
 
                         fHCX_Edep[1][0] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
@@ -1147,24 +1165,24 @@ namespace Cosmic {
 
                     ///
                     fHCX_NSum[1][k]++;
-                    fHCX_EdepSum[1][k] += fHCX_Edep[1][index];
-                    fHCX_LOSum[1][k] += fHCX_LO[1][index];
-                    fHCX_A1Sum[1][k] += fHCX_A1[1][index];
-                    fHCX_A2Sum[1][k] += fHCX_A2[1][index];
-                    fHCX_T1Sum[1][k] += fHCX_T1[1][index];
-                    fHCX_T2Sum[1][k] += fHCX_T2[1][index];
-                    fHCX_TrackLengthSum[1][k] += fHCX_TrackLength[1][index];
-                    fHCX_ToFSum[1][k] += fHCX_ToF[1][index];
+                    fHCX_EdepSum[1][k] += fHCX_Edep[1][index2];
+                    fHCX_LOSum[1][k] += fHCX_LO[1][index2];
+                    fHCX_A1Sum[1][k] += fHCX_A1[1][index2];
+                    fHCX_A2Sum[1][k] += fHCX_A2[1][index2];
+                    fHCX_T1Sum[1][k] += fHCX_T1[1][index2];
+                    fHCX_T2Sum[1][k] += fHCX_T2[1][index2];
+                    fHCX_TrackLengthSum[1][k] += fHCX_TrackLength[1][index2];
+                    fHCX_ToFSum[1][k] += fHCX_ToF[1][index2];
 
                     fHCX_NSum[1][0]++;
-                    fHCX_EdepSum[1][0] += fHCX_Edep[1][index];
-                    fHCX_LOSum[1][0] += fHCX_LO[1][index];
-                    fHCX_A1Sum[1][0] += fHCX_A1[1][index];
-                    fHCX_A2Sum[1][0] += fHCX_A2[1][index];
-                    fHCX_T1Sum[1][0] += fHCX_T1[1][index];
-                    fHCX_T2Sum[1][0] += fHCX_T2[1][index];
-                    fHCX_TrackLengthSum[1][0] += fHCX_TrackLength[1][index];
-                    fHCX_ToFSum[1][0] += fHCX_ToF[1][index];
+                    fHCX_EdepSum[1][0] += fHCX_Edep[1][index2];
+                    fHCX_LOSum[1][0] += fHCX_LO[1][index2];
+                    fHCX_A1Sum[1][0] += fHCX_A1[1][index2];
+                    fHCX_A2Sum[1][0] += fHCX_A2[1][index2];
+                    fHCX_T1Sum[1][0] += fHCX_T1[1][index2];
+                    fHCX_T2Sum[1][0] += fHCX_T2[1][index2];
+                    fHCX_TrackLengthSum[1][0] += fHCX_TrackLength[1][index2];
+                    fHCX_ToFSum[1][0] += fHCX_ToF[1][index2];
 
                     ///
 
@@ -1191,36 +1209,41 @@ namespace Cosmic {
 
                     // k = 22 - k +1; // в эксперименте нумерация Z против пучка
 
+
+
                     if (index >= 1)
                     {
-                        fHCZ_AL[1][index] = k;
+
+                        index2 = fHCZ_N[1][0] + 1;
+
+                        fHCZ_AL[1][index2] = k;
                         fHCZ_AL[1][0] = k;
 
-                        fHCZ_N[1][index]++;
+                        fHCZ_N[1][index2]++;
                         fHCZ_N[1][0]++;
                     }
 
 
                     if (index >= 1)
                     {
-                        fHCZ_Edep[1][index] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
-                        fHCZ_LO[1][index] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
-                        //fHCZ_A[1][index] += HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
-                        fHCZ_A1[1][index] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
-                        fHCZ_A2[1][index] = HadronCalorimeter_nsys2Hit_->GetA2() / MeV;
-                        fHCZ_T1[1][index] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
-                        fHCZ_T2[1][index] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
+                        fHCZ_Edep[1][index2] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
+                        fHCZ_LO[1][index2] = HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                        //fHCZ_A[1][index2] += HadronCalorimeter_nsys2Hit_->GetLO() / MeV;
+                        fHCZ_A1[1][index2] = HadronCalorimeter_nsys2Hit_->GetA1() / MeV;
+                        fHCZ_A2[1][index2] = HadronCalorimeter_nsys2Hit_->GetA2() / MeV;
+                        fHCZ_T1[1][index2] = HadronCalorimeter_nsys2Hit_->GetT1() / ns;
+                        fHCZ_T2[1][index2] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
 
-                        fHCZ_TrackLength[1][index] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
-                        fHCZ_ToF[1][index] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
+                        fHCZ_TrackLength[1][index2] = HadronCalorimeter_nsys2Hit_->GetTrackLength() / cm;
+                        fHCZ_ToF[1][index2] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
 
-                        fHCZ_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
-                        fHCZ_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
-                        fHCZ_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
+                        fHCZ_XPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetLocalPos().x() / cm;
+                        fHCZ_YPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetLocalPos().y() / cm;
+                        fHCZ_ZPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetLocalPos().z() / cm;
 
-                        fHCZ_global_XPos[1][index] = HadronCalorimeter_nsys2Hit_->GetWorldPos().x() / cm;
-                        fHCZ_global_YPos[1][index] = HadronCalorimeter_nsys2Hit_->GetWorldPos().y() / cm;
-                        fHCZ_global_ZPos[1][index] = HadronCalorimeter_nsys2Hit_->GetWorldPos().z() / cm;
+                        fHCZ_global_XPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetWorldPos().x() / cm;
+                        fHCZ_global_YPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetWorldPos().y() / cm;
+                        fHCZ_global_ZPos[1][index2] = HadronCalorimeter_nsys2Hit_->GetWorldPos().z() / cm;
 
 
                         fHCZ_Edep[1][0] = HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
@@ -1245,24 +1268,24 @@ namespace Cosmic {
                     ///
 
                     fHCZ_NSum[1][k]++;
-                    fHCZ_EdepSum[1][k] += fHCZ_Edep[1][index];
-                    fHCZ_LOSum[1][k] += fHCZ_LO[1][index];
-                    fHCZ_A1Sum[1][k] += fHCZ_A1[1][index];
-                    fHCZ_A2Sum[1][k] += fHCZ_A2[1][index];
-                    fHCZ_T1Sum[1][k] += fHCZ_T1[1][index];
-                    fHCZ_T2Sum[1][k] += fHCZ_T2[1][index];
-                    fHCZ_TrackLengthSum[1][k] += fHCZ_TrackLength[1][index];
-                    fHCZ_ToFSum[1][k] += fHCZ_ToF[1][index];
+                    fHCZ_EdepSum[1][k] += fHCZ_Edep[1][index2];
+                    fHCZ_LOSum[1][k] += fHCZ_LO[1][index2];
+                    fHCZ_A1Sum[1][k] += fHCZ_A1[1][index2];
+                    fHCZ_A2Sum[1][k] += fHCZ_A2[1][index2];
+                    fHCZ_T1Sum[1][k] += fHCZ_T1[1][index2];
+                    fHCZ_T2Sum[1][k] += fHCZ_T2[1][index2];
+                    fHCZ_TrackLengthSum[1][k] += fHCZ_TrackLength[1][index2];
+                    fHCZ_ToFSum[1][k] += fHCZ_ToF[1][index2];
 
                     fHCZ_NSum[1][0]++;
-                    fHCZ_EdepSum[1][0] += fHCZ_Edep[1][index];
-                    fHCZ_LOSum[1][0] += fHCZ_LO[1][index];
-                    fHCZ_A1Sum[1][0] += fHCZ_A1[1][index];
-                    fHCZ_A2Sum[1][0] += fHCZ_A2[1][index];
-                    fHCZ_T1Sum[1][0] += fHCZ_T1[1][index];
-                    fHCZ_T2Sum[1][0] += fHCZ_T2[1][index];
-                    fHCZ_TrackLengthSum[1][0] += fHCZ_TrackLength[1][index];
-                    fHCZ_ToFSum[1][0] += fHCZ_ToF[1][index];
+                    fHCZ_EdepSum[1][0] += fHCZ_Edep[1][index2];
+                    fHCZ_LOSum[1][0] += fHCZ_LO[1][index2];
+                    fHCZ_A1Sum[1][0] += fHCZ_A1[1][index2];
+                    fHCZ_A2Sum[1][0] += fHCZ_A2[1][index2];
+                    fHCZ_T1Sum[1][0] += fHCZ_T1[1][index2];
+                    fHCZ_T2Sum[1][0] += fHCZ_T2[1][index2];
+                    fHCZ_TrackLengthSum[1][0] += fHCZ_TrackLength[1][index2];
+                    fHCZ_ToFSum[1][0] += fHCZ_ToF[1][index2];
 
                     ///
 

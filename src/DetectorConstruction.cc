@@ -1822,8 +1822,10 @@ namespace Cosmic {
         y_pos = -SandSizeY / 2. + LayerStep / 2.;
         for (G4int i = 0; i < 1 * NbOfLayers + 1; y_pos += LayerStep, i++)
         {
-                if ((i & 1) == 1) {       // X-layer
-                if (i != NbOfLayers) {// not last layer?
+                if ((i & 1) == 1)
+                {
+                        // X-layer
+                        if (i != NbOfLayers) {// not last layer?
                     vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)), layer_log,
                                                  "BarsX", sand_vol, false, nx, fCheckOverlaps);
                     nx += NbOfXBars * 2;

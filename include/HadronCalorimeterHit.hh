@@ -93,7 +93,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
         G4RotationMatrix GetVRot() const;
     G4int GetBlkN();
     // G4double GetToF() const;
-        G4bool GetTrig() const;
+    G4bool GetTrig() const;
         G4int GetNprim() const;
 
         // set, get and add methods

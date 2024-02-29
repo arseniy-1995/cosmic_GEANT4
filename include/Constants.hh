@@ -49,7 +49,7 @@ namespace Cosmic {
     constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
 
-//#define RUN21
+    //#define RUN21
 #define RUN23
 #define LOWQ_CONVERTOR
 

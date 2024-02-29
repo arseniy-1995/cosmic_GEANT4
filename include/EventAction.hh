@@ -1091,10 +1091,12 @@ namespace Cosmic {
             {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}
         };
         std::array<std::vector<G4int>, 2> fHCX_NSum{
-            {std::vector<G4int>(NX_BARS + 1, NAN), std::vector<G4int>(NX_BARS + 1, NAN)}};
+            {std::vector<G4int>(NX_BARS + 1, NAN), std::vector<G4int>(NX_BARS + 1, NAN)}
+        };
 
         std::array<std::vector<G4int>, 2> fHCX_AL{
-            {std::vector<G4int>(N_HCX + 1, -5), std::vector<G4int>(N_HCX + 1, -5)}};
+            {std::vector<G4int>(N_HCX + 1, -5), std::vector<G4int>(N_HCX + 1, -5)}
+        };
 
         std::array<std::vector<G4float>, 2> fHCX_Edep{
                 {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}};
@@ -1153,7 +1155,7 @@ namespace Cosmic {
             {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
         };
         std::array<std::vector<G4float>, 2> fHCX_global_YPos{
-                {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
+            {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
         };
         std::array<std::vector<G4float>, 2> fHCX_global_ZPos{
             {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}

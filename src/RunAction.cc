@@ -140,7 +140,7 @@ namespace Cosmic {
             analysisManager->CreateNtupleDColumn("NumEvnt"); // column Id = 8 // Number event
 
             analysisManager->CreateNtupleFColumn("XVertex", fEventAction->GetVertexXYZ(1));
-        analysisManager->CreateNtupleFColumn("YVertex", fEventAction->GetVertexXYZ(2));
+            analysisManager->CreateNtupleFColumn("YVertex", fEventAction->GetVertexXYZ(2));
         analysisManager->CreateNtupleFColumn("ZVertex", fEventAction->GetVertexXYZ(3));
         analysisManager->CreateNtupleFColumn("IndexVertex", fEventAction->GetVertexIndex());
         analysisManager->CreateNtupleFColumn("MassVertex", fEventAction->GetVertexMass());
@@ -425,8 +425,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("NSum_HCX_nsys2",
                                                  fEventAction->Get_HCX_NSum(2)); // column Id = 4 // Число срабатываний
 
-        analysisManager->CreateNtupleIColumn("AL_HCX_nsys2",
-                                             fEventAction->Get_HCX_AL(2)); // column Id = 4 // Номер слоя
+            analysisManager->CreateNtupleIColumn("AL_HCX_nsys2",
+                                                 fEventAction->Get_HCX_AL(2)); // column Id = 4 // Номер слоя
 
         analysisManager->CreateNtupleFColumn("E_HCX_nsys2",
                                              fEventAction->Get_HCX_Edep(2)); // column Id = 4 // Энерговыделение
@@ -482,7 +482,8 @@ namespace Cosmic {
             // column Id = 4 // Глобальная точка
             analysisManager->CreateNtupleFColumn("Yglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 2));
             // column Id = 4 //
-            analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 3)); // column Id = 4 //
+            analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 3));
+            // column Id = 4 //
 
 //Z-bars
 
