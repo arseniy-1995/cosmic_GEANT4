@@ -732,7 +732,7 @@ namespace Cosmic {
             // Камера A
 
             analysisManager->CreateNtupleFColumn("Ewa_nsys1", fEventAction->Get_W_Edep(1, 1));
-            analysisManager->CreateNtupleIColumn("nwa_nsys1", fEventAction->Get_W_N(1, 1));
+            analysisManager->CreateNtupleIColumn("Nwa_nsys1", fEventAction->Get_W_N(1, 1));
             // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleFColumn("Xwa_nsys1", fEventAction->Get_W_Pos(1, 1, 1));
             // column Id = 4 // Локальная точка
@@ -743,7 +743,7 @@ namespace Cosmic {
 
             // Камера B
             analysisManager->CreateNtupleFColumn("Ewb_nsys1", fEventAction->Get_W_Edep(1, 2));
-            analysisManager->CreateNtupleIColumn("nwb_nsys1", fEventAction->Get_W_N(1, 2));
+            analysisManager->CreateNtupleIColumn("Nwb_nsys1", fEventAction->Get_W_N(1, 2));
             // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleFColumn("Xwb_nsys1", fEventAction->Get_W_Pos(1, 1, 2));
             // column Id = 4 // Локальная точка
@@ -754,7 +754,7 @@ namespace Cosmic {
             // Камера C
 
             analysisManager->CreateNtupleFColumn("Ewc_nsys1", fEventAction->Get_W_Edep(1, 3));
-            analysisManager->CreateNtupleIColumn("nwc_nsys1", fEventAction->Get_W_N(1, 3));
+            analysisManager->CreateNtupleIColumn("Nwc_nsys1", fEventAction->Get_W_N(1, 3));
             // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleFColumn("Xwc_nsys1", fEventAction->Get_W_Pos(1, 1, 3));
             // column Id = 4 // Локальная точка
@@ -770,7 +770,7 @@ namespace Cosmic {
             // Камера A
 
             analysisManager->CreateNtupleFColumn("Ewa_nsys2", fEventAction->Get_W_Edep(2, 1));
-            analysisManager->CreateNtupleIColumn("nwa_nsys2", fEventAction->Get_W_N(2));
+            analysisManager->CreateNtupleIColumn("Nwa_nsys2", fEventAction->Get_W_N(2));
             // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleFColumn("Xwa_nsys2", fEventAction->Get_W_Pos(2, 1, 1));
             // column Id = 4 // Локальная точка
@@ -781,7 +781,7 @@ namespace Cosmic {
             // Камера B
 
             analysisManager->CreateNtupleFColumn("Ewb_nsys2", fEventAction->Get_W_Edep(2, 2));
-            analysisManager->CreateNtupleIColumn("nwb_nsys2", fEventAction->Get_W_N(2, 2));
+            analysisManager->CreateNtupleIColumn("Nwb_nsys2", fEventAction->Get_W_N(2, 2));
             // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleFColumn("Xwb_nsys2", fEventAction->Get_W_Pos(2, 1, 2));
             // column Id = 4 // Локальная точка
@@ -793,7 +793,7 @@ namespace Cosmic {
             // Камера C
 
             analysisManager->CreateNtupleFColumn("Ewc_nsys2", fEventAction->Get_W_Edep(2, 3));
-            analysisManager->CreateNtupleIColumn("nwc_nsys2", fEventAction->Get_W_N(2, 3));
+            analysisManager->CreateNtupleIColumn("Nwc_nsys2", fEventAction->Get_W_N(2, 3));
             // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleFColumn("Xwc_nsys2", fEventAction->Get_W_Pos(2, 1, 3));
             // column Id = 4 // Локальная точка
@@ -807,7 +807,7 @@ namespace Cosmic {
 #if defined(VCARM1) && defined(RUN21)
 
             analysisManager->CreateNtupleIColumn("Evb_nsys1", fEventAction->Get_VC_Edep(1));
-        analysisManager->CreateNtupleIColumn("nvc_nsys1",
+        analysisManager->CreateNtupleIColumn("Nvc_nsys1",
                                              fEventAction->Get_VC_N(1)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleFColumn("Xvc_nsys1",
                                              fEventAction->Get_VC_Pos(1, 1)); // column Id = 4 // Локальная точка
@@ -822,7 +822,7 @@ namespace Cosmic {
 #if defined(VCARM2) && defined(RUN21)
 
             analysisManager->CreateNtupleIColumn("Evb_nsys2", fEventAction->Get_VC_Edep(2));
-        analysisManager->CreateNtupleIColumn("nvc_nsys2",
+        analysisManager->CreateNtupleIColumn("Nvc_nsys2",
                                              fEventAction->Get_VC_N(2)); // column Id = 4 // Число срабатываний
         analysisManager->CreateNtupleFColumn("Xvc_nsys2",
                                              fEventAction->Get_VC_Pos(2, 1)); // column Id = 4 // Локальная точка

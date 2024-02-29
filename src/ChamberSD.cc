@@ -298,7 +298,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hitTotal->SetBlkN(CB);
 
 
-    ROhist = NULL;
+   ROhist = NULL;
     return true;
 }
 

@@ -1412,14 +1412,13 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
             //if (index >0) G4cout << index << G4endl;
 
-            if ( index <= 0) index = -1;
+            if (index <= 0) index = -1;
 
             if (W_Chamber_nsys1Hit_->GetEdep() > WChamber_threshold) {
                 //index = i;
 
                 index = index - WC1_IND;
                 if (index >= 0 && index < NW1_WRS) {
-
                     index2 = fWa_N[0][0] + 1;
 
                     fWa_N[0][index2]++;
@@ -1451,7 +1450,6 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                 }
                 index = index - WC2_IND;
                 if (index >= 0 && index < NW2_WRS) {
-
                     index2 = fWb_N[0][0] + 1;
 
                     fWb_N[0][index2]++;
@@ -1482,7 +1480,6 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                 }
                 index = index - WC3_IND;
                 if (index >= 0 && index < NW3_WRS) {
-
                     index2 = fWc_N[0][0] + 1;
 
                     fWc_N[0][index2]++;
@@ -1529,16 +1526,15 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
         for (G4int i = 0; i < (G4int) W_Chamber_nsys2HC->GetSize(); i++) {
             auto W_Chamber_nsys2Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys2HC->GetHit(i));
 
-             index = W_Chamber_nsys2Hit_->GetBlkN();
+            index = W_Chamber_nsys2Hit_->GetBlkN();
 
-            if ( index <= 0) index = -1;
+            if (index <= 0) index = -1;
 
             if (W_Chamber_nsys2Hit_->GetEdep() > WChamber_threshold) {
                 index = i;
 
                 index = index - WC1_IND;
                 if (index >= 0 && index < NW1_WRS) {
-
                     index2 = fWa_N[1][0] + 1;
 
                     fWa_N[1][index2]++;
@@ -1569,7 +1565,6 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                 }
                 index = index - WC2_IND;
                 if (index >= 0 && index < NW2_WRS) {
-
                     index2 = fWb_N[1][0] + 1;
 
                     fWb_N[1][index2]++;
@@ -1600,7 +1595,6 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                 }
                 index = index - WC3_IND;
                 if (index >= 0 && index < NW3_WRS) {
-
                     index2 = fWc_N[1][0] + 1;
 
                     fWc_N[1][index2]++;

@@ -173,7 +173,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    auto logicalVol = preStepPoint->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
    auto copyNo_phys = physicalVol->GetCopyNo();
    auto positionDetector = physicalVol->GetTranslation();
-    auto rotation = touchable->GetRotation();
+   auto rotation = touchable->GetRotation();
 
 
     auto box = (G4Box*) touchable->GetSolid();
@@ -183,7 +183,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    auto Vpos = touchable->GetTranslation();
    posit_local = posit - Vpos;
    posit_local.transform(*rotation);
-    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
+   // G4cout<<"Detector position= "<< positionDetector<<G4endl;
    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
 
     // Get calorimeter cell id
@@ -250,8 +250,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    {
        G4ExceptionDescription msg;
        msg << "Cannot access hit " << layerNumber;
-        G4Exception("HadronCalorimeterSD::ProcessHits()",
-                    "MyCode0004", FatalException, msg);
+       G4Exception("HadronCalorimeterSD::ProcessHits()",
+                   "MyCode0004", FatalException, msg);
     }
 
     if (!(hit->GetLogV())) {
@@ -289,7 +289,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
    hit->AddTrackLength(stepLength);
-    hit->AddToF(tof);
+   hit->AddToF(tof);
     hit->AddWorldPos(posit);
     hit->AddLocalPos(posit_local);
     hit->SetHalfLength(halflength);
@@ -298,7 +298,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
    hitTotal->AddTrackLength(stepLength);
-    hitTotal->AddToF(tof);
+   hitTotal->AddToF(tof);
     hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);
     hitTotal->SetHalfLength(halflength);

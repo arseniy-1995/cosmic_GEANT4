@@ -531,7 +531,7 @@ namespace Cosmic {
 // ARM #1
 #ifdef DCARM1
 
-       //  G4int pCopyNo_WC_nsys1 = ARM1_IND;
+        //  G4int pCopyNo_WC_nsys1 = ARM1_IND;
         G4int pCopyNo_WC_nsys1 = 0;
 
  #ifdef RUN21
@@ -1828,9 +1828,10 @@ namespace Cosmic {
                         if (i != NbOfLayers)
                         {
                                 // not last layer?
-                                vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)), layer_log,
+                                vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)),
+                                                             layer_log,
                                                              "BarsX", sand_vol, false, nx, fCheckOverlaps);
-                    nx += NbOfXBars * 2;
+                                nx += NbOfXBars * 2;
                 } else {// if last layer - use half-layer
                     vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)), layerO_log,
                                                  "BarsHX", sand_vol, false, nx, fCheckOverlaps);

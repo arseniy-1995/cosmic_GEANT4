@@ -96,7 +96,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     G4bool GetTrig() const;
     G4int GetNprim() const;
 
-        // set, get and add methods
+    // set, get and add methods
         inline void SetBlkN(G4int n)	{ blkN = n;};
 
         inline void SetTrig(G4bool v)	{Trig=v;};
