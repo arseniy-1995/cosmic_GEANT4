@@ -410,6 +410,12 @@ namespace Cosmic {
             return fHCX_NSum[0];
         }
 
+           std::vector<G4int>& Get_HCX_NSum2(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCX_NSum2[1];
+            return fHCX_NSum2[0];
+        }
+
         std::vector<G4int> &Get_HCX_AL(G4int nsys = 1) {
             if (nsys == 2) return fHCX_AL[1];
             return fHCX_AL[0];
@@ -558,6 +564,12 @@ namespace Cosmic {
         {
             if (nsys == 2) return fHCZ_NSum[1];
             return fHCZ_NSum[0];
+        }
+
+            std::vector<G4int>& Get_HCZ_NSum2(G4int nsys = 1)
+        {
+            if (nsys == 2) return fHCZ_NSum2[1];
+            return fHCZ_NSum2[0];
         }
 
         std::vector<G4int> &Get_HCZ_AL(G4int nsys = 1) {
@@ -1087,11 +1099,15 @@ namespace Cosmic {
         };
         ////// Для Адронного Калориметра
 
-        std::array<std::vector<G4int>, 2> fHCX_N{
+        std::array<std::vector<G4int>, 2> fHCX_N{ // число сработавших стрипов [число срабатываний] [0] - по всем
             {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}
         };
-        std::array<std::vector<G4int>, 2> fHCX_NSum{
+        std::array<std::vector<G4int>, 2> fHCX_NSum{ // число сработавших стрипов в колнне [номер колонны] [0] - по всем
             {std::vector<G4int>(NX_BARS + 1, NAN), std::vector<G4int>(NX_BARS + 1, NAN)}
+        };
+
+         std::array<std::vector<G4int>, 2> fHCX_NSum2{ // число сработавших колонн
+std::vector<G4int>(1,NAN),std::vector<G4int>(1,NAN)
         };
 
         std::array<std::vector<G4int>, 2> fHCX_AL{
@@ -1166,6 +1182,10 @@ namespace Cosmic {
         };
         std::array<std::vector<G4int>, 2> fHCZ_NSum{
             {std::vector<G4int>(NZ_BARS + 1, NAN), std::vector<G4int>(NZ_BARS + 1, NAN)}};
+
+        std::array<std::vector<G4int>, 2> fHCZ_NSum2{ // число сработавших колонн
+std::vector<G4int>(1,NAN),std::vector<G4int>(1,NAN)
+        };
 
         std::array<std::vector<G4int>, 2> fHCZ_AL{
             {std::vector<G4int>(N_HCZ + 1, -5), std::vector<G4int>(N_HCZ + 1, -5)}};

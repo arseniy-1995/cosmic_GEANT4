@@ -741,6 +741,12 @@ namespace Cosmic {
         G4int index2 = 0; // это номер под которыжмиться в массив
         G4int k = 0;
 
+        G4int HCX_index_is_hit[NX_BARS + 1]; //  массив срабатываний колонн 0 - нет 1 -да
+        G4int HCZ_index_is_hit[NZ_BARS + 1];
+
+        memset(HCX_index_is_hit,0,sizeof(HCX_index_is_hit));
+        memset(HCZ_index_is_hit,0,sizeof(HCZ_index_is_hit));
+
 #ifndef isGenLQ
 
 #ifdef HADCAL1
@@ -755,6 +761,7 @@ namespace Cosmic {
         fHCX_AL[0].assign(fHCX_AL[0].size(), -5);
         fHCX_N[0].assign(fHCX_N[0].size(), 0);
         fHCX_NSum[0].assign(fHCX_NSum[0].size(), 0);
+        fHCX_NSum2[0].assign(fHCX_NSum2[0].size(), 0);
         fHCX_EdepSum[0].assign(fHCX_EdepSum[0].size(), 0.);
         fHCX_LOSum[0].assign(fHCX_LOSum[0].size(), 0.);
         fHCX_A1Sum[0].assign(fHCX_A1Sum[0].size(), 0.);
@@ -768,6 +775,7 @@ namespace Cosmic {
         fHCZ_AL[0].assign(fHCZ_AL[0].size(), -5);
         fHCZ_N[0].assign(fHCZ_N[0].size(), 0);
         fHCZ_NSum[0].assign(fHCZ_NSum[0].size(), 0);
+        fHCZ_NSum2[0].assign(fHCZ_NSum2[0].size(), 0);
         fHCZ_EdepSum[0].assign(fHCZ_EdepSum[0].size(), 0.);
         fHCZ_LOSum[0].assign(fHCZ_LOSum[0].size(), 0.);
         fHCZ_A1Sum[0].assign(fHCZ_A1Sum[0].size(), 0.);
@@ -776,6 +784,9 @@ namespace Cosmic {
         fHCZ_T2Sum[0].assign(fHCZ_T2Sum[0].size(), 0.);
         fHCZ_TrackLengthSum[0].assign(fHCZ_TrackLengthSum[0].size(), 0.);
         fHCZ_ToFSum[0].assign(fHCZ_ToFSum[0].size(), 0.);
+
+        memset(HCX_index_is_hit,0,sizeof(HCX_index_is_hit));
+        memset(HCZ_index_is_hit,0,sizeof(HCZ_index_is_hit));
 
 
         for (G4int i = 0; i <= (G4int)HadronCalorimeter_nsys1HC->GetSize(); i++)
@@ -886,7 +897,10 @@ namespace Cosmic {
                         fHCX_global_XPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
                         fHCX_global_YPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
                         fHCX_global_ZPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
-                    }
+
+                        HCX_index_is_hit[k] = 1;
+
+
 
                     ///
 
@@ -911,12 +925,16 @@ namespace Cosmic {
                     fHCX_TrackLengthSum[0][0] += fHCX_TrackLength[0][index2];
                     fHCX_ToFSum[0][0] += fHCX_ToF[0][index2];
 
-                    ///
+
+                        ///
 
 
-                    hcdep[0] |= 1;
+                        hcdep[0] |= 1;
+                    }
+
                     continue;
                 }
+
 
                 index = index - HCZ_IND;
 
@@ -992,7 +1010,9 @@ namespace Cosmic {
                         fHCZ_global_XPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
                         fHCZ_global_YPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
                         fHCZ_global_ZPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
-                    }
+
+                        HCZ_index_is_hit[k] = 1;
+
 
                     ///
 
@@ -1017,14 +1037,42 @@ namespace Cosmic {
                     fHCZ_TrackLengthSum[0][0] += fHCZ_TrackLength[0][index2];
                     fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index2];
 
-                    ///
 
 
-                    hcdep[0] |= 2;
+                        ///
+
+
+                        hcdep[0] |= 2;
+                    }
+
                     continue;
                 }
+
+
+
             }
         }
+
+
+for (int i = 1; i <= NX_BARS; i++)
+                {
+                    fHCX_NSum2[0][0] += HCX_index_is_hit[i];
+
+                  //  G4cout << HCX_index_is_hit[i] << "\t";
+                }
+
+        if (fHCX_NSum2[0][0]==0) fHCX_NSum2[0][0] = -5;
+
+               // G4cout << G4endl;
+
+                for (int i = 1; i <= NZ_BARS; i++)
+                {
+                    fHCZ_NSum2[0][0] += HCZ_index_is_hit[i];
+                }
+
+
+        if (fHCZ_NSum2[0][0]==0) fHCZ_NSum2[0][0] = -5;
+
 #endif
 
 #ifdef HADCAL2
@@ -1038,6 +1086,7 @@ namespace Cosmic {
         fHCX_AL[1].assign(fHCX_AL[1].size(), -5);
         fHCX_N[1].assign(fHCX_N[1].size(), 0);
         fHCX_NSum[1].assign(fHCX_NSum[1].size(), 0);
+        fHCX_NSum2[1].assign(fHCX_NSum2[1].size(), 0);
         fHCX_EdepSum[1].assign(fHCX_EdepSum[1].size(), 0.);
         fHCX_LOSum[1].assign(fHCX_LOSum[1].size(), 0.);
         fHCX_A1Sum[1].assign(fHCX_A1Sum[1].size(), 0.);
@@ -1051,6 +1100,7 @@ namespace Cosmic {
         fHCZ_AL[1].assign(fHCZ_AL[1].size(), -5);
         fHCZ_N[1].assign(fHCZ_N[1].size(), 0);
         fHCZ_NSum[1].assign(fHCZ_NSum[1].size(), 0);
+        fHCZ_NSum2[1].assign(fHCZ_NSum2[1].size(), 0);
         fHCZ_EdepSum[1].assign(fHCZ_EdepSum[1].size(), 0.);
         fHCZ_LOSum[1].assign(fHCZ_LOSum[1].size(), 0.);
         fHCZ_A1Sum[1].assign(fHCZ_A1Sum[1].size(), 0.);
@@ -1059,6 +1109,9 @@ namespace Cosmic {
         fHCZ_T2Sum[1].assign(fHCZ_T2Sum[1].size(), 0.);
         fHCZ_TrackLengthSum[1].assign(fHCZ_TrackLengthSum[1].size(), 0.);
         fHCZ_ToFSum[1].assign(fHCZ_ToFSum[1].size(), 0.);
+
+       memset(HCX_index_is_hit,0,sizeof(HCX_index_is_hit));
+       memset(HCZ_index_is_hit,0,sizeof(HCZ_index_is_hit));
 
         for (G4int i = 0; i <= (G4int)HadronCalorimeter_nsys2HC->GetSize(); i++)
         {
@@ -1153,7 +1206,9 @@ namespace Cosmic {
                         fHCX_global_XPos[1][0] = HadronCalorimeter_nsys2Hit_->GetWorldPos().x() / cm;
                         fHCX_global_YPos[1][0] = HadronCalorimeter_nsys2Hit_->GetWorldPos().y() / cm;
                         fHCX_global_ZPos[1][0] = HadronCalorimeter_nsys2Hit_->GetWorldPos().z() / cm;
-                    }
+
+                        HCX_index_is_hit[k] = 1;
+
 
                     ///
                     fHCX_NSum[1][k]++;
@@ -1176,12 +1231,18 @@ namespace Cosmic {
                     fHCX_TrackLengthSum[1][0] += fHCX_TrackLength[1][index2];
                     fHCX_ToFSum[1][0] += fHCX_ToF[1][index2];
 
-                    ///
 
 
-                    hcdep[1] |= 1;
+                        ///
+
+
+                        hcdep[1] |= 1;
+                    }
+
                     continue;
                 }
+
+
                 index = index - HCZ_IND;
 
                 if (i==0) index =0;
@@ -1253,7 +1314,9 @@ namespace Cosmic {
                         fHCZ_global_XPos[1][0] = HadronCalorimeter_nsys2Hit_->GetWorldPos().x() / cm;
                         fHCZ_global_YPos[1][0] = HadronCalorimeter_nsys2Hit_->GetWorldPos().y() / cm;
                         fHCZ_global_ZPos[1][0] = HadronCalorimeter_nsys2Hit_->GetWorldPos().z() / cm;
-                    }
+
+                        HCZ_index_is_hit[k] = 1;
+
 
                     ///
 
@@ -1277,15 +1340,39 @@ namespace Cosmic {
                     fHCZ_TrackLengthSum[1][0] += fHCZ_TrackLength[1][index2];
                     fHCZ_ToFSum[1][0] += fHCZ_ToF[1][index2];
 
-                    ///
 
 
-                    hcdep[1] |= 2;
+                        ///
+
+
+                        hcdep[1] |= 2;
+                    }
+
                     continue;
                 }
+
+
+
             }
         }
-#endif
+
+
+                for (int i = 1; i <= NX_BARS; i++)
+                {
+                    fHCX_NSum2[1][0] += HCX_index_is_hit[i];
+                }
+
+        if (fHCX_NSum2[1][0]==0) fHCX_NSum2[1][0] = -5;
+
+                for (int i = 1; i <= NZ_BARS; i++)
+                {
+                    fHCZ_NSum2[1][0] += HCZ_index_is_hit[i];
+                }
+
+
+        if (fHCZ_NSum2[1][0]==0) fHCZ_NSum2[1][0] = -5;
+
+        #endif
 
 #endif
         /// ВЕРШИННЫЕ КАМЕРЫ
