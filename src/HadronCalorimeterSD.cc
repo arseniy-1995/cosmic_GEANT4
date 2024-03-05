@@ -177,7 +177,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
 
    auto box = (G4Box*)touchable->GetSolid();
-   auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
+   auto halflength = G4ThreeVector(box->GetXHalfLength(), box->GetYHalfLength(), box->GetZHalfLength());
 
 
    auto Vpos = touchable->GetTranslation();
@@ -254,8 +254,9 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
                    "MyCode0004", FatalException, msg);
    }
 
-   if (!(hit->GetLogV())) {
-        // fill volume information
+   if (!(hit->GetLogV()))
+   {
+       // fill volume information
         hit->SetLogV(physicalVol->GetLogicalVolume());
         G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
         transform.Invert();
@@ -292,7 +293,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->AddToF(tof);
    hit->AddWorldPos(posit);
    hit->AddLocalPos(posit_local);
-    hit->SetHalfLength(halflength);
+   hit->SetHalfLength(halflength);
     hit->SetBlkN(CB);
 
    hitTotal->AddEdep(edep);
@@ -301,7 +302,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hitTotal->AddToF(tof);
    hitTotal->AddWorldPos(posit);
    hitTotal->AddLocalPos(posit_local);
-    hitTotal->SetHalfLength(halflength);
+   hitTotal->SetHalfLength(halflength);
     hitTotal->SetBlkN(CB);
 
 

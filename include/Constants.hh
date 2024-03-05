@@ -164,7 +164,7 @@ namespace Cosmic {
     constexpr G4double plastic_fat_threshold = 0.5 * MeV;
     constexpr G4double plastic_thin_threshold = 0.1 * MeV;
     constexpr G4double plastic_LQ_threshold = 0.1 * MeV;
-    constexpr G4double HadronCalorimeter_threshold = 0.1 * MeV;
+    constexpr G4double HadronCalorimeter_threshold = 1.0 * MeV;
 
     //   constexpr G4double WChamber_threshold = 0.5 * keV;
     //   constexpr G4double VChamber_threshold = 0.5 * keV;

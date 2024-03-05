@@ -361,8 +361,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("NSum2_HCZ_nsys1",
                                                  fEventAction->Get_HCZ_NSum2(1)); // column Id = 4 // Число срабатываний
 
-        analysisManager->CreateNtupleIColumn("AL_HCZ_nsys1",
-                                             fEventAction->Get_HCZ_AL(1)); // column Id = 4 // Номер слоя
+            analysisManager->CreateNtupleIColumn("AL_HCZ_nsys1",
+                                                 fEventAction->Get_HCZ_AL(1)); // column Id = 4 // Номер слоя
 
         analysisManager->CreateNtupleFColumn("E_HCZ_nsys1",
                                              fEventAction->Get_HCZ_Edep(1)); // column Id = 4 // Энерговыделение
@@ -432,7 +432,7 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("NSum_HCX_nsys2",
                                                  fEventAction->Get_HCX_NSum(2)); // column Id = 4 // Число срабатываний
 
-             analysisManager->CreateNtupleIColumn("NSum2_HCX_nsys2",
+            analysisManager->CreateNtupleIColumn("NSum2_HCX_nsys2",
                                                  fEventAction->Get_HCX_NSum2(2)); // column Id = 4 // Число срабатываний
 
             analysisManager->CreateNtupleIColumn("AL_HCX_nsys2",
@@ -502,11 +502,11 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("NSum_HCZ_nsys2",
                                                  fEventAction->Get_HCZ_NSum(2)); // column Id = 4 // Число срабатываний
 
-        analysisManager->CreateNtupleIColumn("NSum2_HCZ_nsys2",
+            analysisManager->CreateNtupleIColumn("NSum2_HCZ_nsys2",
                                                  fEventAction->Get_HCZ_NSum2(2)); // column Id = 4 // Число срабатываний
 
-        analysisManager->CreateNtupleIColumn("AL_HCZ_nsys2",
-                                             fEventAction->Get_HCZ_AL(2)); // column Id = 4 // Номер слоя
+            analysisManager->CreateNtupleIColumn("AL_HCZ_nsys2",
+                                                 fEventAction->Get_HCZ_AL(2)); // column Id = 4 // Номер слоя
 
         analysisManager->CreateNtupleFColumn("E_HCZ_nsys2",
                                              fEventAction->Get_HCZ_Edep(2)); // column Id = 4 // Энерговыделение

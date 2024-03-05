@@ -1836,9 +1836,10 @@ namespace Cosmic {
                         else
                         {
                                 // if last layer - use half-layer
-                                vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)), layerO_log,
+                                vol_phys = new G4PVPlacement(G4Transform3D(RotateNull, G4ThreeVector(0., y_pos, 0.)),
+                                                             layerO_log,
                                                              "BarsHX", sand_vol, false, nx, fCheckOverlaps);
-                    nx += NbOfXBars;
+                                nx += NbOfXBars;
                 }
             } else {         // Z-layer
                 if (i == 0) {// first layer ?

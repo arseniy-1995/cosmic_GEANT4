@@ -642,7 +642,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
                               theta_deuteron, phi_deuteron, energy_deuteron,
                               Pzz, xx_cell, yy_cell, zz_cell);
 
-        //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
+    //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
         //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
         //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
         //   G4cerr <<std::endl;
@@ -690,7 +690,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
 
 
     particle = particleTable->FindParticle("deuteron"); //for deuteron
-        fParticleGun->SetParticleDefinition(particle);
+    fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(deuteron.x(), deuteron.y(), deuteron.z()));
         // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_deuteron)*cos(phi_deuteron),sin(theta_deuteron)*sin(phi_deuteron),cos(theta_deuteron)));
 
@@ -729,7 +729,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     G4double Pzz = 0.0;
 
     G4double theta_electron = 0.0, theta_proton = 0.0;
-        G4double phi_electron = 0.0, phi_proton = 0.0;
+    G4double phi_electron = 0.0, phi_proton = 0.0;
         G4double energy_electron = 0.0, energy_proton = 0.0;
         G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
 
@@ -749,7 +749,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     //  theta_electron = 50. * M_PI / 180.;
     //  theta_deuteron = 20. * M_PI / 180.;
     //  phi_electron = 50. * M_PI / 180.;
-        //  phi_deuteron = 20. * M_PI / 180.;
+    //  phi_deuteron = 20. * M_PI / 180.;
         //  energy_electron = 60;
         //  energy_deuteron = 500;
 
@@ -1093,7 +1093,15 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         p4vector q, d, n, p, pn;
         p4vector p_pn; // продольная составляющая
 
-        double max_phi = 40. * ra;
+
+        G4double max_phi = 40. * ra;
+        G4double min_theta = 35. * ra;
+        G4double max_theta = 120. * ra;
+
+
+        // G4double max_phi = 5. * ra;
+        // G4double min_theta = 63. * ra;
+        // G4double max_theta = 75. * ra;
 
         do
         {
@@ -1112,7 +1120,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
             //  theta = M_PI * G4UniformRand();
             // theta = acos(2.*G4UniformRand()-1);
             theta = acos(1.0 - 2.0 * G4UniformRand());
-            phi = 2.0 * M_PI * G4UniformRand();
+            //phi = 2.0 * M_PI * G4UniformRand();
+            phi = G4UniformRand() > 0.5 ? max_phi * (2.*G4UniformRand()-1) + 90. * ra : max_phi * (2.*G4UniformRand()-1) - 90. * ra;
+            // phi = max_phi * (2.*G4UniformRand()-1) + 90. * ra;
             p_pn.x() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp)) * sin(theta) * cos(phi);
             p_pn.y() = sqrt((p_pn.e() * p_pn.e() - Mp * Mp)) * sin(theta) * sin(phi);
             p_pn.z() = sqrt(p_pn.e() * p_pn.e() - Mp * Mp) * cos(theta);
@@ -1129,8 +1139,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
                 ((n.e() - Mn) < 5. || (n.e() - Mn) > 1000.) ||
                 // p.theta() < 30. * ra || p.theta() > 110. * ra ||
                 // n.theta() < 30. * ra || n.theta() > 110. * ra
-                (p.theta() < 35. * ra || p.theta() > 120. * ra) ||
-                (n.theta() < 35. * ra || n.theta() > 120. * ra)) ||
+                (p.theta() < min_theta || p.theta() > max_theta) ||
+                (n.theta() < min_theta || n.theta() > max_theta)) ||
 
             // (((abs(p.phi()-(-90.) * ra) > 45.*ra) && p.phi() > 0) || ((abs(n.phi()-(90.) * ra) > 45.*ra) && n.phi() < 0))  // протон вниз - нейтрон вверх
             //   || (((abs(p.phi()-(90.) * ra) > 45.*ra) && p.phi() < 0) || ((abs(n.phi()-(-90.) * ra) > 45.*ra) && n.phi() > 0)) // протон вверх - нейтрон вниз
@@ -1145,7 +1155,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
                ((abs(p.phi() - (-90.) * ra) < max_phi) && p.phi() < 0. && (abs(n.phi() - (90.) * ra) < max_phi) && n
                    .phi() > 0.) // протон вниз - нейтрон вверх
                or
-                ((abs(p.phi() - (90.) * ra) < max_phi) && p.phi() > 0. && (abs(n.phi() - (-90.) * ra) < max_phi) && n
+               ((abs(p.phi() - (90.) * ra) < max_phi) && p.phi() > 0. && (abs(n.phi() - (-90.) * ra) < max_phi) && n
                     .phi() < 0.) // протон вверх - нейтрон вниз
             )
 
