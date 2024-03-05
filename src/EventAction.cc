@@ -860,8 +860,8 @@ namespace Cosmic {
                         //  G4cout << i << " " << k;
 
 
-                    if (index >= 1)
-                    {
+                        if (index >= 1)
+                        {
                         index2 = fHCX_N[0][0] + 1;
 
                         fHCX_AL[0][index2] = k;

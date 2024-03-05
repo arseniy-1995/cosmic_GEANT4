@@ -644,8 +644,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
 
     //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
     //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
-        //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
-        //   G4cerr <<std::endl;
+    //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
+    //   G4cerr <<std::endl;
 
         //  theta_electron = 50. * M_PI / 180.;
         //  theta_deuteron = 20. * M_PI / 180.;
@@ -692,9 +692,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     particle = particleTable->FindParticle("deuteron"); //for deuteron
     fParticleGun->SetParticleDefinition(particle);
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(deuteron.x(), deuteron.y(), deuteron.z()));
-        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_deuteron)*cos(phi_deuteron),sin(theta_deuteron)*sin(phi_deuteron),cos(theta_deuteron)));
+    // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_deuteron)*cos(phi_deuteron),sin(theta_deuteron)*sin(phi_deuteron),cos(theta_deuteron)));
 
-        fParticleGun->SetParticleEnergy(energy_deuteron * MeV);
+    fParticleGun->SetParticleEnergy(energy_deuteron * MeV);
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
 
@@ -731,10 +731,10 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     G4double theta_electron = 0.0, theta_proton = 0.0;
     G4double phi_electron = 0.0, phi_proton = 0.0;
     G4double energy_electron = 0.0, energy_proton = 0.0;
-        G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
+    G4double xx_cell = 0.0, yy_cell = 0.0, zz_cell = 0.0;
 
-        // TODO
-        // random_Neumann_LQ_ep_method2(x_counter_initial, x_counter_final,
+    // TODO
+    // random_Neumann_LQ_ep_method2(x_counter_initial, x_counter_final,
     //                              y_counter_initial, y_counter_final,
     //                              initial_zz_cell, final_zz_cell, Pzz1, Pzz2, max_f,
     //                              theta_electron, phi_electron, energy_electron,
@@ -751,9 +751,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     //  phi_electron = 50. * M_PI / 180.;
     //  phi_deuteron = 20. * M_PI / 180.;
     //  energy_electron = 60;
-        //  energy_deuteron = 500;
+    //  energy_deuteron = 500;
 
-        p4vector electron, proton, p0;
+    p4vector electron, proton, p0;
         G4double mp = 938.2720881629, ra = 3.14159 / 180.;
 
         p0.e() = mp + Ebeam;
