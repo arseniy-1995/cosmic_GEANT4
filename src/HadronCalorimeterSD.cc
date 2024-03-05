@@ -257,7 +257,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    if (!(hit->GetLogV()))
    {
        // fill volume information
-        hit->SetLogV(physicalVol->GetLogicalVolume());
+       hit->SetLogV(physicalVol->GetLogicalVolume());
         G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
         transform.Invert();
         hit->SetRot(transform.NetRotation());
@@ -294,7 +294,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->AddWorldPos(posit);
    hit->AddLocalPos(posit_local);
    hit->SetHalfLength(halflength);
-    hit->SetBlkN(CB);
+   hit->SetBlkN(CB);
 
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
@@ -303,7 +303,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hitTotal->AddWorldPos(posit);
    hitTotal->AddLocalPos(posit_local);
    hitTotal->SetHalfLength(halflength);
-    hitTotal->SetBlkN(CB);
+   hitTotal->SetBlkN(CB);
 
 
    ROhist = NULL;

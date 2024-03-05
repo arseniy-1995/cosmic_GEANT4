@@ -364,8 +364,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("AL_HCZ_nsys1",
                                                  fEventAction->Get_HCZ_AL(1)); // column Id = 4 // Номер слоя
 
-        analysisManager->CreateNtupleFColumn("E_HCZ_nsys1",
-                                             fEventAction->Get_HCZ_Edep(1)); // column Id = 4 // Энерговыделение
+            analysisManager->CreateNtupleFColumn("E_HCZ_nsys1",
+                                                 fEventAction->Get_HCZ_Edep(1)); // column Id = 4 // Энерговыделение
         analysisManager->CreateNtupleFColumn("LO_HCZ_nsys1",
                                              fEventAction->Get_HCZ_LO(1)); // column Id = 6 // Световыход
 
@@ -508,8 +508,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleIColumn("AL_HCZ_nsys2",
                                                  fEventAction->Get_HCZ_AL(2)); // column Id = 4 // Номер слоя
 
-        analysisManager->CreateNtupleFColumn("E_HCZ_nsys2",
-                                             fEventAction->Get_HCZ_Edep(2)); // column Id = 4 // Энерговыделение
+            analysisManager->CreateNtupleFColumn("E_HCZ_nsys2",
+                                                 fEventAction->Get_HCZ_Edep(2)); // column Id = 4 // Энерговыделение
         analysisManager->CreateNtupleFColumn("LO_HCZ_nsys2",
                                              fEventAction->Get_HCZ_LO(2)); // column Id = 6 // Световыход
 

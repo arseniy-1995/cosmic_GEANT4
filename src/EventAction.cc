@@ -853,11 +853,11 @@ namespace Cosmic {
                         k += 1;
                     }
 
-                    HCX_sum_edep_сolumn[k]+=HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
+                    HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
 
-                      if (true && (HCX_sum_edep_сolumn[k]>  HadronCalorimeter_threshold)){
-
-                    //  G4cout << i << " " << k;
+                    if (true && (HCX_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
+                    {
+                        //  G4cout << i << " " << k;
 
 
                     if (index >= 1)
@@ -944,8 +944,8 @@ namespace Cosmic {
                     }
 
                     continue;
+                    }
                 }
-            }
 
 
                 index = index - HCZ_IND;
@@ -966,11 +966,10 @@ namespace Cosmic {
                     }
 
 
-                    HCZ_sum_edep_сolumn[k]+=HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
+                    HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetEdep() / MeV;
 
-                    if (true && (HCZ_sum_edep_сolumn[k]>  HadronCalorimeter_threshold)){
-
-
+                    if (true && (HCZ_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
+                    {
                         //k = 22 - k +1; // в эксперименте нумерация Z против пучка
 
                         //G4cout << " " << k << G4endl;
@@ -1124,7 +1123,7 @@ namespace Cosmic {
         fHCZ_TrackLengthSum[1].assign(fHCZ_TrackLengthSum[1].size(), 0.);
         fHCZ_ToFSum[1].assign(fHCZ_ToFSum[1].size(), 0.);
 
-        memset(HCX_index_is_hit,0,sizeof(HCX_index_is_hit));
+        memset(HCX_index_is_hit, 0, sizeof(HCX_index_is_hit));
         memset(HCZ_index_is_hit, 0, sizeof(HCZ_index_is_hit));
         memset(HCX_sum_edep_сolumn, 0, sizeof(HCX_sum_edep_сolumn));
         memset(HCZ_sum_edep_сolumn, 0, sizeof(HCZ_sum_edep_сolumn));
@@ -1169,10 +1168,10 @@ namespace Cosmic {
                         k += 1;
                     }
 
-                    HCX_sum_edep_сolumn[k]+=HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
+                    HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
 
-                    if (true && (HCX_sum_edep_сolumn[k]>  HadronCalorimeter_threshold)){
-
+                    if (true && (HCX_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
+                    {
                         if (index >= 1)
                         {
                             index2 = fHCX_N[1][0] + 1;
@@ -1252,7 +1251,6 @@ namespace Cosmic {
                             fHCX_ToFSum[1][0] += fHCX_ToF[1][index2];
 
 
-
                             ///
 
 
@@ -1283,10 +1281,10 @@ namespace Cosmic {
 
                     // k = 22 - k +1; // в эксперименте нумерация Z против пучка
 
-                    HCZ_sum_edep_сolumn[k]+=HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
+                    HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetEdep() / MeV;
 
-                    if (true && (HCZ_sum_edep_сolumn[k]>  HadronCalorimeter_threshold)){
-
+                    if (true && (HCZ_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
+                    {
                         if (index >= 1)
                         {
                             index2 = fHCZ_N[1][0] + 1;
@@ -1374,9 +1372,6 @@ namespace Cosmic {
                         continue;
                     }
                 }
-
-
-
             }
         }
 

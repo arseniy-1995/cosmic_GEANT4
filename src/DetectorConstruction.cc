@@ -1840,7 +1840,7 @@ namespace Cosmic {
                                                              layerO_log,
                                                              "BarsHX", sand_vol, false, nx, fCheckOverlaps);
                                 nx += NbOfXBars;
-                }
+                        }
             } else {         // Z-layer
                 if (i == 0) {// first layer ?
                     vol_phys = new G4PVPlacement(
