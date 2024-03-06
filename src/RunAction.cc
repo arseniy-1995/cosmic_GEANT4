@@ -371,7 +371,7 @@ namespace Cosmic {
 
             analysisManager->CreateNtupleFColumn("A1_HCZ_nsys1", fEventAction->Get_HCZ_A1(
                                                      1)); // column Id = 8 // Амплутуды с противоположных торцов
-        analysisManager->CreateNtupleFColumn("A2_HCZ_nsys1", fEventAction->Get_HCZ_A2(1)); // column Id = 10 //
+            analysisManager->CreateNtupleFColumn("A2_HCZ_nsys1", fEventAction->Get_HCZ_A2(1)); // column Id = 10 //
 
         analysisManager->CreateNtupleFColumn("T1_HCZ_nsys1", fEventAction->Get_HCZ_T1(
                 1)); // column Id = 8 // Времена с противоположных торцов
@@ -513,8 +513,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("LO_HCZ_nsys2",
                                                  fEventAction->Get_HCZ_LO(2)); // column Id = 6 // Световыход
 
-        analysisManager->CreateNtupleFColumn("A1_HCZ_nsys2", fEventAction->Get_HCZ_A1(
-                2)); // column Id = 8 // Амплутуды с противоположных торцов
+            analysisManager->CreateNtupleFColumn("A1_HCZ_nsys2", fEventAction->Get_HCZ_A1(
+                                                     2)); // column Id = 8 // Амплутуды с противоположных торцов
         analysisManager->CreateNtupleFColumn("A2_HCZ_nsys2", fEventAction->Get_HCZ_A2(2)); // column Id = 10 //
 
             analysisManager->CreateNtupleFColumn("T1_HCZ_nsys2", fEventAction->Get_HCZ_T1(

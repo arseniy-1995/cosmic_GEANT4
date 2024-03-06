@@ -1101,16 +1101,16 @@ namespace Cosmic {
 
         std::array<std::vector<G4int>, 2> fHCX_N{
             // число сработавших стрипов [число срабатываний] [0] - по всем
-            {std::vector<G4int>(N_HCX + 1, NAN), std::vector<G4int>(N_HCX + 1, NAN)}
+            {std::vector<G4int>(N_HCX + 1, 0), std::vector<G4int>(N_HCX + 1, 0)}
         };
         std::array<std::vector<G4int>, 2> fHCX_NSum{
             // число сработавших стрипов в колнне [номер колонны] [0] - по всем
-            {std::vector<G4int>(NX_BARS + 1, NAN), std::vector<G4int>(NX_BARS + 1, NAN)}
+            {std::vector<G4int>(NX_BARS + 1, 0), std::vector<G4int>(NX_BARS + 1, 0)}
         };
 
         std::array<std::vector<G4int>, 2> fHCX_NSum2{
             // число сработавших колонн
-            std::vector<G4int>(1,NAN), std::vector<G4int>(1,NAN)
+            std::vector<G4int>(1,0), std::vector<G4int>(1,0)
         };
 
         std::array<std::vector<G4int>, 2> fHCX_AL{
