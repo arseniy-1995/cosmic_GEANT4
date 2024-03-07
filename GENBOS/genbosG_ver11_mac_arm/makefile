@@ -11,7 +11,7 @@ FOR = gfortran -fno-automatic -O2
 
 #FOR = f2c
 
-LIBS = -lgfortran -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib -lkernlib -lphtools -lmathlib -lpacklib -lm -lgfortran
+LIBS = -lgfortran -L/usr/local/lib/cernlib/2023/lib -lkernlib -lphtools -lmathlib -lpacklib -lm -lgfortran
 
 #LIBS =   -lpacklib -lkernlib -lgeant321 -lphtools -lmathlib -lgfortran /opt/homebrew/Cellar/gcc/13.2.0/lib/gcc/current/libgfortran.a
 

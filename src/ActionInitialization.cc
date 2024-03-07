@@ -59,10 +59,10 @@ void ActionInitialization::BuildForMaster() const
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-//    namespace {
-//        G4Mutex aMutex = G4MUTEX_INITIALIZER;
-//
-//    }
+    // namespace {
+    //     G4Mutex aMutex = G4MUTEX_INITIALIZER;
+    //
+    // }
 
 void ActionInitialization::Build() const
 {

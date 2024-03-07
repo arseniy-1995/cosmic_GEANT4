@@ -853,8 +853,8 @@ namespace Cosmic {
                         k += 1;
                     }
 
-                   // HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetEdep();
-                     HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetLO();
+                    // HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetEdep();
+                    HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetLO();
 
                     if (true && (HCX_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
                     {
@@ -865,7 +865,7 @@ namespace Cosmic {
                         {
                             index2 = fHCX_N[0][0] + 1;
 
-                        fHCX_AL[0][index2] = k;
+                            fHCX_AL[0][index2] = k;
                         fHCX_AL[0][0] = k;
 
                         fHCX_N[0][index2]++;
@@ -943,10 +943,9 @@ namespace Cosmic {
 
                         hcdep[0] |= 1;
                     }
-
                     }
 
-                     continue;
+                    continue;
                 }
 
 
@@ -968,7 +967,7 @@ namespace Cosmic {
                     }
 
 
-                   // HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetEdep();
+                    // HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetEdep();
                     HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys1Hit_->GetLO();
 
                     if (true && (HCZ_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
@@ -1062,8 +1061,6 @@ namespace Cosmic {
 
                             hcdep[0] |= 2;
                         }
-
-
                     }
 
                     continue;
@@ -1173,7 +1170,7 @@ namespace Cosmic {
                         k += 1;
                     }
 
-                   // HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetEdep();
+                    // HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetEdep();
                     HCX_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetLO();
 
                     if (true && (HCX_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
@@ -1262,11 +1259,9 @@ namespace Cosmic {
 
                             hcdep[1] |= 1;
                         }
-
-
                     }
 
-                     continue;
+                    continue;
                 }
 
 
@@ -1289,7 +1284,7 @@ namespace Cosmic {
 
                     // k = 22 - k +1; // в эксперименте нумерация Z против пучка
 
-                  //  HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetEdep();
+                    //  HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetEdep();
                     HCZ_sum_edep_сolumn[k] += HadronCalorimeter_nsys2Hit_->GetLO();
 
                     if (true && (HCZ_sum_edep_сolumn[k] > HadronCalorimeter_threshold))
@@ -1377,10 +1372,8 @@ namespace Cosmic {
 
                             hcdep[1] |= 2;
                         }
-
-
                     }
-                     continue;
+                    continue;
                 }
             }
         }

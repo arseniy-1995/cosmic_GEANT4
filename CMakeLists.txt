@@ -25,7 +25,7 @@ endif ()
 
 #ROOT
 
-find_package(ROOT REQUIRED COMPONENTS RIO Net)
+#####find_package(ROOT REQUIRED COMPONENTS RIO Net)
 find_package(GSL REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -52,7 +52,7 @@ endif()
 include(${Geant4_USE_FILE})
 #include_directories(${PROJECT_SOURCE_DIR}/include)
 
-include(${ROOT_USE_FILE})
+#####include(${ROOT_USE_FILE})
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
@@ -70,7 +70,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 set(CMAKE_CXX_STANDARD 14)
 
 # FOR GENBOS
-find_package(cernlib REQUIRED)
+#####find_package(cernlib REQUIRED)
 
 #include(${CERNLIB_INCLUDE_DIR})
 #include(${CERNLIB_LIBRARIES})
@@ -88,7 +88,7 @@ find_package(cernlib REQUIRED)
 
 if (${OS_NAME} MATCHES "Linux")
     if (${OS_PLATFORM} MATCHES "x86_64")
-        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathllb -lgeant321 -lpacklib -lgfortran -lm -lns -lphtools)
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathlib -lgeant321 -lpacklib -lgfortran -lm -lnsl -lphtools)
     endif ()
 endif ()
 
@@ -109,7 +109,18 @@ endif ()
 
 if (${OS_NAME} MATCHES "macOS")
     if (${OS_PLATFORM} MATCHES "arm64")
-        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lm -L/usr/local/lib/cernlib/2023/lib)
+    endif ()
+endif ()
+
+
+#####
+
+##### MAC x86_64 OK
+
+if (${OS_NAME} MATCHES "macOS")
+    if (${OS_PLATFORM} MATCHES "x86_64")
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_x64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lm -L/usr/local/lib/cernlib/2023/lib)
     endif ()
 endif ()
 
@@ -134,9 +145,9 @@ add_executable(cosmic cosmic.cc ${sources} ${headers})
 #target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 
 # FOR GENBOS
-target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+####target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
-#target_link_libraries(cosmic PUBLIC ${Geant4_LIBRARIES} ${GENBOSLIBS})
+target_link_libraries(cosmic PUBLIC ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
 #target_link_libraries(cosmic ${Geant4_LIBRARIES})
 #----------------------------------------------------------------------------

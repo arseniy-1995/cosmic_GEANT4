@@ -41,6 +41,7 @@
 
 #include <G4PhysListFactory.hh>
 
+//#undef G4MULTITHREADED
 
 //#ifdef GENBOS
 //
@@ -140,9 +141,11 @@ int main(int argc, char **argv) {
 #ifdef G4MULTITHREADED
     if (nThreads > 0) {
         runManager->SetNumberOfThreads(nThreads);
-      //  runManager->SetNumberOfThreads(1);
+       // runManager->SetNumberOfThreads(1);
     }
 #endif
+
+//runManager->SetNumberOfThreads(4);
 
     // Set mandatory initialization classes
     //

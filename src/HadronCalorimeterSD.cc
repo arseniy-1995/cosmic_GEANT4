@@ -261,7 +261,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
        G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
        transform.Invert();
        hit->SetRot(transform.NetRotation());
-        hit->SetLocalPos(transform.NetTranslation());
+       hit->SetLocalPos(transform.NetTranslation());
     }
 
     // check if it is first touch

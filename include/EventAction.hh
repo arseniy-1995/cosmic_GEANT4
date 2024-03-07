@@ -1110,7 +1110,7 @@ namespace Cosmic {
 
         std::array<std::vector<G4int>, 2> fHCX_NSum2{
             // число сработавших колонн
-            std::vector<G4int>(1,0), std::vector<G4int>(1,0)
+            std::vector<G4int>(1, 0), std::vector<G4int>(1, 0)
         };
 
         std::array<std::vector<G4int>, 2> fHCX_AL{
