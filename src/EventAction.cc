@@ -866,7 +866,7 @@ namespace Cosmic {
                             index2 = fHCX_N[0][0] + 1;
 
                             fHCX_AL[0][index2] = k;
-                        fHCX_AL[0][0] = k;
+                            fHCX_AL[0][0] = k;
 
                         fHCX_N[0][index2]++;
                         fHCX_N[0][0]++;

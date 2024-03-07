@@ -1849,8 +1849,9 @@ namespace Cosmic {
                         {
                                 // first layer ?
                                 vol_phys = new G4PVPlacement(
-                                        G4Transform3D(Rotate90Y180Z, G4ThreeVector(0., y_pos + dy - 0.15 * mm, 0.)), layerH_log,
-                            "BarsHZ", sand_vol, false, nz, fCheckOverlaps);
+                                        G4Transform3D(Rotate90Y180Z, G4ThreeVector(0., y_pos + dy - 0.15 * mm, 0.)),
+                                        layerH_log,
+                                        "BarsHZ", sand_vol, false, nz, fCheckOverlaps);
                     nz += NbOfZBars;
                     continue;
                 }
