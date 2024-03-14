@@ -650,7 +650,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     //  theta_electron = 50. * M_PI / 180.;
     //  theta_deuteron = 20. * M_PI / 180.;
     //  phi_electron = 50. * M_PI / 180.;
-        //  phi_deuteron = 20. * M_PI / 180.;
+    //  phi_deuteron = 20. * M_PI / 180.;
         //  energy_electron = 60;
         //  energy_deuteron = 500;
 
@@ -699,7 +699,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     fParticleGun->GeneratePrimaryVertex(event);
 
     // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
-        // G4cerr <<std::endl;
+    // G4cerr <<std::endl;
 
         EventInfo *info = new EventInfo();
 //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
@@ -758,7 +758,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
 
     p0.e() = mp + Ebeam;
     p0.z() = Ebeam;
-        // electron.e()=Ebeam-ed;
+    // electron.e()=Ebeam-ed;
         electron.e() = energy_electron;
         electron.x() = electron.e() * sin(theta_electron) * sin(phi_electron);
         electron.y() = electron.e() * sin(theta_electron) * cos(phi_electron);

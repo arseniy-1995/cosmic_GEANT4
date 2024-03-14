@@ -1852,7 +1852,7 @@ namespace Cosmic {
                                         G4Transform3D(Rotate90Y180Z, G4ThreeVector(0., y_pos + dy - 0.15 * mm, 0.)),
                                         layerH_log,
                                         "BarsHZ", sand_vol, false, nz, fCheckOverlaps);
-                    nz += NbOfZBars;
+                                nz += NbOfZBars;
                     continue;
                 }
                 if (i != NbOfLayers) {// not last layer?
