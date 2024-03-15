@@ -526,7 +526,7 @@ namespace Cosmic {
             if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
 
             fPlastic_fatTrackID[0][i] = plastic_fat_nsys1Hit[i]->GetTrackID();
-                fPlastic_fatEdep[0][i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
+            fPlastic_fatEdep[0][i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
                 fPlastic_fatLO[0][i] = plastic_fat_nsys1Hit[i]->GetLO() / MeV;
                 fPlastic_fatA1[0][i] = plastic_fat_nsys1Hit[i]->GetA1() / MeV;
                 fPlastic_fatA2[0][i] = plastic_fat_nsys1Hit[i]->GetA2() / MeV;
@@ -535,7 +535,7 @@ namespace Cosmic {
 
 
             fPlastic_fatXPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().x() / cm;
-                fPlastic_fatYPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
+            fPlastic_fatYPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_fat_global_XPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().x() / cm;
                 fPlastic_fat_global_YPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().y() / cm;
@@ -561,7 +561,7 @@ namespace Cosmic {
             if (i >= 1) plastic_fat_nsys2Hit[i] = (*plastic_fat_nsys2HC)[i - 1];
 
             fPlastic_fatTrackID[1][i] = plastic_fat_nsys2Hit[i]->GetTrackID();
-                fPlastic_fatEdep[1][i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
+            fPlastic_fatEdep[1][i] = plastic_fat_nsys2Hit[i]->GetEdep() / MeV;
                 fPlastic_fatLO[1][i] = plastic_fat_nsys2Hit[i]->GetLO() / MeV;
                 fPlastic_fatA1[1][i] = plastic_fat_nsys2Hit[i]->GetA1() / MeV;
                 fPlastic_fatA2[1][i] = plastic_fat_nsys2Hit[i]->GetA2() / MeV;
@@ -569,7 +569,7 @@ namespace Cosmic {
             fPlastic_fatTrackLength[1][i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
 
 
-                fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
+            fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_fatYPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_fat_global_XPos[1][i] = plastic_fat_nsys2Hit[i]->GetWorldPos().x() / cm;
@@ -884,8 +884,8 @@ namespace Cosmic {
                     //  G4cout << i << " " << k;
 
 
-                        if (index >= 1)
-                        {
+                    if (index >= 1)
+                    {
                             index2 = fHCX_N[0][0] + 1;
 
                             fHCX_AL[0][index2] = k;
@@ -893,7 +893,7 @@ namespace Cosmic {
 
                             fHCX_N[0][index2]++;
                             fHCX_N[0][0]++;
-                        }
+                    }
 
 
                     if (index >= 1)
@@ -1010,7 +1010,7 @@ namespace Cosmic {
 
                     //k = 22 - k +1; // в эксперименте нумерация Z против пучка
 
-                        //G4cout << " " << k << G4endl;
+                    //G4cout << " " << k << G4endl;
 
 
                         if (index >= 1)
@@ -1629,7 +1629,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                 //index = i;
 
             index = index - WC1_IND;
-                if (index >= 0 && index < NW1_WRS) {
+            if (index >= 0 && index < NW1_WRS) {
                     index2 = fWa_N[0][0] + 1;
 
                     fWa_N[0][index2]++;
@@ -1670,7 +1670,8 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     continue;
             }
             index = index - WC2_IND;
-                if (index >= 0 && index < NW2_WRS) {
+            if (index >= 0 && index < NW2_WRS)
+            {
                     index2 = fWb_N[0][0] + 1;
 
                     fWb_N[0][index2]++;
@@ -1710,7 +1711,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     continue;
             }
             index = index - WC3_IND;
-                if (index >= 0 && index < NW3_WRS) {
+            if (index >= 0 && index < NW3_WRS) {
                     index2 = fWc_N[0][0] + 1;
 
                     fWc_N[0][index2]++;
@@ -1775,11 +1776,12 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
             //index = i;
 
-                index = index - WC1_IND;
-            if (index >= 0 && index < NW1_WRS) {
-                    index2 = fWa_N[1][0] + 1;
+            index = index - WC1_IND;
+            if (index >= 0 && index < NW1_WRS)
+            {
+                index2 = fWa_N[1][0] + 1;
 
-                    fWa_N[1][index2]++;
+                fWa_N[1][index2]++;
                     fWa_N[1][0]++;
 
                     fWa_TrackID[1][index2] = W_Chamber_nsys2Hit_->GetTrackID();
@@ -1814,10 +1816,11 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     {
                         wcdep[1] |= 2;
                     }
-                    continue;
+                continue;
             }
             index = index - WC2_IND;
-                if (index >= 0 && index < NW2_WRS) {
+            if (index >= 0 && index < NW2_WRS)
+            {
                     index2 = fWb_N[1][0] + 1;
 
                     fWb_N[1][index2]++;
@@ -1858,10 +1861,11 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     continue;
             }
             index = index - WC3_IND;
-            if (index >= 0 && index < NW3_WRS) {
-                    index2 = fWc_N[1][0] + 1;
+            if (index >= 0 && index < NW3_WRS)
+            {
+                index2 = fWc_N[1][0] + 1;
 
-                    fWc_N[1][index2]++;
+                fWc_N[1][index2]++;
                     fWc_N[1][0]++;
 
                     fWc_TrackID[1][index2] = W_Chamber_nsys2Hit_->GetTrackID();
@@ -1896,7 +1900,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     {
                         wcdep[1] |= 8;
                     }
-                    continue;
+                continue;
             }
         }
 

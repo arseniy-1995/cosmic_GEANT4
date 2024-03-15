@@ -15,8 +15,6 @@
 /gun/count on
 /gun/CStep 10000
 #/gun/mode 34
-#/gun/mode 3
-#/gun/mode 8
 /gun/EgMin 400 MeV
 /gun/EgMax 650 MeV
 #/tracking/storeTrajectory 0

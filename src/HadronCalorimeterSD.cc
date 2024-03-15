@@ -149,7 +149,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    // if ( edep==0. && stepLength == 0. ) return false;
 
 
-                // auto theta = aTrack->GetPosition().getTheta();
+   // auto theta = aTrack->GetPosition().getTheta();
 //auto phi = aTrack->GetPosition().getPhi();
  // auto theta = aTrack->GetMomentum().getTheta();
  // auto phi = aTrack->GetMomentum().getPhi();

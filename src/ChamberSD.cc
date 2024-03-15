@@ -153,7 +153,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
    // if ( edep==0. && stepLength == 0. ) return false;
 
-    auto mass = preStepPoint->GetMass();
+   auto mass = preStepPoint->GetMass();
     auto kinetic_energy = preStepPoint->GetKineticEnergy();
     //auto theta = preStepPoint->GetPosition().getTheta();
     //auto phi = preStepPoint->GetPosition().getPhi();

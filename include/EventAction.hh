@@ -1412,9 +1412,10 @@ namespace Cosmic {
             {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
         };
         std::array<std::vector<G4float>, 2> fHCZ_global_ZPos{
-            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}};
+            {std::vector<G4float>(N_HCZ + 1, NAN), std::vector<G4float>(N_HCZ + 1, NAN)}
+        };
 
-///////
+        ///////
 
         // Для дрейфовых (трековых) камер
 
@@ -1568,7 +1569,7 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fVC_YPos{
                 {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_ZPos{
-                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}
+            {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}
         };
         std::array<std::vector<G4float>, 2> fVC_RPos{
             {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}
