@@ -554,6 +554,34 @@ namespace Cosmic {
         ///////
 
 
+         std::vector<G4int>&Get_HCX_TrackID(G4int nsys = 1)
+        {
+            if (nsys == 1)
+            {
+                return fHCX_TrackID[0];
+            }
+             if (nsys == 2)
+            {
+                return fHCX_TrackID[1];
+            }
+
+            return fHCX_TrackID[0];
+        }
+
+            std::vector<G4int>&Get_HCZ_TrackID(G4int nsys = 1)
+        {
+            if (nsys == 1)
+            {
+                return fHCZ_TrackID[0];
+            }
+             if (nsys == 2)
+            {
+                return fHCZ_TrackID[1];
+            }
+
+            return fHCZ_TrackID[0];
+        }
+
         std::vector<G4int>& Get_HCZ_N(G4int nsys = 1)
         {
             if (nsys == 2) return fHCZ_N[1];
@@ -761,11 +789,13 @@ namespace Cosmic {
                     if (index == 1) return fWa_XPos[0];
                     if (index == 2) return fWa_YPos[0];
                     if (index == 3) return fWa_ZPos[0];
+                     if (index == 4) return fWa_RPos[0];
                 }
                 if (nsys == 2) {
                     if (index == 1) return fWa_XPos[1];
                     if (index == 2) return fWa_YPos[1];
                     if (index == 3) return fWa_ZPos[1];
+                     if (index == 4) return fWa_RPos[1];
                 }
             }
             if (type_chamber == 2) // b
@@ -774,11 +804,13 @@ namespace Cosmic {
                     if (index == 1) return fWb_XPos[0];
                     if (index == 2) return fWb_YPos[0];
                     if (index == 3) return fWb_ZPos[0];
+                    if (index == 4) return fWb_RPos[0];
                 }
                 if (nsys == 2) {
                     if (index == 1) return fWb_XPos[1];
                     if (index == 2) return fWb_YPos[1];
                     if (index == 3) return fWb_ZPos[1];
+                    if (index == 4) return fWb_RPos[1];
                 }
             }
             if (type_chamber == 3) // c
@@ -787,14 +819,94 @@ namespace Cosmic {
                     if (index == 1) return fWc_XPos[0];
                     if (index == 2) return fWc_YPos[0];
                     if (index == 3) return fWc_ZPos[0];
+                    if (index == 4) return fWc_RPos[0];
                 }
                 if (nsys == 2) {
                     if (index == 1) return fWc_XPos[1];
                     if (index == 2) return fWc_YPos[1];
                     if (index == 3) return fWc_ZPos[1];
+                    if (index == 4) return fWc_RPos[1];
                 }
             }
             return fWa_XPos[0];
+
+        }
+
+        std::vector<G4float> &Get_W_GlobalPos(G4int nsys = 1, G4int index = 1, G4int type_chamber = 1) {
+
+            if (type_chamber == 1) // a
+            {
+                if (nsys == 1) {
+                    if (index == 1) return fWa_global_XPos[0];
+                    if (index == 2) return fWa_global_YPos[0];
+                    if (index == 3) return fWa_global_ZPos[0];
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fWa_global_XPos[1];
+                    if (index == 2) return fWa_global_YPos[1];
+                    if (index == 3) return fWa_global_ZPos[1];
+                }
+            }
+            if (type_chamber == 2) // b
+            {
+                if (nsys == 1) {
+                    if (index == 1) return fWb_global_XPos[0];
+                    if (index == 2) return fWb_global_YPos[0];
+                    if (index == 3) return fWb_global_ZPos[0];
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fWb_global_XPos[1];
+                    if (index == 2) return fWb_global_YPos[1];
+                    if (index == 3) return fWb_global_ZPos[1];
+                }
+            }
+            if (type_chamber == 3) // c
+            {
+                if (nsys == 1) {
+                    if (index == 1) return fWc_global_XPos[0];
+                    if (index == 2) return fWc_global_YPos[0];
+                    if (index == 3) return fWc_global_ZPos[0];
+                }
+                if (nsys == 2) {
+                    if (index == 1) return fWc_global_XPos[1];
+                    if (index == 2) return fWc_global_YPos[1];
+                    if (index == 3) return fWc_global_ZPos[1];
+                }
+            }
+            return fWa_global_XPos[0];
+
+        }
+
+        std::vector<G4int> &Get_W_TrackID(G4int nsys = 1, G4int type_chamber = 1) {
+
+            if (type_chamber == 1) // a
+            {
+                if (nsys == 1) {
+                    return fWa_TrackID[0];
+                }
+                if (nsys == 2) {
+                    return fWa_TrackID[1];
+                }
+            }
+            if (type_chamber == 2) // b
+            {
+                if (nsys == 1) {
+                    return fWb_TrackID[0];
+                }
+                if (nsys == 2) {
+                    return fWb_TrackID[1];
+                }
+            }
+            if (type_chamber == 3) // c
+            {
+                if (nsys == 1) {
+                   return fWc_TrackID[0];
+                }
+                if (nsys == 2) {
+                   return fWc_TrackID[1];
+                }
+            }
+            return fWa_TrackID[0];
 
         }
 
@@ -817,6 +929,30 @@ namespace Cosmic {
                 if (index == 4) return fVC_RPos[1];
             }
             return fVC_XPos[0];
+        }
+
+                std::vector<G4float> &Get_VC_GlobalPos(G4int nsys = 1, G4int index = 1) {
+            if (nsys == 1) {
+                if (index == 1) return fVC_global_XPos[0];
+                if (index == 2) return fVC_global_YPos[0];
+                if (index == 3) return fVC_global_ZPos[0];
+            }
+            if (nsys == 2) {
+                if (index == 1) return fVC_global_XPos[1];
+                if (index == 2) return fVC_global_YPos[1];
+                if (index == 3) return fVC_global_ZPos[1];
+            }
+            return fVC_global_XPos[0];
+        }
+
+         std::vector<G4int> &Get_VC_TrackID(G4int nsys = 1) {
+            if (nsys == 1) {
+                return fVC_TrackID[0];
+            }
+            if (nsys == 2) {
+               return fVC_TrackID[1];
+            }
+            return fVC_TrackID[0];
         }
 
         std::vector<G4float> &Get_VC_Mass(G4int nsys = 1) {
@@ -895,8 +1031,8 @@ namespace Cosmic {
 
 
         std::array<std::vector<G4int>, 2> fPlastic_fatTrackID{
-                {std::vector<G4int>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
-                 std::vector<G4int>(fNofLayers_plastic_fat_nsys2 + 1, NAN)}};
+                {std::vector<G4int>(fNofLayers_plastic_fat_nsys1 + 1, -5),
+                 std::vector<G4int>(fNofLayers_plastic_fat_nsys2 + 1, -5)}};
 
         std::array<std::vector<G4float>, 2> fPlastic_fatEdep{
                 {std::vector<G4float>(fNofLayers_plastic_fat_nsys1 + 1, NAN),
@@ -964,8 +1100,8 @@ namespace Cosmic {
 
         //////////////
         std::array<std::vector<G4int>, 2> fPlastic_thinTrackID{
-                {std::vector<G4int>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
-                 std::vector<G4int>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
+                {std::vector<G4int>(fNofLayers_plastic_thin_nsys1 + 1, -5),
+                 std::vector<G4int>(fNofLayers_plastic_thin_nsys2 + 1, -5)}};
         std::array<std::vector<G4float>, 2> fPlastic_thinEdep{
                 {std::vector<G4float>(fNofLayers_plastic_thin_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_thin_nsys2 + 1, NAN)}};
@@ -1033,8 +1169,8 @@ namespace Cosmic {
 
         //////////////
         std::array<std::vector<G4int>, 2> fPlastic_LQTrackID{
-                {std::vector<G4int>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
-                 std::vector<G4int>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
+                {std::vector<G4int>(fNofLayers_plastic_LQ_nsys1 + 1, -5),
+                 std::vector<G4int>(fNofLayers_plastic_LQ_nsys2 + 1, -5)}};
         std::array<std::vector<G4float>, 2> fPlastic_LQ_Edep{
                 {std::vector<G4float>(fNofLayers_plastic_LQ_nsys1 + 1, NAN),
                  std::vector<G4float>(fNofLayers_plastic_LQ_nsys2 + 1, NAN)}};
@@ -1099,6 +1235,9 @@ namespace Cosmic {
         };
         ////// Для Адронного Калориметра
 
+         std::array<std::vector<G4int>, 2> fHCX_TrackID{
+            {std::vector<G4int>(N_HCX + 1, -5), std::vector<G4int>(N_HCX + 1, -5)}
+        };
         std::array<std::vector<G4int>, 2> fHCX_N{
             // число сработавших стрипов [число срабатываний] [0] - по всем
             {std::vector<G4int>(N_HCX + 1, 0), std::vector<G4int>(N_HCX + 1, 0)}
@@ -1180,6 +1319,10 @@ namespace Cosmic {
             {std::vector<G4float>(N_HCX + 1, NAN), std::vector<G4float>(N_HCX + 1, NAN)}
         };
 
+
+         std::array<std::vector<G4int>, 2> fHCZ_TrackID{
+            {std::vector<G4int>(N_HCX + 1, -5), std::vector<G4int>(N_HCX + 1, -5)}
+        };
         std::array<std::vector<G4int>, 2> fHCZ_N{
             {std::vector<G4int>(N_HCZ + 1, NAN), std::vector<G4int>(N_HCZ + 1, NAN)}
         };
@@ -1260,6 +1403,9 @@ namespace Cosmic {
 
         // Для дрейфовых (трековых) камер
 
+         std::array<std::vector<G4int>, 2> fWa_TrackID{
+            {std::vector<G4int>(NW1_WRS + 1, -5), std::vector<G4int>(NW1_WRS + 1, -5)}
+        };
         std::array<std::vector<G4int>, 2> fWa_N{
             {std::vector<G4int>(NW1_WRS + 1, NAN), std::vector<G4int>(NW1_WRS + 1, NAN)}
         };
@@ -1290,7 +1436,20 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fWa_RPos{
             {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
         };
+         std::array<std::vector<G4float>, 2> fWa_global_XPos{
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWa_global_YPos{
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWa_global_ZPos{
+            {std::vector<G4float>(NW1_WRS + 1, NAN), std::vector<G4float>(NW1_WRS + 1, NAN)}
+        };
         //////
+
+        std::array<std::vector<G4int>, 2> fWb_TrackID{
+            {std::vector<G4int>(NW2_WRS + 1, -5), std::vector<G4int>(NW2_WRS + 1, -5)}
+        };
         std::array<std::vector<G4int>, 2> fWb_N{
             {std::vector<G4int>(NW2_WRS + 1, NAN), std::vector<G4int>(NW2_WRS + 1, NAN)}
         };
@@ -1321,7 +1480,19 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fWb_RPos{
             {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
         };
+         std::array<std::vector<G4float>, 2> fWb_global_XPos{
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWb_global_YPos{
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWb_global_ZPos{
+            {std::vector<G4float>(NW2_WRS + 1, NAN), std::vector<G4float>(NW2_WRS + 1, NAN)}
+        };
         /////
+        std::array<std::vector<G4int>, 2> fWc_TrackID{
+            {std::vector<G4int>(NW3_WRS + 1, -5), std::vector<G4int>(NW3_WRS + 1, -5)}
+        };
         std::array<std::vector<G4int>, 2> fWc_N{
             {std::vector<G4int>(NW3_WRS + 1, NAN), std::vector<G4int>(NW3_WRS + 1, NAN)}
         };
@@ -1352,9 +1523,21 @@ namespace Cosmic {
         std::array<std::vector<G4float>, 2> fWc_RPos{
             {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
         };
+         std::array<std::vector<G4float>, 2> fWc_global_XPos{
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWc_global_YPos{
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
+        std::array<std::vector<G4float>, 2> fWc_global_ZPos{
+            {std::vector<G4float>(NW3_WRS + 1, NAN), std::vector<G4float>(NW3_WRS + 1, NAN)}
+        };
 
         // Для вершинных камер
 
+        std::array<std::vector<G4int>, 2> fVC_TrackID{
+            {std::vector<G4int>(NVC_WRS + 1, -5), std::vector<G4int>(NVC_WRS + 1, -5)}
+        };
         std::array<std::vector<G4int>, 2> fVC_N{
             {std::vector<G4int>(NVC_WRS + 1, 0), std::vector<G4int>(NVC_WRS + 1, 0)}};
         std::array<std::vector<G4float>, 2> fVC_Mass{
@@ -1373,6 +1556,13 @@ namespace Cosmic {
                 {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
         std::array<std::vector<G4float>, 2> fVC_RPos{
                 {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_global_XPos{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_global_YPos{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+        std::array<std::vector<G4float>, 2> fVC_global_ZPos{
+                {std::vector<G4float>(NVC_WRS + 1, NAN), std::vector<G4float>(NVC_WRS + 1, NAN)}};
+
 
         // Для GENBOS через индекс вершины
 

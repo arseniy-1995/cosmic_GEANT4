@@ -144,6 +144,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     stepLength = aStep->GetStepLength();
   }
 
+    G4int TrackID = aTrack->GetTrackID();
+
     // if ( edep==0. && stepLength == 0. ) return false;
 
 
@@ -287,6 +289,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
      //   G4cout << CB <<G4endl;
 
 
+   hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
    hit->AddTrackLength(stepLength);
@@ -296,6 +299,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->SetHalfLength(halflength);
    hit->SetBlkN(CB);
 
+   hitTotal->AddTrackID(TrackID);
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
    hitTotal->AddTrackLength(stepLength);

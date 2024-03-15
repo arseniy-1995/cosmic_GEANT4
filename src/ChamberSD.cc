@@ -146,8 +146,10 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
         stepLength = aStep->GetStepLength();
     }
 
-    G4bool did = (aTrack->GetTrackID() == 0) or (aTrack->GetTrackID() == 1); // position only for original particle
-    //  G4bool did = (aTrack->GetParentID() ==0); // position only for original particle
+    G4int TrackID = aTrack->GetTrackID();
+
+    G4bool did = (TrackID == 0) or (TrackID == 1); // position only for original particle
+    //  G4bool did = (TrackID ==0); // position only for original particle
 
     // if ( edep==0. && stepLength == 0. ) return false;
 
@@ -271,6 +273,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     // Add values
 
 
+   hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
    hit->AddTrackLength(stepLength);
@@ -284,6 +287,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hit->SetKineticEnergy(kinetic_energy);
    hit->SetBlkN(CB);
 
+   hitTotal->AddTrackID(TrackID);
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
    hitTotal->AddTrackLength(stepLength);

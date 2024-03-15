@@ -651,7 +651,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     //  theta_deuteron = 20. * M_PI / 180.;
     //  phi_electron = 50. * M_PI / 180.;
     //  phi_deuteron = 20. * M_PI / 180.;
-        //  energy_electron = 60;
+    //  energy_electron = 60;
         //  energy_deuteron = 500;
 
         p4vector electron, deuteron, p0;
@@ -701,7 +701,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ed_method2(G4Event* event)
     // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
     // G4cerr <<std::endl;
 
-        EventInfo *info = new EventInfo();
+    EventInfo *info = new EventInfo();
 //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
         //info->SetEgamma(Egamma);
         // info->SetNreac(nreac);
@@ -759,7 +759,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     p0.e() = mp + Ebeam;
     p0.z() = Ebeam;
     // electron.e()=Ebeam-ed;
-        electron.e() = energy_electron;
+    electron.e() = energy_electron;
         electron.x() = electron.e() * sin(theta_electron) * sin(phi_electron);
         electron.y() = electron.e() * sin(theta_electron) * cos(phi_electron);
         electron.z() = electron.e() * cos(theta_electron);
@@ -1740,20 +1740,32 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         int nreac, ireac[40];
         Mode = val;
         //   G4AutoLock lock(&aMutex);
-        if (Mode == 34) { // это p+n
+        if (Mode == 34)
+        {
+            // это p+n
             memset(ireac, 0, sizeof(ireac));
             nreac = 1;
             ireac[0] = 34;
-            G4AutoLock lock(&aMutex);
+            //fGenbosClass->SetMode(Mode);
+        }
+
+        if (Mode == 100)
+        {
+            // это тип 3 и 8 и 18 только реакции с двумя протонами и пи-мезоном(и)
+            memset(ireac, 0, sizeof(ireac));
+            nreac = 3;
+            ireac[0] = 3;
+            ireac[1] = 8;
+            ireac[1] = 18;
+            //fGenbosClass->SetMode(Mode);
+        }
+
+
+         G4AutoLock lock(&aMutex);
 #ifdef GENBOS
             genbos_reactions_(&nreac, ireac);
             genbos_start_(&FileNum);
 #endif //GENBOS
-
-
-            //fGenbosClass->SetMode(Mode);
-
-        }
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

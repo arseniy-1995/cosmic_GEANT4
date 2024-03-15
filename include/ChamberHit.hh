@@ -103,7 +103,13 @@ class ChamberHit : public G4VHit
         inline void SetNprim(G4int v)	{Nprim=v;};
 
 
-        inline void SetEdep(G4double de) { fEdep = de; }
+    inline void SetTrackID(G4int TrackID) { fTrackID = TrackID; }
+
+    void AddTrackID(G4int TrackID) { fTrackID = TrackID; }
+
+    inline G4int GetTrackID() const { return fTrackID; }
+
+    inline void SetEdep(G4double de) { fEdep = de; }
         void AddEdep(G4double de) { fEdep += de; }
         inline G4double GetEdep() const { return fEdep; }
 
@@ -205,6 +211,8 @@ class ChamberHit : public G4VHit
     const G4LogicalVolume* GetLogV() const { return fPLogV; }
 
   private:
+
+    G4int fTrackID = -1;
     G4int fLayerxID = -1;
     G4int fLayeryID = -1;
     G4int fLayerzID = -1;

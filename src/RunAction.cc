@@ -283,6 +283,7 @@ namespace Cosmic {
 #ifdef HADCAL1
             //nsys1
             // X-bars
+            analysisManager->CreateNtupleIColumn("TrackID_HCX_nsys1", fEventAction->Get_HCX_TrackID(1));
             analysisManager->CreateNtupleIColumn("N_HCX_nsys1",
                                                  fEventAction->Get_HCX_N(1)); // column Id = 4 // Число срабатываний
 
@@ -350,7 +351,10 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys1", fEventAction->Get_HCX_GlobalPos(1, 3));
             // column Id = 4 //
 
+
+
             //Z-bars
+            analysisManager->CreateNtupleIColumn("TrackID_HCZ_nsys1", fEventAction->Get_HCZ_TrackID(1));
 
             analysisManager->CreateNtupleIColumn("N_HCZ_nsys1",
                                                  fEventAction->Get_HCZ_N(1)); // column Id = 4 // Число срабатываний
@@ -419,6 +423,8 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zglob_HCZ_nsys1", fEventAction->Get_HCZ_GlobalPos(1, 3));
             // column Id = 4 //
 
+
+
 #endif
 
 #ifdef HADCAL2
@@ -426,6 +432,7 @@ namespace Cosmic {
             //nsys2
 
             // X-bars
+             analysisManager->CreateNtupleIColumn("TrackID_HCX_nsys2", fEventAction->Get_HCX_TrackID(2));
         analysisManager->CreateNtupleIColumn("N_HCX_nsys2",
                                              fEventAction->Get_HCX_N(2)); // column Id = 4 // Число срабатываний
 
@@ -495,8 +502,11 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zglob_HCX_nsys2", fEventAction->Get_HCX_GlobalPos(2, 3));
             // column Id = 4 //
 
+
+
 //Z-bars
 
+             analysisManager->CreateNtupleIColumn("TrackID_HCZ_nsys2", fEventAction->Get_HCZ_TrackID(2));
         analysisManager->CreateNtupleIColumn("N_HCZ_nsys2",
                                              fEventAction->Get_HCZ_N(2)); // column Id = 4 // Число срабатываний
             analysisManager->CreateNtupleIColumn("NSum_HCZ_nsys2",
@@ -561,6 +571,9 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Yglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 2));
             // column Id = 4 //
             analysisManager->CreateNtupleFColumn("Zglob_HCZ_nsys2", fEventAction->Get_HCZ_GlobalPos(2, 3)); // column Id = 4 //
+
+
+
 
 #endif
 
@@ -745,6 +758,7 @@ namespace Cosmic {
 #if defined(DCARM1)
             // Камера A
 
+            analysisManager->CreateNtupleIColumn("TrackIDwa_nsys1", fEventAction->Get_W_TrackID(1,1));
             analysisManager->CreateNtupleFColumn("Ewa_nsys1", fEventAction->Get_W_Edep(1, 1));
             analysisManager->CreateNtupleIColumn("Nwa_nsys1", fEventAction->Get_W_N(1, 1));
             // column Id = 4 // Число срабатываний
@@ -755,7 +769,15 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Rwa_nsys1", fEventAction->Get_W_Pos(1, 4, 1));
 
 
+            analysisManager->CreateNtupleFColumn("Xglobwa_nsys1", fEventAction->Get_W_GlobalPos(1, 1, 1));
+            analysisManager->CreateNtupleFColumn("Yglobwa_nsys1", fEventAction->Get_W_GlobalPos(1, 2, 1));
+            analysisManager->CreateNtupleFColumn("Zglobwa_nsys1", fEventAction->Get_W_GlobalPos(1, 3, 1));
+
+
+
+
             // Камера B
+             analysisManager->CreateNtupleIColumn("TrackIDwb_nsys1", fEventAction->Get_W_TrackID(1,2));
             analysisManager->CreateNtupleFColumn("Ewb_nsys1", fEventAction->Get_W_Edep(1, 2));
             analysisManager->CreateNtupleIColumn("Nwb_nsys1", fEventAction->Get_W_N(1, 2));
             // column Id = 4 // Число срабатываний
@@ -765,8 +787,16 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zwb_nsys1", fEventAction->Get_W_Pos(1, 3, 2));
             analysisManager->CreateNtupleFColumn("Rwb_nsys1", fEventAction->Get_W_Pos(1, 4, 2));
 
+
+            analysisManager->CreateNtupleFColumn("Xglobwb_nsys1", fEventAction->Get_W_GlobalPos(1, 1, 2));
+            analysisManager->CreateNtupleFColumn("Yglobwb_nsys1", fEventAction->Get_W_GlobalPos(1, 2, 2));
+            analysisManager->CreateNtupleFColumn("Zglobwb_nsys1", fEventAction->Get_W_GlobalPos(1, 3, 2));
+
+
+
             // Камера C
 
+            analysisManager->CreateNtupleIColumn("TrackIDwc_nsys1", fEventAction->Get_W_TrackID(1,3));
             analysisManager->CreateNtupleFColumn("Ewc_nsys1", fEventAction->Get_W_Edep(1, 3));
             analysisManager->CreateNtupleIColumn("Nwc_nsys1", fEventAction->Get_W_N(1, 3));
             // column Id = 4 // Число срабатываний
@@ -776,6 +806,12 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zwc_nsys1", fEventAction->Get_W_Pos(1, 3, 3));
             analysisManager->CreateNtupleFColumn("Rwc_nsys1", fEventAction->Get_W_Pos(1, 4, 3));
 
+            analysisManager->CreateNtupleFColumn("Xglobwc_nsys1", fEventAction->Get_W_GlobalPos(1, 1, 3));
+            analysisManager->CreateNtupleFColumn("Yglobwc_nsys1", fEventAction->Get_W_GlobalPos(1, 2, 3));
+            analysisManager->CreateNtupleFColumn("Zglobwc_nsys1", fEventAction->Get_W_GlobalPos(1, 3, 3));
+
+
+
 #endif
 
 
@@ -783,6 +819,7 @@ namespace Cosmic {
 
             // Камера A
 
+            analysisManager->CreateNtupleIColumn("TrackIDwa_nsys2", fEventAction->Get_W_TrackID(2,1));
             analysisManager->CreateNtupleFColumn("Ewa_nsys2", fEventAction->Get_W_Edep(2, 1));
             analysisManager->CreateNtupleIColumn("Nwa_nsys2", fEventAction->Get_W_N(2));
             // column Id = 4 // Число срабатываний
@@ -792,8 +829,15 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zwa_nsys2", fEventAction->Get_W_Pos(2, 3, 1));
             analysisManager->CreateNtupleFColumn("Rwa_nsys2", fEventAction->Get_W_Pos(2, 4, 1));
 
+            analysisManager->CreateNtupleFColumn("Xglobwa_nsys2", fEventAction->Get_W_GlobalPos(2, 1, 1));
+            analysisManager->CreateNtupleFColumn("Yglobwa_nsys2", fEventAction->Get_W_GlobalPos(2, 2, 1));
+            analysisManager->CreateNtupleFColumn("Zglobwa_nsys2", fEventAction->Get_W_GlobalPos(2, 3, 1));
+
+
+
             // Камера B
 
+            analysisManager->CreateNtupleIColumn("TrackIDwb_nsys2", fEventAction->Get_W_TrackID(2,2));
             analysisManager->CreateNtupleFColumn("Ewb_nsys2", fEventAction->Get_W_Edep(2, 2));
             analysisManager->CreateNtupleIColumn("Nwb_nsys2", fEventAction->Get_W_N(2, 2));
             // column Id = 4 // Число срабатываний
@@ -803,9 +847,16 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Zwb_nsys2", fEventAction->Get_W_Pos(2, 3, 2));
             analysisManager->CreateNtupleFColumn("Rwb_nsys2", fEventAction->Get_W_Pos(2, 4, 2));
 
+             analysisManager->CreateNtupleFColumn("Xglobwb_nsys2", fEventAction->Get_W_GlobalPos(2, 1, 2));
+            analysisManager->CreateNtupleFColumn("Yglobwb_nsys2", fEventAction->Get_W_GlobalPos(2, 2, 2));
+            analysisManager->CreateNtupleFColumn("Zglobwb_nsys2", fEventAction->Get_W_GlobalPos(2, 3, 2));
+
+
+
 
             // Камера C
 
+            analysisManager->CreateNtupleIColumn("TrackIDwc_nsys2", fEventAction->Get_W_TrackID(2,3));
             analysisManager->CreateNtupleFColumn("Ewc_nsys2", fEventAction->Get_W_Edep(2, 3));
             analysisManager->CreateNtupleIColumn("Nwc_nsys2", fEventAction->Get_W_N(2, 3));
             // column Id = 4 // Число срабатываний
@@ -814,12 +865,19 @@ namespace Cosmic {
             analysisManager->CreateNtupleFColumn("Ywc_nsys2", fEventAction->Get_W_Pos(2, 2, 3));
             analysisManager->CreateNtupleFColumn("Zwc_nsys2", fEventAction->Get_W_Pos(2, 3, 3));
             analysisManager->CreateNtupleFColumn("Rwc_nsys2", fEventAction->Get_W_Pos(2, 4, 3));
+
+             analysisManager->CreateNtupleFColumn("Xglobwc_nsys2", fEventAction->Get_W_GlobalPos(2, 1, 3));
+            analysisManager->CreateNtupleFColumn("Yglobwc_nsys2", fEventAction->Get_W_GlobalPos(2, 2, 3));
+            analysisManager->CreateNtupleFColumn("Zglobwc_nsys2", fEventAction->Get_W_GlobalPos(2, 3, 3));
+
+
 #endif
 
             /// Для вершинных камер
 
 #if defined(VCARM1) && defined(RUN21)
 
+            analysisManager->CreateNtupleIColumn("TrackIDvc_nsys1", fEventAction->Get_VC_TrackID(1));
             analysisManager->CreateNtupleIColumn("Evb_nsys1", fEventAction->Get_VC_Edep(1));
         analysisManager->CreateNtupleIColumn("Nvc_nsys1",
                                              fEventAction->Get_VC_N(1)); // column Id = 4 // Число срабатываний
@@ -832,9 +890,18 @@ namespace Cosmic {
         analysisManager->CreateNtupleFColumn("Energyvc_nsys1", fEventAction->Get_VC_KineticEnergy(1));
         analysisManager->CreateNtupleFColumn("Thetavc_nsys1", fEventAction->Get_VC_Theta(1));
         analysisManager->CreateNtupleFColumn("Phivc_nsys1", fEventAction->Get_VC_Phi(1));
+
+        analysisManager->CreateNtupleFColumn("Xglobvc_nsys1", fEventAction->Get_VC_GlobalPos(1, 1));
+        analysisManager->CreateNtupleFColumn("Yglobvc_nsys1", fEventAction->Get_VC_GlobalPos(1, 2));
+        analysisManager->CreateNtupleFColumn("Zglobvc_nsys1", fEventAction->Get_VC_GlobalPos(1, 3));
+
+
+
+
 #endif
 #if defined(VCARM2) && defined(RUN21)
 
+            analysisManager->CreateNtupleIColumn("TrackIDvc_nsys2", fEventAction->Get_VC_TrackID(2));
             analysisManager->CreateNtupleIColumn("Evb_nsys2", fEventAction->Get_VC_Edep(2));
         analysisManager->CreateNtupleIColumn("Nvc_nsys2",
                                              fEventAction->Get_VC_N(2)); // column Id = 4 // Число срабатываний
@@ -847,6 +914,12 @@ namespace Cosmic {
         analysisManager->CreateNtupleFColumn("Energyvc_nsys2", fEventAction->Get_VC_KineticEnergy(2));
         analysisManager->CreateNtupleFColumn("Thetavc_nsys2", fEventAction->Get_VC_Theta(2));
         analysisManager->CreateNtupleFColumn("Phivc_nsys2", fEventAction->Get_VC_Phi(2));
+
+        analysisManager->CreateNtupleFColumn("Xglobvc_nsys2", fEventAction->Get_VC_GlobalPos(2, 1));
+        analysisManager->CreateNtupleFColumn("Yglobvc_nsys2", fEventAction->Get_VC_GlobalPos(2, 2));
+        analysisManager->CreateNtupleFColumn("Zglobvc_nsys2", fEventAction->Get_VC_GlobalPos(2, 3));
+
+
 
 #endif
 
