@@ -531,10 +531,10 @@ namespace Cosmic {
 // ARM #1
 #ifdef DCARM1
 
-          G4int pCopyNo_WC_nsys1 = ARM1_IND;
-       // G4int pCopyNo_WC_nsys1 = 0;
+        G4int pCopyNo_WC_nsys1 = ARM1_IND;
+        // G4int pCopyNo_WC_nsys1 = 0;
 
- #ifdef RUN21
+#ifdef RUN21
         new G4PVPlacement(G4Transform3D(Rotate180Z,
                                         G4ThreeVector(0.0 * cm, -14.8 * cm, 9.4 * cm)),
                           WCTheta1_nsys1LV, "WCTheta1a_nsys1", worldLV, false, pCopyNo_WC_nsys1, fCheckOverlaps);
@@ -567,7 +567,7 @@ namespace Cosmic {
         G4int pCopyNo_WC_nsys2 = ARM2_IND;
         //G4int pCopyNo_WC_nsys2 = 0;
 
-  #ifdef RUN21
+#ifdef RUN21
         new G4PVPlacement(G4Transform3D(RotateNull,
                                         G4ThreeVector(0.0 * cm, 14.8 * cm, 9.4 * cm)),
                           WCTheta1_nsys2LV, "WCTheta1b_nsys2", worldLV, false, pCopyNo_WC_nsys2, fCheckOverlaps);
