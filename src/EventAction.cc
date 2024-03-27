@@ -569,7 +569,7 @@ namespace Cosmic {
             fPlastic_fatTrackLength[1][i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
 
 
-            fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
+                fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;
             fPlastic_fatYPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_fatZPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().z() / cm;
                 fPlastic_fat_global_XPos[1][i] = plastic_fat_nsys2Hit[i]->GetWorldPos().x() / cm;
@@ -1000,7 +1000,8 @@ namespace Cosmic {
 
                         // индексы парно перепутаны по Z
                         if (k % 2 == 0) k -= 1; // четное
-                        else k += 1; // нечетное
+                        else
+                            k += 1; // нечетное
                     }
 
 

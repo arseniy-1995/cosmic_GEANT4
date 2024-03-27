@@ -112,7 +112,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     void AddEdep(G4double de) { fEdep += de; }
     inline G4double GetEdep() const { return fEdep; }
 
-        inline void SetLO(G4double lo) { fLO = lo; }
+    inline void SetLO(G4double lo) { fLO = lo; }
         void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF);
         // void AddLO(G4double lo) { fLO += lo; }
         inline G4double GetLO() const { return fLO; }

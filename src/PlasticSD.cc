@@ -240,6 +240,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     // add energy deposition
     // Add values
+
+    hit->SetHalfLength(halflength);
     hit->AddTrackID(TrackID);
     hit->AddEdep(edep);
     hit->AddLO(edep, posit, dx, velosity, tof);
@@ -247,12 +249,12 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hit->AddToF(tof);
     hit->AddWorldPos(posit);
     hit->AddLocalPos(posit_local);
-    hit->SetHalfLength(halflength);
     hit->SetPosTheta(theta);
     hit->SetPosPhi(phi);
     hit->SetPosThetaGlob(thetaGlob);
     hit->SetPosPhiGlob(phiGlob);
 
+    hitTotal->SetHalfLength(halflength);
     hitTotal->AddTrackID(TrackID);
     hitTotal->AddEdep(edep);
     hitTotal->AddLO(edep, posit, dx, velosity, tof);
@@ -260,7 +262,6 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hitTotal->AddToF(tof);
     hitTotal->AddWorldPos(posit);
     hitTotal->AddLocalPos(posit_local);
-    hitTotal->SetHalfLength(halflength);
     hitTotal->SetPosTheta(theta);
     hitTotal->SetPosPhi(phi);
     hitTotal->SetPosThetaGlob(thetaGlob);

@@ -150,8 +150,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
 
    // auto theta = aTrack->GetPosition().getTheta();
-   //auto phi = aTrack->GetPosition().getPhi();
- // auto theta = aTrack->GetMomentum().getTheta();
+   // auto phi = aTrack->GetPosition().getPhi();
+   // auto theta = aTrack->GetMomentum().getTheta();
  // auto phi = aTrack->GetMomentum().getPhi();
 
     auto theta = aTrack->GetMomentumDirection().getTheta();
@@ -288,7 +288,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
      //   G4cout << CB <<G4endl;
 
-
+   hit->SetHalfLength(halflength);
    hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
@@ -296,9 +296,9 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->AddToF(tof);
    hit->AddWorldPos(posit);
    hit->AddLocalPos(posit_local);
-   hit->SetHalfLength(halflength);
    hit->SetBlkN(CB);
 
+   hitTotal->SetHalfLength(halflength);
    hitTotal->AddTrackID(TrackID);
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
@@ -306,7 +306,6 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hitTotal->AddToF(tof);
    hitTotal->AddWorldPos(posit);
    hitTotal->AddLocalPos(posit_local);
-   hitTotal->SetHalfLength(halflength);
    hitTotal->SetBlkN(CB);
 
 

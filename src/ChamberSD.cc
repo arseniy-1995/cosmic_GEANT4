@@ -155,7 +155,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
    auto mass = preStepPoint->GetMass();
    auto kinetic_energy = preStepPoint->GetKineticEnergy();
-    //auto theta = preStepPoint->GetPosition().getTheta();
+   // auto theta = preStepPoint->GetPosition().getTheta();
     //auto phi = preStepPoint->GetPosition().getPhi();
 
     G4double theta = 0., phi = 0.;
@@ -273,6 +273,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     // Add values
 
 
+   hit->SetHalfLength(halflength);
    hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
@@ -280,13 +281,13 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hit->AddToF(tof);
    hit->AddWorldPos(posit);
    hit->AddLocalPos(posit_local);
-   hit->SetHalfLength(halflength);
    hit->SetPosTheta(theta);
    hit->SetPosPhi(phi);
    hit->SetMass(mass);
    hit->SetKineticEnergy(kinetic_energy);
    hit->SetBlkN(CB);
 
+   hitTotal->SetHalfLength(halflength);
    hitTotal->AddTrackID(TrackID);
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);
@@ -294,7 +295,6 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hitTotal->AddToF(tof);
    hitTotal->AddWorldPos(posit);
    hitTotal->AddLocalPos(posit_local);
-   hitTotal->SetHalfLength(halflength);
    hitTotal->SetPosTheta(theta);
    hitTotal->SetPosPhi(phi);
    hitTotal->SetMass(mass);
