@@ -272,6 +272,8 @@ namespace Cosmic {
             G4double f = 1.0 + k1 * a + k2 * pow(a, 2.);
             dlo = de / f;
             //     G4cerr << " ___ a="<<a<<" f="<<f<<" lo="<<dlo<<G4endl;
+
+            fdLO = dlo;
             fLO += dlo;
 
 

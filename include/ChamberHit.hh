@@ -219,6 +219,7 @@ class ChamberHit : public G4VHit
     G4double fToF = 0.; // Time of Flight
     G4double fEdep = 0.;        ///< Energy deposit in the sensitive volume
     G4double fLO = 0.;        ///< Light Output in the sensitive volume
+    G4double fdLO = 0.;
     G4double fTrackLength = 0.; ///< Track length in the  sensitive volume
     G4double fA1 = 0.;  // Амплитуды с двух концов счетчиков
         G4double fA2 = 0.;

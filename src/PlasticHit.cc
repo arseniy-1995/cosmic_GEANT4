@@ -271,6 +271,8 @@ void PlasticHit::AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4do
             G4double f = 1.0 + k1 * a + k2 * pow(a, 2.);
             dlo = de / f;
 //G4cout << " ___ a="<<a<<" f="<<f<<" lo="<<lo<<G4endl;
+
+            fdLO = dlo;
             fLO += dlo;
 
             G4double halflength = fHalfLength.x();

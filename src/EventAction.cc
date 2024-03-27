@@ -566,7 +566,7 @@ namespace Cosmic {
                 fPlastic_fatA1[1][i] = plastic_fat_nsys2Hit[i]->GetA1() / MeV;
                 fPlastic_fatA2[1][i] = plastic_fat_nsys2Hit[i]->GetA2() / MeV;
 
-            fPlastic_fatTrackLength[1][i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
+                fPlastic_fatTrackLength[1][i] = plastic_fat_nsys2Hit[i]->GetTrackLength() / cm;
 
 
                 fPlastic_fatXPos[1][i] = plastic_fat_nsys2Hit[i]->GetLocalPos().x() / cm;

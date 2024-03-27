@@ -152,7 +152,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    // auto theta = aTrack->GetPosition().getTheta();
    // auto phi = aTrack->GetPosition().getPhi();
    // auto theta = aTrack->GetMomentum().getTheta();
- // auto phi = aTrack->GetMomentum().getPhi();
+   // auto phi = aTrack->GetMomentum().getPhi();
 
     auto theta = aTrack->GetMomentumDirection().getTheta();
     auto phi = aTrack->GetMomentumDirection().getPhi();
@@ -286,9 +286,9 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     // add energy deposition
     // Add values
 
-     //   G4cout << CB <<G4endl;
+    //   G4cout << CB <<G4endl;
 
-   hit->SetHalfLength(halflength);
+    hit->SetHalfLength(halflength);
    hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);

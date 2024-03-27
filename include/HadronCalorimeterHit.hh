@@ -113,7 +113,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     inline G4double GetEdep() const { return fEdep; }
 
     inline void SetLO(G4double lo) { fLO = lo; }
-        void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF);
+    void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF);
         // void AddLO(G4double lo) { fLO += lo; }
         inline G4double GetLO() const { return fLO; }
 
@@ -194,6 +194,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     G4double fToF = 0.; // Time of Flight
     G4double fEdep = 0.;        ///< Energy deposit in the sensitive volume
     G4double fLO = 0.;        ///< Light Output in the sensitive volume
+    G4double fdLO = 0.;
     G4double fTrackLength = 0.; ///< Track length in the  sensitive volume
     G4double fA1 = 0.;  // Амплитуды с двух концов счетчиков
     G4double fA2 = 0.;
