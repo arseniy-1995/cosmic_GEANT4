@@ -109,13 +109,17 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     inline G4int GetTrackID() const { return fTrackID; }
 
     inline void SetEdep(G4double de) { fEdep = de; }
-    void AddEdep(G4double de) { fEdep += de; }
+    void AddEdep(G4double de)
+    {
+        fEdep += de;
+        fdEdep = de;
+    }
     inline G4double GetEdep() const { return fEdep; }
 
     inline void SetLO(G4double lo) { fLO = lo; }
     void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF);
     // void AddLO(G4double lo) { fLO += lo; }
-        inline G4double GetLO() const { return fLO; }
+    inline G4double GetLO() const { return fLO; }
 
         inline void SetA1(G4double a1) { fA1 = a1; }
         //  void AddA1(G4double a1) { fA1 += a1; }
@@ -147,7 +151,11 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
 
         inline void SetWorldPos(G4ThreeVector pos) { fWorldPos = pos; }
         void AddWorldPos(G4ThreeVector pos);
-        inline G4ThreeVector GetWorldPos() const { return fWorldPos; }
+        inline G4ThreeVector GetWorldPos() const
+        {
+           // return fWorldPos;
+            return fWorldPos / fLO;
+        }
 
         inline void SetLocalPos(G4ThreeVector pos) { fLocalPos = pos; }
         void AddLocalPos(G4ThreeVector pos);
@@ -192,7 +200,8 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     G4int fLayeryID = -1;
     G4int fLayerzID = -1;
     G4double fToF = 0.; // Time of Flight
-    G4double fEdep = 0.;        ///< Energy deposit in the sensitive volume
+    G4double fEdep = 0.; ///< Energy deposit in the sensitive volume
+    G4double fdEdep = 0.;
     G4double fLO = 0.; ///< Light Output in the sensitive volume
     G4double fdLO = 0.;
     G4double fTrackLength = 0.; ///< Track length in the  sensitive volume

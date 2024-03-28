@@ -522,14 +522,16 @@ namespace Cosmic {
         //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
 #ifndef isGenLQ
 #ifdef PF1_FAT
-        for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++) {
-            if (i >= 1) plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
+        for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++)
+        {
+            if (i >= 1)
+                plastic_fat_nsys1Hit[i] = (*plastic_fat_nsys1HC)[i - 1];
 
             fPlastic_fatTrackID[0][i] = plastic_fat_nsys1Hit[i]->GetTrackID();
             fPlastic_fatEdep[0][i] = plastic_fat_nsys1Hit[i]->GetEdep() / MeV;
             fPlastic_fatLO[0][i] = plastic_fat_nsys1Hit[i]->GetLO() / MeV;
-                fPlastic_fatA1[0][i] = plastic_fat_nsys1Hit[i]->GetA1() / MeV;
-                fPlastic_fatA2[0][i] = plastic_fat_nsys1Hit[i]->GetA2() / MeV;
+            fPlastic_fatA1[0][i] = plastic_fat_nsys1Hit[i]->GetA1() / MeV;
+            fPlastic_fatA2[0][i] = plastic_fat_nsys1Hit[i]->GetA2() / MeV;
 
             fPlastic_fatTrackLength[0][i] = plastic_fat_nsys1Hit[i]->GetTrackLength() / cm;
 
@@ -537,12 +539,12 @@ namespace Cosmic {
             fPlastic_fatXPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().x() / cm;
             fPlastic_fatYPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().y() / cm;
             fPlastic_fatZPos[0][i] = plastic_fat_nsys1Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_fat_global_XPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().x() / cm;
-                fPlastic_fat_global_YPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().y() / cm;
-                fPlastic_fat_global_ZPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().z() / cm;
-                fPlastic_fatTheta[0][i] = plastic_fat_nsys1Hit[i]->GetPosTheta() / degree;
-                fPlastic_fatPhi[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
-                fPlastic_fatThetaGlob[0][i] = plastic_fat_nsys1Hit[i]->GetPosThetaGlob() / degree;
+            fPlastic_fat_global_XPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().x() / cm;
+            fPlastic_fat_global_YPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().y() / cm;
+            fPlastic_fat_global_ZPos[0][i] = plastic_fat_nsys1Hit[i]->GetWorldPos().z() / cm;
+            fPlastic_fatTheta[0][i] = plastic_fat_nsys1Hit[i]->GetPosTheta() / degree;
+            fPlastic_fatPhi[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhi() / degree;
+            fPlastic_fatThetaGlob[0][i] = plastic_fat_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_fatPhiGlob[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhiGlob() / degree;
 
             if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold)
@@ -650,9 +652,9 @@ namespace Cosmic {
                 fPlastic_thinXPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_thinYPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_thinZPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_thin_global_XPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().x() / cm;
+                fPlastic_thin_global_XPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().x()  / cm;
                 fPlastic_thin_global_YPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().y() / cm;
-                fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z() / cm;
+                fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z()  / cm;
 
                 fPlastic_thinTheta[1][i] = plastic_thin_nsys2Hit[i]->GetPosTheta() / degree;
                 fPlastic_thinPhi[1][i] = plastic_thin_nsys2Hit[i]->GetPosPhi() / degree;
@@ -930,9 +932,9 @@ namespace Cosmic {
                         fHCX_YPos[0][0] = HadronCalorimeter_nsys1Hit_->GetLocalPos().y() / cm;
                         fHCX_ZPos[0][0] = HadronCalorimeter_nsys1Hit_->GetLocalPos().z() / cm;
 
-                        fHCX_global_XPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x() / cm;
-                        fHCX_global_YPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y() / cm;
-                        fHCX_global_ZPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z() / cm;
+                        fHCX_global_XPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().x()  / cm;
+                        fHCX_global_YPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().y()  / cm;
+                        fHCX_global_ZPos[0][0] = HadronCalorimeter_nsys1Hit_->GetWorldPos().z()  / cm;
 
 
                         ///
@@ -1523,7 +1525,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     fVC_YPos[0][0] = V_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fVC_ZPos[0][0] = V_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fVC_RPos[0][0] = V_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    fVC_global_XPos[0][0] = V_Chamber_nsys1Hit_->GetWorldPos().x() / cm;
+                    fVC_global_XPos[0][0] = V_Chamber_nsys1Hit_->GetWorldPos().x()  / cm;
                     fVC_global_YPos[0][0] = V_Chamber_nsys1Hit_->GetWorldPos().y() / cm;
                     fVC_global_ZPos[0]0] = V_Chamber_nsys1Hit_->GetWorldPos().z() / cm;
                     fVC_Theta[0][0] = V_Chamber_nsys1Hit_->GetPosTheta() / degree;
@@ -1642,7 +1644,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                     fWa_YPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().y() / cm;
                     fWa_ZPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().z() / cm;
                     fWa_RPos[0][index2] = W_Chamber_nsys1Hit_->GetRho().z() / cm;
-                    fWa_global_XPos[0][index2] = W_Chamber_nsys1Hit_->GetWorldPos().x() / cm;
+                    fWa_global_XPos[0][index2] = W_Chamber_nsys1Hit_->GetWorldPos().x()  / cm;
                     fWa_global_YPos[0][index2] = W_Chamber_nsys1Hit_->GetWorldPos().y() / cm;
                     fWa_global_ZPos[0][index2] = W_Chamber_nsys1Hit_->GetWorldPos().z() / cm;
                     fWa_Theta[0][index2] = W_Chamber_nsys1Hit_->GetPosTheta() / degree;
