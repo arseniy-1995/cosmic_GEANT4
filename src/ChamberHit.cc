@@ -241,8 +241,8 @@ namespace Cosmic {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void ChamberHit::AddWorldPos(G4ThreeVector pos) {
-       // fWorldPos = pos;
-         fWorldPos += pos * fdLO; //  cуммируем с весом
+        // fWorldPos = pos;
+        fWorldPos += pos * fdLO; //  cуммируем с весом
         CalcRho(pos);
     }
 

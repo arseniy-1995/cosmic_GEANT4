@@ -519,7 +519,8 @@ namespace Cosmic {
         //    G4cerr <<"!!!!" << HadronCalorimeter_nsys2HC->GetSize()<<G4endl;
 
 
-        //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] = static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
+        //auto HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1] =
+        // static_cast<HadronCalorimeterHit*>(HadronCalorimeter_nsys1HC);
 #ifndef isGenLQ
 #ifdef PF1_FAT
         for (G4int i = 0; i <= fNofLayers_plastic_fat_nsys1; i++)
@@ -652,7 +653,7 @@ namespace Cosmic {
                 fPlastic_thinXPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().x() / cm;
                 fPlastic_thinYPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().y() / cm;
                 fPlastic_thinZPos[1][i] = plastic_thin_nsys2Hit[i]->GetLocalPos().z() / cm;
-                fPlastic_thin_global_XPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().x()  / cm;
+                fPlastic_thin_global_XPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().x() / cm;
                 fPlastic_thin_global_YPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().y() / cm;
                 fPlastic_thin_global_ZPos[1][i] = plastic_thin_nsys2Hit[i]->GetWorldPos().z()  / cm;
 
@@ -1637,7 +1638,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                 index2 = fWa_N[0][0] + 1;
 
                 fWa_N[0][index2]++;
-                    fWa_N[0][0]++;
+                fWa_N[0][0]++;
 
                     fWa_TrackID[0][index2] = W_Chamber_nsys1Hit_->GetTrackID();
                     fWa_XPos[0][index2] = W_Chamber_nsys1Hit_->GetLocalPos().x() / cm;

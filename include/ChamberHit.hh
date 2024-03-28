@@ -110,12 +110,12 @@ class ChamberHit : public G4VHit
     inline G4int GetTrackID() const { return fTrackID; }
 
     inline void SetEdep(G4double de) { fEdep = de; }
-        void AddEdep(G4double de)
+    void AddEdep(G4double de)
     {
         fEdep += de;
         fdEdep = de;
     }
-        inline G4double GetEdep() const { return fEdep; }
+    inline G4double GetEdep() const { return fEdep; }
 
         inline void SetLO(G4double lo) { fLO = lo; }
         void AddLO(G4double de, G4ThreeVector pos, G4ThreeVector delta, G4double velocity, G4double ToF);
@@ -175,7 +175,7 @@ class ChamberHit : public G4VHit
         void AddWorldPos(G4ThreeVector pos);
         inline G4ThreeVector GetWorldPos() const
         {
-            //return fWorldPos;
+            // return fWorldPos;
             return fWorldPos / fLO;
         }
 

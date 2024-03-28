@@ -241,7 +241,7 @@ namespace Cosmic {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void HadronCalorimeterHit::AddWorldPos(G4ThreeVector pos) {
-       // fWorldPos = pos;
+        // fWorldPos = pos;
         fWorldPos += pos * fdLO; //  cуммируем с весом
         CalcRho(pos);
     }
