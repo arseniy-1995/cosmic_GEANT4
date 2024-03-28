@@ -189,7 +189,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     auto halflength = G4ThreeVector(box->GetXHalfLength(), box->GetYHalfLength(), box->GetZHalfLength());
 
 
-    auto Vpos = touchable->GetTranslation();
+    auto Vpos = touchable->GetTranslation(); // положение центра детектора
     posit_local = posit - Vpos;
     posit_local.transform(*rotation);
 
@@ -286,6 +286,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hit->SetMass(mass);
    hit->SetKineticEnergy(kinetic_energy);
    hit->SetBlkN(CB);
+   hit->SetVPos(Vpos);
 
    hitTotal->SetHalfLength(halflength);
    hitTotal->AddTrackID(TrackID);
@@ -300,6 +301,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hitTotal->SetMass(mass);
    hitTotal->SetKineticEnergy(kinetic_energy);
    hitTotal->SetBlkN(CB);
+   hitTotal->SetVPos(Vpos);
 
 
    ROhist = NULL;

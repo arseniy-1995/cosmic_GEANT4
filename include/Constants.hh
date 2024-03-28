@@ -48,6 +48,7 @@ namespace Cosmic {
 
     constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
+#define SW(N)   " " << std::setw(N)
 
     //#define RUN21
 #define RUN23
@@ -133,6 +134,9 @@ namespace Cosmic {
 #define DT_WIRE 0
 #define DT_SCINT 1
 #define DT_EMCAL 2
+
+#define DC_RES (0.3*mm)
+#define VC_RES (0.6*mm)
 
 
     constexpr G4int fNofLayers_plastic_fat_nsys1 = 6; // число толстых пластиков

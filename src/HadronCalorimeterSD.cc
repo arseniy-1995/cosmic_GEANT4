@@ -182,7 +182,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    auto halflength = G4ThreeVector(box->GetXHalfLength(), box->GetYHalfLength(), box->GetZHalfLength());
 
 
-   auto Vpos = touchable->GetTranslation();
+   auto Vpos = touchable->GetTranslation(); // положение центра детектора
    posit_local = posit - Vpos;
    posit_local.transform(*rotation);
    // G4cout<<"Detector position= "<< positionDetector<<G4endl;
@@ -297,6 +297,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->AddWorldPos(posit);
    hit->AddLocalPos(posit_local);
    hit->SetBlkN(CB);
+   hit->SetVPos(Vpos);
 
    hitTotal->SetHalfLength(halflength);
    hitTotal->AddTrackID(TrackID);
@@ -307,6 +308,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hitTotal->AddWorldPos(posit);
    hitTotal->AddLocalPos(posit_local);
    hitTotal->SetBlkN(CB);
+   hitTotal->SetVPos(Vpos);
 
 
    ROhist = NULL;

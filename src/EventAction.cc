@@ -460,6 +460,7 @@ namespace Cosmic {
 #endif
         // Get hit with total values
 
+        //G4cout << SW(5) << G4endl;
 
 
         // нулевой индекс массива это полный Хит, далее это конкретные пластики
@@ -476,6 +477,9 @@ namespace Cosmic {
 #ifndef isGenLQ
         HadronCalorimeterHit *HadronCalorimeter_nsys1Hit[fNofLayers_HadrtonCalorimeter_nsys1 + 1];
         HadronCalorimeterHit *HadronCalorimeter_nsys2Hit[fNofLayers_HadrtonCalorimeter_nsys2 + 1];
+
+        HadronCalorimeter_nsys1Hit[0] = (*HadronCalorimeter_nsys1HC)[HadronCalorimeter_nsys1HC->entries() - 1];
+        HadronCalorimeter_nsys2Hit[0] = (*HadronCalorimeter_nsys2HC)[HadronCalorimeter_nsys2HC->entries() - 1];
 #endif
 
         ChamberHit *W_Chamber_nsys1Hit[fNofLayers_W_Chamber_nsys1 + 1];
@@ -496,8 +500,6 @@ namespace Cosmic {
         plastic_LQ_nsys1Hit[0] = (*plastic_LQ_nsys1HC)[plastic_LQ_nsys1HC->entries() - 1];
         plastic_LQ_nsys2Hit[0] = (*plastic_LQ_nsys2HC)[plastic_LQ_nsys2HC->entries() - 1];
 
-        HadronCalorimeter_nsys1Hit[0] = (*HadronCalorimeter_nsys1HC)[HadronCalorimeter_nsys1HC->entries() - 1];
-        HadronCalorimeter_nsys2Hit[0] = (*HadronCalorimeter_nsys2HC)[HadronCalorimeter_nsys2HC->entries() - 1];
 
         //
         // For trigger
@@ -1618,7 +1620,7 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
         for (G4int i = 0; i < (G4int)W_Chamber_nsys1HC->GetSize(); i++)
         {
-            auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit*>(W_Chamber_nsys1HC->GetHit(i));
+            auto W_Chamber_nsys1Hit_ = static_cast<ChamberHit *>(W_Chamber_nsys1HC->GetHit(i));
 
             //if (W_Chamber_nsys1Hit_->GetEdep()/ keV >0)            G4cout <<  W_Chamber_nsys1Hit_->GetEdep()/ keV << G4endl;
 

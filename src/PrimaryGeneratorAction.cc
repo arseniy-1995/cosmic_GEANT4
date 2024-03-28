@@ -223,7 +223,7 @@ namespace Cosmic {
 
     void PrimaryGeneratorAction::ShowParticleTable() {
 
-#define SW(N)    " "<<std::setw( N )
+//#define SW(N)    " "<<std::setw( N )
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
         G4cout << std::setprecision(1) << std::setiosflags(std::ios::fixed);
         for (G4int ii = 0; ii < particleTable->entries(); ii++) {

@@ -122,7 +122,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     inline G4double GetLO() const { return fLO; }
 
     inline void SetA1(G4double a1) { fA1 = a1; }
-        //  void AddA1(G4double a1) { fA1 += a1; }
+    //  void AddA1(G4double a1) { fA1 += a1; }
         inline G4double GetA1() const { return fA1; }
 
         inline void SetA2(G4double a2) { fA2 = a2; }
@@ -154,7 +154,7 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
         inline G4ThreeVector GetWorldPos() const
         {
             // return fWorldPos;
-            return fWorldPos / fLO;
+            return fLO>0. ? fWorldPos / fLO: fWorldPos;
         }
 
         inline void SetLocalPos(G4ThreeVector pos) { fLocalPos = pos; }

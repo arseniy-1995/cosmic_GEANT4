@@ -186,8 +186,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 
 
-    auto Vpos = touchable->GetTranslation();
-    posit_local =posit-Vpos;
+    auto Vpos = touchable->GetTranslation();  // положение центра детектора
+    posit_local = posit-Vpos;
     posit_local.transform(*rotation);
     // G4cout<<"Detector position= "<< positionDetector<<G4endl;
 
@@ -253,6 +253,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hit->SetPosPhi(phi);
     hit->SetPosThetaGlob(thetaGlob);
     hit->SetPosPhiGlob(phiGlob);
+    hit->SetVPos(Vpos);
 
     hitTotal->SetHalfLength(halflength);
     hitTotal->AddTrackID(TrackID);
@@ -266,6 +267,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hitTotal->SetPosPhi(phi);
     hitTotal->SetPosThetaGlob(thetaGlob);
     hitTotal->SetPosPhiGlob(phiGlob);
+    hitTotal->SetVPos(Vpos);
 
 /*
 

@@ -165,7 +165,7 @@ class PlasticHit : public G4VHit
     inline G4ThreeVector GetWorldPos() const
     {
         //return fWorldPos;
-        return fWorldPos / fLO;
+        return fLO>0. ? fWorldPos / fLO: fWorldPos;
     }
 
     inline void SetLocalPos(G4ThreeVector pos) { fLocalPos = pos; }
