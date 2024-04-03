@@ -186,7 +186,10 @@ namespace Cosmic {
             GenerateProtonNeutron(anEvent);
             // GenerateProtonNeutron_rachek(anEvent);
 #endif
-            // GenerateProton(anEvent);
+
+#ifdef isGenPPpair
+             GenerateProton(anEvent);
+#endif
             //  GenerateNeutron(anEvent);
 
             // GenerateDeuteronPi0(anEvent);
@@ -221,9 +224,10 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
-    void PrimaryGeneratorAction::ShowParticleTable() {
+    void PrimaryGeneratorAction::ShowParticleTable()
+    {
 
-//#define SW(N)    " "<<std::setw( N )
+        // #define SW(N)    " "<<std::setw( N )
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
         G4cout << std::setprecision(1) << std::setiosflags(std::ios::fixed);
         for (G4int ii = 0; ii < particleTable->entries(); ii++) {
@@ -964,7 +968,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     void PrimaryGeneratorAction::GenerateProton(G4Event *event) {
         G4ThreeVector vertex;
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
-        G4ParticleDefinition *particle;
+        G4ParticleDefinition *particle1, *particle2;
         G4ParticleMomentum Momentum;
         G4double energy1, theta1, phi1;
         G4double energy2, theta2, phi2;
@@ -972,32 +976,74 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         G4double Xbeam = 0., Ybeam = 0.;
         vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
 
-        particle = particleTable->FindParticle("proton");
+        particle1 = particleTable->FindParticle("proton");
+        particle2 = particleTable->FindParticle("proton");
 
-        energy1 = (10. + 450. * G4UniformRand()) * MeV; // от 10 до 460 МэВ
-        //theta1 = M_PI * G4UniformRand();
-        theta1 = acos(1.0 - 2.0 * G4UniformRand());
-        phi1 = 2.0 * M_PI * G4UniformRand();
+        const G4double ra = M_PI / 180.;
 
-        // Нужно генерить две частицы для срабатывания тригера
-        energy2 = (10. + 450. * G4UniformRand()) * MeV;
-        // theta2 = M_PI * G4UniformRand();
-        theta2 = acos(1.0 - 2.0 * G4UniformRand());
-        phi2 = M_PI - phi1;
+        G4double max_phi = 40. * ra;
+        G4double min_theta = 35. * ra;
+        G4double max_theta = 120. * ra;
 
-        auto v_direction1 = G4ThreeVector(sin(theta1) * cos(phi1), sin(theta1) * sin(phi1), cos(theta1));
-        auto v_direction2 = G4ThreeVector(sin(theta2) * cos(phi2), sin(theta2) * sin(phi2), cos(theta2));
+        G4ThreeVector v_direction1(0,0,1);
+        G4ThreeVector v_direction2(0,0,1);
+
+        if(1)
+        {
+            do
+            {
+                energy1 = (1. + 459. * G4UniformRand()) * MeV; // от 1 до 460 МэВ
+                //energy1 = 1000 * MeV;
+                //theta1 = M_PI * G4UniformRand();
+                theta1 = acos(1.0 - 2.0 * G4UniformRand());
+                phi1 = 2.0 * M_PI * G4UniformRand();
+
+                // Нужно генерить две частицы для срабатывания тригера
+                energy2 = (1. + 459. * G4UniformRand()) * MeV;
+                //energy2 = 1000 * MeV;
+                // theta2 = M_PI * G4UniformRand();
+                theta2 = acos(1.0 - 2.0 * G4UniformRand());
+                //theta2= theta1;
+                //theta2= M_PI - theta1;
+                phi2 = M_PI + phi1;
+
+                //v_direction1 = G4ThreeVector(sin(theta1) * cos(phi1), sin(theta1) * sin(phi1), cos(theta1));
+                //v_direction2 = G4ThreeVector(sin(theta2) * cos(phi2), sin(theta2) * sin(phi2), cos(theta2));
+
+                v_direction1.setTheta(theta1);
+                v_direction1.setPhi(phi1);
+
+
+                v_direction2.setTheta(theta2);
+                v_direction2.setPhi(phi2);
+
+                v_direction1 = G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand());
+                v_direction2 = G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand());
+
+            }while (
+
+            ((v_direction1.theta() < min_theta || v_direction1.theta() > max_theta) ||
+                            (v_direction2.theta() < min_theta || v_direction2.theta() > max_theta))
+                            ||
+                not(
+                   ((abs(v_direction1.phi() - (-90.) * ra) < max_phi) && v_direction1.phi() < 0. && (abs(v_direction2.phi() - (90.) * ra) < max_phi) && v_direction2.phi() > 0.) // протон вниз - нейтрон вверх
+                   or
+                   ((abs(v_direction1.phi() - (90.) * ra) < max_phi) && v_direction1.phi() > 0. && (abs(v_direction2.phi() - (-90.) * ra) < max_phi) && v_direction2.phi() < 0.) // протон вверх - нейтрон вниз
+                )
+                );
+        }
+
         fParticleGun->SetParticleEnergy(energy1);
-        // fParticleGun->SetParticleMomentumDirection(v_direction1);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand()));
-        fParticleGun->SetParticleDefinition(particle);
+         fParticleGun->SetParticleMomentumDirection(v_direction1);
+        //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand()));
+        fParticleGun->SetParticleDefinition(particle1);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 
         fParticleGun->SetParticleEnergy(energy2);
-        //   fParticleGun->SetParticleMomentumDirection(v_direction2);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand()));
-        fParticleGun->SetParticleDefinition(particle);
+           fParticleGun->SetParticleMomentumDirection(v_direction2);
+        //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand()));
+        fParticleGun->SetParticleDefinition(particle2);
         fParticleGun->SetParticlePosition(vertex);
         fParticleGun->GeneratePrimaryVertex(event);
 

@@ -458,12 +458,12 @@ namespace Cosmic {
         if (!V_Chamber_nsys1HC) return;
         if (!V_Chamber_nsys2HC) return;
 #endif
-        // Get hit with total values
+            // Get hit with total values
 
-        //G4cout << SW(5) << G4endl;
+            // G4cout << SW(5) << G4endl;
 
 
-        // нулевой индекс массива это полный Хит, далее это конкретные пластики
+            // нулевой индекс массива это полный Хит, далее это конкретные пластики
 #ifndef isGenLQ
         PlasticHit *plastic_fat_nsys1Hit[fNofLayers_plastic_fat_nsys1 + 1];
         PlasticHit *plastic_fat_nsys2Hit[fNofLayers_plastic_fat_nsys2 + 1];
@@ -1593,9 +1593,8 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
                      {
                          wcdep[1] |= 1;
                      }
-                    continue;
+                     continue;
                 }
-
         }
 
 #endif

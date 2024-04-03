@@ -182,11 +182,10 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 
     auto box = (G4Box*) touchable->GetSolid();
-    auto halflength = G4ThreeVector (box->GetXHalfLength(),box->GetYHalfLength(),box->GetZHalfLength());
+    auto halflength = G4ThreeVector (box->GetXHalfLength(), box->GetYHalfLength(), box->GetZHalfLength());
 
 
-
-    auto Vpos = touchable->GetTranslation();  // положение центра детектора
+    auto Vpos = touchable->GetTranslation(); // положение центра детектора
     posit_local = posit-Vpos;
     posit_local.transform(*rotation);
     // G4cout<<"Detector position= "<< positionDetector<<G4endl;
@@ -269,12 +268,12 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hitTotal->SetPosPhiGlob(phiGlob);
     hitTotal->SetVPos(Vpos);
 
-/*
+    /*
 
-  G4cout<<"!!!!!"<<layerNumber<<G4endl;
- //   G4cout<<"eeee"<<layerNumber<<G4endl;
-   // touchable->GetCopyNumber()
-  // Get hit accounting data for this cell
+      G4cout<<"!!!!!"<<layerNumber<<G4endl;
+     //   G4cout<<"eeee"<<layerNumber<<G4endl;
+       // touchable->GetCopyNumber()
+      // Get hit accounting data for this cell
   auto hit = (*fHitsCollection)[layerNumber];
 
 
