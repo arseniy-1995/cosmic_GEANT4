@@ -188,7 +188,7 @@ namespace Cosmic {
 #endif
 
 #ifdef isGenPPpair
-             GenerateProton(anEvent);
+            GenerateProton(anEvent);
 #endif
             //  GenerateNeutron(anEvent);
 
@@ -217,11 +217,10 @@ namespace Cosmic {
             if (nev % cstep == 0)
                 fprintf(stderr, "\r event #%05d/%d \n    ", nev, FileNum);
         }
-
     }
 
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
     void PrimaryGeneratorAction::ShowParticleTable()
@@ -954,10 +953,10 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
 
         EventInfo* info = new EventInfo();
         //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
-        //info->SetEgamma(Egamma);
+        // info->SetEgamma(Egamma);
         // info->SetNreac(nreac);
-        //info->SetNp(np);
-        //info->SetEntry(FileNum);
+        // info->SetNp(np);
+        // info->SetEntry(FileNum);
         info->SetPzz(Pzz);
         event->SetUserInformation(info);
     }
@@ -965,7 +964,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
-    void PrimaryGeneratorAction::GenerateProton(G4Event *event) {
+    void PrimaryGeneratorAction::GenerateProton(G4Event *event)
+    {
         G4ThreeVector vertex;
         G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
         G4ParticleDefinition *particle1, *particle2;
@@ -985,30 +985,30 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         G4double min_theta = 35. * ra;
         G4double max_theta = 120. * ra;
 
-        G4ThreeVector v_direction1(0,0,1);
-        G4ThreeVector v_direction2(0,0,1);
+        G4ThreeVector v_direction1(0, 0, 1);
+        G4ThreeVector v_direction2(0, 0, 1);
 
-        if(1)
+        if (1)
         {
             do
             {
                 energy1 = (1. + 459. * G4UniformRand()) * MeV; // от 1 до 460 МэВ
-                //energy1 = 1000 * MeV;
-                //theta1 = M_PI * G4UniformRand();
+                // energy1 = 1000 * MeV;
+                // theta1 = M_PI * G4UniformRand();
                 theta1 = acos(1.0 - 2.0 * G4UniformRand());
                 phi1 = 2.0 * M_PI * G4UniformRand();
 
                 // Нужно генерить две частицы для срабатывания тригера
                 energy2 = (1. + 459. * G4UniformRand()) * MeV;
-                //energy2 = 1000 * MeV;
-                // theta2 = M_PI * G4UniformRand();
+                // energy2 = 1000 * MeV;
+                //  theta2 = M_PI * G4UniformRand();
                 theta2 = acos(1.0 - 2.0 * G4UniformRand());
-                //theta2= theta1;
-                //theta2= M_PI - theta1;
+                // theta2= theta1;
+                // theta2= M_PI - theta1;
                 phi2 = M_PI + phi1;
 
-                //v_direction1 = G4ThreeVector(sin(theta1) * cos(phi1), sin(theta1) * sin(phi1), cos(theta1));
-                //v_direction2 = G4ThreeVector(sin(theta2) * cos(phi2), sin(theta2) * sin(phi2), cos(theta2));
+                // v_direction1 = G4ThreeVector(sin(theta1) * cos(phi1), sin(theta1) * sin(phi1), cos(theta1));
+                // v_direction2 = G4ThreeVector(sin(theta2) * cos(phi2), sin(theta2) * sin(phi2), cos(theta2));
 
                 v_direction1.setTheta(theta1);
                 v_direction1.setPhi(phi1);
@@ -1019,16 +1019,17 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
 
                 v_direction1 = G4ThreeVector(2. * G4UniformRand() - 1, 1., G4UniformRand());
                 v_direction2 = G4ThreeVector(2. * G4UniformRand() - 1, -1., G4UniformRand());
+            }
+            while (
 
-            }while (
-
-            ((v_direction1.theta() < min_theta || v_direction1.theta() > max_theta) ||
-                            (v_direction2.theta() < min_theta || v_direction2.theta() > max_theta))
+                ((v_direction1.theta() < min_theta || v_direction1.theta() > max_theta) ||
+                 (v_direction2.theta() < min_theta || v_direction2.theta() > max_theta))
                             ||
                 not(
-                   ((abs(v_direction1.phi() - (-90.) * ra) < max_phi) && v_direction1.phi() < 0. && (abs(v_direction2.phi() - (90.) * ra) < max_phi) && v_direction2.phi() > 0.) // протон вниз - нейтрон вверх
-                   or
-                   ((abs(v_direction1.phi() - (90.) * ra) < max_phi) && v_direction1.phi() > 0. && (abs(v_direction2.phi() - (-90.) * ra) < max_phi) && v_direction2.phi() < 0.) // протон вверх - нейтрон вниз
+                   ((abs(v_direction1.phi() - (-90.) * ra) < max_phi) && v_direction1.phi() < 0. &&
+                     (abs(v_direction2.phi() - (90.) * ra) < max_phi) &&
+                     v_direction2.phi() > 0.) // протон вниз - нейтрон вверх
+                    or ((abs(v_direction1.phi() - (90.) * ra) < max_phi) && v_direction1.phi() > 0. && (abs(v_direction2.phi() - (-90.) * ra) < max_phi) && v_direction2.phi() < 0.) // протон вверх - нейтрон вниз
                 )
                 );
         }
