@@ -813,7 +813,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     // квази-упрогое ep-рассеяние
-    void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* event)
+void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* event)
     {
         G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
@@ -939,7 +939,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
         fParticleGun->GeneratePrimaryVertex(event);
 
 
-        particle = particleTable->FindParticle("proton"); //for proton
+        particle = particleTable->FindParticle("proton"); // for proton
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(proton.x(), proton.y(), proton.z()));
         // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_proton)*cos(phi_proton),sin(theta_proton)*sin(phi_proton),cos(theta_proton)));
@@ -1803,10 +1803,24 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_method2(G4Event* event)
             nreac = 3;
             ireac[0] = 3;
             ireac[1] = 8;
-            ireac[1] = 18;
+            ireac[2] = 18;
             //fGenbosClass->SetMode(Mode);
         }
 
+        if (Mode == 200)
+        {
+            // это тип 1,2,5,6,7,14,15 только реакции на водороде с протоном в конечном состоянии + фоновые
+            memset(ireac, 0, sizeof(ireac));
+            nreac = 7;
+            ireac[0] = 1;
+            ireac[1] = 2;
+            ireac[2] = 5;
+            ireac[3] = 6;
+            ireac[4] = 7;
+            ireac[5] = 14;
+            ireac[6] = 15;
+            //fGenbosClass->SetMode(Mode);
+        }
 
          G4AutoLock lock(&aMutex);
 #ifdef GENBOS
