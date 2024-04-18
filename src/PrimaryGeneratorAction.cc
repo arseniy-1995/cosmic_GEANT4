@@ -105,7 +105,7 @@ namespace Cosmic {
             genbos_start_(&FileNum);
 
            // SetMode(34);
-#endif //GENBOS
+#endif // GENBOS
 
             G4int n = 2;
 #ifdef GENBOS
