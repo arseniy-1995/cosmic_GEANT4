@@ -1589,19 +1589,15 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
 
 
         EventInfo *info = new EventInfo();
-//   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        //   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
         info->SetEgamma(0.5 * (gamma_energy1 + gamma_energy2));
         info->SetNreac(1);
         info->SetNp(2);
         info->SetEntry(FileNum);
         event->SetUserInformation(info);
-
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-
-
 
 
     void PrimaryGeneratorAction::GenerateGenbos(G4Event *event) {
