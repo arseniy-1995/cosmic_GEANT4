@@ -1760,17 +1760,17 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
 //       PDG-id                 g, e+, e-, mu+, mu-, pi0, pi+, pi-, K0L, K+, K-,
         G4int partid[64] = {1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12,
 //                 n, p, K0S,eta,Lambda,sigma+,
-                            13, 14, 16, 17, 18, 19,
-//               sigma0,sigma-,omega,rho+,rho0,rho-
-                            20, 21, 60, 58, 57, 59,
-//               deuteron
-                            45, -1};
-        const char partname[64][12] =
-                {"gamma", "e+", "e-", "mu+", "mu-", "pi0", "pi+", "pi-", "kaon0L", "kaon+", "kaon-",
-                 "neutron", "proton", "kaon0S", "eta", "lambda", "sigma+",
-                 "sigma0", "sigma-", "omega", "rho+", "rho0", "rho-", "deuteron"};
+                    13, 14, 16, 17, 18, 19,
+                    //               sigma0,sigma-,omega,rho+,rho0,rho-
+                    20, 21, 60, 58, 57, 59,
+                    //               deuteron
+                    45, -1};
+const char partname[64][12] = {"gamma",  "e+",     "e-",     "mu+",     "mu-",    "pi0",    "pi+",  "pi-",
+                               "kaon0L", "kaon+",  "kaon-",  "neutron", "proton", "kaon0S", "eta",  "lambda",
+                               "sigma+", "sigma0", "sigma-", "omega",   "rho+",   "rho0",   "rho-", "deuteron"};
 
-        for (G4int i = 0; i < 64; i++) {
+for (G4int i = 0; i < 64; i++)
+{
             part_name[i] = "";
         }
         G4int i = 0;
@@ -1817,9 +1817,13 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
             ireac[2] = 5;
             ireac[3] = 6;
             ireac[4] = 7;
-            ireac[5] = 14;
-            ireac[6] = 15;
+            ireac[5] = 15;
+            ireac[6] = 16;
             //fGenbosClass->SetMode(Mode);
+
+           //  0-neutron 1-proton 2-deuteron
+            int target = 1;
+            genbos_targ_(&target); // обязательно нужно задать мишень свободный водород
         }
 
          G4AutoLock lock(&aMutex);
