@@ -1646,7 +1646,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
            cz = fGenbosClass->GetPz();
            */
 
-            for (G4int i = 0; i < np; i++) {
+            for (G4int i = 0; i < np; i++)
+            {
 
                 // G4cerr<<"cx[i] = " <<cx[i]<<" cy[i] = " <<cy[i]<< " cz[i] = " <<cz[i] <<std::endl;
                 Momentum = G4ParticleMomentum(cx[i], cy[i], cz[i]);
@@ -1781,11 +1782,11 @@ const char partname[64][12] = {"gamma",  "e+",     "e-",     "mu+",     "mu-",  
                                        "sigma+", "sigma0", "sigma-", "omega",   "rho+",   "rho0",   "rho-", "deuteron"};
 
         for (G4int i = 0; i < 64; i++)
-        {
-            part_name[i] = "";
-        }
-        G4int i = 0;
-        while (partid[i] >= 0 && partid[i] < 64)
+{
+    part_name[i] = "";
+}
+G4int i = 0;
+while (partid[i] >= 0 && partid[i] < 64)
         {
             part_name[partid[i]] = partname[i];
             i++;
