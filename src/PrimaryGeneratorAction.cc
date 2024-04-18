@@ -1714,23 +1714,24 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
 
             }
             prand &= 0xFFFFFF;
-            i = (G4int) prand;
+            i = (G4int)prand;
             CLHEP::HepRandom::setTheSeed(prand);
-            G4cout << "\n/\\/\\/\\ Randomizied !  prand = " << prand << " /\\/\\/\\" << G4endl;;
+            G4cout << "\n/\\/\\/\\ Randomizied !  prand = " << prand << " /\\/\\/\\" << G4endl;
+            ;
 #ifdef GENBOS
             genbos_rand_(&i);
-#endif //GENBOS
+#endif // GENBOS
 
 
-            //fGenbosClass->SetRandom(i);
-// ---------------------
+            // fGenbosClass->SetRandom(i);
+            // ---------------------
         }
-
     }
 
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-    G4ThreeVector PrimaryGeneratorAction::GenVertex(G4double X, G4double Y, G4double sigmaX, G4double sigmaY) {
+    G4ThreeVector PrimaryGeneratorAction::GenVertex(G4double X, G4double Y, G4double sigmaX, G4double sigmaY)
+    {
         static G4ThreeVector position;
         G4double pos_x, pos_y, pos_z, pos_t;
 #ifdef XY_RAND
@@ -1767,14 +1768,15 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
                     45, -1};
 const char partname[64][12] = {"gamma",  "e+",     "e-",     "mu+",     "mu-",    "pi0",    "pi+",  "pi-",
                                "kaon0L", "kaon+",  "kaon-",  "neutron", "proton", "kaon0S", "eta",  "lambda",
-                               "sigma+", "sigma0", "sigma-", "omega",   "rho+",   "rho0",   "rho-", "deuteron"};
+                                       "sigma+", "sigma0", "sigma-", "omega",   "rho+",   "rho0",   "rho-", "deuteron"};
 
-for (G4int i = 0; i < 64; i++)
-{
+        for (G4int i = 0; i < 64; i++)
+        {
             part_name[i] = "";
         }
         G4int i = 0;
-        while (partid[i] >= 0 && partid[i] < 64) {
+        while (partid[i] >= 0 && partid[i] < 64)
+        {
             part_name[partid[i]] = partname[i];
             i++;
         }
@@ -1821,9 +1823,12 @@ for (G4int i = 0; i < 64; i++)
             ireac[6] = 16;
             //fGenbosClass->SetMode(Mode);
 
+#ifdef GENBOS
            //  0-neutron 1-proton 2-deuteron
             int target = 1;
             genbos_targ_(&target); // обязательно нужно задать мишень свободный водород
+
+#endif //GENBOS
         }
 
          G4AutoLock lock(&aMutex);

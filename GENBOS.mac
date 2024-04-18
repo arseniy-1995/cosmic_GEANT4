@@ -21,6 +21,7 @@
 # Это для диапозона 100...800 МэВ
 #/gun/EgMin 101 MeV
 #/gun/EgMax 1650 MeV
+#/gun/mode 200
 #/tracking/storeTrajectory 0
 /run/printProgress 10000
 /run/beamOn 2000000
