@@ -22,7 +22,7 @@
 C-----
 	SUBROUTINE GENBOS_TARG(TG)
 	implicit none
-	REAL TG
+	INTEGER TG
       
 	INTEGER IBEAM,IELET,NCHAIN,ICHAIN(40),ICIBLE,IPOL,ILAM
 	REAL ETAG,FWHM
@@ -36,7 +36,8 @@ C-----
 
 	SUBROUTINE GENBOS_BEAM(BE, EG, EW)
 	implicit none
-	REAL BE, EG, EW
+	INTEGER BE
+	REAL EG, EW
       
 	INTEGER IBEAM,IELET,NCHAIN,ICHAIN(40),ICIBLE,IPOL,ILAM
 	REAL ETAG,FWHM
@@ -57,9 +58,6 @@ C-----
 	DATA IX,IA,IB/76762,1000,0/
 	
 	INTEGER IBEAM,IELET,NCHAIN,ICHAIN(40),ICIBLE,IPOL,ILAM
-C	INTEGER IBEAM,IELET,NCHAIN,ICHAIN,ICIBLE,IPOL,ILAM
-C	DATA IBEAM,IELET,NCHAIN,ICHAIN,ICIBLE,IPOL,ILAM/0,0,0,40,0,0,0/
-C	DATA ICHAIN/40/
 	REAL ETAG,FWHM,the_min,the_max,dphi
 	COMMON/FLAG_COMP/IELET,IBEAM,ICIBLE,ETAG,FWHM,NCHAIN,ICHAIN,IPOL,
      &  	ILAM
@@ -81,7 +79,7 @@ C *** genbos inizialization
 C *** random generator inizialization
         CALL RMARIN(IX,IA,IB)
         
-        NEV=0
+        NEV=0;
 
 	write (15,*) 'Random Seed:',ix
 	write (15,*)
@@ -179,11 +177,8 @@ C***********************************************************************
 
       SUBROUTINE CARDS  
       
-
-C     #include "process.inc"
-C     #include "nt_kine.inc"
-      INCLUDE 'process.inc'
-      INCLUDE 'nt_kine.inc'
+#include "process.inc"
+#include "nt_kine.inc"
 
       INTEGER ITARG,IIDH
       CHARACTER*12 TARGET,TARGFERMI
@@ -991,9 +986,7 @@ C --> Modificata la definizione dei valori di NPRO per i nuovi canali
 C     su d.
 C-----------------------------------------------------------------------
 
-C     #include "process.inc"
-      INCLUDE 'process.inc'
-
+#include "process.inc"
 
       INTEGER IBEAM,IELET,NCHAIN,ICHAIN(40),ICIBLE,IPOL,ILAM
       REAL ETAG,FWHM

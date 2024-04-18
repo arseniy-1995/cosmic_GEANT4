@@ -1617,6 +1617,16 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
         while (qq != 3) {
 
 #ifdef GENBOS
+
+            // if (Mode == 200)
+            // {
+            //     //  0-neutron 1-proton 2-deuteron
+            //     G4int target;
+            //     target = 1;
+            //     genbos_targ_(&target); // обязательно нужно задать мишень свободный водород
+            //
+            // }
+
             genbos_event_(&efot, &nreac, &np, idg, cx, cy, cz);
 #endif //GENBOS
 
@@ -1667,16 +1677,16 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
             fParticleGun->SetParticleEnergy(energy);
             fParticleGun->SetParticleMomentumDirection(Momentum);
 //     particleGun = new G4ParticleGun(1);
-//     particleGun->SetParticleMomentum(Mom);
+            //     particleGun->SetParticleMomentum(Mom);
             fParticleGun->SetParticleDefinition(particle);
             fParticleGun->SetParticlePosition(vertex);
             fParticleGun->GeneratePrimaryVertex(event);
-//     delete particleGun;
+            //     delete particleGun;
         }
 
 
         EventInfo *info = new EventInfo();
-//   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
+        //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
         info->SetEgamma(Egamma);
         info->SetNreac(nreac);
         info->SetNp(np);
@@ -1825,7 +1835,8 @@ const char partname[64][12] = {"gamma",  "e+",     "e-",     "mu+",     "mu-",  
 
 #ifdef GENBOS
            //  0-neutron 1-proton 2-deuteron
-            int target = 1;
+            G4int target;
+            target = 1;
             genbos_targ_(&target); // обязательно нужно задать мишень свободный водород
 
 #endif //GENBOS
@@ -1833,6 +1844,8 @@ const char partname[64][12] = {"gamma",  "e+",     "e-",     "mu+",     "mu-",  
 
          G4AutoLock lock(&aMutex);
 #ifdef GENBOS
+
+
             genbos_reactions_(&nreac, ireac);
             genbos_start_(&FileNum);
 #endif //GENBOS
