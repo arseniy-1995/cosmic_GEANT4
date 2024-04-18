@@ -130,7 +130,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax + EgMin) / 2.;
-            G4float EgWidht = (EgMax - EgMin);
+            G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
 
 #endif //GENBOS
@@ -144,7 +144,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax + EgMin) / 2.;
-            G4float EgWidht = (EgMax - EgMin);
+            G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
 #endif //GENBOS
 
@@ -161,7 +161,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax + EgMin) / 2.;
-            G4float EgWidht = (EgMax - EgMin);
+            G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
 
 #endif //GENBOS

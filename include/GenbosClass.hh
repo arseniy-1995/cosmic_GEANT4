@@ -34,7 +34,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax + EgMin) / 2.;
-            G4float EgWidht = (EgMax - EgMin);
+            G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
 
         }
@@ -50,7 +50,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax + EgMin) / 2.;
-            G4float EgWidht = (EgMax - EgMin);
+            G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
         }
 
@@ -66,7 +66,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax + EgMin) / 2.;
-            G4float EgWidht = (EgMax - EgMin);
+            G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
         }
 
@@ -121,8 +121,9 @@ namespace Cosmic {
 
         // for genbos_beam_(int* be, float* eg, float* ew)
         G4int fbe; //	be -- photon beam spectrum: 0-gaussian, 2-bremsstrahlung, 3-uniform
-        G4float feg; //	egmin -- Egamma min
-        G4float few; //	egmax -- Egamma max
+        G4float feg; //	eg -- Egamma mean //     -->  emin = eg - ew
+        G4float few; //	emax = eg + ew //	ew -- Egamma width/2
+
 
         // genbos_start_(int *RN)
         G4int fRN;

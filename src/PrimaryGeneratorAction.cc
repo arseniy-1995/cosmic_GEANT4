@@ -104,7 +104,7 @@ namespace Cosmic {
            // lock.lock();
             genbos_start_(&FileNum);
 
-           // SetMode(34);
+            // SetMode(34);
 #endif // GENBOS
 
             G4int n = 2;
@@ -113,7 +113,7 @@ namespace Cosmic {
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax / GeV + EgMin / GeV) / 2.;
-            G4float EgWidht = (EgMax / GeV - EgMin / GeV);
+            G4float EgWidht = (EgMax / GeV - EgMin / GeV) / 2.;
             genbos_beam_(&n, &EgMean, &EgWidht);
 
 #endif //GENBOS
