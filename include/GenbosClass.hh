@@ -27,9 +27,15 @@ namespace Cosmic {
         void SetEgMin(G4double val_min) {
             G4float EgMin = val_min / GeV;
             G4int n = 2;
-            genbos_beam_(&n, &EgMin, &few);
+            //genbos_beam_(&n, &EgMin, &few);
             fbe = n;
             feg = EgMin;
+
+            // genbos_beam_(&n, &EgMin, &EgMax);
+
+            G4float EgMean = (EgMax + EgMin) / 2.;
+            G4float EgWidht = (EgMax - EgMin);
+            genbos_beam_(&n, &EgMean, &EgWidht);
 
         }
 
@@ -37,19 +43,31 @@ namespace Cosmic {
 
             G4float EgMax = val_max / GeV;
             G4int n = 2;
-            genbos_beam_(&n, &feg, &EgMax);
+           // genbos_beam_(&n, &feg, &EgMax);
             fbe = n;
             few = EgMax;
+
+            // genbos_beam_(&n, &EgMin, &EgMax);
+
+            G4float EgMean = (EgMax + EgMin) / 2.;
+            G4float EgWidht = (EgMax - EgMin);
+            genbos_beam_(&n, &EgMean, &EgWidht);
         }
 
         void SetEgMinMax(G4double val_min, G4double val_max) {
             G4float EgMin = val_min / GeV;
             G4float EgMax = val_max / GeV;
             G4int n = 2;
-            genbos_beam_(&n, &EgMin, &EgMax);
+           // genbos_beam_(&n, &EgMin, &EgMax);
             fbe = n;
             feg = EgMin;
             few = EgMax;
+
+            // genbos_beam_(&n, &EgMin, &EgMax);
+
+            G4float EgMean = (EgMax + EgMin) / 2.;
+            G4float EgWidht = (EgMax - EgMin);
+            genbos_beam_(&n, &EgMean, &EgWidht);
         }
 
         void SetRandom(G4int ix) {

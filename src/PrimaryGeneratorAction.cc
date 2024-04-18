@@ -109,7 +109,12 @@ namespace Cosmic {
 
             G4int n = 2;
 #ifdef GENBOS
-            genbos_beam_(&n, &EgMin, &EgMax);
+
+            // genbos_beam_(&n, &EgMin, &EgMax);
+
+            G4float EgMean = (EgMax / GeV + EgMin / GeV) / 2.;
+            G4float EgWidht = (EgMax / GeV - EgMin / GeV);
+            genbos_beam_(&n, &EgMean, &EgWidht);
 
 #endif //GENBOS
 
@@ -1562,8 +1567,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_quasi_elastic_method2(G4Event* even
 
 //        auto v_direction1 = G4ThreeVector(sin(gamma_theta1) * cos(gamma_phi1), sin(gamma_theta1) * sin(gamma_phi1),
 //                                            cos(gamma_theta1));
-//           auto v_direction2 = G4ThreeVector(sin(gamma_theta2) * cos(gamma_phi2), sin(gamma_theta2) * sin(gamma_phi2),
-//                                           cos(gamma_theta2));
+//           auto v_direction2 = G4ThreeVector(sin(gamma_theta2) * cos(gamma_phi2), sin(gamma_theta2) *
+        //           sin(gamma_phi2),
+        //                                           cos(gamma_theta2));
 
 
 

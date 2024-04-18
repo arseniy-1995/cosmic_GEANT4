@@ -18,8 +18,11 @@ void genbos_targ_(int* tg);
 
 void genbos_beam_(int* be, float* eg, float* ew);
 //	be -- photon beam spectrum: 0-gaussian, 2-bremsstrahlung, 3-uniform
-//	egmin -- Egamma min
-//	egmax -- Egamma max
+//	eg -- Egamma mean
+//	ew -- Egamma width
+//  -->  egmin = eg - ew/2  ;   egmax = eg + ew/2
+
+
 
 void genbos_start_(int *RN);
 
