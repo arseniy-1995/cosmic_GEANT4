@@ -63,14 +63,15 @@ class HadronCalorimeterSD : public G4VSensitiveDetector
   //  HadronCalorimeterSD(const G4String& name, const G4String& hitsCollectionName, G4int nofCells);
  // HadronCalorimeterSD(const G4String& name, const G4String &hitsCollectionName, DetectorConstruction*);
 
-    HadronCalorimeterSD(const G4String& name, const G4String &hitsCollectionName, G4int nsystem/*, /*Cosmic::#1#DetectorConstruction* detector*/);
-    ~HadronCalorimeterSD() override;
+      HadronCalorimeterSD(const G4String &name, const G4String &hitsCollectionName,
+                          G4int nsystem /*, /*Cosmic::#1#DetectorConstruction* detector*/);
+      ~HadronCalorimeterSD() override;
 
     // methods from base class
     void   Initialize(G4HCofThisEvent* hitCollection) override;
     G4bool ProcessHits(G4Step* step, G4TouchableHistory* ROhist) override;
 
-    void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
+    void   EndOfEvent(G4HCofThisEvent *hitCollection) override;
 
     void SetDiscrThres(G4double val) {discr_threshold = val;};
 
@@ -80,7 +81,7 @@ class HadronCalorimeterSD : public G4VSensitiveDetector
 
     G4int fNSystem = 1;
 
-    DetectorConstruction* Detector;
+    DetectorConstruction * Detector;
 
    // DetectorConstruction* Detector;
    // G4int*                   HitID;

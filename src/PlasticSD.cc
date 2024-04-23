@@ -50,9 +50,10 @@ namespace Cosmic
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
   //  PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
-    //PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers/*, /*Cosmic::#1#DetectorConstruction* detector*/ )
-    :G4VSensitiveDetector(name), fNofLayers(nofLayers)/*, Detector(detector)*/ // Это список инициализации
+    // PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
+PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName,
+                     G4int nofLayers /*, /*Cosmic::#1#DetectorConstruction* detector*/) :
+    G4VSensitiveDetector(name), fNofLayers(nofLayers) /*, Detector(detector)*/ // Это список инициализации
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
@@ -197,12 +198,14 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     auto evt=G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
-   // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
+   // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<"
+    // copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 
-  //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
+    //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<<
+    //  G4endl;
 
 
-        //G4double attenuation_length = Detector->GetAttenuL(CB);
+    // G4double attenuation_length = Detector->GetAttenuL(CB);
        // G4double discr_threshold = Detector->GetDiscrThr2(22);
 
     hit = (*fHitsCollection)[hitID];
@@ -235,15 +238,14 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
       //  auto transform = touchable->GetHistory()->GetTransform(depth-2);
       //  transform.Invert();
      //   hit->SetRot(transform.NetRotation());
-      //  hit->SetPos(transform.NetTranslation());
- //   }
-
+    //  hit->SetPos(transform.NetTranslation());
+    //   }
 
 
     // add energy deposition
     // Add values
 
-       // G4cout << "!!!" << discr_threshold / MeV << G4endl;
+    // G4cout << "!!!" << discr_threshold / MeV << G4endl;
 
     hit->SetHalfLength(halflength);
     hit->SetThreshold(discr_threshold);

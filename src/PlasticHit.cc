@@ -241,6 +241,17 @@ namespace Cosmic {
     void PlasticHit::AddWorldPos(G4ThreeVector pos) {
         //fWorldPos = pos;
         fWorldPos += pos * fdLO; //  cуммируем с весом
+
+
+        //  fWorldPos *= fLO; fWorldPos+=pos*fdLO; if(fLO>0.) fWorldPos=fWorldPos/fLO;
+
+        /* // если делать через порог то нужно вызывать совместно с временем
+        if (fLO > threshold && flaq_is_trig_tof == true)
+        {
+            fWorldPos = pos;
+            flaq_is_trig_tof = false;
+        }*/
+
         CalcRho(pos);
     }
 

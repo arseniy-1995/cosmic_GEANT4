@@ -94,17 +94,17 @@ class ChamberHit : public G4VHit
     G4int GetBlkN();
     // G4double GetToF() const;
         G4bool GetTrig() const;
-         G4double GetThreshold() const;
+    G4double GetThreshold() const;
 
-        G4int GetNprim() const;
+    G4int GetNprim() const;
 
         // set, get and add methods
-        inline void SetBlkN(G4int n)	{ blkN = n;};
+        inline void SetBlkN(G4int n)	{ blkN = n; };
 
     inline void SetTrig(G4bool val) { flaq_is_trig_tof = val; };
     inline void SetThreshold(G4double val) { threshold = val; };
 
-        inline void SetNprim(G4int v)	{Nprim=v;};
+    inline void SetNprim(G4int v)	{Nprim=v;};
 
 
     inline void SetTrackID(G4int TrackID) { fTrackID = TrackID; }
@@ -175,7 +175,6 @@ class ChamberHit : public G4VHit
             // fToF = tof;
 
 
-
             // G4float ToF_temp = 0.;
 
 
@@ -184,14 +183,9 @@ class ChamberHit : public G4VHit
             {
                 fToF = tof;
                 flaq_is_trig_tof = false;
-
-
             }
 
             // G4cout << flaq_is_trig_tof << G4endl;
-
-
-
         }
 
         inline G4double GetToF() const { return fToF; }
@@ -308,7 +302,7 @@ extern G4ThreadLocal G4Allocator<ChamberHit>* ChamberHitAllocator;
         if (!ChamberHitAllocator) {
             ChamberHitAllocator = new G4Allocator<ChamberHit>;
         }
-        ChamberHitAllocator->FreeSingle((ChamberHit *) hit);
+        ChamberHitAllocator->FreeSingle((ChamberHit *)hit);
     }
 
 

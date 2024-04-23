@@ -63,8 +63,9 @@ class ChamberSD : public G4VSensitiveDetector
   //  ChamberSD(const G4String& name, const G4String& hitsCollectionName, G4int nofCells);
  // ChamberSD(const G4String& name, const G4String &hitsCollectionName, DetectorConstruction*);
 
-    ChamberSD(const G4String& name, const G4String &hitsCollectionName, G4int nsystem/*, /*Cosmic::#1#DetectorConstruction* detector*/);
-    ~ChamberSD() override;
+      ChamberSD(const G4String &name, const G4String &hitsCollectionName,
+                G4int nsystem /*, /*Cosmic::#1#DetectorConstruction* detector*/);
+      ~ChamberSD() override;
 
     // methods from base class
     void   Initialize(G4HCofThisEvent* hitCollection) override;
@@ -72,7 +73,7 @@ class ChamberSD : public G4VSensitiveDetector
 
     void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
 
-    void SetDiscrThres(G4double val) {discr_threshold = val;};
+    void SetDiscrThres(G4double val) { discr_threshold = val;};
 
   private:
     ChamberHitsCollection* fHitsCollection = nullptr;
@@ -80,7 +81,7 @@ class ChamberSD : public G4VSensitiveDetector
 
     G4int fNSystem = 1;
 
-    DetectorConstruction* Detector;
+    DetectorConstruction * Detector;
 
    // DetectorConstruction* Detector;
    // G4int*                   HitID;

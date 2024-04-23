@@ -2922,10 +2922,10 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 
             // Это объем пленки
-//   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
+            //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
             ubox = new G4Box("LQCover", pl1_width / 2., 0.15 / 2. * mm, pl1_length / 2.);
             G4LogicalVolume *LQCover_log = new G4LogicalVolume(ubox, MylarMaterial, "LQCover_log", 0, 0, 0);
-            //LQCover_log->SetVisAttributes(ProCover_VisAtt);
+            // LQCover_log->SetVisAttributes(ProCover_VisAtt);
             LQCover_log->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
             new G4PVPlacement(0, G4ThreeVector(0.0, +pl1_thick / 2. + 0.1 * mm, 0.0),
                               LQCover_log, "LQCover_phys", LQBoxCover_log, false, -1, fCheckOverlaps);
@@ -2936,7 +2936,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         if (nsys == 1)
         {
-                scint_LQ_nsys1LV_layer1 = LQ_log_nsys1_layer1;
+            scint_LQ_nsys1LV_layer1 = LQ_log_nsys1_layer1;
                 scint_LQ_nsys1LV_layer2 = LQ_log_nsys1_layer2;
         }
         if (nsys == 2) scint_LQ_nsys2LV = LQ_log_nsys2;
@@ -2959,7 +2959,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         // Sensitive detectors
         //
 
-        //BEGIN sensitive detector for proton plastic
+        // BEGIN sensitive detector for proton plastic
 
 
         // if(!aplasticSD)
@@ -2975,8 +2975,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #ifndef isGenLQ
 #ifdef PF1_FAT
         //  SetSensitiveDetector("plastic_fat_nsys1LV", aplasticSD);
-        auto aplastic_fat_nsys1SD = new PlasticSD(SDname = "/plastic_fat_nsys1SD", "plastic_fat_nsys1HitsCollection",
-                                                  fNofLayers_plastic_fat_nsys1);
+        auto aplastic_fat_nsys1SD =
+     new PlasticSD(SDname = "/plastic_fat_nsys1SD", "plastic_fat_nsys1HitsCollection", fNofLayers_plastic_fat_nsys1);
         aplastic_fat_nsys1SD->SetDiscrThres(plastic_fat_threshold_TDC);
         sdManager->AddNewDetector(aplastic_fat_nsys1SD);
         plastic_fat_nsys1LV->SetSensitiveDetector(aplastic_fat_nsys1SD);
@@ -3099,8 +3099,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #endif
 
 
-
-        //END sensitive detector for proton plastic
+        // END sensitive detector for proton plastic
 
 
         //

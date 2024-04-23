@@ -91,7 +91,6 @@ class PlasticHit : public G4VHit
     G4double GetThreshold() const;
 
 
-
     G4int GetNprim() const;
 
     // set, get and add methods
@@ -162,32 +161,24 @@ class PlasticHit : public G4VHit
     inline void SetToF(G4double tof) { fToF = tof; }
     void AddToF(G4double tof)
     {
-       // fToF = tof;
+        // fToF = tof;
 
 
-      //  G4cout << threshold / MeV << G4endl;
+        //  G4cout << threshold / MeV << G4endl;
 
-       // G4float ToF_temp = 0.;
+        // G4float ToF_temp = 0.;
 
 
-       // if (fLO > plastic_threshold) flaq_is_trig_tof = true;
+        // if (fLO > plastic_threshold) flaq_is_trig_tof = true;
         if (fLO > threshold && flaq_is_trig_tof == true)
         {
             fToF = tof;
             flaq_is_trig_tof = false;
-
-
         }
 
-       // G4cout << flaq_is_trig_tof << G4endl;
-
-
+        // G4cout << flaq_is_trig_tof << G4endl;
     }
-    inline G4double GetToF() const
-    {
-         return fToF;
-
-    }
+    inline G4double GetToF() const { return fToF; }
 
 
     inline void SetWorldPos(G4ThreeVector pos) { fWorldPos = pos; }
@@ -234,8 +225,7 @@ class PlasticHit : public G4VHit
     const G4LogicalVolume* GetLogV() const { return fPLogV; }
 
 
-
-  private:
+private:
     G4int fLayerID = -1;
     G4int fTrackID = -1;
     G4double fToF = 0.; // Time of Flight
@@ -304,12 +294,10 @@ extern G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator;
    // inline void PlasticHit::AddEdep(G4double de) {
    //     fEdep += de;
 
-  //  }
-  //  inline void PlasticHit::AddTrackLength(G4double dl) {
-  //      fTrackLength += dl;
-  //  }
-
-
+    //  }
+    //  inline void PlasticHit::AddTrackLength(G4double dl) {
+    //      fTrackLength += dl;
+    //  }
 
 
     inline G4int PlasticHit::GetBlkN() const { return blkN; }
