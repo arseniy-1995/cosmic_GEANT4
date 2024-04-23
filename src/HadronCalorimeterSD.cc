@@ -50,8 +50,8 @@ namespace Cosmic
 
   //  HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
     //HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, G4int nsystem )
-    :G4VSensitiveDetector(name), fNSystem(nsystem)
+    HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName, G4int nsystem/*,  /*Cosmic::#1#DetectorConstruction* detector*/ )
+    :G4VSensitiveDetector(name), fNSystem(nsystem)/*, Detector(detector)*/
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
@@ -245,6 +245,9 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
 
    //     G4cout << hitID << " " << number_X << " " << number_Z <<G4endl;
 
+     //   G4double attenuation_length = Detector->GetAttenuL(CB);
+     //   G4double discr_threshold = Detector->GetDiscrThr(CB);
+
    hit = (*fHitsCollection)[hitID];
 
 
@@ -289,6 +292,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
     //   G4cout << CB <<G4endl;
 
     hit->SetHalfLength(halflength);
+        hit->SetThreshold(discr_threshold);
    hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
@@ -300,6 +304,7 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
    hit->SetVPos(Vpos);
 
    hitTotal->SetHalfLength(halflength);
+        hitTotal->SetThreshold(discr_threshold);
    hitTotal->AddTrackID(TrackID);
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);

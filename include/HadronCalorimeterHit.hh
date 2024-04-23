@@ -94,12 +94,16 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
     G4int GetBlkN();
     // G4double GetToF() const;
     G4bool GetTrig() const;
+    G4double GetThreshold() const;
+
     G4int GetNprim() const;
 
     // set, get and add methods
         inline void SetBlkN(G4int n)	{ blkN = n;};
 
-        inline void SetTrig(G4bool v)	{Trig=v;};
+    inline void SetTrig(G4bool val) { flaq_is_trig_tof = val; };
+    inline void SetThreshold(G4double val) { threshold = val; };
+
         inline void SetNprim(G4int v)	{Nprim=v;};
 
     inline void SetTrackID(G4int TrackID) { fTrackID = TrackID; }
@@ -145,7 +149,29 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
 
 
         inline void SetToF(G4double tof) { fToF = tof; }
-        void AddToF(G4double tof) { fToF = tof; }
+        void AddToF(G4double tof)
+    {
+        // fToF = tof;
+
+
+
+        // G4float ToF_temp = 0.;
+
+
+        // if (fLO > plastic_threshold) flaq_is_trig_tof = true;
+        if (fLO > threshold && flaq_is_trig_tof == true)
+        {
+            fToF = tof;
+            flaq_is_trig_tof = false;
+
+
+        }
+
+        // G4cout << flaq_is_trig_tof << G4endl;
+
+
+
+    }
         inline G4double GetToF() const { return fToF; }
 
 
@@ -220,13 +246,15 @@ class HadronCalorimeterHit : public G4VHit /*public PlasticHit*/
 
     void CalcRho(G4ThreeVector v);
 
-    G4double threshold = 0.;
+    G4double threshold = 0.1 * MeV;
     G4double pde = 0.;
 
     G4int blkN = 0;
 
     G4bool Trig;
     G4int Nprim = 0;
+
+    G4bool flaq_is_trig_tof = true;
 
 
 };
@@ -260,7 +288,9 @@ extern G4ThreadLocal G4Allocator<HadronCalorimeterHit>* HadronCalorimeterHitAllo
     inline G4int HadronCalorimeterHit::GetBlkN() { return blkN; }
 
 
-    inline G4bool HadronCalorimeterHit::GetTrig() const { return Trig; };
+    inline G4bool HadronCalorimeterHit::GetTrig() const { return flaq_is_trig_tof; };
+
+    inline G4double HadronCalorimeterHit::GetThreshold() const { return threshold; };
 
     inline G4int HadronCalorimeterHit::GetNprim() const { return Nprim; };
 

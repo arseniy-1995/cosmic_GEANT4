@@ -212,11 +212,43 @@ namespace Cosmic {
         //  }
 
 
+        for (int i = 0; i <= 6; i++)
+        {flaq_is_trig_tof_fat1[i] = true;}
+        for (int i = 0; i <= 8; i++)
+        { flaq_is_trig_tof_fat2[i] = true;}
+
+        for (int i = 0; i <= 2; i++)
+        {flaq_is_trig_tof_thin1[i] = true;}
+        for (int i = 0; i <= 2; i++)
+        { flaq_is_trig_tof_thin2[i] = true;}
+
+        for (int i = 0; i <= 2; i++)
+        {flaq_is_trig_tof_LQ1[i] = true;}
+        for (int i = 0; i <= 2; i++)
+        {flaq_is_trig_tof_LQ2[i] = true;}
+
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void EventAction::EndOfEventAction(const G4Event *event) {
+
+
+
+        for (int i = 0; i <= 6; i++)
+        {flaq_is_trig_tof_fat1[i] = true;}
+        for (int i = 0; i <= 8; i++)
+        { flaq_is_trig_tof_fat2[i] = true;}
+
+        for (int i = 0; i <= 2; i++)
+        {flaq_is_trig_tof_thin1[i] = true;}
+        for (int i = 0; i <= 2; i++)
+        { flaq_is_trig_tof_thin2[i] = true;}
+
+        for (int i = 0; i <= 2; i++)
+        {flaq_is_trig_tof_LQ1[i] = true;}
+        for (int i = 0; i <= 2; i++)
+        {flaq_is_trig_tof_LQ2[i] = true;}
 
         //G4cerr << "........" << G4endl;
 
@@ -550,11 +582,17 @@ namespace Cosmic {
             fPlastic_fatThetaGlob[0][i] = plastic_fat_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_fatPhiGlob[0][i] = plastic_fat_nsys1Hit[i]->GetPosPhiGlob() / degree;
 
-            if (plastic_fat_nsys1Hit[i]->GetEdep() > plastic_fat_threshold)
+            if (plastic_fat_nsys1Hit[i]->GetLO() > plastic_fat_threshold)
             {
-                fPlastic_fatT1[0][i] = plastic_fat_nsys1Hit[i]->GetT1() / ns;
+               // if (flaq_is_trig_tof_fat1[i] == true)
+              //  {
+                    fPlastic_fatT1[0][i] = plastic_fat_nsys1Hit[i]->GetT1() / ns;
                 fPlastic_fatT2[0][i] = plastic_fat_nsys1Hit[i]->GetT2() / ns;
                 fPlastic_fatToF[0][i] = plastic_fat_nsys1Hit[i]->GetToF() / ns;
+                    flaq_is_trig_tof_fat1[i] = false;
+
+              //  }
+
 
                 de_fat_dep[0] = 1;
             }
@@ -585,11 +623,18 @@ namespace Cosmic {
                 fPlastic_fatThetaGlob[1][i] = plastic_fat_nsys2Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_fatPhiGlob[1][i] = plastic_fat_nsys2Hit[i]->GetPosPhiGlob() / degree;
 
-            if (plastic_fat_nsys2Hit[i]->GetEdep() > plastic_fat_threshold)
+            if (plastic_fat_nsys2Hit[i]->GetLO() > plastic_fat_threshold)
             {
-                fPlastic_fatT1[1][i] = plastic_fat_nsys2Hit[i]->GetT1() / ns;
+
+
+              //  if (flaq_is_trig_tof_fat2[i] == true)
+               // {
+                     fPlastic_fatT1[1][i] = plastic_fat_nsys2Hit[i]->GetT1() / ns;
                 fPlastic_fatT2[1][i] = plastic_fat_nsys2Hit[i]->GetT2() / ns;
                 fPlastic_fatToF[1][i] = plastic_fat_nsys2Hit[i]->GetToF() / ns;
+                    flaq_is_trig_tof_fat2[i] = false;
+               // }
+
 
                 de_fat_dep[1] = 1;
             }
@@ -630,11 +675,18 @@ namespace Cosmic {
 
                 fPlastic_thinThetaGlob[0][i] = plastic_thin_nsys1Hit[i]->GetPosThetaGlob() / degree;
                 fPlastic_thinPhiGlob[0][i] = plastic_thin_nsys1Hit[i]->GetPosPhiGlob() / degree;
-            if (plastic_thin_nsys1Hit[i]->GetEdep() > plastic_thin_threshold)
+            if (plastic_thin_nsys1Hit[i]->GetLO() > plastic_thin_threshold)
             {
-                fPlastic_thinT1[0][i] = plastic_thin_nsys1Hit[i]->GetT1() / ns;
 
-                fPlastic_thinToF[0][i] = plastic_thin_nsys1Hit[i]->GetToF() / ns;
+               // if (flaq_is_trig_tof_thin1[i] == true)
+               // {
+
+                    fPlastic_thinT1[0][i] = plastic_thin_nsys1Hit[i]->GetT1() / ns;
+                    fPlastic_thinToF[0][i] = plastic_thin_nsys1Hit[i]->GetToF() / ns;
+                    flaq_is_trig_tof_thin1[i] = false;
+              //  }
+
+
                 de_thin_dep[0] = 1;
 
                 if (i == 1) de_thin_dep_latyer1[0] = 1;
@@ -673,8 +725,19 @@ namespace Cosmic {
 
             if (plastic_thin_nsys2Hit[i]->GetEdep() > plastic_thin_threshold)
             {
-                fPlastic_thinT1[1][i] = plastic_thin_nsys2Hit[i]->GetT1() / ns;
+
+
+               // if (flaq_is_trig_tof_thin2[i] == true)
+               // {
+
+                    fPlastic_thinT1[1][i] = plastic_thin_nsys2Hit[i]->GetT1() / ns;
                 fPlastic_thinToF[1][i] = plastic_thin_nsys2Hit[i]->GetToF() / ns;
+                    flaq_is_trig_tof_thin2[i] = false;
+               // }
+
+
+
+
                 de_thin_dep[1] = 1;
 
                 if (i == 1) de_thin_dep_latyer1[1] = 1;
@@ -719,9 +782,18 @@ namespace Cosmic {
 
             if (plastic_LQ_nsys1Hit[i]->GetEdep() > plastic_LQ_threshold)
             {
-                fPlastic_LQ_T1[0][i] = plastic_LQ_nsys1Hit[i]->GetT1() / ns;
+
+
+              //  if (flaq_is_trig_tof_LQ1[i] == true)
+              //  {
+
+                     fPlastic_LQ_T1[0][i] = plastic_LQ_nsys1Hit[i]->GetT1() / ns;
                 fPlastic_LQ_T2[0][i] = plastic_LQ_nsys1Hit[i]->GetT2() / ns;
                 fPlastic_LQ_ToF[0][i] = plastic_LQ_nsys1Hit[i]->GetToF() / ns;
+                    flaq_is_trig_tof_LQ1[i] = false;
+              //  }
+
+
 
                 de_LQ_dep[0] = 1;
             }
@@ -758,9 +830,18 @@ namespace Cosmic {
 
             if (plastic_LQ_nsys2Hit[i]->GetEdep() > plastic_LQ_threshold)
             {
-                fPlastic_LQ_T1[1][i] = plastic_LQ_nsys2Hit[i]->GetT1() / ns;
+
+
+              //  if (flaq_is_trig_tof_LQ2[i] == true)
+              //  {
+
+                    fPlastic_LQ_T1[1][i] = plastic_LQ_nsys2Hit[i]->GetT1() / ns;
                 fPlastic_LQ_T2[1][i] = plastic_LQ_nsys2Hit[i]->GetT2() / ns;
                 fPlastic_LQ_ToF[1][i] = plastic_LQ_nsys2Hit[i]->GetToF() / ns;
+                    flaq_is_trig_tof_LQ2[i] = false;
+              //  }
+
+
                 de_LQ_dep[1] = 1;
             }
         }

@@ -51,8 +51,8 @@ namespace Cosmic
 
   //  PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
     //PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers )
-    :G4VSensitiveDetector(name), fNofLayers(nofLayers) // Это список инициализации
+    PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, G4int nofLayers/*, /*Cosmic::#1#DetectorConstruction* detector*/ )
+    :G4VSensitiveDetector(name), fNofLayers(nofLayers)/*, Detector(detector)*/ // Это список инициализации
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
@@ -202,6 +202,9 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
   //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
 
 
+        //G4double attenuation_length = Detector->GetAttenuL(CB);
+       // G4double discr_threshold = Detector->GetDiscrThr2(22);
+
     hit = (*fHitsCollection)[hitID];
 
     // Get hit for total accounting
@@ -240,7 +243,10 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     // add energy deposition
     // Add values
 
+       // G4cout << "!!!" << discr_threshold / MeV << G4endl;
+
     hit->SetHalfLength(halflength);
+    hit->SetThreshold(discr_threshold);
     hit->AddTrackID(TrackID);
     hit->AddEdep(edep);
     hit->AddLO(edep, posit, dx, velosity, tof);
@@ -255,6 +261,7 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     hit->SetVPos(Vpos);
 
     hitTotal->SetHalfLength(halflength);
+    hitTotal->SetThreshold(discr_threshold);
     hitTotal->AddTrackID(TrackID);
     hitTotal->AddEdep(edep);
     hitTotal->AddLO(edep, posit, dx, velosity, tof);

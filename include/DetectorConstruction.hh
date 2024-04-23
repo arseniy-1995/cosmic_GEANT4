@@ -76,8 +76,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void ConstructSDandField() override;
 
     G4int GetType(G4int n);
+    G4int GetType2(G4int n);
     G4double GetAttenuL(G4int n);
     G4double GetDiscrThr(G4int n);
+    G4double GetDiscrThr2(G4int n);
 
 
   private:

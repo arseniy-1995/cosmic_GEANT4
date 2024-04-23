@@ -88,13 +88,17 @@ class PlasticHit : public G4VHit
 
     // G4double GetToF() const;
     G4bool GetTrig() const;
+    G4double GetThreshold() const;
+
+
 
     G4int GetNprim() const;
 
     // set, get and add methods
     inline void SetBlkN(G4int n) { blkN = n; };
 
-    inline void SetTrig(G4bool v) { Trig = v; };
+    inline void SetTrig(G4bool val) { flaq_is_trig_tof = val; };
+    inline void SetThreshold(G4double val) { threshold = val; };
 
     inline void SetNprim(G4int v) { Nprim = v; };
 
@@ -156,8 +160,34 @@ class PlasticHit : public G4VHit
     inline G4double GetPosPhiGlob() const { return fPosPhiGlob; }
 
     inline void SetToF(G4double tof) { fToF = tof; }
-    void AddToF(G4double tof) { fToF = tof; }
-    inline G4double GetToF() const { return fToF; }
+    void AddToF(G4double tof)
+    {
+       // fToF = tof;
+
+
+      //  G4cout << threshold / MeV << G4endl;
+
+       // G4float ToF_temp = 0.;
+
+
+       // if (fLO > plastic_threshold) flaq_is_trig_tof = true;
+        if (fLO > threshold && flaq_is_trig_tof == true)
+        {
+            fToF = tof;
+            flaq_is_trig_tof = false;
+
+
+        }
+
+       // G4cout << flaq_is_trig_tof << G4endl;
+
+
+    }
+    inline G4double GetToF() const
+    {
+         return fToF;
+
+    }
 
 
     inline void SetWorldPos(G4ThreeVector pos) { fWorldPos = pos; }
@@ -203,6 +233,8 @@ class PlasticHit : public G4VHit
     void SetLogV(G4LogicalVolume* val) { fPLogV = val; }
     const G4LogicalVolume* GetLogV() const { return fPLogV; }
 
+
+
   private:
     G4int fLayerID = -1;
     G4int fTrackID = -1;
@@ -229,13 +261,17 @@ class PlasticHit : public G4VHit
 
     void CalcRho(G4ThreeVector v);
 
-    G4double threshold = 0.;
+    G4double threshold = 0.1 * MeV;
     G4double pde = 0.;
+
+
 
     G4int blkN = 0;
 
     G4bool Trig;
     G4int Nprim = 0;
+
+    G4bool flaq_is_trig_tof = true;
 
 
 };
@@ -279,7 +315,9 @@ extern G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator;
     inline G4int PlasticHit::GetBlkN() const { return blkN; }
 
 
-    inline G4bool PlasticHit::GetTrig() const { return Trig; };
+    inline G4bool PlasticHit::GetTrig() const { return flaq_is_trig_tof; };
+
+    inline G4double PlasticHit::GetThreshold() const { return threshold; };
 
     inline G4int PlasticHit::GetNprim() const { return Nprim; };
 

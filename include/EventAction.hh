@@ -1006,10 +1006,16 @@ namespace Cosmic {
         std::vector<G4float> &GetVertexPhi() { return vertex_phi_vector; }
 
 
-
-
-
     private:
+
+        G4bool flaq_is_trig_tof_fat1[6 + 1] = {true, true, true, true, true, true, true};
+        G4bool flaq_is_trig_tof_fat2[8 + 1] = {true, true, true, true, true, true, true, true, true};
+
+        G4bool flaq_is_trig_tof_thin1[2 + 1] = {true, true, true};
+        G4bool flaq_is_trig_tof_thin2[2 + 1] = {true, true, true};
+
+        G4bool flaq_is_trig_tof_LQ1[2 + 1] = {true, true,true};
+        G4bool flaq_is_trig_tof_LQ2[2+1] = {true,true,true};
 
         G4double vertex_x, vertex_y, vertex_z;    // vertex position
         G4int vertex_index, vertex_number_event;// number of vertexes (particles)

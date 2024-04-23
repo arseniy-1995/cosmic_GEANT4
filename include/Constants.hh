@@ -136,6 +136,10 @@ namespace Cosmic {
 #define DT_SCINT 1
 #define DT_EMCAL 2
 
+#define DT_SCINT_THIN 11
+#define DT_SCINT_FAT 22
+#define DT_SCINT_LQ 33
+
 #define DC_RES (0.3*mm)
 #define VC_RES (0.6*mm)
 
@@ -165,7 +169,7 @@ namespace Cosmic {
     constexpr G4int fNofLayers_V_Chamber_nsys1 = NVC_WRS + 100;
     constexpr G4int fNofLayers_V_Chamber_nsys2 = NVC_WRS + 100;
 
-    // пороги записи в файл
+    // пороги записи в файл (по тригеру)
     constexpr G4double plastic_fat_threshold = 0.5 * MeV;
     constexpr G4double plastic_thin_threshold = 0.1 * MeV;
     constexpr G4double plastic_LQ_threshold = 0.1 * MeV;
@@ -176,6 +180,20 @@ namespace Cosmic {
 
     constexpr G4double WChamber_threshold = 0.01 * keV;
     constexpr G4double VChamber_threshold = 0.01 * keV;
+
+
+    // пороги по ВЦП
+    constexpr G4double plastic_fat_threshold_TDC = 15. * MeV;
+    constexpr G4double plastic_thin_threshold_TDC = 0.5 * MeV;
+    constexpr G4double plastic_LQ_threshold_TDC = 0.5 * MeV;
+    constexpr G4double HadronCalorimeter_threshold_TDC= 0.5 * MeV;
+
+
+    constexpr G4double WChamber_threshold_TDC = 0.01 * keV;
+    constexpr G4double VChamber_threshold_TDC = 0.01 * keV;
+
+
+
 
     constexpr G4double DENSITY_LO = 1.032;    // scintill. density - for light output calculation
 

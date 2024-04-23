@@ -50,8 +50,8 @@ namespace Cosmic
 
   //  ChamberSD::ChamberSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
     //ChamberSD::ChamberSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
-    ChamberSD::ChamberSD(const G4String &name,const G4String &hitsCollectionName, G4int nsystem )
-    :G4VSensitiveDetector(name), fNSystem(nsystem)
+    ChamberSD::ChamberSD(const G4String &name,const G4String &hitsCollectionName, G4int nsystem/*, /*Cosmic::#1#DetectorConstruction* detector */)
+    :G4VSensitiveDetector(name), fNSystem(nsystem)/*, Detector(detector)*/
   {
         collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
@@ -230,6 +230,9 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     hitID = CB;
 
+        //G4double attenuation_length = Detector->GetAttenuL(CB);
+        //G4double discr_threshold = Detector->GetDiscrThr(CB);
+
     hit = (*fHitsCollection)[hitID];
 
 
@@ -274,6 +277,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 
     hit->SetHalfLength(halflength);
+        hit->SetThreshold(discr_threshold);
    hit->AddTrackID(TrackID);
    hit->AddEdep(edep);
    hit->AddLO(edep, posit, dx, velosity, tof);
@@ -289,6 +293,7 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    hit->SetVPos(Vpos);
 
    hitTotal->SetHalfLength(halflength);
+        hitTotal->SetThreshold(discr_threshold);
    hitTotal->AddTrackID(TrackID);
    hitTotal->AddEdep(edep);
    hitTotal->AddLO(edep, posit, dx, velosity, tof);

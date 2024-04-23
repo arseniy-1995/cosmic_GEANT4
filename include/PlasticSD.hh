@@ -63,7 +63,7 @@ class PlasticSD : public G4VSensitiveDetector
   //  PlasticSD(const G4String& name, const G4String& hitsCollectionName, G4int nofCells);
  // PlasticSD(const G4String& name, const G4String &hitsCollectionName, DetectorConstruction*);
 
-    PlasticSD(const G4String& name, const G4String &hitsCollectionName, G4int nofLayers);
+    PlasticSD(const G4String& name, const G4String &hitsCollectionName, G4int nofLayers/*, /*Cosmic::#1#DetectorConstruction* detector*/ );
     ~PlasticSD() override;
 
     // methods from base class
@@ -72,14 +72,20 @@ class PlasticSD : public G4VSensitiveDetector
 
     void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
 
+    void SetDiscrThres(G4double val) {discr_threshold = val;};
+
   private:
     PlasticHitsCollection* fHitsCollection = nullptr;
     G4int fHCID = -1;
 
     G4int fNofLayers = 0;
 
+    DetectorConstruction* Detector;
+
    // DetectorConstruction* Detector;
    // G4int*                   HitID;
+
+    G4double discr_threshold = 0.1 * MeV;
 };
 
 }

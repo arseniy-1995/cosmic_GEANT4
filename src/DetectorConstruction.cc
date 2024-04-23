@@ -85,6 +85,7 @@ namespace Cosmic {
         // Define vis attributes
         DefineVisAttributes();
 
+
         // Define volumes
         return DefineVolumes();
     }
@@ -785,6 +786,8 @@ namespace Cosmic {
         //
         // Always return the physical World
         //
+
+
         return worldPV;
     }
 
@@ -2967,11 +2970,14 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         //  }
 
+ auto det_constr = this;
+
 #ifndef isGenLQ
 #ifdef PF1_FAT
         //  SetSensitiveDetector("plastic_fat_nsys1LV", aplasticSD);
         auto aplastic_fat_nsys1SD = new PlasticSD(SDname = "/plastic_fat_nsys1SD", "plastic_fat_nsys1HitsCollection",
                                                   fNofLayers_plastic_fat_nsys1);
+        aplastic_fat_nsys1SD->SetDiscrThres(plastic_fat_threshold_TDC);
         sdManager->AddNewDetector(aplastic_fat_nsys1SD);
         plastic_fat_nsys1LV->SetSensitiveDetector(aplastic_fat_nsys1SD);
 #endif
@@ -2980,6 +2986,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
         auto aplastic_fat_nsys2SD = new PlasticSD(SDname = "/plastic_fat_nsys2SD", "plastic_fat_nsys2HitsCollection",
                                                   fNofLayers_plastic_fat_nsys2);
+        aplastic_fat_nsys2SD->SetDiscrThres(plastic_fat_threshold_TDC);
         sdManager->AddNewDetector(aplastic_fat_nsys2SD);
         plastic_fat_nsys2LV_120->SetSensitiveDetector(aplastic_fat_nsys2SD);
         plastic_fat_nsys2LV_125->SetSensitiveDetector(aplastic_fat_nsys2SD);
@@ -2991,6 +2998,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
         auto aplastic_thin_nsys1SD = new PlasticSD(SDname = "/plastic_thin_nsys1SD", "plastic_thin_nsys1HitsCollection",
                                                    fNofLayers_plastic_thin_nsys1);
+        aplastic_thin_nsys1SD->SetDiscrThres(plastic_thin_threshold_TDC);
         sdManager->AddNewDetector(aplastic_thin_nsys1SD);
         plastic_thin_nsys1LV->SetSensitiveDetector(aplastic_thin_nsys1SD);
 #endif
@@ -2999,6 +3007,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         // SetSensitiveDetector("plastic_fat_nsys2LV", aplasticSD);
         auto aplastic_thin_nsys2SD = new PlasticSD(SDname = "/plastic_thin_nsys2SD", "plastic_thin_nsys2HitsCollection",
                                                    fNofLayers_plastic_thin_nsys2);
+        aplastic_thin_nsys2SD->SetDiscrThres(plastic_thin_threshold_TDC);
         sdManager->AddNewDetector(aplastic_thin_nsys2SD);
         plastic_thin_nsys2LV->SetSensitiveDetector(aplastic_thin_nsys2SD);
 #endif
@@ -3008,6 +3017,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         auto aplastic_LQ_nsys1SD = new PlasticSD(SDname = "/plastic_LQ_nsys1SD", "plastic_LQ_nsys1HitsCollection",
                                                    fNofLayers_plastic_LQ_nsys1);
+        aplastic_LQ_nsys1SD->SetDiscrThres(plastic_LQ_threshold_TDC);
         sdManager->AddNewDetector(aplastic_LQ_nsys1SD);
         scint_LQ_nsys1LV_layer1->SetSensitiveDetector(aplastic_LQ_nsys1SD);
 
@@ -3024,6 +3034,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         auto aplastic_LQ_nsys2SD = new PlasticSD(SDname = "/plastic_LQ_nsys2SD", "plastic_LQ_nsys2HitsCollection",
                                                  fNofLayers_plastic_LQ_nsys2);
+        aplastic_LQ_nsys2SD->SetDiscrThres(plastic_LQ_threshold_TDC);
         sdManager->AddNewDetector(aplastic_LQ_nsys2SD);
         scint_LQ_nsys2LV->SetSensitiveDetector(aplastic_LQ_nsys2SD);
 
@@ -3034,6 +3045,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #ifdef HADCAL1
         auto ahadron_calorimeter_nsys1SD = new HadronCalorimeterSD(SDname = "/hadron_calorimeter_nsys1SD",
                                                                    "hadron_calorimeter_nsys1HitsCollection", 1);
+        ahadron_calorimeter_nsys1SD->SetDiscrThres(HadronCalorimeter_threshold_TDC);
         sdManager->AddNewDetector(ahadron_calorimeter_nsys1SD);
         scint_HadCal_nsys1LV->SetSensitiveDetector(ahadron_calorimeter_nsys1SD);
 #endif
@@ -3042,6 +3054,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #ifdef HADCAL2
         auto ahadron_calorimeter_nsys2SD = new HadronCalorimeterSD(SDname = "/hadron_calorimeter_nsys2SD",
                                                                    "hadron_calorimeter_nsys2HitsCollection", 2);
+        ahadron_calorimeter_nsys2SD->SetDiscrThres(HadronCalorimeter_threshold_TDC);
         sdManager->AddNewDetector(ahadron_calorimeter_nsys2SD);
         scint_HadCal_nsys2LV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
 #endif
@@ -3051,6 +3064,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         // wire chambers
 #ifdef DCARM1
         auto aW_chamber_nsys1SD = new ChamberSD(SDname = "/W_chamber_nsys1SD", "W_Chamber_nsys1HitsCollection", 1);
+        aW_chamber_nsys1SD->SetDiscrThres(WChamber_threshold_TDC);
         sdManager->AddNewDetector(aW_chamber_nsys1SD);
 
         WCTheta1_gas_nsys1LV->SetSensitiveDetector(aW_chamber_nsys1SD);
@@ -3060,6 +3074,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 #ifdef DCARM2
         auto aW_chamber_nsys2SD = new ChamberSD(SDname = "/W_chamber_nsys2SD", "W_Chamber_nsys2HitsCollection", 2);
+        aW_chamber_nsys2SD->SetDiscrThres(WChamber_threshold_TDC);
         sdManager->AddNewDetector(aW_chamber_nsys2SD);
 
         WCTheta1_gas_nsys2LV->SetSensitiveDetector(aW_chamber_nsys2SD);
@@ -3070,12 +3085,14 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 #if defined(VCARM1) && defined(RUN21)
         auto aV_chamber_nsys1SD = new ChamberSD(SDname = "/V_chamber_nsys1SD", "V_Chamber_nsys1HitsCollection", 1);
+        aV_chamber_nsys1SD->SetDiscrThres(VChamber_threshold_TDC);
         sdManager->AddNewDetector(aV_chamber_nsys1SD);
 
         VCGas_log_nsys1LV->SetSensitiveDetector(aV_chamber_nsys1SD);
 #endif
 #if defined(VCARM2) && defined(RUN21)
         auto aV_chamber_nsys2SD = new ChamberSD(SDname = "/V_chamber_nsys2SD", "V_Chamber_nsys2HitsCollection", 2);
+        aV_chamber_nsys2SD->SetDiscrThres(VChamber_threshold_TDC);
         sdManager->AddNewDetector(aV_chamber_nsys2SD);
 
         VCGas_log_nsys2LV->SetSensitiveDetector(aV_chamber_nsys2SD);
@@ -3110,19 +3127,48 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         return DT_EMCAL;
     }
 
+    G4int GetType2(G4int n) {
+
+        if (n == 11) return DT_SCINT_THIN;
+        if (n == 22) return DT_SCINT_FAT;
+        if (n == 22) return DT_SCINT_LQ;
+
+        return DT_SCINT_THIN;
+    }
+
     G4double GetAttenuL(G4int n) {
-        double r = 1000. * mm;
+        G4double r = 1000. * mm;
         if (GetType(n) == DT_SCINT) r = 2000. * mm;
 
         return r;
     }
 
     G4double GetDiscrThr(G4int n) {
-        double r = 0.25 * MeV;
+        G4double r = 0.25 * MeV;
+
+        if (GetType(n) == DT_SCINT) r = 1.0 * MeV;
         if (GetType(n) == DT_WIRE) r = 0.1 * keV;
+        if (GetType(n) == DT_EMCAL) r = 0.5 * MeV;
+
+
+        if (GetType2(n) == DT_SCINT_THIN) r = 0.5 * MeV;
+        if (GetType2(n) == DT_SCINT_FAT) r = 15. * MeV;
+        if (GetType2(n) == DT_SCINT_LQ) r = 0.5 * MeV;
+
         return r;
     }
 
+
+    G4double GetDiscrThr2(G4int n) {
+        G4double r = 0.25 * MeV;
+
+
+        if (GetType2(n) == DT_SCINT_THIN) r = 0.5 * MeV;
+        if (GetType2(n) == DT_SCINT_FAT) r = 15. * MeV;
+        if (GetType2(n) == DT_SCINT_LQ) r = 0.5 * MeV;
+
+        return r;
+    }
 }
 
 
