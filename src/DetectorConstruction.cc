@@ -2889,13 +2889,13 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             ubox = new G4Box("LQ", pl1_width / 2., pl1_thick / 2., pl1_length / 2.);
             LQ_log_nsys2 = new G4LogicalVolume(ubox, ScintilMaterial, "LQ_log", 0, 0, 0);
             LQ_log_nsys2 ->SetVisAttributes(Plastic_VisAtt);
-            vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0),
-                                         LQ_log_nsys2, "LQ1", LQBoxCover_log, false, 1, fCheckOverlaps);
+            vol_phys = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), LQ_log_nsys2, "LQ1", LQBoxCover_log, false, 1,
+                                         fCheckOverlaps);
 
 
-                // Это объем дерева между сцинтилляторами
+            // Это объем дерева между сцинтилляторами
                 auto wood_box = new G4Box("WOOD_LQ", wood_width / 2., wood_thick / 2., wood_length / 2.);
-                auto woodLV = new G4LogicalVolume(wood_box, WoodMaterial, "WOOD_LQ_log", 0, 0, 0);
+            auto woodLV = new G4LogicalVolume(wood_box, WoodMaterial, "WOOD_LQ_log", 0, 0, 0);
                 woodLV->SetVisAttributes(WOOD_VisAtt);
 
                 // дерево только для верхней системы в заходе 2021
@@ -2904,17 +2904,17 @@ new G4PVPlacement(G4Transform3D(RotateNull,
             auto woodPV = new G4PVPlacement(0,
                                                 G4ThreeVector(0.0, placement1.y() + pl1_thick / 2. + wood_thick / 2. + 0.5 * cm, 0.0),
                                                 woodLV, "WOOD_LQ_phys", LQBox_log, false, 0, fCheckOverlaps);
-#endif //RUN21
+#endif // RUN21
 
 #if defined(RUN23) && defined(LOWQ_CONVERTOR)
 
-            // Это объем конвертера перед сцинтиллятором
+                // Это объем конвертера перед сцинтиллятором
             auto convertor_box = new G4Box("CONVERTOR_LQ", convertor_width / 2., convertor_thick / 2., convertor_length / 2.);
             auto convertorLV = new G4LogicalVolume(convertor_box, ConvertorLQMaterial, "CONVERTOR_LQ_log", 0, 0, 0);
             convertorLV->SetVisAttributes(Convertor_LQ_VisAtt);
 
             auto converterPV = new G4PVPlacement(0,
-                                                G4ThreeVector(0.0, -(placement1.y() + pl1_thick / 2. + convertor_thick / 2. + 0.5 * cm + 1.*cm), 0.0),
+                G4ThreeVector(0.0, -(placement1.y() + pl1_thick / 2. + convertor_thick / 2. + 0.5 * cm + 1.*cm), 0.0),
                                                  convertorLV, "CONVERTOR_LQ_phys", LQBox_log, false, 0, fCheckOverlaps);
 #endif //RUN23
 
@@ -3058,7 +3058,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         sdManager->AddNewDetector(ahadron_calorimeter_nsys2SD);
         scint_HadCal_nsys2LV->SetSensitiveDetector(ahadron_calorimeter_nsys2SD);
 #endif
-#endif //isGenLQ
+#endif // isGenLQ
 
 
         // wire chambers

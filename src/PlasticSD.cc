@@ -50,7 +50,7 @@ namespace Cosmic
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
   //  PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
-    // PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
+// PlasticSD::PlasticSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
 PlasticSD::PlasticSD(const G4String &name, const G4String &hitsCollectionName,
                      G4int nofLayers /*, /*Cosmic::#1#DetectorConstruction* detector*/) :
     G4VSensitiveDetector(name), fNofLayers(nofLayers) /*, Detector(detector)*/ // Это список инициализации
@@ -196,9 +196,9 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     auto hitID = layerNumber; // начинается с нуля
     auto hitTime = preStepPoint->GetGlobalTime();
 
-    auto evt=G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+    auto evt = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
-   // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<"
+    // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<"
     // copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 
     //  G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<<
@@ -236,8 +236,8 @@ G4bool PlasticSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
      //   hit->SetRowID(rowNo);
      //   auto depth = touchable->GetHistory()->GetDepth();
       //  auto transform = touchable->GetHistory()->GetTransform(depth-2);
-      //  transform.Invert();
-     //   hit->SetRot(transform.NetRotation());
+    //  transform.Invert();
+    //   hit->SetRot(transform.NetRotation());
     //  hit->SetPos(transform.NetTranslation());
     //   }
 

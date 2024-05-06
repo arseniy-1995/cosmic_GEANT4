@@ -49,12 +49,12 @@ namespace Cosmic
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
   //  ChamberSD::ChamberSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
-    // ChamberSD::ChamberSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
+// ChamberSD::ChamberSD(const G4String &name,const G4String &hitsCollectionName, DetectorConstruction* det)
 ChamberSD::ChamberSD(const G4String &name, const G4String &hitsCollectionName,
                      G4int nsystem /*, /*Cosmic::#1#DetectorConstruction* detector */) :
     G4VSensitiveDetector(name), fNSystem(nsystem) /*, Detector(detector)*/
 {
-        collectionName.insert(hitsCollectionName);
+    collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
 
     }
@@ -226,13 +226,13 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
    // G4cerr << " CB= " << CB<<G4endl;
 
     //G4cerr  <<" layerNumber0= " << touchable->GetReplicaNumber(0) <<" layerNumber1= " << touchable->GetReplicaNumber(1)<<" layerNumber2= " << touchable->GetReplicaNumber(2)<<" layerNumber3= " << touchable->GetReplicaNumber(3)<<" layerNumber4= " << touchable->GetReplicaNumber(4)<<G4endl;
-    // G4cerr << " CB= " << CB - ARM2_IND<<G4endl;
+    //  G4cerr << " CB= " << CB - ARM2_IND<<G4endl;
 
 
     hitID = CB;
 
     // G4double attenuation_length = Detector->GetAttenuL(CB);
-    //G4double discr_threshold = Detector->GetDiscrThr(CB);
+    // G4double discr_threshold = Detector->GetDiscrThr(CB);
 
     hit = (*fHitsCollection)[hitID];
 

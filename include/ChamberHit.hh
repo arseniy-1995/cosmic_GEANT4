@@ -96,15 +96,15 @@ class ChamberHit : public G4VHit
         G4bool GetTrig() const;
     G4double GetThreshold() const;
 
-    G4int GetNprim() const;
+        G4int GetNprim() const;
 
-        // set, get and add methods
-        inline void SetBlkN(G4int n)	{ blkN = n; };
+    // set, get and add methods
+    inline void SetBlkN(G4int n) { blkN = n; };
 
     inline void SetTrig(G4bool val) { flaq_is_trig_tof = val; };
     inline void SetThreshold(G4double val) { threshold = val; };
 
-    inline void SetNprim(G4int v)	{Nprim=v;};
+    inline void SetNprim(G4int v) { Nprim = v; };
 
 
     inline void SetTrackID(G4int TrackID) { fTrackID = TrackID; }
@@ -298,7 +298,8 @@ extern G4ThreadLocal G4Allocator<ChamberHit>* ChamberHitAllocator;
         return hit;
     }
 
-    inline void ChamberHit::operator delete(void *hit) {
+    inline void ChamberHit::operator delete(void *hit)
+    {
         if (!ChamberHitAllocator) {
             ChamberHitAllocator = new G4Allocator<ChamberHit>;
         }

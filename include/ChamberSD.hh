@@ -67,23 +67,23 @@ class ChamberSD : public G4VSensitiveDetector
                 G4int nsystem /*, /*Cosmic::#1#DetectorConstruction* detector*/);
       ~ChamberSD() override;
 
-    // methods from base class
+      // methods from base class
     void   Initialize(G4HCofThisEvent* hitCollection) override;
     G4bool ProcessHits(G4Step* step, G4TouchableHistory* ROhist) override;
 
     void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
 
-    void SetDiscrThres(G4double val) { discr_threshold = val;};
+    void SetDiscrThres(G4double val) { discr_threshold = val; };
 
-  private:
+private:
     ChamberHitsCollection* fHitsCollection = nullptr;
     G4int fHCID = -1;
 
     G4int fNSystem = 1;
 
-    DetectorConstruction * Detector;
+    DetectorConstruction *Detector;
 
-   // DetectorConstruction* Detector;
+    // DetectorConstruction* Detector;
    // G4int*                   HitID;
 
     G4double discr_threshold = 0.1 * MeV;

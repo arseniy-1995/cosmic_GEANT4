@@ -288,10 +288,10 @@ extern G4ThreadLocal G4Allocator<PlasticHit>* PlasticHitAllocator;
         if (!PlasticHitAllocator) {
             PlasticHitAllocator = new G4Allocator<PlasticHit>;
         }
-        PlasticHitAllocator->FreeSingle((PlasticHit *) hit);
+        PlasticHitAllocator->FreeSingle((PlasticHit *)hit);
     }
 
-   // inline void PlasticHit::AddEdep(G4double de) {
+    // inline void PlasticHit::AddEdep(G4double de) {
    //     fEdep += de;
 
     //  }

@@ -49,13 +49,13 @@ namespace Cosmic
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
   //  HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name, const G4String &hitsCollectionName, G4int nofCells)
-    // HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName,
+// HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name,const G4String &hitsCollectionName,
 // DetectorConstruction* det)
 HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name, const G4String &hitsCollectionName,
                                          G4int nsystem /*,  /*Cosmic::#1#DetectorConstruction* detector*/) :
     G4VSensitiveDetector(name), fNSystem(nsystem) /*, Detector(detector)*/
 {
-        collectionName.insert(hitsCollectionName);
+    collectionName.insert(hitsCollectionName);
         //HitID = new G4int[NHITS];
 
     }
@@ -280,12 +280,11 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
       //  transform.Invert();
      //   hit->SetRot(transform.NetRotation());
       //  hit->SetPos(transform.NetTranslation());
- //   }
+    //   }
 
     // Get hit for total accounting
 
-    auto hitTotal
-            = (*fHitsCollection)[fHitsCollection->entries() - 1];
+    auto hitTotal = (*fHitsCollection)[fHitsCollection->entries() - 1];
 
 
     // add energy deposition
