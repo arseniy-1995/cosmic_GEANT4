@@ -2862,7 +2862,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
 
             // Это объем двух сцинтилляторов с пленокой
-            ubox = new G4Box("LQ_box", LQ_box_width, LQ_box_thick,LQ_box_length);
+            ubox = new G4Box("LQ_box", LQ_box_width, LQ_box_thick, LQ_box_length);
             LQBox_log = new G4LogicalVolume(ubox, AirMaterial, "LQBox_log", 0, 0, 0);
             LQBox_log->SetVisAttributes(G4VisAttributes::GetInvisible());
 
@@ -2878,8 +2878,8 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 #endif
 
 
-                vol_phys = new G4PVPlacement(0, placement1,
-                                             LQBoxCover_log, "LQ1", LQBox_log, false, copy_number, fCheckOverlaps);
+                vol_phys = new G4PVPlacement(0, placement1, LQBoxCover_log, "LQ1", LQBox_log, false, copy_number,
+                                             fCheckOverlaps);
 
 #if defined(RUN21) // два сцинтиллятора только в заходе 21 года
             vol_phys = new G4PVPlacement(0, placement2,

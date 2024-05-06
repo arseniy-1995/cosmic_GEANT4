@@ -56,7 +56,7 @@ HadronCalorimeterSD::HadronCalorimeterSD(const G4String &name, const G4String &h
     G4VSensitiveDetector(name), fNSystem(nsystem) /*, Detector(detector)*/
 {
     collectionName.insert(hitsCollectionName);
-        //HitID = new G4int[NHITS];
+    // HitID = new G4int[NHITS];
 
     }
 
@@ -278,8 +278,8 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
      //   auto depth = touchable->GetHistory()->GetDepth();
       //  auto transform = touchable->GetHistory()->GetTransform(depth-2);
       //  transform.Invert();
-     //   hit->SetRot(transform.NetRotation());
-      //  hit->SetPos(transform.NetTranslation());
+    //   hit->SetRot(transform.NetRotation());
+    //  hit->SetPos(transform.NetTranslation());
     //   }
 
     // Get hit for total accounting

@@ -188,10 +188,10 @@ namespace Cosmic {
 
 #ifdef isGenLQ
             //GenerateLowQ_ed_method1(anEvent);
-          //  GenerateLowQ_ed_method2(anEvent); ///!!!!  // ed упругое
+           // GenerateLowQ_ed_method2(anEvent); ///!!!!  // ed упругое
 
            // GenerateLowQ_ep_method2(anEvent); // ep упругое
-            GenerateLowQ_ep_plus_ed_method2(anEvent); // ep упругое + ed упругое поляризованное
+            GenerateLowQ_ep_plus_ed_method2(anEvent); // ep квази-упругое + ed упругое поляризованное
 
 #endif
 
@@ -643,7 +643,7 @@ namespace Cosmic {
 
     void PrimaryGeneratorAction::random_Neumann_LQ_ep_plus_ed_method2(G4double initial_x_counter_e, G4double final_x_counter_e,
                                                            G4double initial_y_counter_e, G4double final_y_counter_e,
-                                                           G4double initial_zz_cell, G4double final_zz_cell, G4double max_f,
+                                                           G4double initial_zz_cell, G4double final_zz_cell, G4double *max_f,
                                                            G4double &theta_electron, G4double &phi_electron,
                                                            G4double &energy_electron,
                                                            G4double &theta_proton, G4double &phi_proton, G4double &energy_proton,
@@ -658,7 +658,7 @@ namespace Cosmic {
         G4double xx_cell_temp = 0.0, yy_cell_temp = 0.0, zz_cell_temp = 0.0;
         G4double Pzz_temp = 0.0;
         G4double f_temp = 0.0;
-        G4double r1 = 0., r2 = 0., r3 = 0., r4 = 0., r5 = 0., r6 = 0.;
+        G4double r1 = 0.1, r2 = 0.1, r3 = 0.1, r4 = 0.1, r5 = 0.1, r6 = 0.1;
 
 
         G4double f_dsdo_for_ep = 0.0;
@@ -672,6 +672,8 @@ namespace Cosmic {
         G4LorentzVector Pproton_initial(0,0,0,0);
         G4LorentzVector Pproton_final(0,0,0,0);
 
+        r6 = G4UniformRand();
+
         while (flaq == false) {
 
             r1 = G4UniformRand();
@@ -679,7 +681,7 @@ namespace Cosmic {
             r3 = G4UniformRand();
             r4 = G4UniformRand();
             r5 = G4UniformRand();
-            r6 = G4UniformRand();
+
 
             x_counter_e_temp = initial_x_counter_e + r1 * (final_x_counter_e - initial_x_counter_e);
             y_counter_e_temp = initial_y_counter_e + r2 * (final_y_counter_e - initial_y_counter_e);
@@ -687,7 +689,7 @@ namespace Cosmic {
             yy_cell_temp = 0.1 * G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r3 * (final_zz_cell - initial_zz_cell);
             Pzz_temp = (r4 > 0.5) ? Pzz1 : Pzz2;
-            f_temp = max_f * r5;
+
 
             G4double h = x_counter_e_temp * cos(theta0_counter) + R0_counter *
                                                                   sin(theta0_counter);// высота точки на счетчике (координата x) в лабораторной системе отсчета
@@ -749,42 +751,60 @@ namespace Cosmic {
             G4double k_ep = f_dsdo_for_ep / (f_dsdo_for_ep + f_dsdo_for_ed);
             G4double k_ed = f_dsdo_for_ed / (f_dsdo_for_ep + f_dsdo_for_ed);
 
+           // k_ep = 0.5;
+           // k_ed = 0.5;
+
            // G4cout << "k_ep = " << k_ep << " k_ed = " << k_ed << G4endl;
            // G4cout << "sigma_ep = " << f_dsdo_for_ep << " sigma_ed = " << f_dsdo_for_ed << G4endl;
            // G4cout  << G4endl;
+
+            //r6 = 0.2;
 
             if (r6 >= 0. && r6 <= k_ep)
             {
                 type_cross_section = 1;
                 f_dsdo =  f_dsdo_for_ep;
+                f_temp = max_f[1] * r5;
             }
-            // if (r6 > (1. - k_ed) && r6 <= 1.)
+            if (r6 > (1. - k_ed) && r6 <= 1.)
+            {
+                type_cross_section = 2;
+                f_dsdo =  f_dsdo_for_ed;
+                f_temp = max_f[2] * r5;
+            }
+            // else
             // {
             //     type_cross_section = 2;
             //     f_dsdo =  f_dsdo_for_ed;
             // }
-            else
-            {
-                type_cross_section = 2;
-                f_dsdo =  f_dsdo_for_ed;
-            }
 
+           // type_cross_section = 2;
 
             //   G4cerr << "!!! dsdo= " << f_dsdo <<" rnd = " << f_temp <<std::endl;
 
-            if (f_dsdo == -1) break;
+            if (f_dsdo == -1)
+            {
+                   G4cout << "!!! type = " << type_cross_section <<std::endl;
+
+                break;
+            }
+
+           // G4cout << "type = " << type_cross_section << G4endl;
 
             if (f_temp <= f_dsdo) {
                 flaq = true;
+                break;
             } else {
                 flaq = false;
+                continue;
             }
+
 
         }
 
 
 
-
+        //G4cout << "type = " << type_cross_section << G4endl;
 
         if (type_cross_section == 1) // квазиупругое на протоне (в составе дейтрона)
         {
@@ -814,6 +834,11 @@ namespace Cosmic {
         if (type_cross_section == 2) // упругое на детроне
         {
 
+            // Returns
+            theta_electron = theta_e_temp;
+            phi_electron = phi_e_temp;
+
+
             G4double rc = 0.;
 
             rc = 1. + 2. * Ebeam * pow(sin(theta_electron / 2.), 2.) / Md; // фактор отдачи
@@ -825,9 +850,6 @@ namespace Cosmic {
             // phi_electron = phi_e_temp + M_PI;
             phi_deuteron = M_PI - phi_electron;
 
-            // Returns
-            theta_electron = theta_e_temp;
-            phi_electron = phi_e_temp;
 
         }
 
@@ -1215,7 +1237,7 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_plus_ed_method2(G4Event* event)
     G4double y_counter_initial = -l_phi_counter, y_counter_final = l_phi_counter;
 
     G4double initial_zz_cell = -l_zz_cell / 2., final_zz_cell = l_zz_cell / 2.; // в cm
-    G4double max_f = 1.0;
+    G4double max_f[2+1] = {1.0, 10.0, 1.0}; // 1 - для ep, 2 - для ed
     G4double momentum, kinetic_energy;
     G4double Pzz = 0.0;
 
@@ -1253,9 +1275,9 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_plus_ed_method2(G4Event* event)
 
 
     p4vector electron, proton, deuteron, p0;
-    G4double mp = 938.2720881629, ra = 3.14159 / 180.;
+   // G4double mp = 938.2720881629, ra = 3.14159 / 180.;
 
-    p0.e() = mp + Ebeam;
+    p0.e() = Mp + Ebeam;
     p0.z() = Ebeam;
 
     // electron.e()=Ebeam-ed;
@@ -1334,7 +1356,8 @@ void PrimaryGeneratorAction::GenerateLowQ_ep_plus_ed_method2(G4Event* event)
         //info->SetEgamma(Egamma);
         nreac = type_cross_section;
          info->SetNreac(nreac);
-        //info->SetNp(np);
+        np = 2;
+        info->SetNp(np);
         //info->SetEntry(FileNum);
         info->SetPzz(Pzz);
         event->SetUserInformation(info);

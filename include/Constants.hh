@@ -42,10 +42,10 @@ namespace Cosmic {
 #define isTrigLQ
 
 // #define isGenPNpair
-//#define isGenPPpair
-//#define isTrigPN
+// #define isGenPPpair
+// #define isTrigPN
 
-    //#define isTrig_accept_all
+// #define isTrig_accept_all
 
     constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
@@ -204,12 +204,12 @@ namespace Cosmic {
 
 #define PHIC    90.*0.0174532925199
 #define DPHI    35.*0.0174532925199
-#define THDN    40.*0.0174532925199
+#define THDN 40. * 0.0174532925199
 #define XY_RAND
-#define VMAX  8
+#define VMAX 8
     constexpr G4double cell_z_size_2 = 20.0 * cm;
     constexpr G4double meanX_beam = 0., meanY_beam = 0.;
-    //constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm; //for 2GeV
+    // constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm; //for 2GeV
     constexpr G4double Xsigma_beam = 0.47 * mm, Ysigma_beam = 0.18 * mm; // for 800Mev из базы данных захода
 
 // FOR LQ-GENERATOR

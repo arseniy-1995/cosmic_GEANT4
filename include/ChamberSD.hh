@@ -68,7 +68,7 @@ class ChamberSD : public G4VSensitiveDetector
       ~ChamberSD() override;
 
       // methods from base class
-    void   Initialize(G4HCofThisEvent* hitCollection) override;
+      void   Initialize(G4HCofThisEvent* hitCollection) override;
     G4bool ProcessHits(G4Step* step, G4TouchableHistory* ROhist) override;
 
     void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
@@ -76,7 +76,7 @@ class ChamberSD : public G4VSensitiveDetector
     void SetDiscrThres(G4double val) { discr_threshold = val; };
 
 private:
-    ChamberHitsCollection* fHitsCollection = nullptr;
+    ChamberHitsCollection * fHitsCollection = nullptr;
     G4int fHCID = -1;
 
     G4int fNSystem = 1;
@@ -84,7 +84,7 @@ private:
     DetectorConstruction *Detector;
 
     // DetectorConstruction* Detector;
-   // G4int*                   HitID;
+    // G4int*                   HitID;
 
     G4double discr_threshold = 0.1 * MeV;
 };

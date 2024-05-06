@@ -55,7 +55,7 @@ ChamberSD::ChamberSD(const G4String &name, const G4String &hitsCollectionName,
     G4VSensitiveDetector(name), fNSystem(nsystem) /*, Detector(detector)*/
 {
     collectionName.insert(hitsCollectionName);
-        //HitID = new G4int[NHITS];
+    // HitID = new G4int[NHITS];
 
     }
 
@@ -222,10 +222,12 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
   //  auto columnNo = touchable->GetCopyNumber(3);
   //  auto hitID = kNofHadRows*columnNo+rowNo;
 
-   // G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<< G4endl;
-   // G4cerr << " CB= " << CB<<G4endl;
+   // G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<<
+    // G4endl; G4cerr << " CB= " << CB<<G4endl;
 
-    //G4cerr  <<" layerNumber0= " << touchable->GetReplicaNumber(0) <<" layerNumber1= " << touchable->GetReplicaNumber(1)<<" layerNumber2= " << touchable->GetReplicaNumber(2)<<" layerNumber3= " << touchable->GetReplicaNumber(3)<<" layerNumber4= " << touchable->GetReplicaNumber(4)<<G4endl;
+    // G4cerr  <<" layerNumber0= " << touchable->GetReplicaNumber(0) <<" layerNumber1= " <<
+    // touchable->GetReplicaNumber(1)<<" layerNumber2= " << touchable->GetReplicaNumber(2)<<" layerNumber3= " <<
+    // touchable->GetReplicaNumber(3)<<" layerNumber4= " << touchable->GetReplicaNumber(4)<<G4endl;
     //  G4cerr << " CB= " << CB - ARM2_IND<<G4endl;
 
 
