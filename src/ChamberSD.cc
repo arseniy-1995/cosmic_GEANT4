@@ -206,7 +206,8 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     auto evt = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
-   // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<" copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
+    // G4cout <<"event_number= "<< evt <<" layerNumber= " << layerNumber << " copyNo_mother= " <<copyNo_mother<<"
+    // copyNo_phys= "<<copyNo_phys<< " copyNo="<< copyNo<< G4endl;
 
 
     G4int CB = 0;

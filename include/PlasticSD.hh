@@ -79,7 +79,7 @@ class PlasticSD : public G4VSensitiveDetector
       PlasticHitsCollection *fHitsCollection = nullptr;
       G4int fHCID = -1;
 
-    G4int fNofLayers = 0;
+      G4int fNofLayers = 0;
 
     DetectorConstruction *Detector;
 

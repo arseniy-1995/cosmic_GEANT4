@@ -79,7 +79,7 @@ class ChamberSD : public G4VSensitiveDetector
       ChamberHitsCollection *fHitsCollection = nullptr;
       G4int fHCID = -1;
 
-    G4int fNSystem = 1;
+      G4int fNSystem = 1;
 
     DetectorConstruction *Detector;
 
