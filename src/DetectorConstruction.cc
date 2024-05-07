@@ -2814,7 +2814,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 //   G4VisAttributes *ProCover_VisAtt = new G4VisAttributes(blackpaper_col);
             ubox = new G4Box("LQCover1", pl1_width / 2., 0.15 / 2. * mm, pl1_length / 2.);
             G4LogicalVolume *LQCover1_log = new G4LogicalVolume(ubox, MylarMaterial, "LQCover1_log", 0, 0, 0);
-//   LQCover_log->SetVisAttributes(ProCover_VisAtt);
+            //   LQCover_log->SetVisAttributes(ProCover_VisAtt);
             LQCover1_log->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
             new G4PVPlacement(0, G4ThreeVector(0.0, +pl1_thick / 2. + 0.1 * mm, 0.0),
                               LQCover1_log, "LQCover1_phys", LQBoxCover1_log, false, -1, fCheckOverlaps);

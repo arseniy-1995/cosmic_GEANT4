@@ -114,9 +114,8 @@ namespace Cosmic
         void GenerateLowQ_ed_method2(G4Event *event);
         void GenerateLowQ_ep_method2(G4Event *event); // for ep-generator (elastic, unpolarized) for LQ-polarimeter
         void GenerateLowQ_ep_plus_ed_method2(
-            G4Event *event); // for ep- (elastic, unpolarized) + ed-generator (elastic, polarized)  for LQ-polarimeter
-        void GenerateLowQ_ep_quasi_elastic_method2(G4Event *event);
-        // for ep-generator (quasi-elastic, unpolarized) for LQ-polarimeter
+            G4Event *event); // for ep- (elastic or quasi-elastic, unpolarized) + ed-generator (elastic, polarized)  for LQ-polarimeter
+        // for ep-generator (, unpolarized) for LQ-polarimeter
 
 
         void GenerateProton(G4Event *event); // for pp-generator
@@ -298,6 +297,7 @@ namespace Cosmic
 
         //////// FOR LQ-generator
 
+        bool is_quasi_elastic_pd = true;
 
         // формфакторы дейтрона изйна  таблицы
 
@@ -616,7 +616,7 @@ namespace Cosmic
 
             G4double Pfermi = 0.;
 
-            while(1)
+            while (1)
             {
 
                 Qrand = G4UniformRand();
@@ -629,8 +629,7 @@ namespace Cosmic
                         {
                             Pnucleus = 10. * (i + G4UniformRand() * 1.);
 
-                          //  G4cout << Pnucleus << G4endl;
-
+                            //  G4cout << Pnucleus << G4endl;
                         }
                     }
                     else
@@ -642,11 +641,17 @@ namespace Cosmic
                     }
                 }
 
-                if (abs(Pnucleus) <= Md / 2.) break;
-                else continue;
+                if (abs(Pnucleus) <= Md / 2.)
+                    break;
+                else
+                    continue;
             }
 
 
+            if (is_quasi_elastic_pd == false)
+            {
+                Pnucleus = 0.;
+            }
 
             /*******************************
             *** This function computes reduced mass
@@ -789,7 +794,7 @@ namespace Cosmic
 
             G4ThreeVector boost_vec = Pproton_initial.boostVector();
 
-           //  boost_vec = G4ThreeVector(0,0,0);
+            //  boost_vec = G4ThreeVector(0,0,0);
 
             // G4cout << "boost = " << boost_vec << G4endl;
 
@@ -1056,6 +1061,7 @@ namespace Cosmic
                                                         G4double& theta_proton, G4double& phi_proton,
                                                         G4double& energy_proton,
                                                         G4double& xx_cell, G4double& yy_cell, G4double& zz_cell, G4double &dsdo);
+
     };
 
 

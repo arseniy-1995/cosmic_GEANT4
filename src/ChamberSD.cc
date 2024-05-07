@@ -217,8 +217,8 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     }
 
 
-   // auto rowNo = touchable->GetCopyNumber(2);
-  //  auto columnNo = touchable->GetCopyNumber(3);
+    // auto rowNo = touchable->GetCopyNumber(2);
+    //  auto columnNo = touchable->GetCopyNumber(3);
     //  auto hitID = kNofHadRows*columnNo+rowNo;
 
     // G4cerr  <<" layerNumber= " << touchable->GetReplicaNumber(1) <<  " copyNo="<< touchable->GetCopyNumber(1)<<
