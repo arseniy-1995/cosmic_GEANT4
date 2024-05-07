@@ -1021,15 +1021,7 @@ namespace Cosmic {
         deuteron.phi() = deuteron.phir();
 
 
-        G4ParticleDefinition *particle; // for electron
-        particle = particleTable->FindParticle("e-");
-        fParticleGun->SetParticleDefinition(particle);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
-        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_electron)*cos(phi_electron),sin(theta_electron)*sin(phi_electron),cos(theta_electron)));
-        fParticleGun->SetParticleEnergy(energy_electron * MeV);
-        fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
-        fParticleGun->GeneratePrimaryVertex(event);
-
+        G4ParticleDefinition *particle;
 
         particle = particleTable->FindParticle("deuteron"); // for deuteron
         fParticleGun->SetParticleDefinition(particle);
@@ -1039,6 +1031,19 @@ namespace Cosmic {
         fParticleGun->SetParticleEnergy(energy_deuteron * MeV);
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
+
+
+        // for electron
+        particle = particleTable->FindParticle("e-");
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
+        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_electron)*cos(phi_electron),sin(theta_electron)*sin(phi_electron),cos(theta_electron)));
+        fParticleGun->SetParticleEnergy(energy_electron * MeV);
+        fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+
 
         EventInfo *info = new EventInfo();
         //   EventInfo* info =(EventInfo*)anEvent->GetUserInformation();
@@ -1118,15 +1123,7 @@ namespace Cosmic {
         // theta_deuteron * 180./ M_PI << G4endl; G4cout << "phi = " << deuteron.phir() * 180./ M_PI << " " <<
         // deuteron.phi() * 180./ M_PI << " " << phi_deuteron * 180./ M_PI << G4endl;
 
-        G4ParticleDefinition *particle; // for electron
-        particle = particleTable->FindParticle("e-");
-        fParticleGun->SetParticleDefinition(particle);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
-        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_electron)*cos(phi_electron),sin(theta_electron)*sin(phi_electron),cos(theta_electron)));
-        fParticleGun->SetParticleEnergy(energy_electron * MeV);
-        fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
-        fParticleGun->GeneratePrimaryVertex(event);
-
+        G4ParticleDefinition *particle;
 
         particle = particleTable->FindParticle("deuteron"); // for deuteron
         fParticleGun->SetParticleDefinition(particle);
@@ -1136,6 +1133,19 @@ namespace Cosmic {
         fParticleGun->SetParticleEnergy(energy_deuteron * MeV);
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
         fParticleGun->GeneratePrimaryVertex(event);
+
+
+
+        // for electron
+        particle = particleTable->FindParticle("e-");
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
+        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_electron)*cos(phi_electron),sin(theta_electron)*sin(phi_electron),cos(theta_electron)));
+        fParticleGun->SetParticleEnergy(energy_electron * MeV);
+        fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
 
         // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_deuteron <<std::endl;
         // G4cerr <<std::endl;
@@ -1213,7 +1223,19 @@ namespace Cosmic {
         proton.phi() = proton.phir();
 
 
-        G4ParticleDefinition *particle; // for electron
+        G4ParticleDefinition *particle;
+
+        particle = particleTable->FindParticle("proton"); // for proton
+        fParticleGun->SetParticleDefinition(particle);
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(proton.x(), proton.y(), proton.z()));
+        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_proton)*cos(phi_proton),sin(theta_proton)*sin(phi_proton),cos(theta_proton)));
+
+        fParticleGun->SetParticleEnergy(energy_proton * MeV);
+        fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
+        fParticleGun->GeneratePrimaryVertex(event);
+
+
+        // for electron
         particle = particleTable->FindParticle("e-");
         fParticleGun->SetParticleDefinition(particle);
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(electron.x(), electron.y(), electron.z()));
@@ -1222,15 +1244,6 @@ namespace Cosmic {
         fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
             fParticleGun->GeneratePrimaryVertex(event);
 
-
-        particle = particleTable->FindParticle("proton"); // for proton
-            fParticleGun->SetParticleDefinition(particle);
-            fParticleGun->SetParticleMomentumDirection(G4ThreeVector(proton.x(), proton.y(), proton.z()));
-        // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_proton)*cos(phi_proton),sin(theta_proton)*sin(phi_proton),cos(theta_proton)));
-
-        fParticleGun->SetParticleEnergy(energy_proton * MeV);
-        fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
-        fParticleGun->GeneratePrimaryVertex(event);
 
         // G4cerr << "!!! energy " <<energy_electron <<"   " << energy_proton <<std::endl;
         // G4cerr <<std::endl;

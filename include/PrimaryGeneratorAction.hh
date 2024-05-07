@@ -372,7 +372,7 @@ namespace Cosmic
         G4double Ge_proton_spline_kelly(G4double Q2)
         {
 
-            Q2 = Q2 / 1e6; // в функцию передается квадрат переданного импульса в МэВ, переводиться в ГэВ
+           // Q2 = Q2 / 1e6; // в функцию передается квадрат переданного импульса в МэВ, переводиться в ГэВ
 
             G4double gep_par[4] = {-.299, 11.11, 14.11, 15.7};
             G4double a1 = gep_par[0];
@@ -391,7 +391,7 @@ namespace Cosmic
         G4double Gm_proton_spline_kelly(G4double Q2)
         {
 
-            Q2 = Q2 / 1e6; // в функцию передается квадрат переданного импульса в МэВ, переводиться в ГэВ
+           // Q2 = Q2 / 1e6; // в функцию передается квадрат переданного импульса в МэВ, переводиться в ГэВ
 
             G4double gmp_par[4] = {.081, 11.15, 18.45, 5.31};
             G4double a1 = gmp_par[0];
@@ -941,6 +941,13 @@ namespace Cosmic
             G4double Ge = Ge_proton_spline_kelly(Q2); // Формфакторы
             G4double Gm = Gm_proton_spline_kelly(Q2);
 
+         //   G4cout << "sqrt(Q2) = " << sqrt(Q2) << " Q2 = " << Q2/1e6 << " GeV^2 " << " Ge = " << Ge_proton_spline(Q2) << " " <<  Ge_proton_spline_kelly(Q2) << " Gm = "
+         //   << Gm_proton_spline(Q2) << " " << Gm_proton_spline_kelly(Q2) << G4endl;
+
+           //   G4cout << "Q2 = " << Q2/1e6 << " GeV^2 " << " Ge/Gd = " <<  Ge_proton_spline_kelly(Q2)/Ge_proton_spline(Q2)  << " Gm/(mu*Gd) = "
+           //   << Gm_proton_spline_kelly(Q2) / Gm_proton_spline(Q2) << G4endl;
+
+
             G4double A = (nu * pow(Gm, 2.0) + pow(Ge, 2.0)) / (1.0 + nu); // Структурные функции
 
             G4double B = 2.0 * nu * pow(Gm, 2.);
@@ -1004,7 +1011,7 @@ namespace Cosmic
 
             if (dsdo_temp > 10.0)
             {
-               // G4cout << "dsdo_temp = " << dsdo_temp << G4endl;
+                //G4cout << "dsdo_temp = " << dsdo_temp << G4endl;
                 return -1;
             }
 
