@@ -567,13 +567,14 @@ namespace Cosmic {
 
             //   p6 = zz_cell + R0_counter / cos(theta0_counter);                       // расстояние от точки на мишени до точки пересечения счетчика с осью Z
 
-            G4double p6 = -zz_cell_temp + R0_counter /
-                                          cos(theta0_counter);                       // расстояние от точки на мишени до точки пересечения счетчика с осью Z
+            G4double p6 = -zz_cell_temp +
+                R0_counter /
+                    cos(theta0_counter);                       // расстояние от точки на мишени до точки пересечения счетчика с осью Z
 
             G4double p1 = sqrt(pow(p6 - h * tan(theta0_counter), 2.) +
                                pow(h, 2.));         // расстояние от точки мишени до точки на счетчике в плоскость xz
             G4double p2 = sqrt(pow(p1, 2.) + pow(y_counter_e_temp,
-                                                 2.)); // радиус из точки мишени на точку dxdy счетчика
+                                   2.)); // радиус из точки мишени на точку dxdy счетчика
             G4double R_ds = p2;
             G4double p3 = zz_cell_temp * cos(theta0_counter) + R0_counter;
 

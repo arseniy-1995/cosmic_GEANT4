@@ -113,8 +113,8 @@ namespace Cosmic
         void GenerateLowQ_ed_method1(G4Event *event); // for ed-generator (elastic, polarized) for LQ-polarimeter
         void GenerateLowQ_ed_method2(G4Event *event);
         void GenerateLowQ_ep_method2(G4Event *event); // for ep-generator (elastic, unpolarized) for LQ-polarimeter
-        void GenerateLowQ_ep_plus_ed_method2(
-            G4Event *event); // for ep- (elastic or quasi-elastic, unpolarized) + ed-generator (elastic, polarized)  for LQ-polarimeter
+        void GenerateLowQ_ep_plus_ed_method2(G4Event *event); // for ep- (elastic or quasi-elastic, unpolarized) +
+                                                              // ed-generator (elastic, polarized)  for LQ-polarimeter
         // for ep-generator (, unpolarized) for LQ-polarimeter
 
 
@@ -757,10 +757,10 @@ namespace Cosmic
 
             // *** CM  beta of fotone+interacting nucleon
 
-            G4ThreeVector *Beta_N_D = new G4ThreeVector(0, 0, 0);
-            Beta_N_D->setX(PN_neutron_in_deuteron.x() / ETotal);
-            Beta_N_D->setY(PN_neutron_in_deuteron.y() / ETotal);
-            Beta_N_D->setZ((PN_neutron_in_deuteron.z() + Egamma) / ETotal);
+            G4ThreeVector Beta_N_D(0, 0, 0);
+            Beta_N_D.setX(PN_neutron_in_deuteron.x() / ETotal);
+            Beta_N_D.setY(PN_neutron_in_deuteron.y() / ETotal);
+            Beta_N_D.setZ((PN_neutron_in_deuteron.z() + Egamma) / ETotal);
 
             //       BETA_N_D(2)=PN_N_D(2,1)/ETOT
             //       BETA_N_D(3)=(PN_N_D(3,1)+EGAM)/ETOT
