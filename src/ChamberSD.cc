@@ -211,7 +211,8 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
     G4int CB=0;
     G4int ni = touchable->GetHistoryDepth();
-    for(G4int i=0;i<ni;i++){		// determines element label
+    for (G4int i = 0; i < ni; i++)
+    { // determines element label
         G4int k = touchable->GetReplicaNumber(i);
         if (k > 0)
             CB += k;

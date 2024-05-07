@@ -470,6 +470,12 @@ namespace Cosmic
             G4double dsdo_temp = sin(theta_e) *
                 (1. + (Pzz / sqrt(2)) * (d20 * T20 * zp0 + d21 * T21 * zp1 + d22 * T22 * zp2)) * Mt * coeff_target;
 
+            if (dsdo_temp > 1.0)
+            {
+                // G4cout << "dsdo_temp = " << dsdo_temp << G4endl;
+                return -1;
+            }
+
             return dsdo_temp;
         }
 
@@ -542,6 +548,12 @@ namespace Cosmic
 
 
             G4double dsdo_temp = sin(theta_e) * Mt * coeff_target;
+
+            if (dsdo_temp > 10.0)
+            {
+                // G4cout << "dsdo_temp = " << dsdo_temp << G4endl;
+                return -1;
+            }
 
             return dsdo_temp;
         }

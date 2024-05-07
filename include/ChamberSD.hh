@@ -76,7 +76,7 @@ class ChamberSD : public G4VSensitiveDetector
       void SetDiscrThres(G4double val) { discr_threshold = val; };
 
   private:
-    ChamberHitsCollection *fHitsCollection = nullptr;
+      ChamberHitsCollection *fHitsCollection = nullptr;
     G4int fHCID = -1;
 
     G4int fNSystem = 1;

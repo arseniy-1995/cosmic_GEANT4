@@ -76,7 +76,7 @@ class PlasticSD : public G4VSensitiveDetector
       void SetDiscrThres(G4double val) { discr_threshold = val; };
 
   private:
-    PlasticHitsCollection *fHitsCollection = nullptr;
+      PlasticHitsCollection *fHitsCollection = nullptr;
     G4int fHCID = -1;
 
     G4int fNofLayers = 0;

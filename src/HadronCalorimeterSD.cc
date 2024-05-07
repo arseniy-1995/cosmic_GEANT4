@@ -268,11 +268,11 @@ G4bool HadronCalorimeterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
        transform.Invert();
        hit->SetRot(transform.NetRotation());
        hit->SetLocalPos(transform.NetTranslation());
-    }
+   }
 
-    // check if it is first touch
-    // if (hit->GetColumnID()<0) {
-    //   hit->SetColumnID(columnNo);
+   // check if it is first touch
+   // if (hit->GetColumnID()<0) {
+   //   hit->SetColumnID(columnNo);
     //   hit->SetRowID(rowNo);
     //   auto depth = touchable->GetHistory()->GetDepth();
     //  auto transform = touchable->GetHistory()->GetTransform(depth-2);

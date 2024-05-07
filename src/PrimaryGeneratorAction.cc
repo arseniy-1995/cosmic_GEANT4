@@ -558,7 +558,7 @@ namespace Cosmic {
             xx_cell_temp = 0.1 * G4RandGauss::shoot(meanX_beam, Xsigma_beam) / mm; // в см
             yy_cell_temp = 0.1 * G4RandGauss::shoot(meanY_beam, Ysigma_beam) / mm;
             zz_cell_temp = initial_zz_cell + r3 * (final_zz_cell - initial_zz_cell);
-           // Pzz_temp = (r4 > 0.5) ? Pzz1 : Pzz2;
+            // Pzz_temp = (r4 > 0.5) ? Pzz1 : Pzz2;
             f_temp = max_f * r5;
 
             G4double h = x_counter_e_temp * cos(theta0_counter) + R0_counter *
