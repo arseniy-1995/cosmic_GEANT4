@@ -372,7 +372,6 @@ namespace Cosmic {
             // G4cout<< event->GetPrimaryVertex(ip_vertex)->GetPrimary()->GetMomentum().theta() << " "<< event->GetPrimaryVertex(ip_vertex)->GetPrimary()->GetMomentumDirection().theta()<<G4endl;
 
             vertex_number_vertex++;
-
         }
 
 

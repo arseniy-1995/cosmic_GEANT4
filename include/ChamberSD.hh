@@ -71,9 +71,9 @@ class ChamberSD : public G4VSensitiveDetector
       void Initialize(G4HCofThisEvent *hitCollection) override;
       G4bool ProcessHits(G4Step *step, G4TouchableHistory *ROhist) override;
 
-      void   EndOfEvent(G4HCofThisEvent* hitCollection) override;
+      void EndOfEvent(G4HCofThisEvent *hitCollection) override;
 
-    void SetDiscrThres(G4double val) { discr_threshold = val; };
+      void SetDiscrThres(G4double val) { discr_threshold = val; };
 
 private:
     ChamberHitsCollection *fHitsCollection = nullptr;

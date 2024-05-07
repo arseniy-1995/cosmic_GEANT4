@@ -573,12 +573,12 @@ namespace Cosmic {
             G4double p1 = sqrt(pow(p6 - h * tan(theta0_counter), 2.) +
                                pow(h, 2.));         // расстояние от точки мишени до точки на счетчике в плоскость xz
             G4double p2 = sqrt(pow(p1, 2.) + pow(y_counter_e_temp,
-                                                 2.));                           //радиус из точки мишени на точку dxdy счетчика
+                                                 2.)); // радиус из точки мишени на точку dxdy счетчика
             G4double R_ds = p2;
             G4double p3 = zz_cell_temp * cos(theta0_counter) + R0_counter;
 
-            G4double p4 = sqrt(
-                    pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp - zz_cell_temp * sin(theta0_counter), 2.));
+            G4double p4 =
+                sqrt(pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp - zz_cell_temp * sin(theta0_counter), 2.));
             G4double p5 = sqrt(
                     pow(y_counter_e_temp, 2.) + pow(x_counter_e_temp + R0_counter * tan(theta0_counter), 2.));
 
@@ -589,7 +589,7 @@ namespace Cosmic {
             //    dom_method_2 = d_x_counter * d_y_counter * (1./cos_ds )/ pow(R_ds, 2.);
 
             //G4double dom_method_2 = d_zz_cell * d_x_counter * d_y_counter * cos_ds / pow(R_ds, 2.);
-            //  G4double dom_without_z_cell_distr_method_2 =  d_x_counter * d_y_counter * cos_ds / pow(R_ds, 2.);
+            //   G4double dom_without_z_cell_distr_method_2 =  d_x_counter * d_y_counter * cos_ds / pow(R_ds, 2.);
 
             //    dom_method_2 = d_x_counter * d_y_counter / pow(R_ds, 2.);
 
@@ -882,14 +882,15 @@ namespace Cosmic {
         xx_cell = xx_cell_temp;
         yy_cell = yy_cell_temp;
         zz_cell = zz_cell_temp;
-        //Pzz = Pzz_temp;
+        // Pzz = Pzz_temp;
 
 
         dsdo = f_dsdo;
     }
 
 
-    void PrimaryGeneratorAction::GenerateCosmic(G4Event *event) {
+    void PrimaryGeneratorAction::GenerateCosmic(G4Event *event)
+    {
 
         G4ThreeVector initial_pos(0.0, 0.0, 0.0);
         G4ThreeVector initial_momentum_direction(0.0, 0.0, 0.0);
@@ -985,7 +986,7 @@ namespace Cosmic {
                                   theta_electron, phi_electron, energy_electron, theta_deuteron, phi_deuteron,
                                   energy_deuteron, Pzz, xx_cell, yy_cell, zz_cell, dsdo);
 
-            //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
+        //   G4cerr << "!!! electron " << theta_electron <<"   " << phi_electron << "   "<< energy_electron <<std::endl;
         //   G4cerr << "!!! deuteron " << theta_deuteron <<"   " << phi_deuteron << "   "<< energy_deuteron <<std::endl;
         //   G4cerr << "!!! cell " << xx_cell <<"   " << yy_cell << "   "<< zz_cell <<std::endl;
         //   G4cerr <<std::endl;
@@ -1222,8 +1223,8 @@ namespace Cosmic {
 
 
         particle = particleTable->FindParticle("proton"); // for proton
-        fParticleGun->SetParticleDefinition(particle);
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(proton.x(), proton.y(), proton.z()));
+            fParticleGun->SetParticleDefinition(particle);
+            fParticleGun->SetParticleMomentumDirection(G4ThreeVector(proton.x(), proton.y(), proton.z()));
         // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_proton)*cos(phi_proton),sin(theta_proton)*sin(phi_proton),cos(theta_proton)));
 
         fParticleGun->SetParticleEnergy(energy_proton * MeV);
@@ -1335,7 +1336,7 @@ namespace Cosmic {
             fParticleGun->SetParticleDefinition(particle);
             fParticleGun->SetParticleMomentumDirection(G4ThreeVector(proton.x(), proton.y(), proton.z()));
             // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta_proton)*cos(phi_proton),sin(theta_proton)*sin(phi_proton),cos(theta_proton)));
-                fParticleGun->SetParticleEnergy(energy_proton * MeV);
+            fParticleGun->SetParticleEnergy(energy_proton * MeV);
             fParticleGun->SetParticlePosition(G4ThreeVector(xx_cell * cm, yy_cell * cm, zz_cell * cm));
             fParticleGun->GeneratePrimaryVertex(event);
 
