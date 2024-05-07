@@ -192,7 +192,7 @@ namespace Cosmic {
             // GenerateLowQ_ep_method2(anEvent); // ep упругое
 
             is_quasi_elastic_pd = true;
-            // is_quasi_elastic_pd = false;
+           //  is_quasi_elastic_pd = false;
             GenerateLowQ_ep_plus_ed_method2(anEvent); // ep квази-упругое + ed упругое поляризованное
 
 #endif
@@ -635,7 +635,8 @@ namespace Cosmic {
         xx_cell = xx_cell_temp;
         yy_cell = yy_cell_temp;
         zz_cell = zz_cell_temp;
-        // Pzz = Pzz_temp;
+
+        //Pzz = Pzz_temp;
 
 
         dsdo = f_dsdo;
@@ -854,6 +855,7 @@ namespace Cosmic {
                 phi_electron = Pelectron_final.getV().getPhi();
             }
 
+            Pzz_temp = 0.;
         }
 
 
@@ -883,7 +885,7 @@ namespace Cosmic {
         xx_cell = xx_cell_temp;
         yy_cell = yy_cell_temp;
         zz_cell = zz_cell_temp;
-        // Pzz = Pzz_temp;
+        Pzz = Pzz_temp;
 
 
         dsdo = f_dsdo;
