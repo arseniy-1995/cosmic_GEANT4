@@ -47,7 +47,7 @@ namespace Cosmic {
 
 // #define isTrig_accept_all
 
-    constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
+constexpr G4int T2M_zanulenie[3] = {1, 1, 1}; // если 1, то зануления нет, 0 - зануление есть T20, T21, T22
 
 #define SW(N) " " << std::setw(N)
 
@@ -186,16 +186,14 @@ namespace Cosmic {
     constexpr G4double plastic_fat_threshold_TDC = 15. * MeV;
     constexpr G4double plastic_thin_threshold_TDC = 0.5 * MeV;
     constexpr G4double plastic_LQ_threshold_TDC = 0.5 * MeV;
-    constexpr G4double HadronCalorimeter_threshold_TDC= 0.5 * MeV;
+    constexpr G4double HadronCalorimeter_threshold_TDC = 0.5 * MeV;
 
 
     constexpr G4double WChamber_threshold_TDC = 0.01 * keV;
     constexpr G4double VChamber_threshold_TDC = 0.01 * keV;
 
 
-
-
-    constexpr G4double DENSITY_LO = 1.032;    // scintill. density - for light output calculation
+    constexpr G4double DENSITY_LO = 1.032; // scintill. density - for light output calculation
 
 
     // FOR GENBOS

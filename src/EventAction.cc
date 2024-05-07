@@ -377,7 +377,7 @@ namespace Cosmic {
 
 
         for (i_vertex = 0; i_vertex < number_vertex; i_vertex++) {
-            if (i_vertex == ip_vertex)continue;
+            if (i_vertex == ip_vertex) continue;
             primary_vertex_with_index = event->GetPrimaryVertex(i_vertex);
             index_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetPDGcode();
             energy_vertex[vertex_number_vertex] = primary_vertex_with_index->GetPrimary()->GetKineticEnergy();

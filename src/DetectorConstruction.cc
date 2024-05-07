@@ -2824,7 +2824,7 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
             ubox = new G4Box("LQCover2", pl2_width / 2., 0.15 / 2. * mm, pl2_length / 2.);
             G4LogicalVolume *LQCover2_log = new G4LogicalVolume(ubox, MylarMaterial, "LQCover2_log", 0, 0, 0);
-//   LQCover_log->SetVisAttributes(ProCover_VisAtt);
+            //   LQCover_log->SetVisAttributes(ProCover_VisAtt);
             LQCover2_log->SetVisAttributes(new G4VisAttributes(G4Color(0.1, 0.1, 0.5)));
 
 #if defined(RUN21)
@@ -2842,9 +2842,9 @@ new G4PVPlacement(G4Transform3D(RotateNull,
 
         if (nsys == 2)
         {
-                // Размер Дерева
-                G4double wood_thick = 4.5 * cm; // y-axis
-                G4double wood_width = 50.0 * cm; // x-axis
+            // Размер Дерева
+            G4double wood_thick = 4.5 * cm; // y-axis
+            G4double wood_width = 50.0 * cm; // x-axis
                 G4double wood_length = 23.5 * cm; // z-axis
 
 #if defined(RUN23)
