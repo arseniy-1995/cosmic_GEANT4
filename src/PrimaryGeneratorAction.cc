@@ -191,8 +191,8 @@ namespace Cosmic {
             // GenerateLowQ_ed_method2(anEvent); ///!!!!  // ed упругое
             // GenerateLowQ_ep_method2(anEvent); // ep упругое
 
-            is_quasi_elastic_pd = true;
-            //  is_quasi_elastic_pd = false;
+            is_quasi_elastic_pd = true; // квазиупругое + упругое
+            //  is_quasi_elastic_pd = false; // просто упрогое
             GenerateLowQ_ep_plus_ed_method2(anEvent); // ep квази-упругое + ed упругое поляризованное
 
 #endif

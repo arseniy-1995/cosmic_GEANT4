@@ -25,7 +25,7 @@ endif ()
 
 #ROOT
 
-find_package(ROOT REQUIRED COMPONENTS RIO Net)
+find_package(ROOT REQUIRED COMPONENTS RIO Net RooStats Foam)
 find_package(GSL REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -142,10 +142,10 @@ endif ()
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(cosmic cosmic.cc ${sources} ${headers})
-#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
+#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 
 # FOR GENBOS
-target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
 #target_link_libraries(cosmic PUBLIC ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
