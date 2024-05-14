@@ -25,7 +25,8 @@ endif ()
 
 #ROOT
 
-find_package(ROOT REQUIRED COMPONENTS RIO Net RooStats Foam)
+#find_package(ROOT REQUIRED COMPONENTS RIO Net RooStats Foam)
+find_package(ROOT REQUIRED COMPONENTS RIO Net RooStats Foam MathCore Thread Physics Hist Graf Graf3d Gpad Tree Rint Postscript Matrix)
 find_package(GSL REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
