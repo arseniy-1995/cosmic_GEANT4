@@ -1208,14 +1208,14 @@ namespace Cosmic {
                 }
             }
         }
-
-
-        for (int i = 1; i <= NX_BARS; i++)
+ for (int i = 1; i <= NX_BARS; i++)
         {
             fHCX_NSum2[0][0] += HCX_index_is_hit[i];
 
             //  G4cout << HCX_index_is_hit[i] << "\t";
         }
+
+
 
         if (fHCX_NSum2[0][0] == 0) fHCX_NSum2[0][0] = -5;
 

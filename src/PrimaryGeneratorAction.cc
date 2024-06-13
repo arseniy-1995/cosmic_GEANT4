@@ -1421,6 +1421,8 @@ namespace Cosmic {
         G4double Xbeam = 0., Ybeam = 0.;
         vertex = GenVertex(Xbeam, Ybeam, Xsigma_beam, Ysigma_beam);
 
+       // vertex = G4ThreeVector(0. * cm, 0. * cm, 310 * mm + 10. * cm);
+
         particle1 = particleTable->FindParticle("proton");
         particle2 = particleTable->FindParticle("proton");
 

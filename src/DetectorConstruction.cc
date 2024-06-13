@@ -96,6 +96,7 @@ namespace Cosmic {
         // Lead material defined using NIST Manager
         auto nistManager = G4NistManager::Instance();
         nistManager->FindOrBuildMaterial("G4_Pb");
+        nistManager->FindOrBuildMaterial("G4_W");
 
         // Liquid argon material
         G4double a;  // mass of a mole;
