@@ -67,10 +67,10 @@ namespace Cosmic {
 
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
                                                        GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
-                                                       vertexFlag("off"), Mode(0),
+                                                       vertexFlag("off"), Mode(0), beam_spectrum(2), target_type(2),
                                                        FileNum(0),
             // FileNum(G4Threading::G4GetThreadId()),
-                                                       EgMin(400 * MeV), EgMax(650 * MeV) {
+                                                       EgMin(101 * MeV), EgMax(800 * MeV) {
 
         // G4cerr<<"!!!!!!!!"<<G4Threading::G4GetThreadId()<< std::endl;
         G4int nofParticles = 1;
@@ -112,13 +112,14 @@ namespace Cosmic {
             // SetMode(34);
 #endif // GENBOS
 
-            G4int n = 2;
+            G4int n = beam_spectrum;
 #ifdef GENBOS
 
             // genbos_beam_(&n, &EgMin, &EgMax);
 
             G4float EgMean = (EgMax / GeV + EgMin / GeV) / 2.;
             G4float EgWidht = (EgMax / GeV - EgMin / GeV) / 2.;
+            genbos_targ_(&target_type);
             genbos_beam_(&n, &EgMean, &EgWidht);
 
 #endif //GENBOS
@@ -2281,7 +2282,8 @@ while (partid[i] >= 0 && partid[i] < 64)
 #ifdef GENBOS
            //  0-neutron 1-proton 2-deuteron
             G4int target;
-            target = 1;
+            target_type = 1;
+            target = target_type;
             genbos_targ_(&target); // обязательно нужно задать мишень свободный водород
 
 #endif //GENBOS

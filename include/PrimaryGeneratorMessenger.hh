@@ -82,6 +82,9 @@ namespace Cosmic {
         G4UIcmdWithAString *CountCmd;
         G4UIcmdWithAnInteger *CStepCmd;
         G4UIcmdWithAnInteger *ModeCmd;
+        G4UIcmdWithAnInteger *TargetTypeCmd;
+        G4UIcmdWithAnInteger *BeamSpectrumCmd;
+
         G4UIcmdWithAString *VertexCmd;
         G4UIcmdWithAnInteger *EntryCmd;
 

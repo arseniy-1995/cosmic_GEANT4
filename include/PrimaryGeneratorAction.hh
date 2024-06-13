@@ -165,10 +165,24 @@ namespace Cosmic
             //   PrepareNames();
         }
 
+        void SetTargetType(G4int val)
+        {
+            target_type = val;
+            genbos_targ_(&target_type);
+        }
+
+        void SetBeamSpectrum(G4int val)
+        {
+           beam_spectrum = val;
+            G4float EgMean = (EgMax + EgMin) / 2.;
+            G4float EgWidht = (EgMax - EgMin) / 2.;
+            genbos_beam_(&beam_spectrum, &EgMean, &EgWidht);
+        }
+
         void SetEgMin(G4double val)
         {
             EgMin = val / GeV;
-            G4int n = 2;
+            G4int n = beam_spectrum;
 #ifdef GENBOS
 
             // genbos_beam_(&n, &EgMin, &EgMax);
@@ -183,7 +197,7 @@ namespace Cosmic
         void SetEgMax(G4double val)
         {
             EgMax = val / GeV;
-            G4int n = 2;
+            G4int n = beam_spectrum;
 #ifdef GENBOS
 
             // genbos_beam_(&n, &EgMin, &EgMax);
@@ -198,7 +212,7 @@ namespace Cosmic
         {
             EgMin = val_min / GeV;
             EgMax = val_max / GeV;
-            G4int n = 2;
+            G4int n = beam_spectrum;
 
 #ifdef GENBOS
 
@@ -272,6 +286,9 @@ namespace Cosmic
         G4double Egamma;
         G4float EgMin;
         G4float EgMax;
+        G4int target_type = 2; // 0-neutron 1-proton 2-deuteron
+        G4int beam_spectrum =  2; // 0-gaussian, 2-bremsstrahlung, 3-uniform
+
 
         G4String part_name[64];
 

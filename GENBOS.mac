@@ -15,16 +15,20 @@
 /gun/count on
 /gun/CStep 10000
 #/gun/mode 34
-/gun/EgMin 400 MeV
-/gun/EgMax 650 MeV
+#/gun/EgMin 400 MeV
+#/gun/EgMax 650 MeV
 #
+
+#/gun/TargetMode 2
+#/gun/BeamSpectrum 2
+
 # Это для диапозона 100...800 МэВ
 #/gun/EgMin 101 MeV
 #/gun/EgMax 1650 MeV
-#/gun/EgMin 101 MeV
-#/gun/EgMax 800 MeV
+/gun/EgMin 101 MeV
+/gun/EgMax 800 MeV
 #/gun/mode 200
 #/tracking/storeTrajectory 0
 /run/printProgress 10000
-/run/beamOn 2000000
-#/run/beamOn 40000
+#/run/beamOn 2000000
+/run/beamOn 40000

@@ -95,6 +95,21 @@ namespace Cosmic {
 //  ModeCmd->SetRange("");
         ModeCmd->SetDefaultValue(0);
 
+
+        TargetTypeCmd = new G4UIcmdWithAnInteger("/gun/TargetType", this);
+        TargetTypeCmd->SetGuidance("0: neutron; 1: proton; 2: deuteron");
+        TargetTypeCmd->SetParameterName("mode", false);
+        //  TargetTypeCmd->SetRange("");
+        TargetTypeCmd->SetDefaultValue(2);
+
+
+        BeamSpectrumCmd = new G4UIcmdWithAnInteger("/gun/BeamSpectrum", this);
+        BeamSpectrumCmd->SetGuidance("0: gaussian; 2: bremsstrahlung; 3: uniform");
+        BeamSpectrumCmd->SetParameterName("mode", false);
+        //  BeamSpectrumCmd->SetRange("");
+        BeamSpectrumCmd->SetDefaultValue(2);
+
+
         VertexCmd = new G4UIcmdWithAString("/gun/vertex", this);
         VertexCmd->SetGuidance("Generate vertex in the cell?");
         VertexCmd->SetGuidance("  Choice : off(default), on");
@@ -130,6 +145,8 @@ namespace Cosmic {
         delete CountCmd;
         delete CStepCmd;
         delete ModeCmd;
+        delete TargetTypeCmd;
+        delete BeamSpectrumCmd;
         delete VertexCmd;
         delete EntryCmd;
         delete EgminCmd;
@@ -152,6 +169,8 @@ namespace Cosmic {
         if (command == CountCmd) { fGeneratorAction->SetCountFlag(newValue); }
         if (command == CStepCmd) { fGeneratorAction->SetCStep(CStepCmd->GetNewIntValue(newValue)); }
         if (command == ModeCmd) { fGeneratorAction->SetMode(ModeCmd->GetNewIntValue(newValue)); }
+        if (command == TargetTypeCmd) { fGeneratorAction->SetTargetType(TargetTypeCmd->GetNewIntValue(newValue)); }
+        if (command == BeamSpectrumCmd) { fGeneratorAction->SetBeamSpectrum(BeamSpectrumCmd->GetNewIntValue(newValue)); }
         if (command == VertexCmd) { fGeneratorAction->SetVertexFlag(newValue); }
         if (command == EntryCmd) { fGeneratorAction->SetFileNum(EntryCmd->GetNewIntValue(newValue)); }
         if (command == EgminCmd) { fGeneratorAction->SetEgMin(EgminCmd->GetNewDoubleValue(newValue)); }
