@@ -72,7 +72,8 @@ namespace Cosmic {
         target_type(2), //  -- target nucleus:  0-neutron 1-proton 2-deuteron
         FileNum(0),
         // FileNum(G4Threading::G4GetThreadId()),
-        EgMin(101 * MeV), EgMax(800 * MeV) {
+        EgMin(101 * MeV), EgMax(800 * MeV)
+    {
 
         // G4cerr<<"!!!!!!!!"<<G4Threading::G4GetThreadId()<< std::endl;
         G4int nofParticles = 1;
