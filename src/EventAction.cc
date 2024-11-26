@@ -227,6 +227,16 @@ namespace Cosmic {
         for (int i = 0; i <= 2; i++)
         {flaq_is_trig_tof_LQ2[i] = true;}
 
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC1_X[i] = true;}
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC2_X[i] = true;}
+
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC1_Z[i] = true;}
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC2_Z[i] = true;}
+
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -249,6 +259,16 @@ namespace Cosmic {
         {flaq_is_trig_tof_LQ1[i] = true;}
         for (int i = 0; i <= 2; i++)
         {flaq_is_trig_tof_LQ2[i] = true;}
+
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC1_X[i] = true;}
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC2_X[i] = true;}
+
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC1_Z[i] = true;}
+        for (int i = 0; i <= 22; i++)
+        {flaq_is_trig_tof_HC2_Z[i] = true;}
 
         //G4cerr << "........" << G4endl;
 
@@ -1055,13 +1075,18 @@ namespace Cosmic {
                             fHCX_T2[0][0] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
                             fHCX_ToF[0][0] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
 
-                            fHCX_T1Sum[0][k] += fHCX_T1[0][index2];
-                            fHCX_T2Sum[0][k] += fHCX_T2[0][index2];
-                            fHCX_ToFSum[0][k] += fHCX_ToF[0][index2];
+                            if (flaq_is_trig_tof_HC1_X[k] == true)
+                            {
+                                fHCX_T1Sum[0][k] = fHCX_T1[0][index2];
+                                fHCX_T2Sum[0][k] = fHCX_T2[0][index2];
+                                fHCX_ToFSum[0][k] = fHCX_ToF[0][index2];
 
-                            fHCX_T1Sum[0][0] += fHCX_T1[0][index2];
-                            fHCX_T2Sum[0][0] += fHCX_T2[0][index2];
-                            fHCX_ToFSum[0][0] += fHCX_ToF[0][index2];
+                                fHCX_T1Sum[0][0] += fHCX_T1[0][index2];
+                                fHCX_T2Sum[0][0] += fHCX_T2[0][index2];
+                                fHCX_ToFSum[0][0] += fHCX_ToF[0][index2];
+
+                                flaq_is_trig_tof_HC1_X[k] = false;
+                            }
 
                             HCX_index_is_hit[k] = 1;
                             hcdep[0] |= 1;
@@ -1189,13 +1214,19 @@ namespace Cosmic {
                                 fHCZ_T2[0][0] = HadronCalorimeter_nsys1Hit_->GetT2() / ns;
                                 fHCZ_ToF[0][0] = HadronCalorimeter_nsys1Hit_->GetToF() / ns;
 
-                                fHCZ_T1Sum[0][k] += fHCZ_T1[0][index2];
-                                fHCZ_T2Sum[0][k] += fHCZ_T2[0][index2];
-                                fHCZ_ToFSum[0][k] += fHCZ_ToF[0][index2];
 
-                                fHCZ_T1Sum[0][0] += fHCZ_T1[0][index2];
-                                fHCZ_T2Sum[0][0] += fHCZ_T2[0][index2];
-                                fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index2];
+                                if (flaq_is_trig_tof_HC1_Z[k] == true)
+                                {
+                                    fHCZ_T1Sum[0][k] = fHCZ_T1[0][index2];
+                                    fHCZ_T2Sum[0][k] = fHCZ_T2[0][index2];
+                                    fHCZ_ToFSum[0][k] = fHCZ_ToF[0][index2];
+
+                                    fHCZ_T1Sum[0][0] += fHCZ_T1[0][index2];
+                                    fHCZ_T2Sum[0][0] += fHCZ_T2[0][index2];
+                                    fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index2];
+
+                                      flaq_is_trig_tof_HC1_Z[k] = false;
+                                  }
 
                                 HCZ_index_is_hit[k] = 1;
 
@@ -1403,13 +1434,19 @@ namespace Cosmic {
                                 fHCX_T2[1][0] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
                                 fHCX_ToF[1][0] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
 
-                                fHCX_T1Sum[1][k] += fHCX_T1[1][index2];
-                                fHCX_T2Sum[1][k] += fHCX_T2[1][index2];
-                                fHCX_ToFSum[1][k] += fHCX_ToF[1][index2];
+                                if (flaq_is_trig_tof_HC2_X[k] == true)
+                                {
+                                    fHCX_T1Sum[1][k] = fHCX_T1[1][index2];
+                                    fHCX_T2Sum[1][k] = fHCX_T2[1][index2];
+                                    fHCX_ToFSum[1][k] = fHCX_ToF[1][index2];
 
-                                fHCX_T1Sum[1][0] += fHCX_T1[1][index2];
-                                fHCX_T2Sum[1][0] += fHCX_T2[1][index2];
-                                fHCX_ToFSum[1][0] += fHCX_ToF[1][index2];
+                                    fHCX_T1Sum[1][0] += fHCX_T1[1][index2];
+                                    fHCX_T2Sum[1][0] += fHCX_T2[1][index2];
+                                    fHCX_ToFSum[1][0] += fHCX_ToF[1][index2];
+
+                                    flaq_is_trig_tof_HC2_X[k] = false;
+
+                                }
 
                                 HCX_index_is_hit[k] = 1;
                                 hcdep[1] |= 1;
@@ -1531,13 +1568,18 @@ namespace Cosmic {
                                 fHCZ_T2[1][0] = HadronCalorimeter_nsys2Hit_->GetT2() / ns;
                                 fHCZ_ToF[1][0] = HadronCalorimeter_nsys2Hit_->GetToF() / ns;
 
-                                fHCZ_T1Sum[1][k] += fHCZ_T1[1][index2];
-                                fHCZ_T2Sum[1][k] += fHCZ_T2[1][index2];
-                                fHCZ_ToFSum[1][k] += fHCZ_ToF[1][index2];
+                                if (flaq_is_trig_tof_HC2_Z[k] == true)
+                                {
+                                    fHCZ_T1Sum[1][k] = fHCZ_T1[1][index2];
+                                    fHCZ_T2Sum[1][k] = fHCZ_T2[1][index2];
+                                    fHCZ_ToFSum[1][k] = fHCZ_ToF[1][index2];
 
-                                fHCZ_T1Sum[1][0] += fHCZ_T1[1][index2];
-                                fHCZ_T2Sum[1][0] += fHCZ_T2[1][index2];
-                                fHCZ_ToFSum[1][0] += fHCZ_ToF[1][index2];
+                                    fHCZ_T1Sum[1][0] += fHCZ_T1[1][index2];
+                                    fHCZ_T2Sum[1][0] += fHCZ_T2[1][index2];
+                                    fHCZ_ToFSum[1][0] += fHCZ_ToF[1][index2];
+
+                                    flaq_is_trig_tof_HC2_Z[k] = false;
+                                }
 
                                 HCZ_index_is_hit[k] = 1;
                                 hcdep[1] |= 2;

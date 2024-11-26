@@ -67,8 +67,10 @@ namespace Cosmic {
 
     PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0),
                                                        GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
-                                                       vertexFlag("off"), Mode(0), beam_spectrum(2), target_type(2),
-                                                       FileNum(0),
+        vertexFlag("off"), Mode(0),
+    beam_spectrum(2), // -- photon beam spectrum: 0-gaussian, 2-bremsstrahlung, 3-uniform
+    target_type(2), //  -- target nucleus:  0-neutron 1-proton 2-deuteron
+    FileNum(0),
             // FileNum(G4Threading::G4GetThreadId()),
                                                        EgMin(101 * MeV), EgMax(800 * MeV) {
 
@@ -122,7 +124,7 @@ namespace Cosmic {
             genbos_targ_(&target_type);
             genbos_beam_(&n, &EgMean, &EgWidht);
 
-#endif //GENBOS
+#endif // GENBOS
 
             // lock.unlock();
             PrepareNames();

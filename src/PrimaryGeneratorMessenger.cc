@@ -92,7 +92,7 @@ namespace Cosmic {
         ModeCmd = new G4UIcmdWithAnInteger("/gun/mode", this);
         ModeCmd->SetGuidance("0: all gamma+d; 1: elastic ed; 34: pn");
         ModeCmd->SetParameterName("mode", false);
-//  ModeCmd->SetRange("");
+        //  ModeCmd->SetRange("");
         ModeCmd->SetDefaultValue(0);
 
 
@@ -168,9 +168,17 @@ namespace Cosmic {
         }
         if (command == CountCmd) { fGeneratorAction->SetCountFlag(newValue); }
         if (command == CStepCmd) { fGeneratorAction->SetCStep(CStepCmd->GetNewIntValue(newValue)); }
-        if (command == ModeCmd) { fGeneratorAction->SetMode(ModeCmd->GetNewIntValue(newValue)); }
-        if (command == TargetTypeCmd) { fGeneratorAction->SetTargetType(TargetTypeCmd->GetNewIntValue(newValue)); }
-        if (command == BeamSpectrumCmd) { fGeneratorAction->SetBeamSpectrum(BeamSpectrumCmd->GetNewIntValue(newValue)); }
+        if (command == ModeCmd)
+        {
+            fGeneratorAction->SetMode(ModeCmd->GetNewIntValue(newValue));
+        }
+        if (command == TargetTypeCmd)
+        {
+            fGeneratorAction->SetTargetType(TargetTypeCmd->GetNewIntValue(newValue));
+        }
+        if (command == BeamSpectrumCmd)
+        {
+            fGeneratorAction->SetBeamSpectrum(BeamSpectrumCmd->GetNewIntValue(newValue)); }
         if (command == VertexCmd) { fGeneratorAction->SetVertexFlag(newValue); }
         if (command == EntryCmd) { fGeneratorAction->SetFileNum(EntryCmd->GetNewIntValue(newValue)); }
         if (command == EgminCmd) { fGeneratorAction->SetEgMin(EgminCmd->GetNewDoubleValue(newValue)); }

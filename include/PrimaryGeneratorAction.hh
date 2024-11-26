@@ -173,7 +173,7 @@ namespace Cosmic
 
         void SetBeamSpectrum(G4int val)
         {
-           beam_spectrum = val;
+            beam_spectrum = val;
             G4float EgMean = (EgMax + EgMin) / 2.;
             G4float EgWidht = (EgMax - EgMin) / 2.;
             genbos_beam_(&beam_spectrum, &EgMean, &EgWidht);
