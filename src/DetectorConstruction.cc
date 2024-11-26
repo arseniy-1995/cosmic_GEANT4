@@ -1753,8 +1753,8 @@ namespace Cosmic {
         y_pos = (IronThickness + ScintThickness) / 2. + GapY;
         x_pos = (ScintSizeX + GapX) / 2.;
         // 2 scint strips on bottom of  iron bar внизу
-        vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false, 0,
-                                     fCheckOverlaps);
+        vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
+            0, fCheckOverlaps);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
                                      N_UNITS, fCheckOverlaps);
         // 2 scint strips on top of  iron bar вверху
@@ -1775,6 +1775,7 @@ namespace Cosmic {
         ubox = new G4Box("StripH", StripSizeX / 2., dy / 2., StripSizeZ / 2.);
         G4LogicalVolume *stripH_log = new G4LogicalVolume(ubox, AirMaterial, "StripH", 0, 0, 0);
         stripH_log->SetVisAttributes(G4VisAttributes::GetInvisible());
+      //  stripH_log->SetVisAttributes(new G4VisAttributes(G4Color(1.0, 0.0, 0.0)));
 
         dy = (dy - IronThickness) / 2.;
         y_pos = dy;
@@ -1792,13 +1793,15 @@ namespace Cosmic {
         ubox = new G4Box("LayerH", LayerSizeX / 2., LayerSizeY / 2., LayerSizeZ / 2.);
         G4LogicalVolume *layerH_log = new G4LogicalVolume(ubox, AirMaterial, "LayerH", 0, 0, 0);
         layerH_log->SetVisAttributes(G4VisAttributes::GetInvisible());
+        //layerH_log->SetVisAttributes(new G4VisAttributes(G4Color(1.0, 0.0, 0.0)));
 
         new G4PVReplica("BarsH", stripH_log, layerH_log, kXAxis, N_UNITS, StripSizeX);
 
-        // outer (iron-less) half-layer
+        // outer (iron-less) half-layer // первый слой
         ubox = new G4Box("StripO", StripSizeX / 2., StripSizeY / 2., StripSizeZ / 2.);
         G4LogicalVolume *stripO_log = new G4LogicalVolume(ubox, AirMaterial, "StripO", 0, 0, 0);
         stripO_log->SetVisAttributes(G4VisAttributes::GetInvisible());
+        //stripO_log->SetVisAttributes(new G4VisAttributes(G4Color(1.0, 0.0, 0.0)));
 
         y_pos = -StripSizeY / 2.;
         y_pos += ScintThickness / 2.;
@@ -1826,8 +1829,11 @@ namespace Cosmic {
         y_pos = -SandSizeY / 2. + LayerStep / 2.;
         for (G4int i = 0; i < 1 * NbOfLayers + 1; y_pos += LayerStep, i++)
         {
+            // нечетные 1,3,5,7,9
                 if ((i & 1) == 1)
                 {
+
+                  //  G4cout << "!!!" << i << G4endl;
                         // X-layer
                         if (i != NbOfLayers)
                         {
@@ -1847,6 +1853,7 @@ namespace Cosmic {
                         }
                 }
                 else
+                    // четные 0,2,4,6,8,10
                 {
                         // Z-layer
                         if (i == 0)
@@ -1869,6 +1876,7 @@ namespace Cosmic {
                     nz += NbOfZBars;
                 }
             }
+
         }
 
         G4cerr << "***** nx=" << nx - HCX_IND << " nz=" << nz - HCZ_IND;

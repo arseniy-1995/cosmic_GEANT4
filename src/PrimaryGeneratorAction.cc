@@ -902,7 +902,7 @@ namespace Cosmic {
         G4ThreeVector initial_pos(0.0, 0.0, 0.0);
         G4ThreeVector initial_momentum_direction(0.0, 0.0, 0.0);
 
-        //fRandomDirection=false;
+        fRandomDirection = false;
 
         if (fRandomDirection) {
 
@@ -945,6 +945,9 @@ namespace Cosmic {
             // Set gun position
             initial_momentum_direction = G4ThreeVector(0.0, -1.0, 0.0);
             initial_pos = G4ThreeVector(0., 4.5 * m, 1.0 * m + 100 * mm);
+            //initial_pos = G4ThreeVector(0., 4.5 * m, 1.0 * m + 100 * mm);
+
+            fParticleGun->SetParticleEnergy(10000 * MeV);
         }
 
         auto particleTable = G4ParticleTable::GetParticleTable();
