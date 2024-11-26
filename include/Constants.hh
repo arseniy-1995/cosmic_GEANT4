@@ -34,14 +34,14 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 
-//#include <iostream>
+// #include <iostream>
 
 namespace Cosmic {
 
 #define isGenCosmic
 
-//#define isGenLQ
-//#define isTrigLQ
+    // #define isGenLQ
+    // #define isTrigLQ
 
 // #define isGenPNpair
 // #define isGenPPpair

@@ -225,18 +225,26 @@ namespace Cosmic {
         for (int i = 0; i <= 2; i++)
         {flaq_is_trig_tof_LQ1[i] = true;}
         for (int i = 0; i <= 2; i++)
-        {flaq_is_trig_tof_LQ2[i] = true;}
+        {flaq_is_trig_tof_LQ2[i] = true;
+        }
 
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC1_X[i] = true;}
+        {
+            flaq_is_trig_tof_HC1_X[i] = true;
+        }
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC2_X[i] = true;}
+        {
+            flaq_is_trig_tof_HC2_X[i] = true;
+        }
 
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC1_Z[i] = true;}
+        {
+            flaq_is_trig_tof_HC1_Z[i] = true;
+        }
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC2_Z[i] = true;}
-
+        {
+            flaq_is_trig_tof_HC2_Z[i] = true;
+        }
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -256,17 +264,26 @@ namespace Cosmic {
         { flaq_is_trig_tof_thin2[i] = true;}
 
         for (int i = 0; i <= 2; i++)
-        {flaq_is_trig_tof_LQ1[i] = true;}
+        {
+            flaq_is_trig_tof_LQ1[i] = true;
+        }
         for (int i = 0; i <= 2; i++)
-        {flaq_is_trig_tof_LQ2[i] = true;}
+        {
+            flaq_is_trig_tof_LQ2[i] = true;
+        }
 
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC1_X[i] = true;}
+        {
+            flaq_is_trig_tof_HC1_X[i] = true;
+        }
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC2_X[i] = true;}
+        {
+            flaq_is_trig_tof_HC2_X[i] = true;
+        }
 
         for (int i = 0; i <= 22; i++)
-        {flaq_is_trig_tof_HC1_Z[i] = true;}
+        {
+            flaq_is_trig_tof_HC1_Z[i] = true;}
         for (int i = 0; i <= 22; i++)
         {flaq_is_trig_tof_HC2_Z[i] = true;}
 

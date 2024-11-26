@@ -1014,14 +1014,18 @@ namespace Cosmic {
         G4bool flaq_is_trig_tof_thin1[2 + 1] = {true, true, true};
         G4bool flaq_is_trig_tof_thin2[2 + 1] = {true, true, true};
 
-        G4bool flaq_is_trig_tof_LQ1[2 + 1] = {true, true,true};
-        G4bool flaq_is_trig_tof_LQ2[2+1] = {true,true,true};
+        G4bool flaq_is_trig_tof_LQ1[2 + 1] = {true, true, true};
+        G4bool flaq_is_trig_tof_LQ2[2 + 1] = {true, true, true};
 
-        G4bool flaq_is_trig_tof_HC1_X[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true};
-        G4bool flaq_is_trig_tof_HC2_X[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true};
+        G4bool flaq_is_trig_tof_HC1_X[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true,
+                                                 true, true, true, true, true, true, true, true, true, true, true};
+        G4bool flaq_is_trig_tof_HC2_X[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true,
+                                                 true, true, true, true, true, true, true, true, true, true, true};
 
-        G4bool flaq_is_trig_tof_HC1_Z[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true};
-        G4bool flaq_is_trig_tof_HC2_Z[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true};
+        G4bool flaq_is_trig_tof_HC1_Z[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true,
+                                                 true, true, true, true, true, true, true, true, true, true, true};
+        G4bool flaq_is_trig_tof_HC2_Z[22 + 1] = {true, true, true, true, true, true, true, true, true, true, true, true,
+                                                 true, true, true, true, true, true, true, true, true, true, true};
 
 
         G4double vertex_x, vertex_y, vertex_z;    // vertex position
