@@ -902,7 +902,7 @@ namespace Cosmic {
         G4ThreeVector initial_pos(0.0, 0.0, 0.0);
         G4ThreeVector initial_momentum_direction(0.0, 0.0, 0.0);
 
-        fRandomDirection = false;
+       // fRandomDirection = false;
 
         if (fRandomDirection) {
 

@@ -1754,9 +1754,9 @@ namespace Cosmic {
         x_pos = (ScintSizeX + GapX) / 2.;
         // 2 scint strips on bottom of  iron bar внизу
         vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
-            0, fCheckOverlaps);
+                                     0 * N_UNITS, fCheckOverlaps);
         vol_phys = new G4PVPlacement(0, G4ThreeVector(x_pos, -y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
-                                     N_UNITS, fCheckOverlaps);
+                                     1 * N_UNITS, fCheckOverlaps);
         // 2 scint strips on top of  iron bar вверху
         vol_phys = new G4PVPlacement(0, G4ThreeVector(-x_pos, y_pos, 0.), scint_HadCalLV, "BarS", strip_log, false,
                                      2 * N_UNITS, fCheckOverlaps);
@@ -1775,11 +1775,12 @@ namespace Cosmic {
         ubox = new G4Box("StripH", StripSizeX / 2., dy / 2., StripSizeZ / 2.);
         G4LogicalVolume *stripH_log = new G4LogicalVolume(ubox, AirMaterial, "StripH", 0, 0, 0);
         stripH_log->SetVisAttributes(G4VisAttributes::GetInvisible());
-      //  stripH_log->SetVisAttributes(new G4VisAttributes(G4Color(1.0, 0.0, 0.0)));
+        //  stripH_log->SetVisAttributes(new G4VisAttributes(G4Color(1.0, 0.0, 0.0)));
 
         dy = (dy - IronThickness) / 2.;
         y_pos = dy;
-        vol_phys = new G4PVPlacement(0, G4ThreeVector(0., y_pos, 0), absor_vol, "BarI", stripH_log, false, 0,
+        vol_phys =
+            new G4PVPlacement(0, G4ThreeVector(0., y_pos, 0), absor_vol, "BarI", stripH_log, false, 0,
                                      fCheckOverlaps);
         y_pos -= IronThickness / 2.;
         y_pos -= GapY;
@@ -1831,10 +1832,10 @@ namespace Cosmic {
         {
             // нечетные 1,3,5,7,9
                 if ((i & 1) == 1)
-                {
+            {
 
-                  //  G4cout << "!!!" << i << G4endl;
-                        // X-layer
+                //  G4cout << "!!!" << i << G4endl;
+                // X-layer
                         if (i != NbOfLayers)
                         {
                                 // not last layer?

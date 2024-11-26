@@ -1130,8 +1130,7 @@ namespace Cosmic {
 
                         // индексы парно перепутаны по Z
                         if (k % 2 == 0) k -= 1; // четное
-                        else
-                            k += 1; // нечетное
+                        else k += 1; // нечетное
                     }
 
 
@@ -1478,11 +1477,11 @@ namespace Cosmic {
 
                 index = index - HCZ_IND;
 
-                if (i==0) index =0;
+                if (i == 0) index = 0;
 
                 if (index >= 0 && index < N_HCZ)
                 {
-                    if (index >=1)
+                    if (index >= 1)
                     {
                         k = (index - 1 + 21) % NZ_BARS;
                         k = (k % N_UNITS) * 2 + (k / N_UNITS); // re-numbering bars in a layer
