@@ -44,7 +44,7 @@ namespace Cosmic {
     // #define isTrigLQ
 
     // #define isGenPNpair
-// #define isGenPPpair
+    // #define isGenPPpair
 // #define isTrigPN
 
 // #define isTrig_accept_all

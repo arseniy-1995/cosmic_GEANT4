@@ -166,7 +166,10 @@ namespace Cosmic {
             fGeneratorAction->SetRndmFlag(newValue);
             fGeneratorAction->DoRandomize();
         }
-        if (command == CountCmd) { fGeneratorAction->SetCountFlag(newValue); }
+        if (command == CountCmd)
+        {
+            fGeneratorAction->SetCountFlag(newValue);
+        }
         if (command == CStepCmd)
         {
             fGeneratorAction->SetCStep(CStepCmd->GetNewIntValue(newValue));
