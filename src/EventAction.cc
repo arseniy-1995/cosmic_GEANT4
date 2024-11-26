@@ -225,7 +225,8 @@ namespace Cosmic {
         for (int i = 0; i <= 2; i++)
         {flaq_is_trig_tof_LQ1[i] = true;}
         for (int i = 0; i <= 2; i++)
-        {flaq_is_trig_tof_LQ2[i] = true;
+        {
+            flaq_is_trig_tof_LQ2[i] = true;
         }
 
         for (int i = 0; i <= 22; i++)
