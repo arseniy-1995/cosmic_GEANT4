@@ -896,8 +896,14 @@ namespace Cosmic {
         G4int HCX_index_is_hit[NX_BARS + 1]; //  массив срабатываний колонн 0 - нет 1 -да
         G4int HCZ_index_is_hit[NZ_BARS + 1];
 
+        G4int HCX_index_is_hit_count_trig[NX_BARS + 1]; //  массив числа срабатываний слоев в колонне с учетом триггера
+        G4int HCZ_index_is_hit_count_trig[NZ_BARS + 1];
+
+
         memset(HCX_index_is_hit, 0, sizeof(HCX_index_is_hit));
         memset(HCZ_index_is_hit, 0, sizeof(HCZ_index_is_hit));
+        memset(HCX_index_is_hit_count_trig, 0, sizeof(HCX_index_is_hit_count_trig));
+        memset(HCZ_index_is_hit_count_trig, 0, sizeof(HCZ_index_is_hit_count_trig));
         memset(HCX_sum_edep_сolumn, 0, sizeof(HCX_sum_edep_сolumn));
         memset(HCZ_sum_edep_сolumn, 0, sizeof(HCZ_sum_edep_сolumn));
 
@@ -941,6 +947,8 @@ namespace Cosmic {
 
         memset(HCX_index_is_hit, 0, sizeof(HCX_index_is_hit));
         memset(HCZ_index_is_hit, 0, sizeof(HCZ_index_is_hit));
+        memset(HCX_index_is_hit_count_trig, 0, sizeof(HCX_index_is_hit_count_trig));
+        memset(HCZ_index_is_hit_count_trig, 0, sizeof(HCZ_index_is_hit_count_trig));
         memset(HCX_sum_edep_сolumn, 0, sizeof(HCX_sum_edep_сolumn));
         memset(HCZ_sum_edep_сolumn, 0, sizeof(HCZ_sum_edep_сolumn));
 
@@ -1104,6 +1112,9 @@ namespace Cosmic {
                                 fHCX_ToFSum[0][0] += fHCX_ToF[0][index2];
 
                                 flaq_is_trig_tof_HC1_X[k] = false;
+
+                                HCX_index_is_hit_count_trig[k] += 1;
+                                HCX_index_is_hit_count_trig[0] += 1;
                             }
 
                             HCX_index_is_hit[k] = 1;
@@ -1243,6 +1254,9 @@ namespace Cosmic {
                                     fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index2];
 
                                       flaq_is_trig_tof_HC1_Z[k] = false;
+
+                                      HCZ_index_is_hit_count_trig[k] += 1;
+                                      HCZ_index_is_hit_count_trig[0] += 1;
                                   }
 
                                 HCZ_index_is_hit[k] = 1;
@@ -1263,8 +1277,6 @@ namespace Cosmic {
             //  G4cout << HCX_index_is_hit[i] << "\t";
         }
 
-
-
         if (fHCX_NSum2[0][0] == 0) fHCX_NSum2[0][0] = -5;
 
         // G4cout << G4endl;
@@ -1274,8 +1286,20 @@ namespace Cosmic {
             fHCZ_NSum2[0][0] += HCZ_index_is_hit[i];
         }
 
-
         if (fHCZ_NSum2[0][0] == 0) fHCZ_NSum2[0][0] = -5;
+
+// усреднение
+        if (HCZ_index_is_hit[0] !=0) {
+        fHCZ_T1Sum[0][0] /=  HCZ_index_is_hit[0];
+        fHCZ_T2Sum[0][0] /=  HCZ_index_is_hit[0];
+        fHCZ_ToFSum[0][0] /=  HCZ_index_is_hit[0];
+        }
+
+        if (HCX_index_is_hit[0] !=0) {
+        fHCX_T1Sum[0][0] /=  HCX_index_is_hit[0];
+        fHCX_T2Sum[0][0] /=  HCX_index_is_hit[0];
+        fHCX_ToFSum[0][0] /=  HCX_index_is_hit[0];
+        }
 
 #endif
 
@@ -1316,6 +1340,8 @@ namespace Cosmic {
 
         memset(HCX_index_is_hit, 0, sizeof(HCX_index_is_hit));
         memset(HCZ_index_is_hit, 0, sizeof(HCZ_index_is_hit));
+        memset(HCX_index_is_hit_count_trig, 0, sizeof(HCX_index_is_hit_count_trig));
+        memset(HCZ_index_is_hit_count_trig, 0, sizeof(HCZ_index_is_hit_count_trig));
         memset(HCX_sum_edep_сolumn, 0, sizeof(HCX_sum_edep_сolumn));
         memset(HCZ_sum_edep_сolumn, 0, sizeof(HCZ_sum_edep_сolumn));
 
@@ -1463,6 +1489,8 @@ namespace Cosmic {
 
                                     flaq_is_trig_tof_HC2_X[k] = false;
 
+                                    HCX_index_is_hit_count_trig[k] += 1;
+                                    HCX_index_is_hit_count_trig[0] += 1;
                                 }
 
                                 HCX_index_is_hit[k] = 1;
@@ -1596,6 +1624,9 @@ namespace Cosmic {
                                     fHCZ_ToFSum[1][0] += fHCZ_ToF[1][index2];
 
                                     flaq_is_trig_tof_HC2_Z[k] = false;
+
+                                    HCZ_index_is_hit_count_trig[k] += 1;
+                                    HCZ_index_is_hit_count_trig[0] += 1;
                                 }
 
                                 HCZ_index_is_hit[k] = 1;
@@ -1620,8 +1651,20 @@ namespace Cosmic {
             fHCZ_NSum2[1][0] += HCZ_index_is_hit[i];
         }
 
-
         if (fHCZ_NSum2[1][0] == 0) fHCZ_NSum2[1][0] = -5;
+
+        // усреднение
+        if (HCZ_index_is_hit[0] !=0) {
+        fHCZ_T1Sum[1][0] /=  HCZ_index_is_hit[0];
+        fHCZ_T2Sum[1][0] /=  HCZ_index_is_hit[0];
+        fHCZ_ToFSum[1][0] /=  HCZ_index_is_hit[0];
+        }
+
+        if (HCX_index_is_hit[0] !=0) {
+        fHCX_T1Sum[1][0] /=  HCX_index_is_hit[0];
+        fHCX_T2Sum[1][0] /=  HCX_index_is_hit[0];
+        fHCX_ToFSum[1][0] /=  HCX_index_is_hit[0];
+        }
 
 #endif
 
