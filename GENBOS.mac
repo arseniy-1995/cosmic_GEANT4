@@ -31,4 +31,5 @@
 #/tracking/storeTrajectory 0
 /run/printProgress 10000
 #/run/beamOn 2000000
+#/run/beamOn 20000000
 /run/beamOn 40000

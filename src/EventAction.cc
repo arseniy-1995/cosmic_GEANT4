@@ -1270,14 +1270,15 @@ namespace Cosmic {
                 }
             }
         }
- for (int i = 1; i <= NX_BARS; i++)
+        for (int i = 1; i <= NX_BARS; i++)
         {
             fHCX_NSum2[0][0] += HCX_index_is_hit[i];
 
             //  G4cout << HCX_index_is_hit[i] << "\t";
         }
 
-        if (fHCX_NSum2[0][0] == 0) fHCX_NSum2[0][0] = -5;
+        if (fHCX_NSum2[0][0] == 0)
+            fHCX_NSum2[0][0] = -5;
 
         // G4cout << G4endl;
 
@@ -1633,7 +1634,7 @@ namespace Cosmic {
                                 hcdep[1] |= 2;
                             }
                         }
-                    continue;
+                        continue;
                 }
             }
         }
@@ -1644,7 +1645,8 @@ namespace Cosmic {
             fHCX_NSum2[1][0] += HCX_index_is_hit[i];
         }
 
-        if (fHCX_NSum2[1][0] == 0) fHCX_NSum2[1][0] = -5;
+        if (fHCX_NSum2[1][0] == 0)
+            fHCX_NSum2[1][0] = -5;
 
         for (int i = 1; i <= NZ_BARS; i++)
         {
