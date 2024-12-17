@@ -1253,11 +1253,11 @@ namespace Cosmic {
                                     fHCZ_T2Sum[0][0] += fHCZ_T2[0][index2];
                                     fHCZ_ToFSum[0][0] += fHCZ_ToF[0][index2];
 
-                                      flaq_is_trig_tof_HC1_Z[k] = false;
+                                    flaq_is_trig_tof_HC1_Z[k] = false;
 
-                                      HCZ_index_is_hit_count_trig[k] += 1;
+                                    HCZ_index_is_hit_count_trig[k] += 1;
                                       HCZ_index_is_hit_count_trig[0] += 1;
-                                  }
+                                }
 
                                 HCZ_index_is_hit[k] = 1;
 
