@@ -85,6 +85,9 @@ set(CMAKE_CXX_STANDARD 14)
 ##set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -lkernlib -lphtools -lmathlib /opt/local/lib/gcc12/libgfortran.a -lm -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
 ##set(GENBOSLIBS $(PROJECT_SOURCE_DIR}/lib/linux_arm64/libgenbos.a -L/opt/homebrew/Cellar/cernlib/2023.08.14.0/lib/cernlib/2023/lib)
 
+#find_library(GFORTRAN_LIBRARY NAMES gfortran)
+#find_library(GFORTRAN_LIBRARY NAMES libgfortran.so)
+
 #####LINUX x86_64 OK
 
 if (${OS_NAME} MATCHES "Linux")
@@ -110,7 +113,7 @@ endif ()
 
 if (${OS_NAME} MATCHES "macOS")
     if (${OS_PLATFORM} MATCHES "arm64")
-        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lm -L/usr/local/lib/cernlib/2023/lib)
+        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/mac_arm64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -L/usr/local/gfortran/lib/ -lgfortran -lkernlib -lm -L/usr/local/lib/cernlib/2024/lib)
     endif ()
 endif ()
 
@@ -147,6 +150,8 @@ add_executable(cosmic cosmic.cc ${sources} ${headers})
 
 # FOR GENBOS
 target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+
+#  ${GFORTRAN_LIBRARY}
 
 #target_link_libraries(cosmic PUBLIC ${Geant4_LIBRARIES} ${GENBOSLIBS})
 
