@@ -23,67 +23,39 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
+/// \file optical/OpNovice2/include/HistoManager.hh
+/// \brief Definition of the HistoManager class
 //
-/// \file RunAction.hh
-/// \brief Definition of the Cosmic::RunAction class
+//
+//
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef CosmicRunAction_h
-#define CosmicRunAction_h 1
+#ifndef CosmicHistoManager_h
+#define CosmicHistoManager_h 1
 
-#include "G4UserRunAction.hh"
 #include "globals.hh"
-
-class G4Timer;
-
-class G4Run;
+#include "G4AnalysisManager.hh"
+#include "EventAction.hh"
 
 
 namespace Cosmic
 {
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    class EventAction;
+    class HistoManager
+    {
+    public:
+        HistoManager(EventAction *eventAction);
+        ~HistoManager();
 
-    class HistoManager;
+    private:
+        void Book();
+        G4String fFileName;
+        EventAction *fEventAction = nullptr;
 
-/// Run action class
-///
-/// It accumulates statistic and computes dispersion of the energy deposit
-/// and track lengths of charged particles with use of analysis tools:
-/// H1D histograms are created in BeginOfRunAction() for the following
-/// physics quantities:
-/// - Edep in absorber
-/// - Edep in gap
-/// - Track length in absorber
-/// - Track length in gap
-/// The same values are also saved in the ntuple.
-/// The histograms and ntuple are saved in the output file in a format
-/// according to a specified file extension.
-///
-/// In EndOfRunAction(), the accumulated statistic and computed
-/// dispersion is printed.
-///
+    };
 
-class RunAction : public G4UserRunAction
-{
-  public:
-    RunAction(EventAction* eventAction);
-    ~RunAction() override;
-
-    void BeginOfRunAction(const G4Run*) override;
-    void   EndOfRunAction(const G4Run*) override;
-
-private:
-    EventAction *fEventAction = nullptr;
-    G4Timer *timer = nullptr;
-
-    HistoManager *fHistoManager;
-
-    G4int FileNum;
-};
-
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #endif
-
