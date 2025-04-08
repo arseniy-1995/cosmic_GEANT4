@@ -29,14 +29,14 @@
 
 #include "RunAction.hh"
 
+#include "Constants.hh"
+#include "EventAction.hh"
 #include "G4AnalysisManager.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
-#include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
-#include "EventAction.hh"
 #include "G4Timer.hh"
-#include "Constants.hh"
+#include "G4UnitsTable.hh"
 #include "HistoManager.hh"
 
 #ifdef GENBOS
@@ -61,7 +61,7 @@ namespace Cosmic {
 
         fHistoManager = new HistoManager(fEventAction); // задание гистограмм и ntuples
 
-        //G4AutoLock lock(&aMutex);
+        // G4AutoLock lock(&aMutex);
         //genbos_start_(&FileNum);
 
         // set printing event number per each event

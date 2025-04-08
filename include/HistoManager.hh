@@ -34,9 +34,9 @@
 #ifndef CosmicHistoManager_h
 #define CosmicHistoManager_h 1
 
-#include "globals.hh"
-#include "G4AnalysisManager.hh"
 #include "EventAction.hh"
+#include "G4AnalysisManager.hh"
+#include "globals.hh"
 
 
 namespace Cosmic
@@ -53,9 +53,8 @@ namespace Cosmic
         void Book();
         G4String fFileName;
         EventAction *fEventAction = nullptr;
-
     };
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-}
+} // namespace Cosmic
 #endif
