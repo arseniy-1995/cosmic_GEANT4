@@ -64,7 +64,7 @@ namespace Cosmic
     ///
 
     class RunAction : public G4UserRunAction
-{
+    {
   public:
     RunAction(EventAction* eventAction);
     ~RunAction() override;
