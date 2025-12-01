@@ -63,7 +63,7 @@ namespace Cosmic
     /// dispersion is printed.
     ///
 
-class RunAction : public G4UserRunAction
+    class RunAction : public G4UserRunAction
 {
   public:
     RunAction(EventAction* eventAction);

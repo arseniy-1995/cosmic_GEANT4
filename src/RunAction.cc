@@ -62,7 +62,7 @@ namespace Cosmic {
         fHistoManager = new HistoManager(fEventAction); // задание гистограмм и ntuples
 
         // G4AutoLock lock(&aMutex);
-        //genbos_start_(&FileNum);
+        // genbos_start_(&FileNum);
 
         // set printing event number per each event
         // G4RunManager::GetRunManager()->SetPrintProgress(1);
