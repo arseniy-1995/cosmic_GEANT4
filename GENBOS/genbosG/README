@@ -1,0 +1,28 @@
+1) нужно скачать и развернуть сорсы cernlib
+2) в корне сорсов cernlib заменить CMakeFile.txt содержимым 
+   CMakeFile_for_cernlib.txt из директории genbosG
+3) в корне сорсов дать:
+
+> cmake -DCMAKE_INSTALL_PREFIX=~/cern .
+> make -j4
+> make install
+
+4) в директории genbosG дать:
+
+> make
+
+5) запустить genbosG, tester, убедившись, что они работают
+   При этом директория с libkernlib должна быть включена в
+   LD_LIBRARY_PATH
+
+6) библиотеки libgenbos.so  и  libmcern.so положить в доступное место,
+   например, ~/cern/lib :
+
+> make install
+
+7) CMakeFile_for_PNM.txt - это пример файла для cmake для сборки
+   geant4 проекта PNM с libgenbos.
+
+8) если нужны статик библиотеки, то можно их собрать:
+> make -f makefile_static
+> make -f makefile_static install

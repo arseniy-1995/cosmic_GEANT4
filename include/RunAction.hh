@@ -66,8 +66,8 @@ namespace Cosmic
     class RunAction : public G4UserRunAction
     {
     public:
-    RunAction(EventAction* eventAction);
-    ~RunAction() override;
+        RunAction(EventAction *eventAction);
+        ~RunAction() override;
 
     void BeginOfRunAction(const G4Run*) override;
     void   EndOfRunAction(const G4Run*) override;

@@ -1,0 +1,37 @@
+
+OBJS = block_data.o channelex.o eg.o ev_nuc.o fermi_d.o prim_kine.o yn3.o yn5i.o yn6.o gamsu2.o inG.o
+
+OBJSM = genbosG.o 
+
+FOR = gfortran -c -fno-automatic -O2  -std=legacy -g -Wno-conversion
+LIBS = -lgfortran -lkernlib -lm
+
+CDIR = $(HOME)/cern/lib
+
+LDIR = -L$(CDIR)
+
+MCERN = mcern/genbod.o mcern/pdk.o mcern/rotes2.o mcern/norranux.o mcern/rnorthux.o
+
+all:    tester genbosG libgenbos.a libmcern.a
+
+%.o:	%.F *.inc
+	${FOR} $<
+
+genbosG: $(OBJS) $(OBJSM) libgenbos.a libmcern.a
+	gfortran $(OBJS) $(OBJSM) libgenbos.a libmcern.a $(LDIR) $(LIBS) -o genbosG
+
+libgenbos.a: $(OBJS)
+	ar cr libgenbos.a $(OBJS)
+
+libmcern.a: $(MCERN)
+	make -C mcern -f makefile_static
+	ar cr libmcern.a $(MCERN)
+
+tester:	tester.c libgenbos.a libmcern.a
+	gcc tester.c -g libgenbos.a libmcern.a $(LDIR) $(LIBS) -o tester
+
+install: 
+	cp -a libgenbos.a libmcern.a $(CDIR)
+
+clean:  
+	/bin/rm *.o *.a genbosG tester mcern/*.o mcern/*.a

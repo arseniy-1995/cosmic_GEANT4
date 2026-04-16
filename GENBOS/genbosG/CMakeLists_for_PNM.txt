@@ -1,0 +1,77 @@
+
+#----------------------------------------------------------------------------
+# Setup the project
+cmake_minimum_required(VERSION 3.16...3.27)
+project(PNM)
+
+#----------------------------------------------------------------------------
+# Find Geant4 package, activating all available UI and Vis drivers by default
+# You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
+# to build a batch mode only executable
+#
+option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
+if(WITH_GEANT4_UIVIS)
+  find_package(Geant4 REQUIRED ui_all vis_all)
+else()
+  find_package(Geant4 REQUIRED)
+endif()
+
+#----------------------------------------------------------------------------
+# Setup Geant4 include directories and compile definitions
+# Setup include directory for this project
+#
+
+list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
+find_package(ROOT REQUIRED COMPONENTS Foam)
+
+include(${Geant4_USE_FILE})
+include_directories(${PROJECT_SOURCE_DIR}/include ${ROOT_INCLUDE_DIRS} ${ROOT_INCLUDES})
+
+
+#----------------------------------------------------------------------------
+# Locate sources and headers for this project
+# NB: headers are included so they will show up in IDEs
+#
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+#
+
+set(gb_libs
+  genbos
+  mcern
+  kernlib
+)
+set(F_DIR "/home/rachek/cern/lib")
+
+foreach(_lib ${gb_libs})
+add_library(${_lib} SHARED IMPORTED) # STATIC or SHARED
+set_target_properties(${_lib} PROPERTIES
+  IMPORTED_LOCATION ${F_DIR}/lib${_lib}.so
+)
+endforeach()
+
+set(GF_DIR "/usr/lib/x86_64-linux-gnu")
+
+add_library(gfor SHARED IMPORTED) # STATIC or SHARED
+set_target_properties(gfor PROPERTIES
+  IMPORTED_LOCATION ${GF_DIR}/libgfortran.so
+)
+
+#----------------------------------------------------------------------------
+# Add the executable, and link it to the Geant4 libraries
+#
+add_executable(PNM PNM.cc ${sources} ${headers})
+target_link_libraries(PNM ${Geant4_LIBRARIES})
+target_link_libraries(PNM ${ROOT_LIBRARIES})
+#-----
+# Link to fortran genbos libraries
+#
+target_link_libraries(PNM gfor)
+target_link_libraries(PNM ${gb_libs})
+
+#----------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------
+# Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
+#
+install(TARGETS PNM DESTINATION bin)
