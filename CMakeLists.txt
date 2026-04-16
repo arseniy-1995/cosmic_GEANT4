@@ -92,7 +92,32 @@ set(CMAKE_CXX_STANDARD 14)
 
 if (${OS_NAME} MATCHES "Linux")
     if (${OS_PLATFORM} MATCHES "x86_64")
-        set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathlib -lgeant321 -lpacklib -lgfortran -lm -lnsl -lphtools)
+        #  set(GENBOSLIBS ${PROJECT_SOURCE_DIR}/lib/linux_x64/libgenbos.a -L/usr/local/lib/ -lphtools -lmathlib -lgfortran -lkernlib -lnsl -lcrypt -ldl -lphtools -lmathlib -lgeant321 -lpacklib -lgfortran -lm -lnsl -lphtools)
+
+        set(gb_libs
+                genbos
+                mcern
+                kernlib
+        )
+        set(F_DIR "/home/yurchenko/cern/lib")
+
+        foreach (_lib ${gb_libs})
+            add_library(${_lib} SHARED IMPORTED) # STATIC or SHARED
+            set_target_properties(${_lib} PROPERTIES
+                    IMPORTED_LOCATION ${F_DIR}/lib${_lib}.so
+            )
+        endforeach ()
+
+        #set(GF_DIR "/usr/lib/x86_64-linux-gnu")
+        set(GF_DIR "/usr/lib/gcc/x86_64-linux-gnu/12")
+
+
+        add_library(gfor SHARED IMPORTED) # STATIC or SHARED
+        set_target_properties(gfor PROPERTIES
+                IMPORTED_LOCATION ${GF_DIR}/libgfortran.so
+        )
+
+
     endif ()
 endif ()
 
@@ -146,10 +171,26 @@ endif ()
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(cosmic cosmic.cc ${sources} ${headers})
-#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
+target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
 
 # FOR GENBOS
-target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+#target_link_libraries(cosmic PUBLIC ROOT::RIO ROOT::Net ROOT::MathCore ${ROOT_LIBRARIES} ${Geant4_LIBRARIES} ${GENBOSLIBS})
+#target_link_libraries(cosmic PUBLIC ${GENBOSLIBS})
+
+#-----
+# Link to fortran genbos libraries
+#
+
+if (${OS_NAME} MATCHES "Linux")
+    if (${OS_PLATFORM} MATCHES "x86_64")
+        target_link_libraries(cosmic PUBLIC gfor)
+        target_link_libraries(cosmic PUBLIC ${gb_libs})
+    else ()
+        target_link_libraries(cosmic PUBLIC ${GENBOSLIBS})
+    endif ()
+else ()
+    target_link_libraries(cosmic PUBLIC ${GENBOSLIBS})
+endif ()
 
 #  ${GFORTRAN_LIBRARY}
 
