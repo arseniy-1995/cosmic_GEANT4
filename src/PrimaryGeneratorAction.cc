@@ -43,6 +43,14 @@
 #include "Randomize.hh"
 #include "G4ios.hh"
 
+#include "G4GenericMessenger.hh"
+#include "G4ParticleMomentum.hh"
+#include "G4ParticleTypes.hh"
+#include "G4ThreeVector.hh"
+
+
+#include "EcoMug/EcoMug.h"
+
 #ifdef GENBOS
 
 #include "Genbos.hh"
@@ -78,9 +86,15 @@ namespace Cosmic {
         G4int nofParticles = 1;
         fParticleGun = new G4ParticleGun(nofParticles);
 
+        this->DefineCommands();
+
+
+        fEcoMug = std::make_unique<EcoMug>();
+
         gunMessenger = new PrimaryGeneratorMessenger(this); // Вызов конструктора для класса пользовательского ввода
 
         fRandomDirection = true;
+        fRandomDirection_cosmic = true;
 
         // default particle kinematic
         //
@@ -186,7 +200,8 @@ namespace Cosmic {
 
         if (GenbosBool == 0) {
 #ifdef isGenCosmic
-            GenerateCosmic(anEvent);
+           // GenerateCosmic(anEvent);
+            GenerateCosmicEcoMug(anEvent);
 #endif
 
 #ifdef isGenLQ
@@ -296,6 +311,364 @@ namespace Cosmic {
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+
+    void PrimaryGeneratorAction::GenerateCosmicEcoMug(G4Event *event)
+    {
+
+        G4ThreeVector initial_pos(0.0, 0.0, 0.0);
+        G4ThreeVector initial_momentum_direction(0.0, 0.0, 0.0);
+
+        // fRandomDirection_cosmic = false;
+
+        G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+        G4ParticleDefinition *particle_mu_minus = particleTable->FindParticle("mu-");
+        G4ParticleDefinition *particle_mu_plus = particleTable->FindParticle("mu+");
+
+        fParticleGun->SetNumberOfParticles(1);
+
+        if (fRandomDirection_cosmic)
+        {
+
+            G4double x_initial_pos, y_initial_pos = 12.0 * m + 4.5 * m, z_initial_pos;
+            G4double x_initial = -1.0 * m, y_initial = 12.0 * m + 4.5 * m, z_initial = -0.8 * m + 0.8 * m;
+            G4double x_final = 1.0 * m, y_final = 12.0 * m + 4.5 * m, z_final = 0.8 * m + 0.8 * m;
+
+            // y_initial_pos = 40 * cm;
+            // y_initial_pos = 20.01 * mm;
+
+            G4double delta_x = 0.5 * cm;
+            G4double delta_z = 0.5 * cm;
+
+            // delta_x = 0.;
+            // delta_z = 0.;
+
+            //  x_initial = -(fDetector->GetScintilkXSize() + delta_x);
+            // x_final = fDetector->GetScintilkXSize() + delta_x;
+
+            //  x_initial = 0.*cm;
+            //  x_final = 0.*cm;
+
+            // z_initial = -(fDetector->GetScintilkZSize() + delta_z);
+            //  z_final = fDetector->GetScintilkZSize() + delta_z;
+
+            //  z_initial = 2.*cm;
+            //  z_final = 2.*cm;
+
+
+            G4double vx, vy, vz;
+            G4double theta, psi;
+            G4double initial_theta = 0. * M_PI / 180.;
+            G4double final_theta = 0.5 * M_PI / 180.;
+
+            //  final_theta = 0.1 * M_PI / 180.;
+
+            final_theta = 10. * M_PI / 180.;
+
+
+            G4double initial_momentum = 10.0, final_momentum = 10000.0; // в МэВ
+
+            initial_momentum = 500.0; // чтобы ускорить счет и пропустить бетон берем начальным импульс 500 МэВ. меньше
+                                      // 500 МэВ теряются в бетоне
+
+            G4double momentum = 0., kinetic_energy = 0.;
+
+
+            // fEcoMug->SetUseTargetSphere();
+            // fEcoMug->SetTargetSphereRadius(80.*EMUnits::cm);          // must contain the whole setup
+            // fEcoMug->SetTargetSphereCenterPosition({0., 0., 50.*EMUnits::cm});
+            // fEcoMug->SetMinimumMomentum(initial_momentum*EMUnits::MeV);           // softer muons never reach the
+            // tracker fEcoMug->SetMaximumMomentum(final_momentum*EMUnits::MeV); fEcoMug->SetSeed(1234);
+
+
+            fEcoMug->SetUseSky(); // plane surface generation
+            // fEcoMug->SetSkySize({{10.*EMUnits::cm, 10.*EMUnits::cm}}); // x and y size of the plane
+            fEcoMug->SetSkySize({{(x_final - x_initial) / m * EMUnits::m,
+                                  (z_final - z_initial) / m * EMUnits::m}}); // x and y size of the plane
+            //  fEcoMug->SetSkySize({{4*EMUnits::cm, 0, 18. * EMUnits::cm}}); // x and y size of the plane
+
+            // (x,y,z) position of the center of the plane
+            // fEcoMug->SetSkyCenterPosition({{0., 20.*EMUnits::cm, 0. }});
+            fEcoMug->SetSkyCenterPosition({{0., 0., y_initial_pos * EMUnits::m / m}});
+            fEcoMug->SetMinimumMomentum(initial_momentum * EMUnits::MeV); // softer muons never reach the tracker
+            fEcoMug->SetMaximumMomentum(final_momentum * EMUnits::MeV);
+
+            fThetaMin = 0. * u::rad;
+            fThetaMax = 0.1 * M_PI / 180. * u::rad; // 0.1 градус
+            fPhiMin = 0. * u::rad;
+            fPhiMax = 2. * M_PI * u::rad;
+
+            fEcoMug->SetMinimumTheta(fThetaMin / u::rad);
+            fEcoMug->SetMaximumTheta(fThetaMax / u::rad);
+            fEcoMug->SetMinimumPhi(fPhiMin / u::rad);
+            fEcoMug->SetMaximumPhi(fPhiMax / u::rad);
+
+            // EcoMug uses its own RNG. Seed it from the current G4 engine so that cosmic-muon runs are
+            // reproducible with a user-set seed and distinct across worker threads. We must do this here
+            // rather than in BeginOfRunActio, at this point the engine is at its reproducible,
+            // thread-distinct state.
+            if (!fSeededEcoMug)
+            {
+                auto *engine = CLHEP::HepRandom::getTheEngine();
+                // draw a nonzero 64-bit seed: EcoMug sets s[0]=s[1]=seed and xoroshiro128+ degenerates to a
+                // stuck all-zero state for seed==0.
+                std::uint64_t seed = 0;
+                while (seed == 0)
+                {
+                    seed = (static_cast<std::uint64_t>(engine->operator unsigned int()) << 32) |
+                        static_cast<std::uint64_t>(engine->operator unsigned int());
+                }
+                // RMGLog::OutFormat(RMGLog::debug, "Seeding EcoMug with {}", seed);
+                //  fEcoMug->SetSeed(seed);
+                fSeededEcoMug = true;
+            }
+
+            fEcoMug->Generate();
+
+
+            // RMGLog::OutFormat(RMGLog::debug_event, "Generated µ has charge {:+}", fEcoMug->GetCharge());
+
+            // fEcoMug->GetCharge() < 0 ? fParticleGun->SetParticleDefinition(G4MuonMinus::Definition())
+            //                         : fParticleGun->SetParticleDefinition(G4MuonPlus::Definition());
+
+            fEcoMug->GetCharge() < 0 ? fParticleGun->SetParticleDefinition(particle_mu_minus)
+                                     : fParticleGun->SetParticleDefinition(particle_mu_plus);
+
+
+            const auto &pos = fEcoMug->GetGenerationPosition(); // no units, the user can decide. I use meters
+            // RMGLog::OutFormat(RMGLog::debug_event, "...origin ({:.4g}, {:.4g}, {:.4g}) m", pos[0], pos[1], pos[2]);
+            // fParticleGun->SetParticlePosition({pos[0] * u::m, pos[1] * u::m, pos[2] * u::m});
+
+            // x_initial_pos = pos[0] * u::m;
+            //  y_initial_pos = pos[1] * u::m;
+            // z_initial_pos = pos[2] * u::m;
+
+            // здесь позиции перепутаны, поскольку поворот направления
+            x_initial_pos = pos[0] * u::m;
+            y_initial_pos = pos[2] * u::m;
+            z_initial_pos = pos[1] * u::m;
+
+            G4ThreeVector d_cart(1., 1., 1.);
+            d_cart.setTheta(fEcoMug->GetGenerationTheta()); // in rad
+            d_cart.setPhi(fEcoMug->GetGenerationPhi()); // in rad
+            d_cart.setMag(1);
+
+            d_cart.rotateX(-90. * deg); // отсчет угла тета от оси Y
+
+
+            // fParticleGun->SetParticleMomentumDirection(d_cart);
+
+            vx = d_cart.x();
+            vy = d_cart.y();
+            vz = d_cart.z();
+
+            // RMGLog::OutFormat(
+            //   RMGLog::debug_event,
+            //   "...direction (θ,φ) = ({:.4g}, {:.4g}) deg",
+            //    fEcoMug->GetGenerationTheta() / u::deg,
+            //    fEcoMug->GetGenerationPhi() / u::deg
+            //  );
+            // RMGLog::OutFormat(
+            //     RMGLog::debug_event,
+            //   "...direction (x,y,z) = ({:.4g}, {:.4g}, {:.4g}) m",
+            //    d_cart.getX() / u::m,
+            //   d_cart.getY() / u::m,
+            //   d_cart.getZ() / u::m
+            // );
+
+            //   fEcoMug->GetGenerationTheta() / u::deg;
+            //   fEcoMug->GetGenerationPhi() / u::deg;
+
+            // d_cart.getX() / u::m;
+            //  d_cart.getY() / u::m;
+            //  d_cart.getZ() / u::m;
+
+            const auto p_tot = fEcoMug->GetGenerationMomentum() * u::GeV;
+            //  RMGLog::OutFormat(RMGLog::debug_event, "...momentum {:.4g} GeV/c", p_tot / u::GeV);
+            const auto mu_mass = G4MuonPlus::Definition()->GetPDGMass();
+
+            kinetic_energy = std::sqrt((p_tot * p_tot) + (mu_mass * mu_mass)) - mu_mass;
+
+            fParticleGun->SetParticleEnergy(kinetic_energy);
+
+            //   fParticleGun->GeneratePrimaryVertex(event);
+
+            // psi = 2.0 * M_PI * G4UniformRand();
+
+            //  vx = sin(theta) * cos(psi);
+            //  vz = sin(theta) * sin(psi);
+            //  vy = -cos(theta);
+
+
+            // kinetic_energy = 4000.;
+            // vx = 0.;
+            // vy = -1.;
+            // vx = 0.;
+
+            initial_momentum_direction = G4ThreeVector(vx, vy, vz);
+
+            //  G4cerr<<"momentum = "<< momentum<< "kinetic_energy ="<< kinetic_energy << " theta = "<< theta* 180./M_PI
+            //  << G4endl;
+
+            //  fParticleGun->SetParticleEnergy(kinetic_energy * MeV);
+            //  fParticleGun->SetParticleMomentum(momentum*MeV);
+            initial_pos = G4ThreeVector(x_initial_pos, y_initial_pos, z_initial_pos);
+            //   initial_pos = G4ThreeVector(0., 4.5 * m, 1.0 * m - 200 * mm);
+        }
+        else
+        {
+
+            // Set gun position
+            initial_momentum_direction = G4ThreeVector(0.0, -1.0, 0.0);
+            initial_pos = G4ThreeVector(0., 4.5 * m, -0.05 * m + 100 * mm);
+
+            fParticleGun->SetParticleDefinition(particle_mu_minus);
+        }
+
+        // auto gamma_particle = G4OpticalPhoton::OpticalPhotonDefinition();
+
+        // fParticleGun->SetParticleDefinition(gamma_particle);
+
+
+        fParticleGun->SetParticleMomentumDirection(initial_momentum_direction);
+        fParticleGun->SetParticlePosition(initial_pos);
+
+        fParticleGun->GeneratePrimaryVertex(event);
+
+        // fParticleGun->GeneratePrimaryVertex(event); // две частицы из одной точки
+
+
+        EventInfo *info = new EventInfo();
+        //   pn2020EventInfo* info =(pn2020EventInfo*)anEvent->GetUserInformation();
+        info->SetEgamma(500. * MeV);
+        info->SetNreac(1);
+        info->SetNp(2);
+        info->SetEntry(FileNum);
+        event->SetUserInformation(info);
+    }
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    void PrimaryGeneratorAction::SetSkyShape(std::string shape)
+    {
+        try
+        {
+            //  fSkyShape = RMGTools::ToEnum<SkyShape>(shape, "sky shape");
+        }
+        catch (const std::bad_cast &)
+        {
+            return;
+        }
+    }
+
+
+    void PrimaryGeneratorAction::DefineCommands()
+    {
+
+        // NOTE: SetUnit(Category) is not thread-safe
+
+        fMessenger = std::make_unique<G4GenericMessenger>(this, "/RMG/Generator/CosmicMuons/",
+                                                          "Commands for controlling the µ generator");
+
+        // fMessenger->DeclareMethod("SkyShape", &SetSkyShape)
+        //     .SetGuidance("Geometrical shape of the µ generation surface")
+        //     .SetParameterName("shape", false)
+        //     .SetCandidates(RMGTools::GetCandidates<SkyShape>())
+        //     .SetToBeBroadcasted(true)
+        //     .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SkyPlaneSize", "m", fSkyPlaneSize)
+            .SetGuidance("Length of the side of the sky, if it has a planar shape")
+            .SetParameterName("l", false)
+            .SetRange("l > 0")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SkyPlaneHeight", "m", fSkyPlaneHeight)
+            .SetGuidance("Height of the sky, if it has a planar shape")
+            .SetParameterName("l", false)
+            .SetRange("l > 0")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("MomentumMin", "GeV/c", fMomentumMin)
+            .SetGuidance("Minimum momentum of the generated muon")
+            .SetParameterName("p", false)
+            .SetRange("p >= 0 && p < 1000")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("MomentumMax", "GeV/c", fMomentumMax)
+            .SetGuidance("Maximum momentum of the generated muon")
+            .SetParameterName("p", false)
+            .SetRange("p > 0 && p <= 1000")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SkyHSphereRadius", "m", fSkyHSphereRadius)
+            .SetGuidance("Radius of the hemi-sphere, if it has a spherical shape.")
+            .SetParameterName("l", false)
+            .SetRange("l > 0")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("ThetaMin", "deg", fThetaMin)
+            .SetGuidance("Minimum azimutal angle of the generated muon momentum")
+            .SetParameterName("a", false)
+            .SetRange("a >= 0 && a < 90")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("ThetaMax", "deg", fThetaMax)
+            .SetGuidance("Maximum azimutal angle of the generated muon momentum")
+            .SetParameterName("a", false)
+            .SetRange("a > 0 && a <= 90")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("PhiMin", "deg", fPhiMin)
+            .SetGuidance("Minimum zenith angle of the generated muon momentum")
+            .SetParameterName("a", false)
+            .SetRange("a >= 0 && a < 360")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("PhiMax", "deg", fPhiMax)
+            .SetGuidance("Maximum zenith angle of the generated muon momentum")
+            .SetParameterName("a", false)
+            .SetRange("a > 0 && a <= 360")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SpherePositionThetaMin", "deg", fSpherePositionThetaMin)
+            .SetGuidance("Minimum azimutal angle of the generated muon position on the sphere")
+            .SetParameterName("a", false)
+            .SetRange("a >= 0 && a < 90")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SpherePositionThetaMax", "deg", fSpherePositionThetaMax)
+            .SetGuidance("Maximum azimutal angle of the generated muon position on the sphere")
+            .SetParameterName("a", false)
+            .SetRange("a > 0 && a <= 90")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SpherePositionPhiMin", "deg", fSpherePositionPhiMin)
+            .SetGuidance("Minimum zenith angle of the generated muon position on the sphere")
+            .SetParameterName("a", false)
+            .SetRange("a >= 0 && a < 360")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+
+        fMessenger->DeclarePropertyWithUnit("SpherePositionPhiMax", "deg", fSpherePositionPhiMax)
+            .SetGuidance("Maximum zenith angle of the generated muon position on the sphere")
+            .SetParameterName("a", false)
+            .SetRange("a > 0 && a <= 360")
+            .SetToBeBroadcasted(true)
+            .SetStates(G4State_PreInit, G4State_Idle);
+    }
+
 
     void PrimaryGeneratorAction::random_Neumann_LQ_method1(G4double initial_theta_e, G4double final_theta_e,
                                                            G4double initial_zz_cell, G4double final_zz_cell,

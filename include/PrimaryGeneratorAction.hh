@@ -87,6 +87,8 @@ class G4ParticleGun;
 
 class G4Event;
 
+class EcoMug;
+namespace u = CLHEP;
 
 namespace Cosmic
 {
@@ -110,6 +112,7 @@ namespace Cosmic
         void GeneratePrimaries(G4Event *event) override;
 
         void GenerateCosmic(G4Event *event); // for cosmic-generator
+        void GenerateCosmicEcoMug(G4Event *event);
         void GenerateLowQ_ed_method1(G4Event *event); // for ed-generator (elastic, polarized) for LQ-polarimeter
         void GenerateLowQ_ed_method2(G4Event *event);
         void GenerateLowQ_ep_method2(G4Event *event); // for ep-generator (elastic, unpolarized) for LQ-polarimeter
@@ -226,6 +229,11 @@ namespace Cosmic
         }
         //////
 
+        enum class SkyShape
+        {
+            kPlane, ///< Horizontal square plane at a fixed height.
+            kSphere ///< Upper hemisphere of a sphere centred at the origin.
+        };
 
     private:
         G4ParticleGun *fParticleGun = nullptr; // G4 particle gun
@@ -233,6 +241,7 @@ namespace Cosmic
         void ShowParticleTable();
 
         G4bool fRandomDirection;
+        G4bool fRandomDirection_cosmic;
 
         G4double m_mu = 105.658374524; // в МэВ
         // другое распрределение по углу и энергии из работы Шебалина
@@ -310,6 +319,63 @@ namespace Cosmic
         TFoam *Foam;
 
         //////
+
+
+        // для генератора EcoMug
+
+        // EcoMug owns its own RNG stream that is seeded lazily on our first generated event.
+        G4bool fSeededEcoMug = false;
+
+        std::unique_ptr<EcoMug> fEcoMug;
+
+        std::unique_ptr<G4GenericMessenger> fMessenger = nullptr;
+        void DefineCommands();
+
+        void SetSkyShape(std::string shape);
+
+        SkyShape fSkyShape = SkyShape::kSphere;
+        G4double fSkyPlaneSize = -1;
+        G4double fSkyPlaneHeight = 50. * u::m;
+        G4double fSkyHSphereRadius = 50. * u::m;
+
+        G4double fSpherePositionThetaMin = 0. * u::deg;
+        G4double fSpherePositionThetaMax = 90. * u::deg;
+        G4double fSpherePositionPhiMin = 0. * u::deg;
+        G4double fSpherePositionPhiMax = 360. * u::deg;
+
+        G4double fMomentumMin = 0. * u::GeV;
+        G4double fMomentumMax = 1. * u::TeV;
+        G4double fThetaMin = 0. * u::deg;
+        G4double fThetaMax = 90. * u::deg;
+        G4double fPhiMin = 0. * u::deg;
+        G4double fPhiMax = 360. * u::deg;
+
+
+        // template<typename T> std::string GetCandidates(const char delim = ' ') {
+        //   auto v = magic_enum::enum_names<T>();
+        //   std::string cand;
+        //   for (const auto& s : v) {
+        //     auto name = s[0] == 'k' ? s.substr(1, std::string::npos) : s;
+        //     cand += std::string(name) + delim;
+        //   }
+        //   return cand.substr(0, cand.size() - 1);
+        // }
+        //
+        // /**
+        //  * @brief Retrieves the candidate name for an enumeration value.
+        //  *
+        //  * This function obtains the @c std::string representation of the enumeration value \p t,
+        //  * and removes a leading @c 'k' if present.
+        //  *
+        //  * @tparam T The enumeration type.
+        //  * @param t The enumeration value.
+        //  * @return A @c std::string representing the candidate name.
+        //  */
+        // template<typename T> std::string GetCandidate(T t) {
+        //   auto s = magic_enum::enum_name<T>(t);
+        //   auto name = s[0] == 'k' ? s.substr(1, std::string::npos) : s;
+        //   return std::string(name);
+        // }
 
 
         //////// FOR LQ-generator

@@ -66,6 +66,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 #
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/src/EcoMug/*.h)
 #file(GLOB lib ${PROJECT_SOURCE_DIR}/lib/*.a)
 
 set(CMAKE_CXX_STANDARD 14)
