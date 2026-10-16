@@ -151,6 +151,60 @@ namespace Cosmic {
 
         // PrepareNames();
         // genbos_start_(&FileNum);
+
+        // for EcoMug
+
+        switch (fSkyShape)
+        {
+        case SkyShape::kPlane:
+            {
+
+                const auto world_side = fSkyPlaneHeight;
+                fEcoMug->SetUseSky();
+
+                // put sky exactly on the top of the world
+                fEcoMug->SetSkyCenterPosition({0, 0, world_side / u::m});
+
+                auto sky_size = fSkyPlaneSize > 0 ? fSkyPlaneSize : world_side;
+                fEcoMug->SetSkySize({sky_size / u::m, sky_size / u::m});
+                break;
+            }
+        case SkyShape::kSphere:
+            {
+                fEcoMug->SetUseHSphere();
+                fEcoMug->SetHSphereRadius(fSkyHSphereRadius / u::m);
+
+                // place at the origin
+                fEcoMug->SetHSphereCenterPosition({0., 0., 0.});
+
+                // set angles for hemisphere
+                fEcoMug->SetHSphereMinPositionTheta(fSpherePositionThetaMin / u::rad);
+                fEcoMug->SetHSphereMaxPositionTheta(fSpherePositionThetaMax / u::rad);
+                fEcoMug->SetHSphereMinPositionPhi(fSpherePositionPhiMin / u::rad);
+                fEcoMug->SetHSphereMaxPositionPhi(fSpherePositionPhiMax / u::rad);
+
+                break;
+            }
+        default:
+            {
+                //  RMGLog::OutFormat(
+                //     RMGLog::fatal,
+                //     "\"{}\" sky shape not implemented!",
+                //     magic_enum::enum_name<SkyShape>(fSkyShape)
+                // );
+                break;
+            }
+        }
+
+        fEcoMug->SetMinimumMomentum(fMomentumMin / u::GeV);
+        fEcoMug->SetMaximumMomentum(fMomentumMax / u::GeV);
+        fEcoMug->SetMinimumTheta(fThetaMin / u::rad);
+        fEcoMug->SetMaximumTheta(fThetaMax / u::rad);
+        fEcoMug->SetMinimumPhi(fPhiMin / u::rad);
+        fEcoMug->SetMaximumPhi(fPhiMax / u::rad);
+
+        // (re-)seed EcoMug lazily on the first event of this run, see GeneratePrimaries().
+        fSeededEcoMug = false;
     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
