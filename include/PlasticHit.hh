@@ -191,7 +191,11 @@ class PlasticHit : public G4VHit
 
     inline void SetLocalPos(G4ThreeVector pos) { fLocalPos = pos; }
     void AddLocalPos(G4ThreeVector pos);
-    inline G4ThreeVector GetLocalPos() const { return fLocalPos; }
+    inline G4ThreeVector GetLocalPos() const
+    {
+        // return fLocalPos;
+        return fLO > 0. ? fLocalPos / fLO : fLocalPos;
+    }
 
     inline void SetVPos(G4ThreeVector pos)	{ fVPos =pos;}
     //void AddVPos(G4ThreeVector pos) { fVPos = pos;}

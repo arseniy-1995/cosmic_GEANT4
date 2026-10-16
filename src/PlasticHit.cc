@@ -258,7 +258,8 @@ namespace Cosmic {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void PlasticHit::AddLocalPos(G4ThreeVector pos) {
-        fLocalPos = pos;
+     //   fLocalPos = pos;
+        fLocalPos += pos * fdLO;
         CalcRho(pos);
     }
 
