@@ -146,26 +146,26 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
 // VIS Atribyte
 
-        G4VisAttributes *Steel_VisAtt;
-        G4VisAttributes *Mag_VisAtt;
-        G4VisAttributes *Shield_VisAtt;
-        G4VisAttributes *Iron_VisAtt;
-        G4VisAttributes *Alum_VisAtt;
-        G4VisAttributes *Gas_VisAtt;
-        G4VisAttributes *Foil_VisAtt;
-        G4VisAttributes *Mylar_VisAtt;
-        G4VisAttributes *Stef_VisAtt;
-        G4VisAttributes *Plastic_VisAtt;
-        G4VisAttributes *Convertor_VisAtt;
-        G4VisAttributes *Concrete_VisAtt;
-        G4VisAttributes *WOOD_VisAtt;
-        G4VisAttributes *Convertor_LQ_VisAtt;
-        G4VisAttributes *ProCover_VisAtt;
-        G4VisAttributes *TitanFoil_VisAtt;
-        G4VisAttributes *BerylliumFoil_VisAtt;
+        G4VisAttributes *Steel_VisAtt = nullptr;
+    G4VisAttributes *Mag_VisAtt = nullptr;
+    G4VisAttributes *Shield_VisAtt = nullptr;
+    G4VisAttributes *Iron_VisAtt = nullptr;
+    G4VisAttributes *Alum_VisAtt = nullptr;
+    G4VisAttributes *Gas_VisAtt = nullptr;
+    G4VisAttributes *Foil_VisAtt = nullptr;
+    G4VisAttributes *Mylar_VisAtt = nullptr;
+    G4VisAttributes *Stef_VisAtt = nullptr;
+    G4VisAttributes *Plastic_VisAtt = nullptr;
+    G4VisAttributes *Convertor_VisAtt = nullptr;
+    G4VisAttributes *Concrete_VisAtt = nullptr;
+    G4VisAttributes *WOOD_VisAtt = nullptr;
+    G4VisAttributes *Convertor_LQ_VisAtt = nullptr;
+    G4VisAttributes *ProCover_VisAtt = nullptr;
+    G4VisAttributes *TitanFoil_VisAtt = nullptr;
+    G4VisAttributes *BerylliumFoil_VisAtt = nullptr;
 
 
-       // PlasticSD* aplasticSD;
+    // PlasticSD* aplasticSD;
 
 
         // data members
