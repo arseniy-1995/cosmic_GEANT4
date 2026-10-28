@@ -2642,7 +2642,29 @@ namespace Cosmic {
         return position;
     }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+    G4double generate_triangular(G4double a, G4double b, G4double c)
+    {
+        // Используем равномерное распределение от 0.0 до 1.0
+
+        G4double u = G4UniformRand();
+
+        // Порог переключения между левой и правой ветвью функции
+        G4double split = (c - a) / (b - a);
+
+        if (u < split)
+        {
+            return a + std::sqrt(u * (b - a) * (c - a));
+        }
+        else
+        {
+            return b - std::sqrt((1.0 - u) * (b - a) * (b - c));
+        }
+    }
+
+
+    //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void PrimaryGeneratorAction::PrepareNames() {
 
