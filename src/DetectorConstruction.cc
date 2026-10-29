@@ -2402,9 +2402,13 @@ new G4PVPlacement(G4Transform3D(RotateNull,
         vol_phys = new G4PVPlacement(
                 G4Transform3D(Rotate90Y, G4ThreeVector((1.2 + 10.) * cm, 0.0 * cm, 0.0 * cm)),
                 InTub_log, "InTub_phys", worldLV, false, -1, fCheckOverlaps);
-        InTub_log->SetVisAttributes(Alum_VisAtt);
 
-// Windows
+        G4VisAttributes *Alum_VisAtt_ = new G4VisAttributes(*Alum_VisAtt);
+        Alum_VisAtt_->SetForceSolid();
+        InTub_log->SetVisAttributes(Alum_VisAtt_);
+        // InTub_log->SetVisAttributes(Alum_VisAtt);
+
+        // Windows
         G4Box *Window_box = new G4Box("Window_box", 5.2 / 2 * cm, 3.0 / 2 * mm, (w_lng + 1.4 * cm) / 2);
         G4LogicalVolume *Window_log = new G4LogicalVolume(Window_box, VacuumMaterial, "Window_log", 0, 0, 0);
         Window_log->SetVisAttributes(G4VisAttributes::GetInvisible());
