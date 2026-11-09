@@ -30,14 +30,28 @@
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
 
+#include <G4OpticalPhoton.hh>
+#include <G4eBremsstrahlung.hh>
+#include "FTFP_BERT.hh"
+#include "G4EmStandardPhysics.hh" // Стандартная EM физика
+#include "G4EmStandardPhysics_option1.hh"
+#include "G4EmStandardPhysics_option2.hh"
+#include "G4EmStandardPhysics_option3.hh"
+#include "G4EmStandardPhysics_option4.hh"
+#include "G4OpticalPhysics.hh"
+#include "G4PhysListFactory.hh"
+#include "G4RadioactiveDecayPhysics.hh"
 #include "G4RunManagerFactory.hh"
 #include "G4SteppingVerbose.hh"
+#include "G4UIExecutive.hh"
 #include "G4UIcommand.hh"
 #include "G4UImanager.hh"
-#include "G4UIExecutive.hh"
+#include "G4VModularPhysicsList.hh"
 #include "G4VisExecutive.hh"
-#include "FTFP_BERT.hh"
 #include "Randomize.hh"
+
+#include "G4HadronicProcess.hh"
+#include "PhysicsList.hh"
 
 #include <G4PhysListFactory.hh>
 
@@ -160,10 +174,58 @@ int main(int argc, char **argv) {
     G4PhysListFactory phyListFactory;
     const G4String plName = "FTFP_BERT";
     //  const G4String plName = "QBBC";
-    // G4VModularPhysicsList *physicsList = new FTFP_BERT;
-    G4VModularPhysicsList *physicsList = phyListFactory.GetReferencePhysList(plName);
-//   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-    runManager->SetUserInitialization(physicsList);
+     G4VModularPhysicsList *physicsList = new FTFP_BERT;
+    // G4VModularPhysicsList *physicsList = phyListFactory.GetReferencePhysList(plName);
+    //   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
+
+     physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
+     // physicsList->ReplacePhysics(new G4EmStandardPhysics_option1());
+
+     G4PhysListFactory *factory = new G4PhysListFactory();
+     // physicsList = factory->GetReferencePhysList("FTFP_BERT_EMZ"); // Высокоточная EM-физика
+
+     /// оптическая физика
+
+     G4OpticalPhysics *opticalPhysics = new G4OpticalPhysics();
+
+     G4RadioactiveDecayPhysics *radioactiveDecayPhysics = new G4RadioactiveDecayPhysics();
+
+     G4eBremsstrahlung *brPhysics = new G4eBremsstrahlung();
+
+     // opticalPhysics->Set
+     auto opticalParams = G4OpticalParameters::Instance();
+
+     // opticalParams->SetWLSTimeProfile("delta"); // дельта-распределение для преизлучения
+     opticalParams->SetWLSTimeProfile("exponential"); // экспоненциальное распределение для преизлучения
+
+     opticalParams->SetScintTrackSecondariesFirst(true);
+
+     opticalParams->SetCerenkovMaxPhotonsPerStep(100);
+     opticalParams->SetCerenkovMaxBetaChange(10.0);
+     opticalParams->SetCerenkovTrackSecondariesFirst(true); // сначала фотоны, потом первичные частицы
+     //  opticalParams->SetCerenkovTrackSecondariesFirst(false);
+
+
+     // opticalParams->SetBoundaryInvokeSD(true);
+
+     // opticalParams->SetBoundaryVerboseLevel(0);
+     //  opticalParams->SetVerboseLevel(0);
+     //    Регистрируем дополнительный стандартный конструктор физики
+     //   physicsList->RegisterPhysics(opticalPhysics);
+     //  physicsList->RegisterPhysics(radioactiveDecayPhysics);
+     //    physicsList->RegisterPhysics(brPhysics); // тормозное излучение
+
+
+     ///
+
+     G4ProcessManager *pManager = G4Electron::ElectronDefinition()->GetProcessManager();
+
+     // Добавление процесса тормозного излучения
+     G4eBremsstrahlung *brems = new G4eBremsstrahlung();
+     // pManager->AddDiscreteProcess(brems);
+
+
+     runManager->SetUserInitialization(physicsList);
 
     auto actionInitialization = new Cosmic::ActionInitialization();
     runManager->SetUserInitialization(actionInitialization);
