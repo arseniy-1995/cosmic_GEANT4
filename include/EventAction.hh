@@ -920,6 +920,8 @@ namespace Cosmic {
             return fWa_TrackID[0];
         }
 
+        ///
+
         std::vector<G4int> &Get_VC_N(G4int nsys = 1) {
             if (nsys == 2) return fVC_N[1];
             return fVC_N[0];
@@ -988,6 +990,8 @@ namespace Cosmic {
             if (nsys == 2) return fVC_Phi[1];
             return fVC_Phi[0];
         }
+
+        ///
 
         std::vector<G4float> &GetVertexXYZ(G4int index = 1) {
             if (index == 1) return vertex_x_vector;
