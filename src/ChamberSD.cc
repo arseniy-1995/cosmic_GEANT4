@@ -249,15 +249,14 @@ G4bool ChamberSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     }
 
 
-    if (!(hit->GetLogV())) {
-        // fill volume information
-        hit->SetLogV(physicalVol->GetLogicalVolume());
-        G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
-        transform.Invert();
-        hit->SetRot(transform.NetRotation());
-        hit->SetLocalPos(transform.NetTranslation());
-    }
-
+    // if (!(hit->GetLogV())) {
+    //     // fill volume information
+    //     hit->SetLogV(physicalVol->GetLogicalVolume());
+    //     G4AffineTransform transform = touchable->GetHistory()->GetTopTransform();
+    //     transform.Invert();
+    //     hit->SetRot(transform.NetRotation());
+    //     hit->SetLocalPos(transform.NetTranslation());
+    // }
 
 
     // check if it is first touch

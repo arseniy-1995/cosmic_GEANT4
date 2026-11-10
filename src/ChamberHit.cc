@@ -243,12 +243,36 @@ namespace Cosmic {
     void ChamberHit::AddWorldPos(G4ThreeVector pos) {
         // fWorldPos = pos;
         fWorldPos += pos * fdLO; //  cуммируем с весом
+
+        //  fWorldPos *= fLO; fWorldPos+=pos*fdLO; if(fLO>0.) fWorldPos=fWorldPos/fLO;
+
+        /* // если делать через порог то нужно вызывать совместно с временем
+        if (fLO > threshold && flaq_is_trig_tof == true)
+        {
+            fWorldPos = pos;
+            flaq_is_trig_tof = false;
+        }*/
+
         CalcRho(pos);
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     void ChamberHit::AddLocalPos(G4ThreeVector pos) {
+
+        // fLocalPos = pos;
+        fLocalPos += pos * fdLO; //  cуммируем с весом
+
+        //  fLocalPos *= fLO; fLocalPos+=pos*fdLO; if(fLO>0.) fLocalPos=fLocalPos/fLO;
+
+        // если делать через порог то нужно вызывать совместно с временем
+        // if (fLO > threshold && flaq_is_trig_for_coordinate == true)
+        // {
+        //     fLocalPos = pos;
+        //     flaq_is_trig_for_coordinate = false;
+        // }
+
+
         CalcRho(pos);
     }
 
