@@ -45,6 +45,9 @@ namespace Cosmic {
 
     // #define isGenPNpair
     // #define isGenPPpair
+
+#define isGenElectronGEM
+
 #define isTrigPN
 
 // #define isTrig_accept_all
@@ -79,15 +82,53 @@ namespace Cosmic {
 #define VCARM2
 
 #define TARGET // Мишень+фольга
-#define MAGNET // Магнит мишени
+#define MAGNET_CELL // Магнит мишени
+#define CUBIK
 #define CELL
+#define INJECT_TUBE
 #define SHIELD // Фольга (экран) вокруг кубика
 #define FOIL
+#define VACUUM_TUBE
+
+
+#define MAGNET_D2
+#define GEM
+
+    // дипольные магниты
+#define MAGNET_D1
+#define MAGNET_D3
+
+    // квадрупольные магниты
+#define MAGNET_QF
+#define MAGNET_QD
+
+#define WINDOW_E // Берилиевое окно для выхода рассеяного электрона
+#define UPPUMP
+#define DOWNPUMP
+#define PUMP
+    // #define E_PLASTIC // пластик электронного плеча
+    // #define GAMMA_PLASTIC // гамма пластик электронного плеча
+#define GAMMA_PLASTIC2 // гамма пластик электронного плеча (другая версия)
 
 #define LOWQ1 // электронные плечи ЛО-КУ поляриметра
 #define LOWQ2
 
 
+    // геометрия системы мечания
+
+    constexpr G4double alpha0_GEM = 37.0 * mrad; // mrad
+    constexpr G4double theta0_GEM = 47.0 * mrad;
+    constexpr G4double D_GEM = 320.0 * mm;
+    constexpr G4double L0_GEM =
+        310.0 * mm + 30.0 * mm; // расстояние от чентра мишени по Мальцеву 310 мм, по чертежу 350?? мм
+    constexpr G4double Z1_GEM = 130.0 * mm;
+    constexpr G4double L1_GEM = 83.0 * mm;
+    constexpr G4double L2_GEM = 83.0 * mm;
+    constexpr G4double L_GEM = 166.0 * mm;
+    constexpr G4double X00_GEM = 2.0 * mm; // добавка к вертикальной координате
+    constexpr G4double X10_GEM = 32.0 * mm + X00_GEM;
+    constexpr G4double X20_GEM = 38.0 * mm + X00_GEM;
+    constexpr G4double X30_GEM = 63.0 * mm + X00_GEM;
 
 
 #define NX_BARS 22
@@ -211,14 +252,15 @@ namespace Cosmic {
     constexpr G4double meanX_beam = 0., meanY_beam = 0.;
     // constexpr G4double Xsigma_beam = 0.7 * mm, Ysigma_beam = 0.3 * mm; //for 2GeV
     constexpr G4double Xsigma_beam = 0.47 * mm, Ysigma_beam = 0.18 * mm; // for 800Mev из базы данных захода
+    // constexpr G4double Xsigma_beam = 0.0 * mm, Ysigma_beam = 0.0 * mm;
 
-// FOR LQ-GENERATOR
+    // FOR LQ-GENERATOR
 
 #define Md 1875.61279347// ????? ????????
 #define Mp 938.2720881629 // ????? ???????
 const G4double mu_proton = 2.79285;
 #define Mn 939.5654205254 // ????? ????????=
-#define Me 0.51099892 // Масса электрона МэВ
+#define Me 0.51099895069 // Масса электрона МэВ
 
 #define Mup 2.7928 // ????????? ?????? ???????
 #define Mun -1.9130 // ????????? ?????? ????????

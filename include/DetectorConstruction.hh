@@ -83,9 +83,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
 
   private:
-
-   G4LogicalVolume *worldLV;
-   G4VPhysicalVolume *worldPV;
+    G4LogicalVolume *fWorldLV;
+    G4LogicalVolume *fWorldLV_rot = nullptr; // для повернутой мишени
+    G4VPhysicalVolume *worldPV;
 
 
     // methods
@@ -118,8 +118,61 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     void ConstructTarget();
 
-    void ConstructMagnet();
+    void ConstructMagnetCell();
+
+    void ConstructMagnetD2();
+
+    void ConstructMagnetD1();
+    void ConstructMagnetD3();
+
+    void ConstructMagnetQF();
+    void ConstructMagnetQD();
+
+    void ConstructGEM();
+
+
     G4LogicalVolume * ConstructLOWQ(G4int nsys);
+
+    G4Material *GasAr = nullptr;
+    G4Material *liqAr = nullptr;
+    G4Material *Tungsten = nullptr;
+    G4Material *Alumin = nullptr;
+    G4Material *Beryllium = nullptr;
+    G4Material *Glass = nullptr;
+    G4Material *DurAlumin = nullptr;
+    G4Material *Titan = nullptr;
+    G4Material *Copper = nullptr;
+    G4Material *Air = nullptr;
+    G4Material *Scintil = nullptr;
+    G4Material *Scintil_simple_plastic = nullptr;
+    G4MaterialPropertiesTable *MPT_BC_422 = nullptr;
+    G4Material *Scintil_BC_422 = nullptr;
+    G4MaterialPropertiesTable *MPT_BC_420 = nullptr;
+    G4Material *Scintil_BC_420 = nullptr;
+    G4Material *LightGuide_material = nullptr;
+    G4Material *OpticalGlue_material = nullptr;
+    G4Material *OpticalGrease_material = nullptr;
+    G4Material *Silicon = nullptr;
+    G4Material *Mylar = nullptr;
+    G4Material *AlMylar = nullptr;
+    G4Material *BlackPaper = nullptr;
+    G4Material *aluminum_mirror = nullptr;
+    G4Material *BGO = nullptr;
+    G4Material *NaI = nullptr;
+    G4Material *CsI = nullptr;
+    G4Material *Brass = nullptr;
+    G4Material *Steel = nullptr;
+    G4Material *Iron = nullptr;
+    G4Material *GasCO2 = nullptr;
+    G4Material *GasArCO2 = nullptr;
+    G4Material *MgO = nullptr;
+    G4Material *SiO2 = nullptr;
+    G4Material *Vacuum = nullptr;
+    G4Material *Galactic = nullptr;
+    G4Material *H2O = nullptr;
+    G4Material *PbWO4 = nullptr;
+    G4Material *Aerog = nullptr;
+
 
     //      G4RotationMatrix Rotate30X;
     G4RotationMatrix Rotate180X;
@@ -183,6 +236,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume *plastic_thin_nsys1LV = nullptr;
         G4LogicalVolume *plastic_thin_nsys2LV = nullptr;
 
+        G4LogicalVolume *box_GEM_log = nullptr;
 
         G4LogicalVolume *scint_HadCal_nsys1LV = nullptr;
         G4LogicalVolume *scint_HadCal_nsys2LV = nullptr;
@@ -203,7 +257,20 @@ class DetectorConstruction : public G4VUserDetectorConstruction
         G4LogicalVolume *VCGas_log_nsys2LV = nullptr;
 
 
+        // для магнита D2 GEM
 
+        G4LogicalVolume *fLogicD2gap = nullptr;
+        G4LogicalVolume *fLogicD2gap_add1 = nullptr; // дополнительный объем после магнита для вываливания поля
+        G4LogicalVolume *fLogicD2gap_add2 = nullptr;
+
+        G4LogicalVolume *fLogicD1gap = nullptr;
+        G4LogicalVolume *fLogicD3gap = nullptr;
+
+        G4LogicalVolume *fLogicQFgap = nullptr;
+        G4LogicalVolume *fLogicQDgap = nullptr;
+
+        G4double x_pos_qf = 0., y_pos_qf = 0., z_pos_qf = 0.;
+        G4double x_pos_qd = 0., y_pos_qd = 0., z_pos_qd = 0.;
 };
 
 }
