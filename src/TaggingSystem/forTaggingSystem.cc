@@ -71,7 +71,7 @@
 #include "G4ThreeVector.hh"
 
 
-// #include "EcoMug/EcoMug.h"
+#include "../EcoMug/EcoMug.h"
 
 // #pragma once
 
