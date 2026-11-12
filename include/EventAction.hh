@@ -1041,6 +1041,9 @@ namespace Cosmic {
         G4String drawFlag;
         G4int base_code;
 
+        G4bool fForcedrawphotons = false;
+        G4bool fForcenophotons = false;
+
         // FOR GENBOS (нексколько частиц сгенерировано в вершине)
         G4double vertex_Energy_gamma;
         G4int vertex_number_reaction;	// reaction type

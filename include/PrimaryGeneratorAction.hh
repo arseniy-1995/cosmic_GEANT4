@@ -45,6 +45,7 @@
 #include "Riostream.h"
 #include "TFoamIntegrand.h"
 #include "TMath.h"
+#include "TaggingSystem/forTaggingSystem.hh"
 
 // #include "GenbosClass.hh"
 
@@ -90,8 +91,11 @@ class G4Event;
 class EcoMug;
 namespace u = CLHEP;
 
+
 namespace Cosmic
 {
+
+    class BetheHeitlerGenerator;
 
     /// The primary generator action class with particle gum.
     ///
@@ -129,9 +133,11 @@ namespace Cosmic
         void GenerateGamma(G4Event *event); // for gamma-generator
 
 
-        G4double virtual_photon_random();
+        G4double virtual_photon_random(G4double Egamma_min = 10., G4double Egamma_max = 700.);
 
         G4double virtual_photon_distrib(G4double);
+
+        void GenerateElectronGEM(G4Event *event);
 
         // set methods
         void SetRandomFlag(G4bool value);
@@ -242,6 +248,8 @@ namespace Cosmic
 
         G4bool fRandomDirection;
         G4bool fRandomDirection_cosmic;
+
+        BetheHeitlerGenerator *event_br = nullptr;
 
         G4double m_mu = 105.658374524; // в МэВ
         // другое распрределение по углу и энергии из работы Шебалина
@@ -1167,11 +1175,10 @@ namespace Cosmic
     };
 
 
+    // class BetheHeitlerGenerator;
 
 
-
-
-}
+} // namespace Cosmic
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

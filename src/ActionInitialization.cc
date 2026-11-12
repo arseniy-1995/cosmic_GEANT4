@@ -28,11 +28,12 @@
 /// \brief Implementation of the Cosmic::ActionInitialization class
 
 #include "ActionInitialization.hh"
+#include "EventAction.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
-#include "EventAction.hh"
+#include "TrackingAction.hh"
 
-//using namespace Cosmic;
+// using namespace Cosmic;
 
 namespace Cosmic
 {
@@ -74,6 +75,7 @@ void ActionInitialization::Build() const
     SetUserAction(eventAction);
 
     SetUserAction(new RunAction(eventAction));
+    // SetUserAction(new TrackingAction()); // нужно обязательно подключать, иначе зависает при рисовании траеторий
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

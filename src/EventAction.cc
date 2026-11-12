@@ -57,8 +57,9 @@
 
 #include "Constants.hh"
 
+#include "Trajectory.hh"
 
-//using std::array;
+// using std::array;
 //using std::vector;
 
 namespace {
@@ -93,10 +94,11 @@ namespace Cosmic {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     EventAction::EventAction() :
-            drawFlag("all")
-    //drawFlag("charged")
-    //drawFlag("neutral")
-    {
+    drawFlag("all"),
+    // drawFlag("charged")
+    // drawFlag("neutral")
+    fForcedrawphotons(false), fForcenophotons(false)
+{
 
         G4RunManager::GetRunManager()->SetPrintProgress(1);
 
@@ -2326,24 +2328,71 @@ fVC_N[1].assign(fVC_N[1].size(), 0);
 
         // extract the trajectories and draw them
 
-        if (G4VVisManager::GetConcreteInstance()) {
-            G4TrajectoryContainer *trajectoryContainer = event->GetTrajectoryContainer();
-            G4int n_trajectories = 0;
-            if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+        // это вариант по умолчанию
+        // if (G4VVisManager::GetConcreteInstance()) {
+        //     G4TrajectoryContainer *trajectoryContainer = event->GetTrajectoryContainer();
+        //     G4int n_trajectories = 0;
+        //     if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+        //
+        //     for (G4int i = 0; i < n_trajectories; i++) {
+        //         G4Trajectory *trj = (G4Trajectory *)
+        //                 ((*(event->GetTrajectoryContainer()))[i]);
+        //         if (drawFlag == "all") trj->DrawTrajectory();
+        //         else if ((drawFlag == "charged") && (trj->GetCharge() != 0.))
+        //             trj->DrawTrajectory();
+        //         else if ((drawFlag == "neutral") && (trj->GetCharge() == 0.))
+        //             trj->DrawTrajectory();
+        //     }
+        // }
 
-            for (G4int i = 0; i < n_trajectories; i++) {
-                G4Trajectory *trj = (G4Trajectory *)
-                        ((*(event->GetTrajectoryContainer()))[i]);
-                if (drawFlag == "all") trj->DrawTrajectory();
+
+        //////
+
+
+        // extract the trajectories and draw them
+        if (G4VVisManager::GetConcreteInstance())
+        {
+            G4TrajectoryContainer *trajectoryContainer = event->GetTrajectoryContainer();
+
+            G4int n_trajectories = 0;
+            if (trajectoryContainer)
+                n_trajectories = trajectoryContainer->entries();
+            for (G4int i = 0; i < n_trajectories; ++i)
+            {
+                Trajectory *trj = (Trajectory *)((*(event->GetTrajectoryContainer()))[i]);
+
+                // G4cerr << trj->GetParticleName() << G4endl;
+
+                if (trj->GetParticleName() == "opticalphoton")
+                {
+                    trj->SetForceDrawTrajectory(fForcedrawphotons);
+                    trj->SetForceNoDrawTrajectory(fForcenophotons);
+                }
+                trj->DrawTrajectory();
+
+                if (drawFlag == "no")
+                {
+                    1;
+                }
+                if (drawFlag == "all")
+                {
+                    trj->DrawTrajectory();
+                }
                 else if ((drawFlag == "charged") && (trj->GetCharge() != 0.))
+                {
+                    trj->SetForceDrawTrajectory(fForcedrawphotons);
+                    trj->SetForceNoDrawTrajectory(fForcenophotons);
                     trj->DrawTrajectory();
+                }
                 else if ((drawFlag == "neutral") && (trj->GetCharge() == 0.))
+                {
+                    trj->SetForceDrawTrajectory(fForcedrawphotons);
+                    trj->SetForceNoDrawTrajectory(fForcenophotons);
                     trj->DrawTrajectory();
+                }
             }
         }
-
-
-    }
+                     }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

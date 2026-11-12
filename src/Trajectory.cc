@@ -196,20 +196,45 @@ void Trajectory::DrawTrajectory() const
             }
 
 
+#ifdef isGenElectronGEM
+
+            if (fParticleDefinition->GetPDGCharge() > 0.)
+                colour = G4Colour(1., 0., 0.);
+            if (fParticleDefinition->GetPDGCharge() == 0.)
+                colour = G4Colour(1., 1., 0.5);
+            if (fParticleDefinition->GetPDGCharge() < 0.)
+                colour = G4Colour(0., 0., 1.);
+
+
+            if (true and (fParticleDefinition->GetPDGCharge() < 0.)) // рисуем только электроны
+            {
+                //  pVVisManager->Draw(trajectoryLine);
+            }
+#else
+            pVVisManager->Draw(trajectoryLine);
+
+#endif
+
             // if (fParticleDefinition->GetPDGCharge() == 0.) colour = G4Colour(0, 0, 0);
         }
 
+        // colour = G4Colour(0., 0., 1.);
 
         G4VisAttributes trajectoryLineAttribs(colour);
         trajectoryLine.SetVisAttributes(&trajectoryLineAttribs);
 
+#ifdef isGenElectronGEM
+        if (fParticleDefinition->GetPDGCharge() < 0.) // рисуем только электроны
+        {
+            pVVisManager->Draw(trajectoryLine);
+        }
+#endif
 
-        // if (fParticleDefinition->GetPDGCharge() < 0.) // рисуем только электроны
-        // {
-        //     pVVisManager->Draw(trajectoryLine);
-        // }
+#ifndef isGenElectronGEM
 
         pVVisManager->Draw(trajectoryLine);
+
+#endif
     }
     if (markersRequired)
     {

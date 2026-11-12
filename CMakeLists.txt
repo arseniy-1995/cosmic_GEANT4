@@ -67,6 +67,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/src/EcoMug/*.h)
+
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/TaggingSystem/*.hh)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/src/TaggingSystem/*.cc)
 #file(GLOB lib ${PROJECT_SOURCE_DIR}/lib/*.a)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -103,7 +106,8 @@ if (${OS_NAME} MATCHES "Linux")
         set(F_DIR "/home/yurchenko/cern/lib")
 
         foreach (_lib ${gb_libs})
-            add_library(${_lib} SHARED IMPORTED) # STATIC or SHARED
+            add_library(${_lib} SHARED IMPORTED
+                    src/TaggingSystem/forTaggingSystem.cc) # STATIC or SHARED
             set_target_properties(${_lib} PROPERTIES
                     IMPORTED_LOCATION ${F_DIR}/lib${_lib}.so
             )

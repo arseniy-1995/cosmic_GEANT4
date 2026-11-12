@@ -73,7 +73,8 @@ namespace Cosmic {
     }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), fParticleGun(0), GenbosBool(1), cstep(100), countFlag("off"), rndmFlag("off"),
+    PrimaryGeneratorAction::PrimaryGeneratorAction() :
+        G4VUserPrimaryGeneratorAction(), fParticleGun(0), GenbosBool(0), cstep(100), countFlag("off"), rndmFlag("off"),
         vertexFlag("off"), Mode(0),
         beam_spectrum(2), // -- photon beam spectrum: 0-gaussian, 2-bremsstrahlung, 3-uniform
         target_type(2), //  -- target nucleus:  0-neutron 1-proton 2-deuteron
@@ -92,6 +93,8 @@ namespace Cosmic {
         fEcoMug = std::make_unique<EcoMug>();
 
         gunMessenger = new PrimaryGeneratorMessenger(this); // Вызов конструктора для класса пользовательского ввода
+
+        event_br = new BetheHeitlerGenerator();
 
         fRandomDirection = true;
         fRandomDirection_cosmic = true;
@@ -276,6 +279,13 @@ namespace Cosmic {
 
 #ifdef isGenPPpair
             GenerateProton(anEvent);
+#endif
+
+
+#ifdef isGenElectronGEM
+
+            GenerateElectronGEM(anEvent);
+
 #endif
             //  GenerateNeutron(anEvent);
 
@@ -2780,10 +2790,11 @@ while (partid[i] >= 0 && partid[i] < 64)
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    G4double PrimaryGeneratorAction::virtual_photon_random() {
+    G4double PrimaryGeneratorAction::virtual_photon_random(G4double Egamma_min, G4double Egamma_max)
+    {
         G4double r1, r2, Egamma, y;
 
-        G4double Egamma_min = 10., Egamma_max = 700.;
+        // G4double Egamma_min = 10., Egamma_max = 700.;
         do {
             // r1 = rand() / 2147483647.;
             // r2 = rand() / 2147483647.;

@@ -38,7 +38,7 @@
 
 namespace Cosmic {
 
-// #define isGenCosmic
+    // #define isGenCosmic
 
     // #define isGenLQ
     // #define isTrigLQ

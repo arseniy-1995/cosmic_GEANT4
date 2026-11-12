@@ -30,10 +30,11 @@
 #ifndef CosmicDetectorConstruction_h
 #define CosmicDetectorConstruction_h 1
 
+#include "TaggingSystem/forTaggingSystem.hh"
 
 #include "Constants.hh"
-#include "PlasticSD.hh"
 #include "HadronCalorimeterSD.hh"
+#include "PlasticSD.hh"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
@@ -45,6 +46,8 @@
 class G4VPhysicalVolume;
 class G4GlobalMagFieldMessenger;
 class G4UserLimits;
+
+#pragma once
 
 namespace Cosmic
 {
