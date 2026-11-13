@@ -9,12 +9,12 @@
 #include "Constants.hh"
 #include "DetectorConstruction.hh"
 
-#include "ChamberSD.hh"
+//#include "ChamberSD.hh"
 #include "DetectorConstruction.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
-#include "HadronCalorimeterSD.hh"
-#include "PlasticSD.hh"
+//#include "HadronCalorimeterSD.hh"
+//#include "PlasticSD.hh"
 
 #include <G4EllipticalTube.hh>
 #include <G4Trap.hh>

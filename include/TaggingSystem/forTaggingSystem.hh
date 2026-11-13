@@ -7,13 +7,14 @@
 
 #include "Constants.hh"
 #include "DetectorConstruction.hh"
+#include "Randomize.hh"
 
-#include "ChamberSD.hh"
+//#include "ChamberSD.hh"
 #include "DetectorConstruction.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
-#include "HadronCalorimeterSD.hh"
-#include "PlasticSD.hh"
+//#include "HadronCalorimeterSD.hh"
+//#include "PlasticSD.hh"
 
 #include <G4EllipticalTube.hh>
 #include <G4Trap.hh>
@@ -42,6 +43,8 @@
 
 #include <iostream>
 // #include <TString.h>
+
+class DetectorConstruction;
 
 namespace Cosmic
 {
@@ -131,20 +134,21 @@ namespace Cosmic
 
     // class DetectorConstruction;
 
+   // inline void DetectorConstruction::ConstructMagnetD1(){}
 
-    void DeteConstructTarget();
-
-    void ConstructMagnetCell();
-
-    void ConstructMagnetD2();
-
-    void ConstructMagnetD1();
-    void ConstructMagnetD3();
-
-    void ConstructMagnetQF();
-    void ConstructMagnetQD();
-
-    void ConstructGEM();
+    //void ConstructTarget();
+    //
+    // void ConstructMagnetCell();
+    //
+    // void ConstructMagnetD2();
+    //
+    // void ConstructMagnetD1();
+    // void ConstructMagnetD3();
+    //
+    // void ConstructMagnetQF();
+    // void ConstructMagnetQD();
+    //
+    // void ConstructGEM();
 
 
 } // namespace Cosmic
